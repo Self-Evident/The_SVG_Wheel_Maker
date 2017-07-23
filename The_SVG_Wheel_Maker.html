@@ -2,9 +2,10 @@
 <meta charset="utf-8"/>
 
 
+
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.01
+v.beta.02
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -126,38 +127,6 @@ function Create_Spoke_Holes(group, id, class1, class2, N, scale, rsh, offset) {
 
 
 
-function Create_Spoke_Group(ID_, flange, nf, nr, sx, direction, inc_f, wh_type, color) {//****/
-
-	// flange = 1 or 2;  direction =  1 or -1; inc_f = 1 or 2
-	if (flange==1) {var adj = 0} else {var adj = -1}
-	if (Math.floor(nf/2) != nf/2) {adj -= 1}
-	if (direction == -1) {var skip = 1} else {var skip = 0}
-
-	var r_skip = 1;
-
-	if (wh_type != 0) { //##### ####################
-		//var r_skip = 2; 
-
-		//Draw_Spoke(ID_,  2,  1,  1 + 2,  color); //#####
-		//return; //##### #############################
-	}
-
-
-	for (var spoke = 1; spoke <= nf; spoke += inc_f) { 
-		var hole_f = spoke + skip;
-		if (hole_f > nf) {break}
-		
-		var hole_r = hole_f*2 + sx*2*direction + adj + r_skip;
-		if      (hole_r > nr) {hole_r -= nr}
-		else if (hole_r <  1) {hole_r += nr}
-		
-		Draw_Spoke(ID_,  flange,  hole_f,  hole_r,  color);
-	}
-}//end Create_Spoke_Group() {//***********************************************/
-
-
-
-
 function Draw_Spoke(wheel_, flange, flange_hole, rim_hole, color) { //********/
 
 	if (typeof color == "undefined") { color = "black" }
@@ -180,23 +149,47 @@ function Draw_Spoke(wheel_, flange, flange_hole, rim_hole, color) { //********/
 
 
 
-function Setup_Wheel(ID_, NR, ERD, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, spoke_colors) { /****/
-	
+function Create_Spoke_Group(ID_, flange, nf, nr, sx, direction, inc_f, wh_type, color) {//****/
+
+	// flange = 1 or 2;  direction =  1 or -1; inc_f = 1 (all spokes) or 2 (every other spoke)
+	if (flange==1) {var adj = 0} else {var adj = -1}
+	if (Math.floor(nf/2) != nf/2) {adj -= 1} //for non-even number of flange holes (9, 11, etc...)
+	if (direction == -1) {var group = 1} else {var group = 0}
+
+	var r_skip = 1;
+
+	if (wh_type != 0) { //##### ####################
+		//var r_skip = 2; 
+	}
+
+
+	for (var spoke = 1; spoke <= nf; spoke += inc_f) { 
+		var hole_f = spoke + group;
+		if (hole_f > nf) {break}
+		
+		var hole_r = hole_f*2 + sx*2*direction + adj + r_skip;
+		if      (hole_r > nr) {hole_r -= nr}
+		else if (hole_r <  1) {hole_r += nr}
+		
+		Draw_Spoke(ID_,  flange,  hole_f,  hole_r,  color);
+	}
+}//end Create_Spoke_Group() {//***********************************************/
+
+
+
+
+function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, spoke_colors) { /****/
+
 	var RR  = ERD/2;
 	var RF1 = PCD_1/2;
 	var RF2 = PCD_2/2;
-	
-	if (wh_type ==  0) { var NF1 = NR/2  ; var NF2 = NF1;   }
-	else 			   { var NF1 = NR*2/3; var NF2 = NF1/2; } 
-	
+
 	if (wh_type == -1) { var T_type = -1 } else { var T_type =  1 }
 	
-	var AR = 360/NR; //Angle between holes in Rim. NEEDED IN ARC MATH LATER
-	var AF = 360/NF1; //ANgle between holes in Flange
-	var A0 = (360/NR) - (360/NF1)/2; //Angle to hole "0"
-
-	var foffset = -AF/2; //##### Offset between left & right hub flange holes. The radial side is "0".
-	var AF1 = SX1 * AF + A0*T_type; //##### 
+	var AF = 360/NF2; //ANgle between holes in Flange //##### ADJUST FOR TRIPLETS? //#####
+	//#####var A0 = (360/NR) - (360/NF1)/2; //Angle to hole "0"
+	var offset_f = -AF/2; //##### Offset between left & right hub flange holes. The radial side is "0".
+	//#####var AF1 = SX1 * AF + A0*T_type; //##### 
 
 	var rotate = 0; //-11.25  Rotate whole wheel...
 	
@@ -208,8 +201,8 @@ function Setup_Wheel(ID_, NR, ERD, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, s
 	//For odd numbers of spokes & rim holes (21, 27, 30, etc...)
 	if (NR/2 != Math.floor(NR/2)) {var shift = AF} else { var shift = 0 } //##### 
 
-	Create_Spoke_Holes(ID_ + "rim_holes", ID_ + "rsh",  "WM_rsh", "WM_rsh", NR, RR,  RSH, 0);
-	Create_Spoke_Holes(ID_ + "flange_1",  ID_ + "f1sh", "WM_hsh", "WM_hsh", NF1, RF1, RSH, foffset + 0);
+	Create_Spoke_Holes(ID_ + "rim_holes", ID_ + "rsh" , "WM_rsh", "WM_rsh", NR , RR , RSH, 0);
+	Create_Spoke_Holes(ID_ + "flange_1",  ID_ + "f1sh", "WM_hsh", "WM_hsh", NF1, RF1, RSH, offset_f + 0);
 	Create_Spoke_Holes(ID_ + "flange_2",  ID_ + "f2sh", "WM_hsh", "WM_hsh", NF2, RF2, RSH,  + 0); //0 or shift //#####
 
 	//Create_Spoke_Group(ID_, flange, nf, nr, sx, direction, inc_f, wh_type, color)
@@ -217,10 +210,10 @@ function Setup_Wheel(ID_, NR, ERD, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, s
 	Create_Spoke_Group(ID_, 1, NF1, NR, SX1, -1, 2, wh_type, spoke_colors[2]);
 
 	if (wh_type == 0) { //Standard wheel lacing
-		Create_Spoke_Group(ID_, 2, NF1, NR, SX2,  1, 2, 0, spoke_colors[3]);
-		Create_Spoke_Group(ID_, 2, NF1, NR, SX2, -1, 2, 0, spoke_colors[4]);
+		Create_Spoke_Group(ID_, 2, NF2, NR , SX2,  1, 2, 0, spoke_colors[3]);
+		Create_Spoke_Group(ID_, 2, NF2, NR , SX2, -1, 2, 0, spoke_colors[4]);
 	} else { //Triplet aka 8:16. The 8 spoke side.
-		Create_Spoke_Group(ID_, 2, NF2, NF1,  0,  1, 1, 1, spoke_colors[3]);
+		//##### Create_Spoke_Group(ID_, 2, NF2, NF1, SX2,  1, 1, 1, spoke_colors[3]);
 	}
 
 
@@ -242,9 +235,9 @@ function Setup_Wheel(ID_, NR, ERD, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, s
 window.onload = function() {
 
 	var Spoke_Colors = ["", "#A00", "#F66", "#070", "#6B6" ];
-	var Spoke_Colors = ["", "lightskyblue", "#D4cF37", "red", "green" ]; //"none" to hide a group
-  //Setup_Wheel(ID_,   NR, ERD, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, spoke_colors)
-	Setup_Wheel("W1_", 24, 580,   100,   76 ,  2 ,  2 , 1.3,    0   , "Test...", Spoke_Colors);
+	var Spoke_Colors = ["", "#88F", "#BB0", "none", "none" ]; //"none" to hide a group  //#D4cF37 gold-ish
+  //Setup_Wheel(ID_,   ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, spoke_colors)
+	Setup_Wheel("W1_", 580, 24,  12,  12,    38,    50,  3 ,  3 , 1.3,    0   , "Test...", Spoke_Colors);
 	
 	//#####	Log(E('body').innerHTML)
 
