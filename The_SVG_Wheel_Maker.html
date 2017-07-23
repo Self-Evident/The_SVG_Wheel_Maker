@@ -5,7 +5,7 @@
 
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.06
+v.beta.07
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -37,22 +37,17 @@ body {margin: 0}
 
 /*** The prefix "WH_" simple means "Wheel Math" ***/
 
-.WM_svg	 { border: solid 0px gray; display: inline-block; margin: auto; }
-.WM_text { font: 1rem arial }
-.WM_axis { stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; } /*//##### stroke-width*/
-.WM_rsh	 { stroke: #777; fill: none; } /*rim spoke holes*/
-.WM_hsh	 { stroke: #777; fill: none; } /*hub spoke holes*/
-.WM_hsh2 { stroke: #ccc; fill: none; } /*hub spoke holes 2*/
-.WM_spoke{ stroke: #000; stroke-width: 2; }
-.WM_erd	 { stroke: #999; fill: none; }
-.WM_pcd	 { fill: none; stroke: #555; stroke-width: .5; stroke-dasharray: .5,.5;  }
-.WM_sub	 { font-size: .6rem }
-.WM_arc	 { fill:none; stroke: #F00 }
-.WM_radial_line	{ stroke: #F55; stroke-width: 1; stroke-dasharray: 4,2; }
-.WM_radial_spoke{ stroke: #F77 }
-.WM_radial_label{ font-size: .7rem; writing-mode:tb; fill: #555; }
+.WH_svg	 { border: solid 0px gray; display: inline-block; margin: auto; }
+.WH_text { font: 1rem arial }
+.WH_axis { stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; } /*//##### stroke-width*/
+.WH_rsh	 { fill: none; stroke: #777; } /*rim spoke holes*/
+.WH_hsh	 { fill: none; stroke: #777; } /*hub spoke holes*/
+.WH_hsh2 { fill: none; stroke: #ccc; } /*hub spoke holes 2*/
+.WH_spoke{ fill: none; stroke: #000; stroke-width: 2; }
+.WH_erd	 { fill: none; stroke: #999; }
+.WH_pcd	 { fill: none; stroke: #555; stroke-width: .5; stroke-dasharray: .5,.5;  }
 
-g#W0_rim_holes > circle { stroke: #777; fill: none; } /*rim spoke holes*/
+g#W0_rim_holes > circle { fill: none; stroke: #777; } /*rim spoke holes*/
 </style>
 
 
@@ -157,7 +152,7 @@ function Draw_Spoke(wheel_, flange, flange_hole, rim_hole, color) { //********/
 	var y2 = E(rim_hole_id).getAttribute('cy');
 
 	var style = ' style="stroke:'+color+'"';
-	var spoke = '<line class="WM_spoke" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" '+style+'/>';
+	var spoke = '<line class="WH_spoke" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" '+style+'/>';
 	E(group_id).innerHTML += spoke;
 }//end Draw_Spoke() //********************************************************/
 
@@ -219,9 +214,9 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_o
 	//For odd numbers of spokes & rim holes (21, 27, 30, etc...)
 	if (NR/2 != Math.floor(NR/2)) {var shift = AF} else { var shift = 0 } //##### 
 
-	Create_Spoke_Holes(ID_ + "rim_holes", ID_ + "rsh" , "WM_rsh", "WM_rsh", NR , RR , SHD, 0);
-	Create_Spoke_Holes(ID_ + "flange_1",  ID_ + "f1sh", "WM_hsh", "WM_hsh", NF1, RF1, SHD, 0);
-	Create_Spoke_Holes(ID_ + "flange_2",  ID_ + "f2sh", "WM_hsh", "WM_hsh", NF2, RF2, SHD, offset_f);
+	Create_Spoke_Holes(ID_ + "rim_holes", ID_ + "rsh" , "WH_rsh", "WH_rsh", NR , RR , SHD, 0);
+	Create_Spoke_Holes(ID_ + "flange_1",  ID_ + "f1sh", "WH_hsh", "WH_hsh", NF1, RF1, SHD, 0);
+	Create_Spoke_Holes(ID_ + "flange_2",  ID_ + "f2sh", "WH_hsh", "WH_hsh", NF2, RF2, SHD, offset_f);
 
 	//................... Create_Spoke_Group(ID_, f,  nf, nr,  sx,  d, inc_f, lace_opt, color)  //f=flange, d=direction
 	//##### if (show_spokes[1]) { Create_Spoke_Group(ID_, 1, NF1, NR, SX1,  1, 0, spoke_colors[1]); }
@@ -235,9 +230,9 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_o
 	var view_W = 610; //Width
 	var view_H = 610; //Height
 	var V_offset = (-view_H/2); //Vertical Offset
-	E(ID_ + 'wheel_math').setAttribute('width',  view_W);
-	E(ID_ + 'wheel_math').setAttribute('height', view_H);
-	E(ID_ + 'wheel_math').setAttribute('viewBox', (-view_W/2) + " " + V_offset + " " + view_W + " " + view_H);
+	E(ID_ + 'wheel').setAttribute('width',  view_W);
+	E(ID_ + 'wheel').setAttribute('height', view_H);
+	E(ID_ + 'wheel').setAttribute('viewBox', (-view_W/2) + " " + V_offset + " " + view_W + " " + view_H);
 
 	E(ID_ + 'wheel').setAttribute('transform', " rotate(" + rotate + ")");
 	//####################################################################################
@@ -246,17 +241,20 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_o
 
 	//############################################################
 	function R_hole(nr, nf, f_hole, dd, d, X, f, lace_opt) {
+	
+		var r_skip = nr/nf; //Check  if nf1 != nf2 ...?
+
+		//##### ########### When I work thru the math, it seems the if/then should work...
+		if ((r_skip != 2) && (d == -1)) { var skip = -.5 } else { var skip = 0}; //#####
+		skip= -.5 //#####... but it doesn't, and this does...
+		//##### ########### I don't know...
 		
-		if ((nr/nf != 4 && nr/nf != 2) && (d == -1)) { ss = -.5 } else { var ss = 0 }//##### ss = -.5 for triplets, 0 for normal.
-		f_hole += ss
+		var r_hole = (f_hole + dd*X*lace_opt )*r_skip + f - r_skip + skip; //#####
 		
-		var r_hole = (f_hole + dd*X*lace_opt)*nr/nf + f - nr/nf;
+		Log(lace_opt + " : " + d + " | " + r_skip + ", " + skip + ", " + f_hole + ":" + r_hole + " > ") //#####
 		
-		Log(lace_opt + ":" + d + " | " + f_hole + ":" + r_hole + " ; ")
-		
-		if (dd == d) { r_hole = Math.round(r_hole) }
-		else 		 { r_hole = Math.floor(r_hole) }
-		
+		r_hole = Math.round(r_hole)
+
 		if (r_hole > nr) {r_hole -= nr;}
 		if (r_hole <  1) {r_hole += nr;}
 		
@@ -265,15 +263,16 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_o
 	
 	
 	function Draw_Group(nr, nf, X, f, d, lace_opt ) {
-		//type 1 starts with d=1, and type 2 with d=1
-		var dd = d;
+		//type 1 starts with d=1, and type 2 with d=-1
+		var dd = d; //
 		if (d == 1) {var s1 = 1; } else { var s1 = 2; } //odd or even group of spokes
 		
 		for (var s=s1; s <= nf; s+=2) {
 			var r_hole = R_hole(nr, nf, s, dd, d, X, f, lace_opt)
-			Log(s + ":" + r_hole + " ; ", 1) //##### 
+			Log(r_hole + " . . ", 1) //##### 
 			Draw_Spoke(ID_,  f,  s,  r_hole ,  "red");
 		}
+		Log("", 1) //##### 
 	}//end Draw_Group()
 
 
@@ -281,15 +280,15 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_o
 	var f = 1
 	var X = 0
 	lace_opt = 1
+	Draw_Group(NR, NF[f], X, f,  1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
 	Draw_Group(NR, NF[f], X, f, -1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
-	Draw_Group(NR, NF[f], X, f, 1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
 
 	/*************/
 	f = 2
-	X = 1
+	X = 3
 	lace_opt = 1
+	Draw_Group(NR, NF[f], X, f,  1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
 	Draw_Group(NR, NF[f], X, f, -1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
-	Draw_Group(NR, NF[f], X, f, 1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
 	/*************/
 
 	//Draw_Group(NR, NF[1], 0, 1, 1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
@@ -307,8 +306,7 @@ function Onchanges() {
 
 
 window.onload = function() {
-
-	var DEFAULTS = ["W1_", 580, 24, 8, 16, 76, 100, 1,  2, 5.6, 1, "Testing..."];
+	var DEFAULTS = ["W1_", 580, 32,  8, 16, 76, 50, 1,  2, 2.6, 1, "Testing..."];
 	var Spoke_Colors = ["", "#88F", "#BB0", "green",  "red" ]; //"none" to hide a group  //#D4cF37 gold-ish
 	var Spoke_Colors = ["", "#F66", "#A00",  "#070", "#6B6" ]; //"none" to hide a group  //#D4cF37 gold-ish
 	var Show_Spokes  = ["",    0  ,    0  ,    0   ,    0   ]; //1 to show, anything else to hide.
@@ -325,7 +323,16 @@ window.onload = function() {
 <body id=body>
 <!-------------->
 <style>
-#CONSOLE { display: none; font-family: Courier New; font-size: .8em; border: solid 1px red; max-height: 6rem ; XXXXSX22.75rem; overflow-y: scroll; word-break: break-all; }
+#CONSOLE { 
+	display: none; 
+	float: right;
+	font-family: Courier New; 
+	font-size: .8em; 
+	border: solid 1px red; 
+	height: 40rem ; 
+	XXXXSX22.75rem; 
+	overflow-y: scroll; 
+	word-break: break-all; }
 </style>
 <div id=CONSOLE></div>
 <!------------------>
@@ -344,28 +351,30 @@ input {width: 3rem; text-align: center;}
 <tr><td>SX1: </td><td><input id=SX1  class=input type=text value=2  ></td></tr>
 <tr><td>SX2: </td><td><input id=SX2  class=input type=text value=2  ></td></tr>
 <tr><td>SHD: </td><td><input id=SHD  class=input type=text value=2.5></td></tr>
+<tr><td>Show<br>Axes: </td><td><input id=AXES  class=input type=checkbox value=2.5></td></tr>
 </td></tr></table>
 
 
-<svg id="W1_wheel_math" class="WM_svg">
+<svg id="W1_wheel" class="WH_svg">
 	<title>Wheel</title>
 	<g id="W1_axes">
-		<line id="W0_x-axis" class="WM_axis"  x1="-305"	y1=   "0"	x2="305"	y2=  "0"/>
-		<line id="W0_y-axis" class="WM_axis"  x1=   "0"	y1="-305"	x2=  "0"	y2="305"/>
+		<line id="W0_x-axis" class="WH_axis"  x1="-305"	y1=   "0"	x2="305"	y2=  "0"/>
+		<line id="W0_y-axis" class="WH_axis"  x1=   "0"	y1="-305"	x2=  "0"	y2="305"/>
 	</g>
 
 	<g id="W1_wheel">
-		<circle id="W1_erd"   class="WM_erd" r=""/>
-		<circle id="W1_pcd_1" class="WM_pcd" r=""/>
-		<circle id="W1_pcd_2" class="WM_pcd" r=""/>
+		<circle id="W1_erd"   class="WH_erd" r=""/>
+		<circle id="W1_pcd_1" class="WH_pcd" r=""/>
+		<circle id="W1_pcd_2" class="WH_pcd" r=""/>
 		<g id="W1_rim_holes"></g>
 		<g id="W1_flange_1"></g>
 		<g id="W1_flange_2"></g>
 		<g id=W1_spokes_L1></g>
 	</g><!-- end id=wheel -->
 
-	<text id="W1_desc" class="WM_text" x="170" y="-285"></text>
+	<text id="W1_desc" class="WH_text" x="170" y="-285"></text>
 </svg>
+<hr>
 
 
 </body>
