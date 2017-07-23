@@ -5,7 +5,7 @@
 
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.08
+v.beta.09
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -77,7 +77,8 @@ function Create_Spoke_Holes(group, id, class1, class2, N, scale, shd, offset) { 
 		E(group).innerHTML += '<circle id=' + full_id + ' class="' + class_X + '" r="' + (shd/2) + '" cx="0" cy="0" />';
 	}
 
-	//##### E(id + "_1").style["fill"] = "red"; //#####
+	//##### 
+	E(id + "_1").style["fill"] = "red"; //#####
 	
 	Move_Spoke_Holes(group, id, N, scale, offset); //
 }//end Create_Spoke_Holes() //*************************************************/
@@ -105,7 +106,7 @@ function Move_Spoke_Holes(group, id, N, scale, offset) { //********************/
 		E(full_id).setAttribute('cx', cx);
 		E(full_id).setAttribute('cy', cy);
 		
-		a += A; //Spoke hole 1 is fi rst hole at or after 0 degrees.
+		a += A; //Spoke hole 1 is first hole at or after 0 degrees/"6 o'clock".
 	}
 }//end Move_Spoke_Holes() //***************************************************/
 
@@ -113,10 +114,10 @@ function Move_Spoke_Holes(group, id, N, scale, offset) { //********************/
 
 
 function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //*********/
-var wheel_ = "WH_"
+
 	if (typeof color == "undefined") { color = "black" }
 
-	var group_id = "WH_spokes_1"; //##### 1 will need to be a parameter //#####
+	var group_id = "WH_spokes"; //##### add a parameter for each group? (1-4) //#####
 	var flange_hole_id = "WH_f" + flange + "sh_" + flange_hole;
 	var rim_hole_id	= "WH_rsh_" + rim_hole;
 
@@ -127,28 +128,40 @@ var wheel_ = "WH_"
 	var y2 = E(rim_hole_id).getAttribute('cy');
 
 	var style = ' style="stroke:'+color+'"';
-	var spoke = '<line class="WH_spoke" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" '+style+'/>';
+	var spoke = '<line class="WH_spoke WH_group' + group + '" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" '+style+'/>' + "\n";
 	E(group_id).innerHTML += spoke;
+
+	var xd = x2 - x1
+	var yd = y2 - y1
+	var ftc = E('FTC' + flange).value;
+	var s1 = Math.sqrt(xd*xd + yd*yd + ftc*ftc) - E('SHD').value/2;
+	s1 = Math.round(s1*10)/10;
+	Log(s1,1); //#####
 	
-	Log(Math.round(Math.sqrt( Math.pow(x1-x2,2) + Math.pow(y1-y2,2) )*10)/10,1) //#####
 }//end Draw_Spoke() //*********************************************************/
 
 
 
 
 function Create_Spoke_Group(group, nr, nf, X, f, d, lace_opt, color ) { //*******/
-	
+
 	if (d == 1) {var s1 = 1; } else { var s1 = 2; } //odd or even group of spokes
-	
+
+	Log("Group " + group + "",1)		  //#####
+	Log("(F:" + f + ", D:" + d + ")", 1); //#####
+
 	for (var h_hole = s1; h_hole <= nf; h_hole += 2) {
-		
+
 		var r_skip = nr/nf;
 		var r_hole = (h_hole + d*X*lace_opt )*r_skip + f - r_skip - 0.5;
+
 		r_hole = Math.round(r_hole)
-		
 		if (r_hole > nr) {r_hole -= nr;}
 		if (r_hole <  1) {r_hole += nr;}
-		var group;
+		
+		Log(h_hole + ", ")//#####
+		Log(r_hole + ": ")//#####
+		
 		Draw_Spoke(group,  f,  h_hole,  r_hole ,  color);
 	}
 	Log("",1)//#####
@@ -157,44 +170,51 @@ function Create_Spoke_Group(group, nr, nf, X, f, d, lace_opt, color ) { //******
 
 
 
-function Setup_Wheel(ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_opt, desc, spoke_colors, show_spokes) { /****/
+function Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, lace_opt, desc, spoke_colors, show_spokes) { /****/
+	Clear_Wheel();
 
 	var NF = [0, NF1, NF2];
 	var SX = [0, SX1, SX2];
 
-	var RR  = ERD/2;
-	var RF1 = PCD_1/2;
-	var RF2 = PCD_2/2;
-
-	if (lace_opt == -1) { var T_type = -1 } else { var T_type =  1 }
-	
 	var AF = 360/NF2; //Angle between holes in Flange
 	var offset_f = -AF/2; //Offset angle between left & right hub flange holes. The radial side is "0".
 	var rotate = 0; //-11.25  Rotate whole wheel...
-	
+
 	//Draw rim & flange circles..
-	E('WH_erd').setAttribute('r', RR);
-	E('WH_pcd_1').setAttribute('r', RF1);
-	E('WH_pcd_2').setAttribute('r', RF2);
+	E('WH_ERD') .setAttribute('r', ERD/2); //ERD & PCD's are "D"iameters. SVG <circle>'s require a radius...
+	E('WH_PCD1').setAttribute('r', PCD1/2);//
+	E('WH_PCD2').setAttribute('r', PCD2/2);//
+	E('WH_ERD') .style['stroke'] = E('COLOR_R').value;
+	E('WH_PCD1').style['stroke'] = E('COLOR_F1').value;
+	E('WH_PCD2').style['stroke'] = E('COLOR_F2').value;
 
 	//For odd numbers of spokes & rim holes (21, 27, 30, etc...)
 	if (NR/2 != Math.floor(NR/2)) {var shift = -AF} else { var shift = 0 }
 
-	Create_Spoke_Holes('WH_rim_holes', 'WH_rsh' , 'WH_rsh', 'WH_rsh', NR , RR , SHD, 0);
-	Create_Spoke_Holes('WH_flange_1' , 'WH_f1sh', 'WH_hsh', 'WH_hsh', NF1, RF1, SHD, shift);
-	Create_Spoke_Holes('WH_flange_2' , 'WH_f2sh', 'WH_hsh', 'WH_hsh', NF2, RF2, SHD, offset_f);
+
+	Log('F = "Flange"',1)//#####
+	Log('D = "Direction"',1)//#####
+	Create_Spoke_Holes('WH_rim_holes', 'WH_rsh' , 'WH_rsh', 'WH_rsh', NR , ERD/2 , SHD, 0);
+	Create_Spoke_Holes('WH_flange_1' , 'WH_f1sh', 'WH_hsh', 'WH_hsh', NF1, PCD1/2, SHD, shift);
+	Create_Spoke_Holes('WH_flange_2' , 'WH_f2sh', 'WH_hsh', 'WH_hsh', NF2, PCD2/2, SHD, offset_f);
 
 
 	var f = 1; //flange
-	if (show_spokes[1]) { Create_Spoke_Group(1, NR, NF[f], SX[f], f,  1, 1, spoke_colors[1]) }
-	if (show_spokes[2]) { Create_Spoke_Group(2, NR, NF[f], SX[f], f, -1, 1, spoke_colors[2]) }
+	Create_Spoke_Group(1, NR, NF[f], SX[f], f,  1, 1, spoke_colors[1])
+	Create_Spoke_Group(2, NR, NF[f], SX[f], f, -1, 1, spoke_colors[2])
 
 	var f = 2; //flange
-	if (show_spokes[3]) { Create_Spoke_Group(3, NR, NF[f], SX[f], f,  1, lace_opt, spoke_colors[3]) }
-	if (show_spokes[4]) { Create_Spoke_Group(4, NR, NF[f], SX[f], f, -1, lace_opt, spoke_colors[4]) }
+	Create_Spoke_Group(3, NR, NF[f], SX[f], f,  1, lace_opt, spoke_colors[3])
+	Create_Spoke_Group(4, NR, NF[f], SX[f], f, -1, lace_opt, spoke_colors[4])
 
 
-	E('WH_desc').innerHTML = desc;
+	Show_Hide_Class('WH_group1', E('SHOW1').checked); //Spokes are destroyed & re-created
+	Show_Hide_Class('WH_group2', E('SHOW2').checked); // onchange of most settings.
+	Show_Hide_Class('WH_group3', E('SHOW3').checked); //So, re-set their display state.
+	Show_Hide_Class('WH_group4', E('SHOW4').checked); //
+
+
+	//##### E('WH_desc').innerHTML = desc;
 
 	var view_W = 610; //Width
 	var view_H = 610; //Height
@@ -204,34 +224,159 @@ function Setup_Wheel(ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_opt, d
 	E('WH_wheel').setAttribute('viewBox', (-view_W/2) + " " + V_offset + " " + view_W + " " + view_H);
 
 	E('WH_wheel').setAttribute('transform', " rotate(" + rotate + ")");
-}//end Setup_Wheel() /********************************************************/
+}//end Setup_Wheel() /*********************************************************/
 
 
 
 
-function Onchanges() {
-	E('ERD').onchange = function() {
-		E('WH_erd').setAttribute('r',  this.value/2);
+function Clear_Wheel() { //****************************************************/
+		Log(); //Clear Log of wheel info
+		E('WH_rim_holes').innerHTML = "";
+		E('WH_flange_1') .innerHTML = "";
+		E('WH_flange_2') .innerHTML = "";
+		E('WH_spokes')   .innerHTML = "";
+}//end Clear_Wheel() //********************************************************/
+
+
+
+
+function Build_Wheel() { //****************************************************/
+
+	var Spoke_Colors	= ["", E('COLOR1').value, E('COLOR2').value,  E('COLOR3').value, E('COLOR4').value ]; //"none" to hide a group
+	var Include_Spokes  = ["", E('SHOW1').checked, E('SHOW2').checked, E('SHOW3').checked, E('SHOW4').checked];
+
+  //Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, LACE_OPT, desc, Spoke_Colors, Include_Spokes)
+	Setup_Wheel(
+		E('ERD').value*1, E('NR').value*1, E('NF1').value*1, E('NF2').value*1,
+		E('PCD1').value*1, E('PCD2').value*1, E('SX1').value*1, E('SX2').value*1,
+		E('SHD').value*1, E('LACE_OPT').value*1, "HEY!!!!!", Spoke_Colors, Include_Spokes
+	);
+}//end Build_Wheel() //********************************************************/
+
+
+
+
+function Show_Hide_Class(what, show) { //**************************************/
+	var items = D.getElementsByClassName(what);
+
+	for (var s = 0; s < items.length; s++) {
+		if (show) { items[s].style['display'] = "" ; }
+		else 	  { items[s].style['display'] = "none" }
 	}
-}//end Onchanges()
+}//end Show_Hide_Class() //****************************************************/
 
 
 
-window.onload = function() {
 
-	Onchanges();
-					//[  , ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_opt, desc]
-	var DEFAULTS	= ["", 580, 24,   8,  16,    76,    100,   0,   2, 2.6,        1, "Testing...", ];
-	var Spoke_Colors	= ["", "#88F", "#BB0", "green",  "red" ]; //"none" to hide a group  //#D4cF37 gold-ish
-	var Spoke_Colors	= ["", "#F66", "#A00",  "#070", "#6B6" ]; //"none" to hide a group  //#D4cF37 gold-ish
-	var Spoke_Colors	= ["", "gray", "gray",  "gray", "gray" ]; //"none" to hide a group  //#D4cF37 gold-ish
-	var Include_Spokes  = ["",    1  ,    1  ,    1   ,    1   ]; //Too show: 1, true, etc...
+function Set_Spoke_Color(group, color) { //************************************/
+	var spokes = D.getElementsByClassName('WH_group' + group);
+	for (var s = 0; s < spokes.length; s++) { spokes[s].style['stroke'] = color; }
+}//end Set_Spoke_Color() //****************************************************/
 
-  //Setup_Wheel(ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_opt, desc, spoke_colors, Include_Spokes)
-	Setup_Wheel(DEFAULTS[1],DEFAULTS[2],DEFAULTS[3],DEFAULTS[4],DEFAULTS[5],DEFAULTS[6],DEFAULTS[7],DEFAULTS[8],DEFAULTS[9],DEFAULTS[10],DEFAULTS[11],Spoke_Colors,Include_Spokes);
+
+
+
+function Show_Hide(what, show) { //********************************************/
+	if (show) { E(what).style['display'] = ""  }
+	else 	  { E(what).style['display'] = "none" }
+}//end Show_Hide() //**********************************************************/
+
+
+
+
+function Assign_Onchange_Events() { //*****************************************/
+	E('ERD')	  .onchange = function() { Build_Wheel() }
+	E('NR')		  .onchange = function() { Build_Wheel() }
+	E('NF1')	  .onchange = function() { Build_Wheel() }
+	E('NF2')	  .onchange = function() { Build_Wheel() }
+	E('PCD1')	  .onchange = function() { Build_Wheel() }
+	E('PCD2')	  .onchange = function() { Build_Wheel() }
+	E('SX1')	  .onchange = function() { Build_Wheel() }
+	E('SX2')	  .onchange = function() { Build_Wheel() }
+	E('FTC1')	  .onchange = function() { Build_Wheel() }
+	E('FTC2')	  .onchange = function() { Build_Wheel() }
+	E('LACE_OPT') .onchange = function() { Build_Wheel() }
 	
+
+	E('SHD').onchange = function() {
+		var spoke_holes = D.getElementsByClassName('WH_rsh');
+		for (var h = 0; h < spoke_holes.length; h++) { spoke_holes[h].setAttribute('r', this.value/2); }//set *radius* of hole
+		
+		var spoke_holes = D.getElementsByClassName('WH_hsh');
+		for (var h = 0; h < spoke_holes.length; h++) { spoke_holes[h].setAttribute('r', this.value/2); }//set *radius* of hole
+	}
+
+
+	E('AXES').onchange = function() { Show_Hide_Class('WH_axis', this.checked); }
+
+
+	E('COLOR1').onchange = function() { Set_Spoke_Color(1, this.value) }
+	E('COLOR2').onchange = function() { Set_Spoke_Color(2, this.value) }
+	E('COLOR3').onchange = function() { Set_Spoke_Color(3, this.value) }
+	E('COLOR4').onchange = function() { Set_Spoke_Color(4, this.value) }
+	E('SHOW1').onchange = function() { Show_Hide_Class('WH_group1', this.checked) }
+	E('SHOW2').onchange = function() { Show_Hide_Class('WH_group2', this.checked) }
+	E('SHOW3').onchange = function() { Show_Hide_Class('WH_group3', this.checked) }
+	E('SHOW4').onchange = function() { Show_Hide_Class('WH_group4', this.checked) }
+	
+
+	E('COLOR_R') .onchange = function() { E('WH_ERD') .style['stroke'] = this.value }
+	E('COLOR_F1').onchange = function() { E('WH_PCD1').style['stroke'] = this.value }
+	E('COLOR_F2').onchange = function() { E('WH_PCD2').style['stroke'] = this.value }
+	E('SHOW_R')  .onchange = function() { Show_Hide('WH_ERD',  this.checked) }
+	E('SHOW_F1') .onchange = function() { Show_Hide('WH_PCD1', this.checked) }
+	E('SHOW_F2') .onchange = function() { Show_Hide('WH_PCD2', this.checked) }
+	
+}//end Assign_Onchange_Events() //*********************************************/
+
+
+
+
+
+window.onload = function() { //************************************************/
+
+	//Load default values.
+	E('ERD') .value = 577;
+	E('NR')  .value = 24;
+	E('NF1') .value = 8;
+	E('NF2') .value = 16;
+	E('PCD1').value = 38.5;
+	E('PCD2').value = 50.6;
+	E('FTC1').value = 37.7;
+	E('FTC2').value = 17.1;
+	E('SX1') .value = 0;
+	E('SX2') .value = 3;
+	E('SHD') .value = 2.6;
+	E('LACE_OPT').selectedIndex = 0;
+
+	E('COLOR1').value = "#77F"; //blueish
+	E('COLOR2').value = "#44F"; //blueish-er
+	E('COLOR3').value = "#6F6"; //greenish
+	E('COLOR4').value = "#4D4"; //greenish-er
+	E('SHOW1').checked = true;
+	E('SHOW2').checked = true;
+	E('SHOW3').checked = true;
+	E('SHOW4').checked = true;
+
+	E('COLOR_R') .value = "#777";
+	E('COLOR_F1').value = "#AAA";
+	E('COLOR_F2').value = "#777";
+	E('SHOW_R') .checked = true;
+	E('SHOW_F1').checked = true;
+	E('SHOW_F2').checked = true;
+
+	E('AXES').checked = true;
+	//end default values
+
+
+	Assign_Onchange_Events();
+
+	Build_Wheel();
+
+	E('ERD').focus();
 	//#####	Log(E('body').innerHTML)
-}//end window.onload
+}//end window.onload //********************************************************/
+
 })();</script>
 
 
@@ -242,22 +387,22 @@ window.onload = function() {
 body {margin: 0}
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-table#settings td{ max-width: 4rem}
-table#settings input {width: 3rem; text-align: center;}
-table#settings select {width: 3rem; text-align: center;}
+table.settings { border: solid 1px gray; border-collapse: collapse; font-family: arial; width: 10rem; }
+table.settings th { border: solid 0px red; text-align: left; }
+table.settings td { border: solid 0px red; text-align: center; }
+table.settings input  { width: 3rem; text-align: center; }
+table.settings select { width: 3rem; text-align: center; }
 
 /*** The prefix "WH_" simple means "WHeel" ***/
+table th#WH_desc { border: solid 0px red; text-align: center }
+#WH_ERD	 { fill: none; stroke: #999; }
 .WH_svg	 { border: solid 0px gray; display: inline-block; margin: auto; }
-.WH_text { font: 1rem arial }
 .WH_axis { stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; } /*//##### stroke-width*/
 .WH_rsh	 { fill: none; stroke: #777; } /*rim spoke holes*/
 .WH_hsh	 { fill: none; stroke: #777; } /*hub spoke holes*/
 .WH_hsh2 { fill: none; stroke: #ccc; } /*hub spoke holes 2*/
 .WH_spoke{ fill: none; stroke: #000; stroke-width: 2; }
-.WH_erd	 { fill: none; stroke: #999; }
-.WH_pcd	 { fill: none; stroke: #555; stroke-width: .5; stroke-dasharray: .5,.5;  }
-
-g#W0_rim_holes > circle { fill: none; stroke: #777; } /*rim spoke holes*/
+.WH_pcd	 { fill: none; stroke: #000; stroke-width: 1; } /*//#####  stroke-dasharray: .5,.5;  */
 </style>
 
 
@@ -269,10 +414,10 @@ g#W0_rim_holes > circle { fill: none; stroke: #777; } /*rim spoke holes*/
 	XXXXX_float: right;
 	font-family: Courier New; 
 	font-size: .8em; 
-	border: solid 1px red; 
+	border: solid 1px gray; 
 	max-height: 40rem ;
 	XXXXX_SX22.75rem; 
-	XXXXX_overflow-y: scroll; 
+	overflow-y: scroll; 
 	word-break: break-all;
 	padding: 0 .5em; }
 </style>
@@ -281,26 +426,139 @@ g#W0_rim_holes > circle { fill: none; stroke: #777; } /*rim spoke holes*/
 
 
 
-<table id=settings style="display: inline-block; vertical-align:top;">
-<tr><td>ERD: </td><td><input id=ERD  class=input type=text value=580></td></tr>
-<tr><td>NR:  </td><td><input id=NR   class=input type=text value=24 ></td></tr>
-<tr><td>NF1: </td><td><input id=NF1  class=input type=text value=12 ></td></tr>
-<tr><td>NF2: </td><td><input id=NF2  class=input type=text value=12 ></td></tr>
-<tr><td>PCD1:</td><td><input id=PCD1 class=input type=text value=76 ></td></tr>
-<tr><td>PCD2:</td><td><input id=PCD2 class=input type=text value=100></td></tr>
-<tr><td>SX1: </td><td><input id=SX1  class=input type=text value=2  ></td></tr>
-<tr><td>SX2: </td><td><input id=SX2  class=input type=text value=2  ></td></tr>
-<tr><td>SHD: </td><td><input id=SHD  class=input type=text value=2.5></td></tr>
-<tr><td>&nbsp;</td></tr>
-<tr><td>Lace Option: </td><td>
-	<select id=LACE_OPT name=LACE_OPT>
-		<option value=1 >1&nbsp;</option>
-		<option value=-1>2&nbsp;</option>
-	</select>
-</td></tr>
+<div id=left_side style="display: inline-block; vertical-align: top">
 
-<tr><td>Show<br>Axes: </td><td><input id=AXES  class=input type=checkbox value=2.5></td></tr>
-</td></tr></table>
+<table class=settings style="display: inline-block; vertical-align:top;">
+<tr><th colspan=2 id=WH_desc></th></tr>
+<tr><td colspan=2><b>Wheel Settings</b></td></tr>
+<tr><th>ERD:</th><td><input id=ERD  class=input type=text value=580></td></tr>
+<tr><th>NR: </th><td><input id=NR   class=input type=text value=24 ></td></tr>
+<tr>
+	<th>NF:</th>
+	<td style="min-width: 6.5rem"><!--//##### move style to sheet-->
+		<input id=NF1  class=input type=text>
+		<input id=NF2  class=input type=text>
+	</td>
+</tr>
+<tr>
+	<th>PCD:</th>
+	<td>
+		<input id=PCD1 class=input type=text>
+		<input id=PCD2 class=input type=text>
+	</td>
+</tr>
+<tr>
+	<th>FtC:</th>
+	<td>
+		<input id=FTC1 class=input type=text>
+		<input id=FTC2 class=input type=text>
+	</td>
+</tr>
+<tr>
+	<th>SX:</th>
+	<td>
+		<input id=SX1  class=input type=text>
+		<input id=SX2  class=input type=text>
+	</td>
+</tr>
+<tr>
+	<th>SHD:</th>
+	<td><input id=SHD  class=input type=text></td>
+</tr>
+<tr><td colspan=2>&nbsp;</td></tr>
+<tr>
+	<th colspan=2>Lace Option:
+		<select id=LACE_OPT name=LACE_OPT>
+			<option value=-1>1&nbsp;</option>
+			<option value= 1>2&nbsp;</option>
+		</select>
+	</th>
+</tr>
+<tr>
+	<th colspan=2>
+		Show Axes:
+		<input id=AXES  class=input type=checkbox>
+	</th>
+</tr>
+</table>
+
+
+<br><br>
+
+
+<table class=settings>
+<tr><td colspan=3><b>Spoke Options</b></td></tr>
+<tr>
+	<td>Group</td>
+	<td>Color</td>
+	<td>Show?</td>
+</tr>
+<tr>
+	<td>1</td>
+	<td><input id=COLOR1 class=input type=text></td>
+	<td><input id=SHOW1  class=input type=checkbox></td>
+</tr>
+<tr>
+	<td>2</td>
+	<td><input id=COLOR2 class=input type=text></td>
+	<td><input id=SHOW2  class=input type=checkbox></td>
+</tr>
+<tr>
+	<td>3</td>
+	<td><input id=COLOR3 class=input type=text></td>
+	<td><input id=SHOW3  class=input type=checkbox></td>
+</tr>
+<tr>
+	<td>4</td>
+	<td><input id=COLOR4 class=input type=text></td>
+	<td><input id=SHOW4  class=input type=checkbox></td>
+</tr>
+</table>
+
+
+<br>
+
+
+<table class=settings>
+<tr><td colspan=3><b>Rim &amp; Flange Options</b></td></tr>
+<tr>
+	<td></td>
+	<td>Color</td>
+	<td>Show?</td>
+</tr>
+<tr>
+	<td>Rim</td>
+	<td><input id=COLOR_R class=input type=text></td>
+	<td><input id=SHOW_R  class=input type=checkbox></td>
+</tr>
+<tr>
+	<td>F1</td>
+	<td><input id=COLOR_F1 class=input type=text></td>
+	<td><input id=SHOW_F1  class=input type=checkbox></td>
+</tr>
+<tr>
+	<td>F2</td>
+	<td><input id=COLOR_F2 class=input type=text></td>
+	<td><input id=SHOW_F2  class=input type=checkbox></td>
+</tr>
+</table>
+
+
+<br>
+
+
+<table class=settings>
+<tr>
+	<td colspan=2>
+		<b>Show Axes:</b>
+		<input id=AXES  class=input type=checkbox>
+	</td>
+</tr>
+</table>
+
+
+</div><!--//end left_side -->
+
 
 
 <svg id="WH_wheel" class="WH_svg">
@@ -311,23 +569,25 @@ g#W0_rim_holes > circle { fill: none; stroke: #777; } /*rim spoke holes*/
 	</g>
 
 	<g id="WH_wheel">
-		<circle id="WH_erd"   class="WH_erd" r=""/>
-		<circle id="WH_pcd_1" class="WH_pcd" r=""/>
-		<circle id="WH_pcd_2" class="WH_pcd" r=""/>
+		<circle id="WH_ERD"  class="WH_erd" r=""/>
+		<circle id="WH_PCD1" class="WH_pcd" r=""/>
+		<circle id="WH_PCD2" class="WH_pcd" r=""/>
 		
-		<g id="WH_rim_holes"></g>
-		<g id="WH_flange_1"></g>
-		<g id="WH_flange_2"></g>
-		<g id="WH_spokes_1"></g>
+		
+		<g id=WH_Holes_and_Spokes>
+			<g id="WH_rim_holes"></g>
+			<g id="WH_flange_1"></g>
+			<g id="WH_flange_2"></g>
+			<g id="WH_spokes"></g>
 
-		<!---------------------.>
-		<g id="WH_spokes_2"></g>
-		<g id="WH_spokes_3"></g>
-		<g id="WH_spokes_4"></g>
-		<!---------------------->
+			<!---------------------.>
+			<g id="WH_spokes_1"></g>
+			<g id="WH_spokes_2"></g>
+			<g id="WH_spokes_3"></g>
+			<g id="WH_spokes_4"></g>
+			<!---------------------->
+		</g>
 	</g><!-- end id=wheel -->
-
-	<text id="WH_desc" class="WH_text" x="170" y="-285"></text>
 </svg>
 
 <div id=CONSOLE></div>
