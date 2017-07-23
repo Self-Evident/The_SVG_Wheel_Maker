@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<meta charset="utf-8"/>
+
+
+<!--=========================================================================..>
+The SVG Wheel Maker
+v.beta.01
+
+
+Copyright © 2017 https://github.com/Self-Evident
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+<!--=========================================================================-->
+
+
+
+<style>
+body {margin: 0}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/*** The prefix "WH_" simple means "Wheel Math" ***/
+
+.WM_svg	 { border: solid 0px gray; display: block; margin: auto; }
+.WM_text { font: 1rem arial }
+.WM_axis { stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; } /*//##### stroke-width*/
+.WM_rsh	 { stroke: #777; fill: none; } /*rim spoke holes*/
+.WM_hsh	 { stroke: #777; fill: none; } /*hub spoke holes*/
+.WM_hsh2 { stroke: #ccc; fill: none; } /*hub spoke holes 2*/
+.WM_spoke{ stroke: #000; stroke-width: 2; }
+.WM_erd	 { stroke: #999; fill: none; }
+.WM_pcd	 { fill: none; stroke: #555; stroke-width: .5; stroke-dasharray: .5,.5;  }
+.WM_sub	 { font-size: .6rem }
+.WM_arc	 { fill:none; stroke: #F00 }
+.WM_radial_line	{ stroke: #F55; stroke-width: 1; stroke-dasharray: 4,2; }
+.WM_radial_spoke{ stroke: #F77 }
+.WM_radial_label{ font-size: .7rem; writing-mode:tb; fill: #555; }
+
+g#W0_rim_holes > circle { stroke: #777; fill: none; } /*rim spoke holes*/
+</style>
+
+
+
+<script>(function(){
+var D = document;
+function E(id) { return document.getElementById(id); }
+
+
+
+//##### ###########################################################################
+function Log(something, br) {
+	if (typeof something === 'undefined') { E("CONSOLE").innerHTML = ""; return; }
+	if (br == true) { br = "<br>" } else { br = "" }
+	something = escape_HTML(something + "");
+	
+	E("CONSOLE").innerHTML += something + br;
+	E("CONSOLE").scrollTop = E("CONSOLE").scrollHeight;
+	E("CONSOLE").style["display"] = "block";
+}//end Log()
+//##### ###########################################################################
+
+
+
+
+//##### ###########################################################################
+function escape_HTML(text) {
+  var map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+
+  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}//end escape_HTML()
+//##### ###########################################################################
+
+
+
+
+function Create_Spoke_Holes(group, id, class1, class2, N, scale, rsh, offset) {
+	//Create & position N spoke holes in <g id=group>, with radius of rsh
+
+	if (typeof offset == "undefined") { offset = 0 }
+	if (typeof shift  == "undefined") { shift  = 0 }
+
+	//For odd numbers of spokes & rim holes (21, 27, 30, etc...)
+	var A = 360/N;		//angle between holes
+	if (N/2 != Math.floor(N/2)) {var shift = -A/2} else { var shift = 0 }
+	
+	var a  =  shift - offset;	//angle to current hole from 0
+	var cx, cy;			//coordinates for hole
+	var odd = true;		//allows for alternating classes
+
+	for (var sh = 1; sh <= N; sh++) {
+		odd = !odd;
+		var full_id = id + '_' + sh;
+		if (odd) { var class_X = class1 } else { var class_X = class2 }
+		E(group).innerHTML += '<circle id=' + full_id + ' class="' + class_X + '" r="' + rsh + '" cx="0" cy="0" />';
+		
+		a += A; //Spoke hole 1 is first hole after 0 degrees.
+		cx = Math.round(Math.sin( (a/180) * Math.PI) * scale * 10000)/10000;
+		cy = Math.round(Math.cos( (a/180) * Math.PI) * scale * 10000)/10000;
+		
+		E(full_id).setAttribute('cx', cx);
+		E(full_id).setAttribute('cy', cy);
+	}
+}//end Create_Spoke_Holes() //************************************************/
+
+
+
+
+function Create_Spoke_Group(ID_, flange, nf, nr, sx, direction, inc_f, wh_type, color) {//****/
+
+	// flange = 1 or 2;  direction =  1 or -1; inc_f = 1 or 2
+	if (flange==1) {var adj = 0} else {var adj = -1}
+	if (Math.floor(nf/2) != nf/2) {adj -= 1}
+	if (direction == -1) {var skip = 1} else {var skip = 0}
+
+	var r_skip = 1;
+
+	if (wh_type != 0) { //##### ####################
+		//var r_skip = 2; 
+
+		//Draw_Spoke(ID_,  2,  1,  1 + 2,  color); //#####
+		//return; //##### #############################
+	}
+
+
+	for (var spoke = 1; spoke <= nf; spoke += inc_f) { 
+		var hole_f = spoke + skip;
+		if (hole_f > nf) {break}
+		
+		var hole_r = hole_f*2 + sx*2*direction + adj + r_skip;
+		if      (hole_r > nr) {hole_r -= nr}
+		else if (hole_r <  1) {hole_r += nr}
+		
+		Draw_Spoke(ID_,  flange,  hole_f,  hole_r,  color);
+	}
+}//end Create_Spoke_Group() {//***********************************************/
+
+
+
+
+function Draw_Spoke(wheel_, flange, flange_hole, rim_hole, color) { //********/
+
+	if (typeof color == "undefined") { color = "black" }
+
+	var group_id = wheel_ + "spokes_L1"; //##### L1 will need to be a parameter //#####
+	var flange_hole_id = wheel_ + 'f' + flange + 'sh_' + flange_hole;
+	var rim_hole_id	= wheel_ + "rsh_" + rim_hole;
+
+	var x1 = E(flange_hole_id).getAttribute('cx');
+	var y1 = E(flange_hole_id).getAttribute('cy');
+
+	var x2 = E(rim_hole_id).getAttribute('cx');
+	var y2 = E(rim_hole_id).getAttribute('cy');
+
+	var style = ' style="stroke:'+color+'"';
+	var spoke = '<line class="WM_spoke" x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" '+style+'/>';
+	E(group_id).innerHTML += spoke;
+}//end Draw_Spoke() //********************************************************/
+
+
+
+
+function Setup_Wheel(ID_, NR, ERD, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, spoke_colors) { /****/
+	
+	var RR  = ERD/2;
+	var RF1 = PCD_1/2;
+	var RF2 = PCD_2/2;
+	
+	if (wh_type ==  0) { var NF1 = NR/2  ; var NF2 = NF1;   }
+	else 			   { var NF1 = NR*2/3; var NF2 = NF1/2; } 
+	
+	if (wh_type == -1) { var T_type = -1 } else { var T_type =  1 }
+	
+	var AR = 360/NR; //Angle between holes in Rim. NEEDED IN ARC MATH LATER
+	var AF = 360/NF1; //ANgle between holes in Flange
+	var A0 = (360/NR) - (360/NF1)/2; //Angle to hole "0"
+
+	var foffset = -AF/2; //##### Offset between left & right hub flange holes. The radial side is "0".
+	var AF1 = SX1 * AF + A0*T_type; //##### 
+
+	var rotate = 0; //-11.25  Rotate whole wheel...
+	
+	//Draw rim & flange circles..
+	E(ID_ + "erd").setAttribute("r", RR);
+	E(ID_ + "pcd_1").setAttribute("r", RF1);
+	E(ID_ + "pcd_2").setAttribute("r", RF2);
+
+	//For odd numbers of spokes & rim holes (21, 27, 30, etc...)
+	if (NR/2 != Math.floor(NR/2)) {var shift = AF} else { var shift = 0 } //##### 
+
+	Create_Spoke_Holes(ID_ + "rim_holes", ID_ + "rsh",  "WM_rsh", "WM_rsh", NR, RR,  RSH, 0);
+	Create_Spoke_Holes(ID_ + "flange_1",  ID_ + "f1sh", "WM_hsh", "WM_hsh", NF1, RF1, RSH, foffset + 0);
+	Create_Spoke_Holes(ID_ + "flange_2",  ID_ + "f2sh", "WM_hsh", "WM_hsh", NF2, RF2, RSH,  + 0); //0 or shift //#####
+
+	//Create_Spoke_Group(ID_, flange, nf, nr, sx, direction, inc_f, wh_type, color)
+	Create_Spoke_Group(ID_, 1, NF1, NR, SX1,  1, 2, wh_type, spoke_colors[1]); 
+	Create_Spoke_Group(ID_, 1, NF1, NR, SX1, -1, 2, wh_type, spoke_colors[2]);
+
+	if (wh_type == 0) { //Standard wheel lacing
+		Create_Spoke_Group(ID_, 2, NF1, NR, SX2,  1, 2, 0, spoke_colors[3]);
+		Create_Spoke_Group(ID_, 2, NF1, NR, SX2, -1, 2, 0, spoke_colors[4]);
+	} else { //Triplet aka 8:16. The 8 spoke side.
+		Create_Spoke_Group(ID_, 2, NF2, NF1,  0,  1, 1, 1, spoke_colors[3]);
+	}
+
+
+	E(ID_ + "desc").innerHTML = desc;
+
+	var view_W = 610; //Width
+	var view_H = 610; //Height
+	var V_offset = (-view_H/2); //Vertical Offset
+	E(ID_ + 'wheel_math').setAttribute('width',  view_W);
+	E(ID_ + 'wheel_math').setAttribute('height', view_H);
+	E(ID_ + 'wheel_math').setAttribute('viewBox', (-view_W/2) + " " + V_offset + " " + view_W + " " + view_H);
+
+	E(ID_ + 'wheel').setAttribute('transform', " rotate(" + rotate + ")");
+}//end Setup_Wheel() /********************************************************/
+
+
+
+
+window.onload = function() {
+
+	var Spoke_Colors = ["", "#A00", "#F66", "#070", "#6B6" ];
+	var Spoke_Colors = ["", "lightskyblue", "#D4cF37", "red", "green" ]; //"none" to hide a group
+  //Setup_Wheel(ID_,   NR, ERD, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, spoke_colors)
+	Setup_Wheel("W1_", 24, 580,   100,   76 ,  2 ,  2 , 1.3,    0   , "Test...", Spoke_Colors);
+	
+	//#####	Log(E('body').innerHTML)
+
+}//end window.onload
+})();</script>
+
+
+
+
+<body id=body>
+<!-------------->
+<style>
+#CONSOLE { display: none; font-family: Courier New; font-size: .8em; border: solid 1px red; max-height: 6rem ; XXXXSX22.75rem; overflow-y: scroll; word-break: break-all; }
+</style>
+<div id=CONSOLE></div>
+<!------------------>
+
+
+
+<svg id="W1_wheel_math" class="WM_svg">
+	<title>Wheel</title>
+	<g id="W1_axes">
+		<line id="W0_x-axis" class="WM_axis"  x1="-305"	y1=   "0"	x2="305"	y2=  "0"/>
+		<line id="W0_y-axis" class="WM_axis"  x1=   "0"	y1="-305"	x2=  "0"	y2="305"/>
+	</g>
+
+	<g id="W1_wheel">
+		<circle id="W1_erd"   class="WM_erd" r=""/>
+		<circle id="W1_pcd_1" class="WM_pcd" r=""/>
+		<circle id="W1_pcd_2" class="WM_pcd" r=""/>
+		<g id="W1_rim_holes"></g>
+		<g id="W1_flange_1"></g>
+		<g id="W1_flange_2"></g>
+		<g id=W1_spokes_L1></g>
+	</g><!-- end id=wheel -->
+
+	<text id="W1_desc" class="WM_text" x="170" y="-285"></text>
+</svg>
+
+
+</body>
