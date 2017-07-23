@@ -5,7 +5,7 @@
 
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.03
+v.beta.04
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -241,7 +241,8 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_typ
 
 	function R_hole(nr, nf, f_hole, d, X, f) {
 		var r_hole = (f_hole + d*X)*nr/nf + f - nr/nf;
-
+		r_hole = Math.floor(r_hole)
+		
 		if (r_hole > nr) {r_hole -= nr;}
 		if (r_hole <  1) {r_hole += nr;}
 		
@@ -252,52 +253,19 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_typ
 		var d = 1;
 		for (var s=1; s <= nf; s+=1) {
 			var r_hole = R_hole(nr, nf, s, d, X, f)
-			Log(s + ", " +r_hole + "; ")
 			Draw_Spoke(ID_,  f,  s,  r_hole ,  "red");
 			if (d==1) {d = -1 } else { d = 1}
 		}
 	}//end Draw_Group()
 
 	//############################################################
-	//Draw_Spoke(ID_,  flange,  hole_f,  hole_r,  color)
 	var r_skip = NR/NF[1]
 	
 	var f = 2
-	var X = 1
+	var X = 2
 
 	Draw_Group(NR, NF[f], X, f );
-	/**************./
-	var d = 1
-	var s = 1;
-	Draw_Spoke(ID_,  f,  s,  R_hole(s, d, X, f) ,  "red");	 s+=1; d=-1;
-	Draw_Spoke(ID_,  f,  s,  R_hole(s, d, X, f) ,  "red");	 s+=1; d=1;
-	Draw_Spoke(ID_,  f,  s,  R_hole(s, d, X, f) ,  "red");	 s+=1; d=-1;
-	Draw_Spoke(ID_,  f,  s,  R_hole(s, d, X, f) ,  "red");	 s+=1; d=1;
-	/**************./
-	Draw_Spoke(ID_,  f,  s,  R_hole(s, d, X, f) ,  "red");	 s+=1; d=-1;
-	Draw_Spoke(ID_,  f,  s,  R_hole(s, d, X, f) ,  "red");	 s+=1; d=1;
-	Draw_Spoke(ID_,  f,  s,  R_hole(s, d, X, f) ,  "red");	 s+=1; d=-1;
-	Draw_Spoke(ID_,  f,  s,  R_hole(s, d, X, f) ,  "red");	 s+=1; d=1;
 
-
-	/**************./
-	var f = 2
-	var X = 2
-	/**************./	
-	var d = 1
-	var s = 3;
-	Draw_Spoke(ID_,  f,  s,  (s + d*X)*2 + f - 2 ,  "red");	 s+=2
-	Draw_Spoke(ID_,  f,  s,  (s + d*X)*2 + f - 2 ,  "red");	 s+=2
-	Draw_Spoke(ID_,  f,  s,  (s + d*X)*2 + f - 2 ,  "red");	 s+=2
-	Draw_Spoke(ID_,  f,  s,  (s + d*X)*2 + f - 2 ,  "red");	 s+=2
-	/**************./
-	var d = -1;
-	var s =  4
-	Draw_Spoke(ID_,  f,  s,  (s + d*X)*2 + f - 2 ,  "#F66");  s+=2
-	Draw_Spoke(ID_,  f,  s,  (s + d*X)*2 + f - 2 ,  "#F66");  s+=2
-	Draw_Spoke(ID_,  f,  s,  (s + d*X)*2 + f - 2 ,  "#F66");  s+=2
-	Draw_Spoke(ID_,  f,  s,  (s + d*X)*2 + f - 2 ,  "#F66");  s+=2
-	/***************/
 	//############################################################
 	
 
@@ -324,7 +292,7 @@ function Onchanges() {
 
 window.onload = function() {
 
-	var DEFAULTS = ["W1_", 580, 24,  8, 12, 76, 100, 1,  2, 2.5, 0, "Testing..."];
+	var DEFAULTS = ["W1_", 580, 24,  8, 16, 76, 100, 1,  2, 2.5, 0, "Testing..."];
 
 	var Spoke_Colors = ["", "#88F", "#BB0", "green",  "red" ]; //"none" to hide a group  //#D4cF37 gold-ish
 	var Spoke_Colors = ["", "#F66", "#A00",  "#070", "#6B6" ];
