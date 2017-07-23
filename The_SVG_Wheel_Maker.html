@@ -5,7 +5,7 @@
 
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.04
+v.beta.05
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -239,9 +239,11 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_typ
 	if (show_spokes[4]) { Create_Spoke_Group(ID_, 2, NF2, NR, SX2, -1, 0, spoke_colors[4]); }
 
 
-	function R_hole(nr, nf, f_hole, d, X, f) {
-		var r_hole = (f_hole + d*X)*nr/nf + f - nr/nf;
-		r_hole = Math.floor(r_hole)
+	function R_hole(nr, nf, f_hole, dd, d, X, f) {
+		var r_hole = (f_hole + dd*X)*nr/nf + f - nr/nf;
+		
+		if (dd == d) { r_hole = Math.round(r_hole) }  //type 1 if (d==1), type 2 if (d==-1)
+		else 		 { r_hole = Math.floor(r_hole) }   // 
 		
 		if (r_hole > nr) {r_hole -= nr;}
 		if (r_hole <  1) {r_hole += nr;}
@@ -249,22 +251,28 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_typ
 		return r_hole;
 	}//end R_hole()
 	
-	function Draw_Group(nr, nf, X, f, d ) {
-		var d = 1;
+	
+	function Draw_Group(nr, nf, X, f, d, wh_type ) {
+		//type 1 starts with d=1, and type 2 with d=1
+		var dd = d;
+
 		for (var s=1; s <= nf; s+=1) {
-			var r_hole = R_hole(nr, nf, s, d, X, f)
+			var r_hole = R_hole(nr, nf, s, dd, d, X, f)
 			Draw_Spoke(ID_,  f,  s,  r_hole ,  "red");
-			if (d==1) {d = -1 } else { d = 1}
+			if (dd==d) {dd = -d } else { dd = d}
 		}
 	}//end Draw_Group()
+
 
 	//############################################################
 	var r_skip = NR/NF[1]
 	
 	var f = 2
 	var X = 2
+	wh_type = 1
 
-	Draw_Group(NR, NF[f], X, f );
+	Draw_Group(NR, NF[f], X, f, -1, wh_type ); //last arg is 1 for type 1, -1 for type 2.
+	//Draw_Group2(NR, NF[f], X, f );
 
 	//############################################################
 	
@@ -292,10 +300,9 @@ function Onchanges() {
 
 window.onload = function() {
 
-	var DEFAULTS = ["W1_", 580, 24,  8, 16, 76, 100, 1,  2, 2.5, 0, "Testing..."];
-
+	var DEFAULTS = ["W1_", 580, 24,  8, 16, 76, 100, 1,  2, 2.5, 1, "Testing..."];
 	var Spoke_Colors = ["", "#88F", "#BB0", "green",  "red" ]; //"none" to hide a group  //#D4cF37 gold-ish
-	var Spoke_Colors = ["", "#F66", "#A00",  "#070", "#6B6" ];
+	var Spoke_Colors = ["", "#F66", "#A00",  "#070", "#6B6" ]; //"none" to hide a group  //#D4cF37 gold-ish
 	var Show_Spokes  = ["",    0  ,    0  ,    0   ,    0   ]; //1 to show, anything else to hide.
   //Setup_Wheel(ID_,   ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, spoke_colors, Show_Spokes)
 	Setup_Wheel(DEFAULTS[0],DEFAULTS[1],DEFAULTS[2],DEFAULTS[3],DEFAULTS[4],DEFAULTS[5],DEFAULTS[6],DEFAULTS[7],DEFAULTS[8],DEFAULTS[9],DEFAULTS[10],DEFAULTS[11],Spoke_Colors,Show_Spokes);
