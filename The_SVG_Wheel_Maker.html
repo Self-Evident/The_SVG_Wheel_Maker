@@ -5,7 +5,7 @@
 
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.05
+v.beta.06
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -95,36 +95,27 @@ function escape_HTML(text) {
 
 
 
-function Create_Spoke_Holes(group, id, class1, class2, N, scale, rsh, offset) {
-	//Create & position N spoke holes in <g id=group>, with radius of rsh
+function Create_Spoke_Holes(group, id, class1, class2, N, scale, shd, offset) {
+	//Create & position N spoke holes in <g id=group>, with radius of shd/2 (shd="spoke hole diameter")
 
-	if (typeof offset == "undefined") { offset = 0 }
-	if (typeof shift  == "undefined") { shift  = 0 }
-
-	//For odd numbers of spokes & rim holes (21, 27, 30, etc...)
-	var A = 360/N;		//angle between holes
-	if (N/2 != Math.floor(N/2)) {var shift = -A/2} else { var shift = 0 }
-	
-	var a  =  shift - offset;	//angle to current hole from 0
-	var cx, cy;			//coordinates for hole
-	var odd = true;		//allows for alternating classes
+	var odd = true;		//for alternating classes
 
 	for (var sh = 1; sh <= N; sh++) {
-		odd = !odd;
 		var full_id = id + '_' + sh;
+		odd = !odd;
 		if (odd) { var class_X = class1 } else { var class_X = class2 }
-		E(group).innerHTML += '<circle id=' + full_id + ' class="' + class_X + '" r="' + rsh + '" cx="0" cy="0" />';
+		E(group).innerHTML += '<circle id=' + full_id + ' class="' + class_X + '" r="' + (shd/2) + '" cx="0" cy="0" />';
 	}
 
 	E(id + "_1").style["fill"] = "red"; //#####
 	
-	Move_Spoke_Holes(group, id, N, scale, rsh, offset)
+	Move_Spoke_Holes(group, id, N, scale, offset); //
 }//end Create_Spoke_Holes() //************************************************/
 
 
 
 
-function Move_Spoke_Holes(group, id, N, scale, rsh, offset) {
+function Move_Spoke_Holes(group, id, N, scale, offset) {
 	if (typeof offset == "undefined") { offset = 0 }
 	if (typeof shift  == "undefined") { shift  = 0 }
 
@@ -144,7 +135,7 @@ function Move_Spoke_Holes(group, id, N, scale, rsh, offset) {
 		E(full_id).setAttribute('cx', cx);
 		E(full_id).setAttribute('cy', cy);
 		
-		a += A; //Spoke hole 1 is first hole at or after 0 degrees.
+		a += A; //Spoke hole 1 is fi rst hole at or after 0 degrees.
 	}
 }//end Move_Spoke_Holes()
 
@@ -173,7 +164,7 @@ function Draw_Spoke(wheel_, flange, flange_hole, rim_hole, color) { //********/
 
 
 
-function Create_Spoke_Group(ID_, flange, nf, nr, sx, direction, wh_type, color) {//****/
+function Create_Spoke_Group(ID_, flange, nf, nr, sx, direction, lace_opt, color) {//****/
 
 	// flange = 1 or 2;  direction =  1 or -1;
 	if (flange==1) { var f_adj = 0 } else { var f_adj = -2 } //#####  -1 or -2
@@ -202,7 +193,7 @@ function Create_Spoke_Group(ID_, flange, nf, nr, sx, direction, wh_type, color) 
 
 
 
-function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, spoke_colors, show_spokes) { /****/
+function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_opt, desc, spoke_colors, show_spokes) { /****/
 
 	var NF = [0, NF1, NF2];
 
@@ -210,7 +201,7 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_typ
 	var RF1 = PCD_1/2;
 	var RF2 = PCD_2/2;
 
-	if (wh_type == -1) { var T_type = -1 } else { var T_type =  1 }
+	if (lace_opt == -1) { var T_type = -1 } else { var T_type =  1 }
 	
 	var AF = 360/NF2; //Angle between holes in Flange //##### ADJUST FOR TRIPLETS? //#####
 	//#####var A0 = (360/NR) - (360/NF2)/2; //Angle to hole "0". Usual 0, except for triplets and the like.
@@ -228,54 +219,16 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_typ
 	//For odd numbers of spokes & rim holes (21, 27, 30, etc...)
 	if (NR/2 != Math.floor(NR/2)) {var shift = AF} else { var shift = 0 } //##### 
 
-	Create_Spoke_Holes(ID_ + "rim_holes", ID_ + "rsh" , "WM_rsh", "WM_rsh", NR , RR , RSH, 0);
-	Create_Spoke_Holes(ID_ + "flange_1",  ID_ + "f1sh", "WM_hsh", "WM_hsh", NF1, RF1, RSH, 0);
-	Create_Spoke_Holes(ID_ + "flange_2",  ID_ + "f2sh", "WM_hsh", "WM_hsh", NF2, RF2, RSH, offset_f);
+	Create_Spoke_Holes(ID_ + "rim_holes", ID_ + "rsh" , "WM_rsh", "WM_rsh", NR , RR , SHD, 0);
+	Create_Spoke_Holes(ID_ + "flange_1",  ID_ + "f1sh", "WM_hsh", "WM_hsh", NF1, RF1, SHD, 0);
+	Create_Spoke_Holes(ID_ + "flange_2",  ID_ + "f2sh", "WM_hsh", "WM_hsh", NF2, RF2, SHD, offset_f);
 
-	//................... Create_Spoke_Group(ID_, f,  nf, nr,  sx,  d, inc_f, wh_type, color)  //f=flange, d=direction
-	if (show_spokes[1]) { Create_Spoke_Group(ID_, 1, NF1, NR, SX1,  1, 0, spoke_colors[1]); }
-	if (show_spokes[2]) { Create_Spoke_Group(ID_, 1, NF1, NR, SX1, -1, 0, spoke_colors[2]); }
-	if (show_spokes[3]) { Create_Spoke_Group(ID_, 2, NF2, NR, SX2,  1, 0, spoke_colors[3]); }
-	if (show_spokes[4]) { Create_Spoke_Group(ID_, 2, NF2, NR, SX2, -1, 0, spoke_colors[4]); }
+	//................... Create_Spoke_Group(ID_, f,  nf, nr,  sx,  d, inc_f, lace_opt, color)  //f=flange, d=direction
+	//##### if (show_spokes[1]) { Create_Spoke_Group(ID_, 1, NF1, NR, SX1,  1, 0, spoke_colors[1]); }
+	//##### if (show_spokes[2]) { Create_Spoke_Group(ID_, 1, NF1, NR, SX1, -1, 0, spoke_colors[2]); }
+	//##### if (show_spokes[3]) { Create_Spoke_Group(ID_, 2, NF2, NR, SX2,  1, 0, spoke_colors[3]); }
+	//##### if (show_spokes[4]) { Create_Spoke_Group(ID_, 2, NF2, NR, SX2, -1, 0, spoke_colors[4]); }
 
-
-	function R_hole(nr, nf, f_hole, dd, d, X, f) {
-		var r_hole = (f_hole + dd*X)*nr/nf + f - nr/nf;
-		
-		if (dd == d) { r_hole = Math.round(r_hole) }  //type 1 if (d==1), type 2 if (d==-1)
-		else 		 { r_hole = Math.floor(r_hole) }   // 
-		
-		if (r_hole > nr) {r_hole -= nr;}
-		if (r_hole <  1) {r_hole += nr;}
-		
-		return r_hole;
-	}//end R_hole()
-	
-	
-	function Draw_Group(nr, nf, X, f, d, wh_type ) {
-		//type 1 starts with d=1, and type 2 with d=1
-		var dd = d;
-
-		for (var s=1; s <= nf; s+=1) {
-			var r_hole = R_hole(nr, nf, s, dd, d, X, f)
-			Draw_Spoke(ID_,  f,  s,  r_hole ,  "red");
-			if (dd==d) {dd = -d } else { dd = d}
-		}
-	}//end Draw_Group()
-
-
-	//############################################################
-	var r_skip = NR/NF[1]
-	
-	var f = 2
-	var X = 2
-	wh_type = 1
-
-	Draw_Group(NR, NF[f], X, f, -1, wh_type ); //last arg is 1 for type 1, -1 for type 2.
-	//Draw_Group2(NR, NF[f], X, f );
-
-	//############################################################
-	
 
 	E(ID_ + "desc").innerHTML = desc;
 
@@ -287,6 +240,61 @@ function Setup_Wheel(ID_, ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_typ
 	E(ID_ + 'wheel_math').setAttribute('viewBox', (-view_W/2) + " " + V_offset + " " + view_W + " " + view_H);
 
 	E(ID_ + 'wheel').setAttribute('transform', " rotate(" + rotate + ")");
+	//####################################################################################
+	
+
+
+	//############################################################
+	function R_hole(nr, nf, f_hole, dd, d, X, f, lace_opt) {
+		
+		if ((nr/nf != 4 && nr/nf != 2) && (d == -1)) { ss = -.5 } else { var ss = 0 }//##### ss = -.5 for triplets, 0 for normal.
+		f_hole += ss
+		
+		var r_hole = (f_hole + dd*X*lace_opt)*nr/nf + f - nr/nf;
+		
+		Log(lace_opt + ":" + d + " | " + f_hole + ":" + r_hole + " ; ")
+		
+		if (dd == d) { r_hole = Math.round(r_hole) }
+		else 		 { r_hole = Math.floor(r_hole) }
+		
+		if (r_hole > nr) {r_hole -= nr;}
+		if (r_hole <  1) {r_hole += nr;}
+		
+		return r_hole;
+	}//end R_hole()
+	
+	
+	function Draw_Group(nr, nf, X, f, d, lace_opt ) {
+		//type 1 starts with d=1, and type 2 with d=1
+		var dd = d;
+		if (d == 1) {var s1 = 1; } else { var s1 = 2; } //odd or even group of spokes
+		
+		for (var s=s1; s <= nf; s+=2) {
+			var r_hole = R_hole(nr, nf, s, dd, d, X, f, lace_opt)
+			Log(s + ":" + r_hole + " ; ", 1) //##### 
+			Draw_Spoke(ID_,  f,  s,  r_hole ,  "red");
+		}
+	}//end Draw_Group()
+
+
+	/*************/
+	var f = 1
+	var X = 0
+	lace_opt = 1
+	Draw_Group(NR, NF[f], X, f, -1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
+	Draw_Group(NR, NF[f], X, f, 1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
+
+	/*************/
+	f = 2
+	X = 1
+	lace_opt = 1
+	Draw_Group(NR, NF[f], X, f, -1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
+	Draw_Group(NR, NF[f], X, f, 1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
+	/*************/
+
+	//Draw_Group(NR, NF[1], 0, 1, 1, lace_opt ); //last arg is 1 for type 1, -1 for type 2.
+	//############################################################
+
 }//end Setup_Wheel() /********************************************************/
 
 
@@ -300,11 +308,11 @@ function Onchanges() {
 
 window.onload = function() {
 
-	var DEFAULTS = ["W1_", 580, 24,  8, 16, 76, 100, 1,  2, 2.5, 1, "Testing..."];
+	var DEFAULTS = ["W1_", 580, 24, 8, 16, 76, 100, 1,  2, 5.6, 1, "Testing..."];
 	var Spoke_Colors = ["", "#88F", "#BB0", "green",  "red" ]; //"none" to hide a group  //#D4cF37 gold-ish
 	var Spoke_Colors = ["", "#F66", "#A00",  "#070", "#6B6" ]; //"none" to hide a group  //#D4cF37 gold-ish
 	var Show_Spokes  = ["",    0  ,    0  ,    0   ,    0   ]; //1 to show, anything else to hide.
-  //Setup_Wheel(ID_,   ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, RSH, wh_type, desc, spoke_colors, Show_Spokes)
+  //Setup_Wheel(ID_,   ERD, NR, NF1, NF2, PCD_1, PCD_2, SX1, SX2, SHD, lace_opt, desc, spoke_colors, Show_Spokes)
 	Setup_Wheel(DEFAULTS[0],DEFAULTS[1],DEFAULTS[2],DEFAULTS[3],DEFAULTS[4],DEFAULTS[5],DEFAULTS[6],DEFAULTS[7],DEFAULTS[8],DEFAULTS[9],DEFAULTS[10],DEFAULTS[11],Spoke_Colors,Show_Spokes);
 	
 	//#####	Log(E('body').innerHTML)
@@ -335,7 +343,7 @@ input {width: 3rem; text-align: center;}
 <tr><td>PCD2:</td><td><input id=PCD2 class=input type=text value=100></td></tr>
 <tr><td>SX1: </td><td><input id=SX1  class=input type=text value=2  ></td></tr>
 <tr><td>SX2: </td><td><input id=SX2  class=input type=text value=2  ></td></tr>
-<tr><td>RSH: </td><td><input id=RSH  class=input type=text value=2.5></td></tr>
+<tr><td>SHD: </td><td><input id=SHD  class=input type=text value=2.5></td></tr>
 </td></tr></table>
 
 
