@@ -5,7 +5,7 @@
 
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.13
+v.beta.14
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -114,8 +114,39 @@ function escape_HTML(text) {
 
 
 
+function scroll_blur(event){
+	//Permit "clearing" focus, and some keyboard navigation while in <input>'s.
+
+	//Normalize the event & which/key/charcode...
+	if (!event) {var event = window.event;} //for IE
+	var event_code = event.which || event.keyCode || event.charCode;
+	
+	var ESC = 27, AU = 38, AD = 40, PU = 33, PD = 34;
+
+	//remove focus from input/select to allow keyboard arrows/pageup/pagedown/etc page scrolling.
+	if (event_code == ESC) { D.activeElement.blur(); return; }
+
+	if (event.target.tagName == "INPUT") {
+		//Arrow down scrolls the page up, towards the bottom of the page, and vice-versa.
+		if      (event_code == AU) { window.scrollBy(0, -38); }
+		else if (event_code == AD) { window.scrollBy(0,  38); }
+		else if (event_code == PU) { window.scrollBy(0,-400); }
+		else if (event_code == PD) { window.scrollBy(0, 400); }
+	}
+}//end scroll_blur()
+
+
+
+
+
 function Create_Spoke_Holes(group, id, class1, class2, N, scale, shd, offset) { //***/
 	//Create & position N spoke holes in <g id=group>, with radius of shd/2 (shd="spoke hole diameter")
+	if (typeof offset == "undefined") { offset = 0 }
+
+	var A = 360/N; //angle between holes
+	
+	var a = offset;	//angle to current hole from 0
+	var cx, cy;		//coordinates for hole
 
 	var odd = true;		//for alternating classes
 
@@ -124,28 +155,7 @@ function Create_Spoke_Holes(group, id, class1, class2, N, scale, shd, offset) { 
 		odd = !odd;
 		if (odd) { var class_X = class1 } else { var class_X = class2 }
 		E(group).innerHTML += '<circle id=' + full_id + ' class="' + class_X + '" r="' + (shd/2) + '" cx="0" cy="0" />';
-	}
 
-	E(id + "_1").style["fill"]	 = "red"; //Spoke 1
-	E(id + "_1").style["stroke"] = "red"; //  "
-	
-	Move_Spoke_Holes(id, N, scale, offset); //
-}//end Create_Spoke_Holes() //*************************************************/
-
-
-
-
-function Move_Spoke_Holes(id, N, scale, offset) { //********************/
-	if (typeof offset == "undefined") { offset = 0 }
-
-	var A = 360/N; //angle between holes
-	
-	var a = offset;	//angle to current hole from 0
-	var cx, cy;		//coordinates for hole
-
-	for (var sh = 1; sh <= N; sh++) {
-		var full_id = id + '_' + sh;
-		
 		cx = Math.round(Math.sin( (a/180) * Math.PI) * scale * 10000)/10000;
 		cy = Math.round(Math.cos( (a/180) * Math.PI) * scale * 10000)/10000;
 		
@@ -154,12 +164,37 @@ function Move_Spoke_Holes(id, N, scale, offset) { //********************/
 		
 		a += A; //Spoke hole 1 is first hole at or after 0 degrees/"6 o'clock".
 	}
-}//end Move_Spoke_Holes() //***************************************************/
+
+	E(id + "_1").style["fill"]	 = "red"; //Spoke 1
+	E(id + "_1").style["stroke"] = "red"; //  "
+	
+}//end Create_Spoke_Holes() //*************************************************/
 
 
 
 
-function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //*********/
+function Calc_Spoke_Lengths(flange, spoke_id) { //*********/
+	//Calculate & display final spoke length.
+	
+	//Get spoke ends
+	var x1 = E(spoke_id).getAttribute('x1');
+	var y1 = E(spoke_id).getAttribute('y1');
+	var x2 = E(spoke_id).getAttribute('x2');
+	var y2 = E(spoke_id).getAttribute('y2');
+	
+	var dx = x2 - x1;
+	var dy = y2 - y1;
+
+	var ftc = E('FTC' + flange).value; //Add in Flange to Center...
+	var S = Math.sqrt(dx*dx + dy*dy + ftc*ftc) - E('SHD').value/2;
+
+	return Math.round(S * 10)/10;
+}//end Calc_Spoke_Lengths() //*************************************************/
+
+
+
+
+function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //**********/
 
 	if (typeof color == "undefined") { color = "black" }
 
@@ -169,36 +204,28 @@ function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //*********/
 
 	var x1 = E(flange_hole_id).getAttribute('cx');
 	var y1 = E(flange_hole_id).getAttribute('cy');
-
 	var x2 = E(rim_hole_id).getAttribute('cx');
 	var y2 = E(rim_hole_id).getAttribute('cy');
 
-	var spoke_id = "WH_s" + flange_hole;
+	var spoke_id = "WH_spoke_" + flange + "_" + flange_hole;
 	var classes = 'WH_spoke WH_group' + group; //ex: 'WH_spoke WH_group1'
-	var coords = ' x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'" ';
+	var coords = ' x1="' + x1 +  '" y1="' + y1 +  '" x2="' + x2 +  '" y2="' + y2 +  '" ';
 	var style = ' style="stroke:'+color+'"';
 
 	var spoke = '<line id="' + spoke_id + '" class="' + classes+ '" ' + coords + style + '/>' + "\n";
 	E(g_id).innerHTML += spoke;
-
-	//##### MAKE SEPERATE FUNCTION SO CHANGE OF SHD DOESN'T REQUIRE COMPLETE RE BUILD_WHEEL(). //#####
+	
 	//Calculate & display final spoke length.
 	if ((flange_hole == 1) || (flange_hole == 2)) {
-		var xd = x2 - x1
-		var yd = y2 - y1
-		var ftc = E('FTC' + flange).value;
-		var S = Math.sqrt(xd*xd + yd*yd + ftc*ftc) - E('SHD').value/2;
-		S = Math.round(S * 10)/10;
-		E('WH_LENGTH' + group).value = S;
+		E('WH_LENGTH' + group).value = Calc_Spoke_Lengths(flange, spoke_id);
 	}
-	
 }//end Draw_Spoke() //*********************************************************/
 
 
 
 
 function Lacing_Option(f) { //*************************************************/
-	/*************************************************************************
+	/*************************************************************************./
 	tl;dr: "It's complicated..."  :)
 
     In a triplet wheel, with a given spoke count & cross, there are two lace patterns possible: "Type 1" and "Type 2"  :)
@@ -219,11 +246,11 @@ function Lacing_Option(f) { //*************************************************/
      NR SX * | NR SX *      NR SX T | NR SX T            * : Modifier (1 or -1)
      --------+--------      --------+--------            T : Triplet Type (T1 or T2)
      E  E  1 | E  E -1      E  E  1 | E  O  1        
-     O  E  1 | O  E -1      O  E  1 | O  O  1         \ | /    | | |
-     E  O -1 | E  O  1      E  O  2 | E  E  2          \|/     | | |   (The "middle spoke" is on the opposite flange.      )
-     0  O -1 | 0  O  1      O  O  2 | O  E  2           X      | | |   (Note: if you "hide" those spokes in the program,   )
-                                                       /|\     | | |   (the pattern is actually opposite of these examples.)
-                                                      Type 1   Type 2
+     O  E  1 | O  E -1      O  E  1 | O  O  1     \ | /    | | |
+     E  O -1 | E  O  1      E  O  2 | E  E  2      \|/     | | |   (The "middle spoke" is on the opposite flange.          )
+     0  O -1 | 0  O  1      O  O  2 | O  E  2       X      | | |   (Note: if you "hide" the opposite spokes in the program,)
+                                                   /|\     | | |   (the pattern is actually opposite of these examples.    )
+                                                  Type 1   Type 2  (So don't do that. :)                                   )
     
     Now, in basic spoke calc math, it's much simpler, because all that matters is spoke cross - we don't care about the voodoo
 	involved in determining matching spoke holes in space.  But here, holes matter. And space.  And time.  I think. I guess.  
@@ -246,7 +273,7 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //************/
 	sx = Math.floor(sx);
 
 	var gn = g1; //Used to toggle between g1 & g2
-	var d = 1; //Direction. ie: leading or trailing spokes.
+	var d  = 1;   //Direction. ie: leading or trailing spokes.
 
 	var r_skip = nr/nf; //Normally 2, but can be 3 (flange 1), then 3/2 (flange 2) for triplets.
 
@@ -281,14 +308,14 @@ function Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, desc, spoke_c
 
 	Clear_Wheel();
 
-	var NF = [0, NF1, NF2]; //#####
+	var NF = [0, NF1, NF2];
 	var SX = [0, SX1, SX2];
 
 	var AF = 360/NF2; //Angle between holes in Flange
 	var offset_f1_f2 = AF/2; //Offset angle between left & right hub flange holes. The radial side is "0".
 							 //##### Issue if triplet entered as 16:8 instead of 8:16...
 							 
-	var rotate = 0 //#####180; //180 rotates wheel so that "spoke 1" is at 12 o'clock.
+	var rotate = 180; //180 rotates wheel so that "spoke 1" is at 12 o'clock.
 
 	//Draw & color rim & flange circles..
 	E('WH_ERD') .setAttribute('r', ERD/2); //ERD & PCD's are "D"iameters, but SVG <circle>'s require radii...
@@ -325,6 +352,8 @@ function Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, desc, spoke_c
 	E('WH_box').setAttribute('viewBox', (-view_W/2) + " " + V_offset + " " + view_W + " " + view_H);
 
 	E('WH_wheel').setAttribute('transform', " rotate(" + rotate + ")");
+
+	//##### Log(E('WH_spokes').innerHTML,1); //##### FOR DEV USE ONLY! REMOVE BEFORE PRODUCTION //#####
 }//end Setup_Wheel() /*********************************************************/
 
 
@@ -343,10 +372,12 @@ function Clear_Wheel() { //****************************************************/
 function Build_Wheel(holes) { //***********************************************/
 
 	function ERROR_NOTICE(what) {
-		var msg = E(what).value + " out of range."
-		msg += " Valid range for " + what + ": 1 to " + MAX[what] + ". ";
-		Log(msg,1, 1);
+		var msg = E(what).value + " out of range.<br>"
+		msg += " Valid range for " + what + ":<br>1 to " + MAX[what] + ". ";
+		E('WH_MESSEGES').innerHTML = msg;
+		E('WH_MESSEGES').style['display'] = "inline-block";
 		E(what).value = DEFAULTS[ERR];
+		alert('tests');
 	}
 
 	var Spoke_Colors	= ["", E('WH_COLOR1').value, E('WH_COLOR2').value,  E('WH_COLOR3').value, E('WH_COLOR4').value ];
@@ -357,7 +388,7 @@ function Build_Wheel(holes) { //***********************************************/
 
 	if ((NR  < 1) || (NR  > MAX['NR' ])) { ERR = 'NR';   ERROR_NOTICE('NR' ); return; }
 	if ((NF1 < 1) || (NF1 > MAX['NF1'])) { ERR = 'NF1';  ERROR_NOTICE('NF1'); return; }
-	if ((NF2 < 1) || (NF1 > MAX['NF2'])) { ERR = 'NF2';  ERROR_NOTICE('NF2'); return; }
+	if ((NF2 < 1) || (NF2 > MAX['NF2'])) { ERR = 'NF2';  ERROR_NOTICE('NF2'); return; }
 
   //Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, desc, Spoke_Colors)
 	Setup_Wheel(
@@ -408,17 +439,24 @@ function Set_Attribute_by_Class(classname, attribute, value) { //**************/
 
 
 function Assign_Onchange_Events() { //*****************************************/
-	E('ERD')	  .onchange = function() { Build_Wheel() }
-	E('NR')		  .onchange = function() { Build_Wheel(this) }
-	E('NF1')	  .onchange = function() { Build_Wheel(this) }
-	E('NF2')	  .onchange = function() { Build_Wheel(this) }
+	E('ERD')	  .onchange = function() { this.value = Math.floor(this.value); Build_Wheel() }
+	E('NR')		  .onchange = function() { this.value = Math.floor(this.value); Build_Wheel(this) }
+	E('NF1')	  .onchange = function() { this.value = Math.floor(this.value); Build_Wheel(this) }
+	E('NF2')	  .onchange = function() { this.value = Math.floor(this.value); Build_Wheel(this) }
 	E('PCD1')	  .onchange = function() { Build_Wheel() }
 	E('PCD2')	  .onchange = function() { Build_Wheel() }
-	E('SX1')	  .onchange = function() { Build_Wheel() }
-	E('SX2')	  .onchange = function() { Build_Wheel() }
+	E('SX1')	  .onchange = function() { this.value = Math.floor(this.value); Build_Wheel() }
+	E('SX2')	  .onchange = function() { this.value = Math.floor(this.value); Build_Wheel() }
 	E('FTC1')	  .onchange = function() { Build_Wheel() }
 	E('FTC2')	  .onchange = function() { Build_Wheel() }
-	E('SHD')	  .onchange = function() { Build_Wheel() } //##### Only really need to recalc final spoke lengths...
+	E('SHD')	  .onchange = function() { 
+		E('WH_LENGTH1').value = Calc_Spoke_Lengths(1, 'WH_spoke_1_1');
+		E('WH_LENGTH2').value = Calc_Spoke_Lengths(1, 'WH_spoke_1_2');
+		E('WH_LENGTH3').value = Calc_Spoke_Lengths(2, 'WH_spoke_2_1');
+		E('WH_LENGTH4').value = Calc_Spoke_Lengths(2, 'WH_spoke_2_2');
+	} // Only need to recalc final spoke lengths. SHD is not considered when creating <line>'s for spokes.
+
+
 	E('LACE_OPT') .onchange = function() { Build_Wheel() }
 
 	E('WH_COLOR1').onchange = function() { Set_Style_by_Class('WH_group1', "stroke", this.value) }
@@ -506,7 +544,7 @@ function WH_Init() { //********************************************************/
 }//end WH_Init() //************************************************************/
 
 
-
+window.addEventListener("keydown", function(event) {scroll_blur(event)} );
 window.addEventListener("load", function(){WH_Init()} );
 //*****************************************************************************/
 })();</script>
@@ -574,13 +612,28 @@ div.WH_settings 	{ padding: 2px 0 }
 	XXXXX_SX22.75rem; 
 	overflow-y: scroll; 
 	word-break: break-all;
-	padding: 0 .5em; }
+	padding: 0 .5em;
+}
+
+
+#WH_MESSEGES {
+	position: absolute;
+	left	: 11rem;
+	top		: 2rem;
+	display : none;
+	border	: solid 2px red;
+	width	: 10rem;
+	font-family: arial;
+	text-align: center;
+	background-color: white;
+}
 </style>
 
 <body id=body>
 
 
 <div id=WH_CONTAINER>
+<div id=WH_MESSEGES></div>
 <div id=WH_left_side>
 
 <table class=WH_settings>
@@ -702,7 +755,7 @@ div.WH_settings 	{ padding: 2px 0 }
 
 
 <!--
-	Consider all raw size & x/y values to be mm, to coorespond directly 
+	Consider all raw size & x/y values to be mm, which coorespond directly 
     to rim, hub, & spoke measurements.
 -->
 <svg id="WH_box" class="WH_svg">
