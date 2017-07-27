@@ -5,7 +5,7 @@
 
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.16
+v.beta.17
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -418,7 +418,7 @@ var AXIS_CLASS			= "WH_axis";
 
 //Consider all raw size & x/y values to be mm,
 //to coorespond directly to rim, hub, & spoke measurements.
-var DEFAULTS = {'':0,
+var DEFAULTS = {
 	'ERD' :577,
 	'NR'  :24,
 	'NF1' :8, 
@@ -455,7 +455,7 @@ var DEFAULTS = {'':0,
 
 //##### ########################################################################
 /*************************************************./
-var DEFAULTS = {'':0, 
+var DEFAULTS = {
 	'ERD' :577,
 	'NR'  :24,
 	'NF1' :8,
@@ -494,7 +494,7 @@ var DEFAULTS = {'':0,
 
 //##### ########################################################################
 /*************************************************./
-var DEFAULTS = {'':0, 
+var DEFAULTS = {
 	'ERD' :0,
 	'NR'  :1,
 	'NF1' :1,
@@ -554,13 +554,7 @@ function Log(something, br, esc) {
 
 //##### ########################################################################
 function escape_HTML(text) {
-  var map = {
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  };
+  var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
 
   return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }//end escape_HTML()
@@ -780,7 +774,7 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //************/
 
 
 
-function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, desc, spoke_colors) { /****/
+function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors) { /****/
 	//While most of this function's parameters could be removed in lieu of accessing <input> values
 	//directly, parameter names are shorter and makes for cleaner reading in the code below.
 
@@ -885,13 +879,13 @@ function Validate_Setting(input) { //*******************************************
 		if ( (NF[1].value*1 + NF[2].value*1) > NR.value*1) {
 			var msg = "Sum of flange holes cannot exceed number of rim holes.<br>";
 			ERROR_NOTICE(id, msg);
-			//return false;
+			return false;
 		}
 		
 	} else if ((id == SX[1].id) || (id == SX[2].id)) {
 		var f = id.substring(2); //get flange (1 or 2)
 		//Long past practical, and the point things repeat or logically break...
-		if (input.value*1 > NF[f].value*1) {
+		if (value > NF[f].value*1) {
 			var msg = "Spoke cross cannot exceed spoke count for flange.";
 			ERROR_NOTICE(id, msg);
 			return false;
@@ -904,6 +898,7 @@ function Validate_Setting(input) { //*******************************************
 		return false;
 	}
 
+	PRIOR_VALUE = value;
 
 	return true;
 }//end Validate_Setting() //***************************************************/
@@ -934,12 +929,11 @@ function Build_Wheel(input) { //***********************************************/
 		if (!Validate_Setting(input)) { return }
 	}
 
-  //Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, desc, Spoke_Colors)
-	Setup_Wheel(
-		ERD.value*1, NR.value*1, NF[1].value*1, NF[2].value*1,
-		PCD[1].value*1, PCD[2].value*1, SX[1].value*1, SX[2].value*1,
-		HOLESIZE.value*1, "Not used?", Spoke_Colors
-	);
+  //Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, Spoke_Colors)
+	Setup_Wheel( ERD.value*1, NR.value*1, NF[1].value*1, NF[2].value*1,
+				 PCD[1].value*1, PCD[2].value*1, SX[1].value*1, SX[2].value*1,
+				 HOLESIZE.value*1, Spoke_Colors
+				);
 }//end Build_Wheel() //********************************************************/
 
 
@@ -994,23 +988,23 @@ function Close_Messege() { //**************************************************/
 function Assign_Input_Events() { //********************************************/
 
 	//Save prior/existing value in case of error in new value.
-	var settings = ['ERD','NR','NF1','NF2','PCD1','PCD2','FTC1','FTC2','OSB1','OSB2','SX1','SX2','SHD'];
+	var settings = [ERD.id, NR.id, NF[1].id, NF[2].id, PCD[1].id, PCD[2].id, FTC[1].id, FTC[2].id, OSB[1].id, OSB[2].id, SX[1].id, SX[2].id, SHD.id];
 	for (var x = 0; x < settings.length; x++) {
 		E(settings[x]).addEventListener("focus", function() { PRIOR_VALUE = this.value } )
 	}
 
 
-	ERD		.addEventListener("change", function() { Build_Wheel(this) } )
-	NR		.addEventListener("change", function() { Build_Wheel(this) } )
-	NF[1]	.addEventListener("change", function() { Build_Wheel(this) } )
-	NF[2]	.addEventListener("change", function() { Build_Wheel(this) } )
-	PCD[1]	.addEventListener("change", function() { Build_Wheel(this) } )
-	PCD[2]	.addEventListener("change", function() { Build_Wheel(this) } )
-	FTC[1]	.addEventListener("change", function() { Build_Wheel(this) } )
-	FTC[2]	.addEventListener("change", function() { Build_Wheel(this) } )
-	SX[1]	.addEventListener("change", function() { Build_Wheel(this) } )
-	SX[2]	.addEventListener("change", function() { Build_Wheel(this) } )
-	WT		.addEventListener("change", function() { Build_Wheel(this) } )
+	ERD   .addEventListener("change", function() { Build_Wheel(this) } )
+	NR    .addEventListener("change", function() { Build_Wheel(this) } )
+	NF[1] .addEventListener("change", function() { Build_Wheel(this) } )
+	NF[2] .addEventListener("change", function() { Build_Wheel(this) } )
+	PCD[1].addEventListener("change", function() { Build_Wheel(this) } )
+	PCD[2].addEventListener("change", function() { Build_Wheel(this) } )
+	FTC[1].addEventListener("change", function() { Build_Wheel(this) } )
+	FTC[2].addEventListener("change", function() { Build_Wheel(this) } )
+	SX[1] .addEventListener("change", function() { Build_Wheel(this) } )
+	SX[2] .addEventListener("change", function() { Build_Wheel(this) } )
+	WT    .addEventListener("change", function() { Build_Wheel(this) } )
 	
 	// Only need to recalc final spoke lengths. OSB & SHD are ignored in calculations for <line> endpoints.
 	OSB[1].addEventListener("change", function() { this.value = parseFloat(this.value); Calc_All_Spoke_Lengths(this) } )
