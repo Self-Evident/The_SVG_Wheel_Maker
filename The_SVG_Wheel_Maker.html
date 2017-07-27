@@ -5,7 +5,7 @@
 
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.15
+v.beta.16
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -49,13 +49,12 @@ body {margin: 0}
 	text-align: center;
 }
 .WH_settings th 	{ text-align: left; padding: 0 3px }
-.WH_settings td 	{ }
 .WH_settings input  { width: 3rem; text-align: center; }
 .WH_settings select { width: 3rem; text-align: center; }
 div.WH_settings 	{ padding: 2px 0 }
 .WH_settings hr 	{ margin: .1em 3px .5em 3px }
 
-#WH_ERD	 { fill: none; stroke: #999; }
+#WH_rim	 { fill: none; stroke: #999; }
 .WH_svg	 { border: solid 0px gray; display: inline-block; margin: auto; }
 .WH_axis { stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; }
 .WH_rsh	 { fill: none; stroke: #777; } /*rim spoke holes*/
@@ -64,7 +63,10 @@ div.WH_settings 	{ padding: 2px 0 }
 .WH_spoke{ fill: none; stroke: #000; stroke-width: 2; }
 .WH_pcd	 { fill: none; stroke: #000; stroke-width: 1; }
 
-.WH_notes {font-siZe: .8rem}
+.WH_notes { font-siZe: .8rem }
+.WH_th1	  { text-decoration: underline;}
+.WH_th2	  { height: 2.2rem; text-decoration: underline;}
+
 
 .WH_lengths {
 	display:inline-block;
@@ -89,7 +91,6 @@ div.WH_settings 	{ padding: 2px 0 }
 	font-size: .8em; 
 	border: solid 1px red;
 	max-height: 40rem ;
-	XXXXX_SX22.75rem; 
 	overflow-y: scroll; 
 	word-break: break-all;
 	padding: 0 .5em;
@@ -116,6 +117,15 @@ div.WH_settings 	{ padding: 2px 0 }
 	top		: 0rem;
 	left	: 10.0rem;
 }
+
+
+#WH_legend {
+	border: solid 1px black;
+	border-collapse: collapse;
+	font-family: arial;
+}
+
+#WH_legend td { padding: .2rem; border: solid 1px #555 }
 </style>
 
 <body id=body>
@@ -153,6 +163,13 @@ div.WH_settings 	{ padding: 2px 0 }
 	</td>
 </tr>
 <tr>
+	<th>OSB:</th>
+	<td>
+		<input id=OSB1 type=text>
+		<input id=OSB2 type=text>
+	</td>
+</tr>
+<tr>
 	<th>X:</th>
 	<td>
 		<input id=SX1  type=text>
@@ -180,11 +197,14 @@ div.WH_settings 	{ padding: 2px 0 }
 <tr><td colspan=3><b>Display Options</b></td></tr>
 <tr><td colspan=3><hr></td></tr>
 <tr><td colspan=3><b><u>Spokes</u></b></td></tr>
-<tr>
+	<!--Spokes displayed width -->
+<tr class=WH_th2><td colspan=3>Size: <input id=WH_SD type=text></td></tr>
+<tr class=WH_th1>
 	<td>Group</td>
 	<td>Color</td>
 	<td>Show?</td>
 </tr>
+<tr class=WH_th2><td colspan=3>Side 1</td></tr>
 <tr>
 	<td>1</td>
 	<td><input id=WH_COLOR1 type=text></td>
@@ -195,6 +215,7 @@ div.WH_settings 	{ padding: 2px 0 }
 	<td><input id=WH_COLOR2 type=text></td>
 	<td><input id=WH_SHOW2  type=checkbox></td>
 </tr>
+<tr class=WH_th2><td colspan=3>Side 2</td></tr>
 <tr>
 	<td>3</td>
 	<td><input id=WH_COLOR3 type=text></td>
@@ -205,12 +226,9 @@ div.WH_settings 	{ padding: 2px 0 }
 	<td><input id=WH_COLOR4 type=text></td>
 	<td><input id=WH_SHOW4  type=checkbox></td>
 </tr>
-	<!--Spoke Diameter-->
-<tr><td colspan=3><br>Size: <input id=WH_SD type=text></td></tr>
-
 <tr><td colspan=3>&nbsp;</td></td>
 <tr><td colspan=3><b><u>Rim &amp; Flange</u></b></td></tr>
-<tr>
+<tr class=WH_th2>
 	<td></td>
 	<td>Color</td>
 	<td>Show?</td>
@@ -245,8 +263,8 @@ div.WH_settings 	{ padding: 2px 0 }
 
 
 <!--
-	Consider all raw size & x/y values to be mm, which coorespond directly 
-    to rim, hub, & spoke measurements.
+	Consider all raw size & x/y values to coorespond directly 
+    to rim, hub, & spoke measurements (mm).
 -->
 <div id=WH_The_SVG>
 <svg id="WH_box" class="WH_svg">
@@ -257,15 +275,15 @@ div.WH_settings 	{ padding: 2px 0 }
 	</g>
 
 	<g id="WH_wheel">
-		<circle id="WH_ERD"  class="WH_erd" r=""/>
-		<circle id="WH_PCD1" class="WH_pcd" r=""/>
-		<circle id="WH_PCD2" class="WH_pcd" r=""/>
+		<circle id="WH_rim"	r=""/>
+		<circle id="WH_flange1" class="WH_pcd" r=""/>
+		<circle id="WH_flange2" class="WH_pcd" r=""/>
 		
 		
 		<g id=WH_Holes_and_Spokes>
 			<g id="WH_rim_holes"></g>
-			<g id="WH_flange_1"></g>
-			<g id="WH_flange_2"></g>
+			<g id="WH_holes_f1"></g>
+			<g id="WH_holes_f2"></g>
 			<g id="WH_spokes"></g>
 		</g>
 	</g><!-- end id=WH_wheel -->
@@ -285,6 +303,18 @@ div.WH_settings 	{ padding: 2px 0 }
 </div><!--//end WH_lengths -->
 
 <div id=CONSOLE></div>
+
+<table id=WH_legend>
+<tr><td>NR</td><td>Number of spoke holes in the rim.</td></tr>
+<tr><td>NF</td><td>Number of spoke holes in the flange. There are two flanges.</td></tr>
+<tr><td>PCD</td><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke holes in the flange. One for each flange</td></tr>
+<tr><td>FtC</td><td>"Flange to Center" distance.  Used in final spoke length calculation only - does't effect display. One for each flange.</td></tr>
+<tr><td>OSB</td><td>"Offset Spoke "Bed". The spoke holes in a rim with an OSB will be "offset" to one side, usualy by only 2 to 5 mm.   Enter a negative number for the side that the holes are closer to (spokes will be a tiny bit shorter); and enter a positive number for the side that the holes are further from (spoke will be a tiny bit longer).
+<tr><td>X</td><td>"Spoke Cross" value.  Number of spokes each spoke crosses on the same side of wheel.  One for each flange.</td></tr>
+<tr><td>SHD</td><td>"Spoke Hole Diameter". Like FtC, this value only affects final spoke length, and not as displayed.</td></tr>
+<table>
+
+
 </div><!--//end WH_CONTAINER -->
 </body>
 
@@ -297,84 +327,212 @@ var D = document;
 function E(id) { return document.getElementById(id); }
 
 var MAX = {'NR':66, 'NF1':66, 'NF2':66 } //At these values, it starts to takes to long to run.
-var PRIOR_FOCUS = "WH_ERD"; //Used to return focus to input that had error.
+var PRIOR_FOCUS = "ERD"; //Used to return focus to input that had error.
 var PRIOR_VALUE = ""; //Used to revert to prior good value on error.
+
+
+
+//Assign all element references here.
+var ERD  = E('ERD');	// Effective Rim Diameter
+var NR   = E('NR');		// Number of holes in the Rim
+var NF	 = [];
+	NF[1]= E('NF1');	// Number of holes in Flange 1
+	NF[2]= E('NF2');	//    "		   "		"	 2
+var PCD  = [];
+	PCD[1] = E('PCD1');	// Pitch Circle Diameter 1
+	PCD[2] = E('PCD2');	// 	 "	   "		"	 2
+var FTC  = [];
+	FTC[1] = E('FTC1');	// Flange-to-Center 1 distance
+	FTC[2] = E('FTC2');	// 	  "			"	2	 "
+var OSB  = [];
+	OSB[1] = E('OSB1');	// Offset Spoke Bed 1 (off center rim)
+	OSB[2] = E('OSB2');	// 	  "			"	2	 "		"
+var SX   = [];
+	SX[1]= E('SX1');	// Spoke Crossing 1
+	SX[2]= E('SX2');	// Spoke Crossing 2
+var SHD  = E('SHD');	// Spoke Hole Diameter. Affects spoke length calcs only.
+var WT   = E('LACE_OPT');// Wheel Type/Lacing Option
+
+var SL	 = [];				//Spoke Lengths
+	SL[1]= E('WH_LENGTH1');	//Flange 1 Group 1 (ie: leading/trailing, heads in/heads out...)
+	SL[2]= E('WH_LENGTH2');	//	  	 2		 2
+	SL[3]= E('WH_LENGTH3');	//		 3		 3
+	SL[4]= E('WH_LENGTH4');	//		 4		 4
+var SG1 = E('WH_SHOW1');// Show spoke group 1  These are mostly for trouble shooting.
+var SG2 = E('WH_SHOW2');// Show spoke group 2			  "				"
+var SG3 = E('WH_SHOW3');// Show spoke group 3			  "				"
+var SG4 = E('WH_SHOW4');// Show spoke group 4			  "				"
+var SD      = E('WH_SD');	// Spoke Line Size / Spoke Diameter. Affects displayed spokes only.
+var SHOW_R  = E('WH_SHOW_R');	// Show Rim circle.
+var SHOW_F1 = E('WH_SHOW_F1');	// Show Flange 1 circle.
+var SHOW_F2 = E('WH_SHOW_F2');	// Show Flange 2 circle.
+var COLOR1 = E('WH_COLOR1');//Spoke group 1 color
+var COLOR2 = E('WH_COLOR2');//Spoke group 2 color
+var COLOR3 = E('WH_COLOR3');//Spoke group 3 color
+var COLOR4 = E('WH_COLOR4');//Spoke group 4 color
+var COLOR_R  = E('WH_COLOR_R'); //
+var COLOR_F1 = E('WH_COLOR_F1');//
+var COLOR_F2 = E('WH_COLOR_F2');//
+var COLOR_AXES = E('WH_COLOR_AXES');//
+var SHOW_AXES  = E('WH_SHOW_AXES'); //
+var HOLESIZE   = E('WH_HOLESIZE');  //
+
+var RIM		= E('WH_rim'); //<circle>
+var FLANGE  = [];
+	FLANGE1	= E('WH_flange1'); //<circle>
+	FLANGE2	= E('WH_flange2'); //<circle>
+
+var SPOKES		  = E('WH_spokes');   //<g> containing all spokes.
+var RIM_HOLES	  = E("WH_rim_holes");//<g> containing rim holes.
+var FLANGE1_HOLES = E("WH_holes_f1"); //<g> containing flange 1 holes.
+var FLANGE2_HOLES = E("WH_holes_f2"); //<g> containing flange 2 holes.
+
+var MESSAGE_BOX = E('WH_MSG_BOX');	 //Container div for msg div & [Close] btn.
+var CLOSE_MSG	= E('WH_CLOSE_MSG'); //[Close] button for error messege box.
+var MESSAGE_DIV = E('WH_MESSEGE');	 //div for actual error messege.
+
+var SVG_WHEEL	= E('WH_box'); //Main <svg> element containing wheel & axes..
+var G_WHEEL		= E('WH_wheel'); //<g> containing just the wheel elements: spokes, holes, rim, & flanges.
+
+var SVG_CONTAINER_DIV = E('WH_The_SVG'); //Used just to read the generated html into the 'CONSOLE'.
+//end assignment of element reference.
+
+
+
+
+//id & class prefixes, etc...
+var SPOKE_ID_PREFIX 	= "WH_spoke_";
+var HUB_HOLE_ID_PREFIX	= "WH_f";	//Hub/flange hole id ex: WH_f1_sh1
+var HUB_HOLE_MESOFIX	= "_sh";	//HUB_HOLE_ID_PREFIX + 1 + HUB_HOLE_MESOFIX + 1
+var RIM_HOLE_ID_PREFIX	= "WH_rsh"; //WH_rsh1, WHrsh2, etc...
+var RIM_HOLE_CLASS		= "WH_rsh";
+var SPOKE_GROUP_PREFIX	= "WH_group"; //WH_group1, ..., WH_group4
+var SPOKE_BASE_CLASS	= "WH_spoke";
+var HUB_HOLE_CLASS		= "WH_hsh";
+var HUB_HOLE_CLASS2		= "WH_hsh";
+var AXIS_CLASS			= "WH_axis";
+
+
+
+
 
 //Consider all raw size & x/y values to be mm,
 //to coorespond directly to rim, hub, & spoke measurements.
 var DEFAULTS = {'':0,
-	'ERD' :577,  // Effective Rim Diameter
-	'NR'  :24, 	 // Number of holes in the Rim
-	'NF1' :8, 	 // Number of holes in Flange1
-	'NF2' :16, 	 // 				   Flange2
-	'PCD1':38.5, // Pitch Circle Diameter 1
-	'PCD2':50.6, // 					  2
-	'FTC1':37.7, // Flanget-to-Center 1 distance
-	'FTC2':17.1, // 				  2
-	'SX1' :0,    // Spoke Crossing 1
-	'SX2' :3, 	 // 			   2
-	'SHD' :2.6,  // Spoke Hole Diameter. Affects spoke length calcs only.
-	'LACE_OPT':0,// Lace Option / Wheel Type
-	'SG1':1,	 // Show spoke group 1  These are mostly for trouble shooting.
-	'SG2':1,	 // Show spoke group 2 			"				"			
-	'SG3':1, 	 // Show spoke group 3 			"				"			
-	'SG4':1, 	 // Show spoke group 4 			"				"			
-	'SD' :2,     // Spoke Diameter/Size. Affects display of spokes only, not calcs.
-	'SHOW_R' :1, // Rim.  SGx (above) & 'SHOW_xxx values can be true/false or 1/0
-	'SHOW_F1':1, // Flange 1
-	'SHOW_F2':1, // Flange 2
-	'COLOR1': '#44F', // SG1 Spoke Group 1
-	'COLOR2': '#77D', // SG2 			 2
-	'COLOR3': '#2B2', // SG3 			 3
-	'COLOR4': '#6D6', // SG4 			 4
-	'COLOR_R' : '#777', // Rim
-	'COLOR_F1': '#AAA', // Flange 1
-	'COLOR_F2': '#777', // Flange 2
+	'ERD' :577,
+	'NR'  :24,
+	'NF1' :8, 
+	'NF2' :16,
+	'PCD1':38.5,
+	'PCD2':50.6,
+	'FTC1':37.7,
+	'FTC2':17.1,
+	'OSB1':'',
+	'OSB2':'',
+	'SX1' :0,    
+	'SX2' :3,
+	'SHD' :2.6,
+	'LACE_OPT':0,
+	'SG1':1,
+	'SG2':1,
+	'SG3':1,
+	'SG4':1,
+	'SD' :2,
+	'SHOW_R' :1, // true/false or 1/0
+	'SHOW_F1':1, // 
+	'SHOW_F2':1, // 
+	'COLOR1': '#44F',
+	'COLOR2': '#77D',
+	'COLOR3': '#2B2',
+	'COLOR4': '#6D6',
+	'COLOR_R' : '#777',
+	'COLOR_F1': '#AAA',
+	'COLOR_F2': '#777',
 	'COLOR_AXES': '#999',
 	'SHOW_AXES': 1, // true/false or 1/0
-	'HOLESIZE' : 4  // Affects displayed size only.
-	};
+	'HOLESIZE' : 4 };
 
 
-//##### ##########################
+//##### ########################################################################
 /*************************************************./
 var DEFAULTS = {'':0, 
-	'ERD' :0,  // Effective Rim Diameter
-	'NR'  :1, 	 // Number of holes in the Rim
-	'NF1' :1, 	 // Number of holes in Flange1
-	'NF2' :1, 	 // 				   Flange2
-	'PCD1':0, // Pitch Circle Diameter 1
-	'PCD2':0, // 					  2
-	'FTC1':0, // Flanget-to-Center 1 distance
-	'FTC2':0, // 				  2
-	'SX1' :0,    // Spoke Crossing 1
-	'SX2' :0, 	 // 			   2
-	'SHD' :0,  // Spoke Hole Diameter. Affects spoke length calcs only.
-	'LACE_OPT':0,// Lace Option / Wheel Type
-	'SG1':1,	 // Show spoke group 1  These are mostly for trouble shooting.
-	'SG2':1,	 // Show spoke group 2 			"				"			
-	'SG3':1, 	 // Show spoke group 3 			"				"			
-	'SG4':1, 	 // Show spoke group 4 			"				"			
-	'SD' :2,     // Spoke Diameter/Size. Affects display of spokes only, not calcs.
-	'SHOW_R' :1, // Rim.  SGx (above) & 'SHOW_xxx values can be true/false or 1/0
-	'SHOW_F1':1, // Flange 1
-	'SHOW_F2':1, // Flange 2
-	'COLOR1': '#44F', // SG1 Spoke Group 1
-	'COLOR2': '#77D', // SG2 			 2
-	'COLOR3': '#2B2', // SG3 			 3
-	'COLOR4': '#6D6', // SG4 			 4
-	'COLOR_R' : '#777', // Rim
-	'COLOR_F1': '#AAA', // Flange 1
-	'COLOR_F2': '#777', // Flange 2
+	'ERD' :577,
+	'NR'  :24,
+	'NF1' :8,
+	'NF2' :16,
+	'PCD1':100,
+	'PCD2':150,
+	'FTC1':37.7,
+	'FTC2':17.1,
+	'SX1' :0,
+	'SX2' :1,
+	'SHD' :2.6,
+	'LACE_OPT':0,
+	'SG1':1,	 // true/false or 1/0
+	'SG2':1,	 //			"
+	'SG3':1,	 //			"
+	'SG4':1,	 //			"
+	'SD' :2,	 //			"
+	'SHOW_R' :1, //			"
+	'SHOW_F1':1, //			"
+	'SHOW_F2':1, //			"
+	'COLOR1': '#44F',
+	'COLOR2': '#77D',
+	'COLOR3': '#2B2',
+	'COLOR4': '#6D6',
+	'COLOR_R' : '#777',
+	'COLOR_F1': '#AAA',
+	'COLOR_F2': '#777',
 	'COLOR_AXES': '#999',
 	'SHOW_AXES': 1, // true/false or 1/0
-	'HOLESIZE' : 4  // Affects displayed size only.
-	};
+	'HOLESIZE' : 4 };
 /*************************************************/
+//##### ########################################################################
 
 
-//##### ###########################################################################
-function Log(something, esc, br) {
+
+
+//##### ########################################################################
+/*************************************************./
+var DEFAULTS = {'':0, 
+	'ERD' :0,
+	'NR'  :1,
+	'NF1' :1,
+	'NF2' :1,
+	'PCD1':40,
+	'PCD2':50,
+	'FTC1':0,
+	'FTC2':0,
+	'SX1' :0,
+	'SX2' :0,
+	'SHD' :2.6,
+	'LACE_OPT':0,
+	'SG1':1,	 // true/false or 1/0
+	'SG2':1,	 //			"
+	'SG3':1,	 //			"
+	'SG4':1,	 //			"
+	'SD' :2,	 //			"
+	'SHOW_R' :1, //			"
+	'SHOW_F1':1, //			"
+	'SHOW_F2':1, //			"
+	'COLOR1': '#44F',
+	'COLOR2': '#77D',
+	'COLOR3': '#2B2',
+	'COLOR4': '#6D6',
+	'COLOR_R' : '#777',
+	'COLOR_F1': '#AAA',
+	'COLOR_F2': '#777',
+	'COLOR_AXES': '#999',
+	'SHOW_AXES': 1, // true/false or 1/0
+	'HOLESIZE' : 4 };
+/*************************************************/
+//##### ########################################################################
+
+
+
+
+//##### ########################################################################
+function Log(something, br, esc) {
 	if (typeof something === 'undefined') {
 		E('CONSOLE').innerHTML = ""
 		E('CONSOLE').style['display'] = "none";
@@ -389,12 +547,12 @@ function Log(something, esc, br) {
 	E('CONSOLE').scrollTop = E('CONSOLE').scrollHeight;
 	E('CONSOLE').style['display'] = "inline-block";
 }//end Log()
-//##### ###########################################################################
+//##### ########################################################################
 
 
 
 
-//##### ###########################################################################
+//##### ########################################################################
 function escape_HTML(text) {
   var map = {
     '&': '&amp;',
@@ -406,12 +564,12 @@ function escape_HTML(text) {
 
   return text.replace(/[&<>"']/g, function(m) { return map[m]; });
 }//end escape_HTML()
-//##### ###########################################################################
+//##### ########################################################################
 
 
 
 
-function scroll_blur(event){
+function scroll_blur(event){ //*************************************************
 	//Permit "clearing" focus, and some keyboard navigation while in <input>'s.
 
 	//Normalize the event & which/key/charcode...
@@ -430,13 +588,13 @@ function scroll_blur(event){
 		else if (event_code == PU) { window.scrollBy(0,-400); }
 		else if (event_code == PD) { window.scrollBy(0, 400); }
 	}
-}//end scroll_blur()
+}//end scroll_blur() //*********************************************************
 
 
 
 
 
-function Create_Spoke_Holes(group, id, class1, class2, N, scale, shd, offset) { //***/
+function Create_Spoke_Holes(hole_group, base_id, class1, class2, N, scale, shd, offset) { //***/
 	//Create & position N spoke holes in <g id=group>, with radius of shd/2 (shd="spoke hole diameter")
 	if (typeof offset == "undefined") { offset = 0 }
 
@@ -448,10 +606,11 @@ function Create_Spoke_Holes(group, id, class1, class2, N, scale, shd, offset) { 
 	var odd = true;		//for alternating classes
 
 	for (var sh = 1; sh <= N; sh++) {
-		var full_id = id + '_' + sh;
+		var full_id = base_id + sh;
+		
 		odd = !odd;
 		if (odd) { var class_X = class1 } else { var class_X = class2 }
-		E(group).innerHTML += '<circle id=' + full_id + ' class="' + class_X + '" r="' + (shd/2) + '" cx="0" cy="0" />';
+		hole_group.innerHTML += '<circle id=' + full_id + ' class="' + class_X + '" r="' + (shd/2) + '" cx="0" cy="0" />';
 
 		cx = Math.round(Math.sin( (a/180) * Math.PI) * scale * 10000)/10000;
 		cy = Math.round(Math.cos( (a/180) * Math.PI) * scale * 10000)/10000;
@@ -462,16 +621,16 @@ function Create_Spoke_Holes(group, id, class1, class2, N, scale, shd, offset) { 
 		a += A; //Spoke hole 1 is first hole at or after 0 degrees/"6 o'clock".
 	}
 
-	E(id + "_1").style["fill"]	 = "red"; //Spoke 1
-	E(id + "_1").style["stroke"] = "red"; //  "
+	E(base_id + "1").style["fill"]   = "red"; //Spoke 1
+	E(base_id + "1").style["stroke"] = "red"; //  "
 	
 }//end Create_Spoke_Holes() //*************************************************/
 
 
 
 
-function Calc_Spoke_Lengths(flange, spoke_id) { //*********/
-	//Calculate & display final spoke length.
+function Calc_Spoke_Length(flange, spoke_id) { //******************************/
+	//Calculate actual spoke length in 3-d space, including flange-to-center measurement..
 	
 	//Get spoke ends
 	var x1 = E(spoke_id).getAttribute('x1');
@@ -482,11 +641,27 @@ function Calc_Spoke_Lengths(flange, spoke_id) { //*********/
 	var dx = x2 - x1;
 	var dy = y2 - y1;
 
-	var ftc = E('FTC' + flange).value; //Add in Flange to Center...
-	var S = Math.sqrt(dx*dx + dy*dy + ftc*ftc) - E('SHD').value/2;
+	var ftc = FTC[flange].value*1; //Add in Flange to Center...
+	var osb = OSB[flange].value*1;  //and OSB...
+	var w = ftc + osb;
+	var S = Math.sqrt(w*w + dx*dx + dy*dy) - SHD.value/2;
 
 	return Math.round(S * 10)/10;
-}//end Calc_Spoke_Lengths() //*************************************************/
+}//end Calc_Spoke_Length() //**************************************************/
+
+
+
+
+function Calc_All_Spoke_Lengths(changed) { //**********************************/
+	//Calc spoke lengths for both sides, leading & trailing spokes.
+	//Yes, currently, leading & trailing spokes are always the same, but they might not be someday! :)
+	//Currently only used by OSB & SHD.
+	if (!Validate_Setting(changed)) { return }
+	SL[1].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_1'); //WH_spoke_(flange)_(hole)
+	SL[2].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_2');
+	SL[3].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_1');
+	SL[4].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_2');
+}//end Calc_All_Spoke_Lengths() //*********************************************/
 
 
 
@@ -495,27 +670,29 @@ function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //**********/
 
 	if (typeof color == "undefined") { color = "black" }
 
-	var g_id = "WH_spokes"; // <g id="WH_spokes"> ...all spokes... </g>
-	var flange_hole_id = "WH_f" + flange + "sh_" + flange_hole;
-	var rim_hole_id	= "WH_rsh_" + rim_hole;
+	var flange_hole_id = HUB_HOLE_ID_PREFIX + flange + HUB_HOLE_MESOFIX + flange_hole;
+	var rim_hole_id	= RIM_HOLE_ID_PREFIX + rim_hole;
 
 	var x1 = E(flange_hole_id).getAttribute('cx');
 	var y1 = E(flange_hole_id).getAttribute('cy');
 	var x2 = E(rim_hole_id).getAttribute('cx');
 	var y2 = E(rim_hole_id).getAttribute('cy');
 
-	var spoke_id = "WH_spoke_" + flange + "_" + flange_hole;
-	var classes = 'WH_spoke WH_group' + group; //ex: 'WH_spoke WH_group1'
+	var spoke_id = SPOKE_ID_PREFIX + flange + "_" + flange_hole;
+	var classes = SPOKE_BASE_CLASS + ' ' + SPOKE_GROUP_PREFIX + group; //ex: 'WH_spoke WH_group1'
 	var coords = ' x1="' + x1 +  '" y1="' + y1 +  '" x2="' + x2 +  '" y2="' + y2 +  '" ';
-	var style = ' style="stroke:'+color+'"';
+	var style = ' style="stroke:' + color + '"';
 
 	var spoke = '<line id="' + spoke_id + '" class="' + classes+ '" ' + coords + style + '/>' + "\n";
-	E(g_id).innerHTML += spoke;
+	SPOKES.innerHTML += spoke;
 	
 	//Calculate & display final spoke length.
 	if ((flange_hole == 1) || (flange_hole == 2)) {
-		E('WH_LENGTH' + group).value = Calc_Spoke_Lengths(flange, spoke_id);
+		SL[group].value = Calc_Spoke_Length(flange, spoke_id);
 	}
+	
+	//##### In case I want to calc ALL spokes.
+	//##### Log(spoke_id + ") " + Calc_Spoke_Length(flange, spoke_id),1) 
 }//end Draw_Spoke() //*********************************************************/
 
 
@@ -546,10 +723,10 @@ function Lacing_Option(f) { //*************************************************/
      --------+--------      --------+--------            T : Triplet Type (T1 or T2)
      E  E  1 | E  E -1      E  E  1 | E  O  1        
      O  E  1 | O  E -1      O  E  1 | O  O  1     \ | /    | | |
-     E  O -1 | E  O  1      E  O  2 | E  E  2      \|/     | | |   (The "middle spoke" is on the opposite flange.          )
-     0  O -1 | 0  O  1      O  O  2 | O  E  2       X      | | |   (Note: if you "hide" the opposite spokes in the program,)
-                                                   /|\     | | |   (the pattern is actually opposite of these examples.    )
-                                                  Type 1   Type 2  (So don't do that. :)                                   )
+     E  O -1 | E  O  1      E  O  2 | E  E  2      \|/     | | |   (The "middle spoke" is on the opposite flange.         )
+     0  O -1 | 0  O  1      O  O  2 | O  E  2       X      | | |  
+                                                   /|\     | | |  
+                                                  Type 1   Type 2 
     
     Now, in basic spoke calc math, it's much simpler, because all that matters is spoke cross - we don't care about the voodoo
 	involved in determining matching spoke holes in space.  But here, holes matter. And space.  And time.  I think. I guess.  
@@ -557,12 +734,9 @@ function Lacing_Option(f) { //*************************************************/
     /*************************************************************************/
 
 
-	var NRE = (E('NR'    ).value/2 == Math.round(E('NR'    ).value/2));  // Even number of rim holes?
-	var SXE = (E('SX' + f).value/2 == Math.round(E('SX' + f).value/2));  // Even Spoke cross?
-	var T1  = (E('LACE_OPT').selectedIndex == 0);						 // Triplet/Lacing Type 1?
-
-	//#####Standard lacings...
-	//#####if (E('NF1').value == E('NF2').value) { return 1 }
+	var NRE = (NR.value/2 == Math.round(NR.value/2));  		// Even number of rim holes?
+	var SXE = (SX[f].value/2 == Math.round(SX[f].value/2)); // Even Spoke cross?
+	var T1  = (WT.selectedIndex == 0);			// Triplet/Lacing Type 1?
 
 	if ( (NRE && SXE && T1) || (!NRE && SXE && T1) || (NRE && !SXE && !T1) || (!NRE && !SXE && !T1) )
 		 { return  1 } 
@@ -580,13 +754,14 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //************/
 
 	var r_skip = nr/nf; //Normally 2, but can be 3 (flange 1), then 3/2 (flange 2) for triplets.
 
-	//Flange 1 hole 1 gets rim hole 1.  Flange 2 hole 1 gets rim hole 2 (generally)...
-	if (f == 2) {var f_skip = r_skip/2} else {var f_skip = 0}
+	//Flange 1 hole 1 aligns to rim hole 1.  Flange 2 hole 1 aligns to rim hole 2 (generally)...
+	if (f == 2) { var f_skip = r_skip/2 } else { var f_skip = 0 }
 
 	for (var h_hole = 1; h_hole <= nf; h_hole += 1) {
 		
 		var r_hole = (h_hole-1 + sx*d*Lacing_Option(f)) * r_skip + 1 + f_skip
-		r_hole = Math.round(r_hole) //I don't like needing this, but can't figure out another way...
+		
+		r_hole = Math.round(r_hole) //Needed for triplets. I don't like it, but can't figure out another way...
 		
 		if (r_hole > nr) {r_hole -= nr;}
 		if (r_hole <  1) {r_hole += nr;}
@@ -598,91 +773,87 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //************/
 	}
 
 
-	Set_Style_by_Class('WH_group' + g1, "stroke-width", E('WH_SD').value);
-	Set_Style_by_Class('WH_group' + g2, "stroke-width", E('WH_SD').value);
+	Set_Style_by_Class( SPOKE_GROUP_PREFIX + g1, "stroke-width", SD.value);
+	Set_Style_by_Class( SPOKE_GROUP_PREFIX + g2, "stroke-width", SD.value);
 }//end Create_Spoke_Groups() //*************************************************/
 
 
 
 
-function Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, desc, spoke_colors) { /****/
+function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, desc, spoke_colors) { /****/
 	//While most of this function's parameters could be removed in lieu of accessing <input> values
 	//directly, parameter names are shorter and makes for cleaner reading in the code below.
 
-	Clear_Wheel();
+	Clear_Wheel(); 
+	
+	//##### Log(); //##### Clear the 'CONSOLE'.
 
-	var NF = [0, NF1, NF2];
-	var SX = [0, SX1, SX2];
-
-	var AF = 360/NF2; //Angle between holes in Flange
+	var AF = 360/nf2; //Angle between holes in Flange
 	var offset_f1_f2 = AF/2; //Offset angle between left & right hub flange holes. The radial side is "0".
-							 //##### Issue if triplet entered as 16:8 instead of 8:16...
 							 
 	var rotate = 180; //180 rotates wheel so that "spoke 1" is at 12 o'clock.
 
 	//Draw & color rim & flange circles..
-	E('WH_ERD') .setAttribute('r', ERD/2); //ERD & PCD's are "D"iameters, but SVG <circle>'s require radii...
-	E('WH_PCD1').setAttribute('r', PCD1/2);//
-	E('WH_PCD2').setAttribute('r', PCD2/2);//
-	E('WH_ERD') .style['stroke'] = E('WH_COLOR_R').value;
-	E('WH_PCD1').style['stroke'] = E('WH_COLOR_F1').value;
-	E('WH_PCD2').style['stroke'] = E('WH_COLOR_F2').value;
+	RIM.setAttribute('r', erd/2); //erd & pcd's are "D"iameters, but SVG <circle>'s require radii...
+	FLANGE1.setAttribute('r', pcd1/2);//
+	FLANGE2.setAttribute('r', pcd2/2);//
+	RIM.style['stroke'] = COLOR_R.value;
+	FLANGE1.style['stroke'] = COLOR_F1.value;
+	FLANGE2.style['stroke'] = COLOR_F2.value;
 
 
-	Create_Spoke_Holes('WH_rim_holes', 'WH_rsh' , 'WH_rsh', 'WH_rsh', NR , ERD/2 , SHD, 0);
-	Create_Spoke_Holes('WH_flange_1' , 'WH_f1sh', 'WH_hsh', 'WH_hsh', NF1, PCD1/2, SHD, 0);
-	Create_Spoke_Holes('WH_flange_2' , 'WH_f2sh', 'WH_hsh', 'WH_hsh', NF2, PCD2/2, SHD, offset_f1_f2);
+	//Create_Spoke_Holes(group        , base_id   , class1  , class2  , N  , scale , shd, offset)
+	var f1_prefix = HUB_HOLE_ID_PREFIX + "1" + HUB_HOLE_MESOFIX;
+	var f2_prefix = HUB_HOLE_ID_PREFIX + "2" + HUB_HOLE_MESOFIX;
+	Create_Spoke_Holes( RIM_HOLES     , RIM_HOLE_ID_PREFIX , RIM_HOLE_CLASS, RIM_HOLE_CLASS, nr , erd/2 , shd, 0);
+	Create_Spoke_Holes( FLANGE1_HOLES , f1_prefix, HUB_HOLE_CLASS, HUB_HOLE_CLASS, nf1, pcd1/2, shd, 0);
+	Create_Spoke_Holes( FLANGE2_HOLES , f2_prefix, HUB_HOLE_CLASS, HUB_HOLE_CLASS, nf2, pcd2/2, shd, offset_f1_f2);
 
 
-	var f = 1; //flange
-	Create_Spoke_Groups(1, 2, NR, NF[f], SX[f], f, spoke_colors)
-
-	var f = 2; //flange
-	Create_Spoke_Groups(3, 4, NR, NF[f], SX[f], f, spoke_colors)
+	Create_Spoke_Groups(1, 2, nr, nf1, sx1, 1, spoke_colors);
+	Create_Spoke_Groups(3, 4, nr, nf2, sx2, 2, spoke_colors);
 
 
-	Show_Hide_Class('WH_group1', E('WH_SHOW1').checked); //Spokes are destroyed & re-created
-	Show_Hide_Class('WH_group2', E('WH_SHOW2').checked); // onchange of most settings.
-	Show_Hide_Class('WH_group3', E('WH_SHOW3').checked); //So, re-set their display state.
-	Show_Hide_Class('WH_group4', E('WH_SHOW4').checked); //
+	Show_Hide_Class( SPOKE_GROUP_PREFIX + '1', SG1.checked); //Spokes are destroyed & re-created
+	Show_Hide_Class( SPOKE_GROUP_PREFIX + '2', SG2.checked); // onchange of most settings.
+	Show_Hide_Class( SPOKE_GROUP_PREFIX + '3', SG3.checked); //So, re-set their display state.
+	Show_Hide_Class( SPOKE_GROUP_PREFIX + '4', SG4.checked); //
 
 
 	var view_W = 610; //Width
 	var view_H = 610; //Height
 	var V_offset = (-view_H/2); //Vertical Offset
-	E('WH_box').setAttribute('width',  view_W);
-	E('WH_box').setAttribute('height', view_H);
-	E('WH_box').setAttribute('viewBox', (-view_W/2) + " " + V_offset + " " + view_W + " " + view_H);
+	SVG_WHEEL.setAttribute('width',  view_W);
+	SVG_WHEEL.setAttribute('height', view_H);
+	SVG_WHEEL.setAttribute('viewBox', (-view_W/2) + " " + V_offset + " " + view_W + " " + view_H);
 
-	E('WH_wheel').setAttribute('transform', " rotate(" + rotate + ")");
+	G_WHEEL.setAttribute('transform', " rotate(" + rotate + ")");
 
-	//##### Log(E('WH_The_SVG').innerHTML,1,1) //##### 
+	//##### Log(SVG_CONTAINER_DIV.innerHTML,1,1) //##### 
 }//end Setup_Wheel() /*********************************************************/
 
 
 
 
 function Clear_Wheel() { //****************************************************/
-		E('WH_rim_holes').innerHTML = "";
-		E('WH_flange_1') .innerHTML = "";
-		E('WH_flange_2') .innerHTML = "";
-		E('WH_spokes')   .innerHTML = "";
+		RIM_HOLES	 .innerHTML = "";
+		FLANGE1_HOLES.innerHTML = "";
+		FLANGE2_HOLES.innerHTML = "";
+		SPOKES		 .innerHTML = "";
 }//end Clear_Wheel() //********************************************************/
 
 
 
 
-function ERROR_NOTICE(what) {//************************************************/
+function ERROR_NOTICE(what, msg) {//************************************************/
+	if (typeof msg == 'undefined') { msg = "" }
 	//what = id of input field that has error/out of range value.
 	PRIOR_FOCUS = what; //So WH_CLOSE_MSG button can return focus to that input.
-	var msg = '"' + E(what).value + '" invalid.<br>'
-	if ((what == 'NR') || (what == 'NF1') || (what == 'NF2')) {
-		msg += " Valid range for NR & NF's:<br>1 to " + MAX[what] + ". ";
-	}
-	E('WH_MESSEGE').innerHTML = msg;
-	E('WH_MSG_BOX').style['visibility'] = "visible";
+	msg = '"' + E(what).value + '" invalid.<br>' + msg;
+	MESSAGE_DIV.innerHTML = msg;
+	MESSAGE_BOX.style['visibility'] = "visible";
 	E(what).value = PRIOR_VALUE; //Prior to change...
-	E('WH_CLOSE_MSG').focus();
+	CLOSE_MSG.focus();
 }//end ERROR_NOTICE() //*******************************************************/
 
 
@@ -690,28 +861,46 @@ function ERROR_NOTICE(what) {//************************************************/
 
 function Validate_Setting(input) { //*******************************************/
 
-	//Check if "cleaned" value (after parseint & floor from onchange events) has really changed.
+	var id = input.id
+	var value = input.value * 1;
+
+	//Check if basic "cleaned" value  from Build_Wheel() has really changed.
 	if (input && (input.value == PRIOR_VALUE)) { return false }
 
-	//A few basic checks
-	if ((input.id == 'NR') || (input.id == 'NF1') || (input.id == 'NF2')) {
-		if ((input.value < 1) || (input.value > MAX[input.id]) || isNaN(parseInt(input.value))	)
+
+	if ((id == NR.id) || (id == NF[1].id) || (id == NF[2].id)) {
+		if ((value < 1) || (value > MAX[id]))
 		{
-			ERROR_NOTICE(input.id);
+			var msg = "Valid range for NR & NF's:<br>1 to " + MAX[id] + ".<br>";
+			ERROR_NOTICE(id, msg);
 			return false;
 		}
-	} else if ((input.id == 'SX1') || (input.id == 'SX2')) {
-		var f = input.id.substring(2); //get flange (1 or 2)
+		
+		if ( false && NF[1].value*1 > NF[2].value*1) {
+			var msg = "NF1 must be less than or equal to NF2.<br>";
+			ERROR_NOTICE(id, msg);
+			return false;
+		}
+
+		if ( (NF[1].value*1 + NF[2].value*1) > NR.value*1) {
+			var msg = "Sum of flange holes cannot exceed number of rim holes.<br>";
+			ERROR_NOTICE(id, msg);
+			//return false;
+		}
+		
+	} else if ((id == SX[1].id) || (id == SX[2].id)) {
+		var f = id.substring(2); //get flange (1 or 2)
 		//Long past practical, and the point things repeat or logically break...
-		if (input.value*1 > E("NF" + f).value*1) {
-			ERROR_NOTICE(input.id);
+		if (input.value*1 > NF[f].value*1) {
+			var msg = "Spoke cross cannot exceed spoke count for flange.";
+			ERROR_NOTICE(id, msg);
 			return false;
 		}
 	}
 
 
-	if (isNaN(input.value)) {
-		ERROR_NOTICE(input.id);
+	if (isNaN(value)) {
+		ERROR_NOTICE(id);
 		return false;
 	}
 
@@ -724,19 +913,32 @@ function Validate_Setting(input) { //*******************************************
 
 function Build_Wheel(input) { //***********************************************/
 
-	var Spoke_Colors	= ["", E('WH_COLOR1').value, E('WH_COLOR2').value,  E('WH_COLOR3').value, E('WH_COLOR4').value ];
+	var Spoke_Colors	= ["", COLOR1.value, COLOR2.value,  COLOR3.value, COLOR4.value ];
 
-	//Check if "cleaned" value (after parseint & floor from onchange events) has really changed.
-	if (input && input.value == PRIOR_VALUE) { return }
-	
-	if ( input ) { if (!Validate_Setting(input)) { return } }
-	
+	if ( input ) { 
+		var id = input.id;
+		
+		//These must be integers
+		if ( (id == ERD.id)   || (id == NR.id) || (id == NF[1].id) || (id == NF[2].id) || 
+			 (id == SX[1].id) || (id == SX[2].id) ) {
+			input.value = Math.abs( Math.floor( parseInt(input.value) ) );
+		}
+		
+		//These can be floats.
+		if ( (id == PCD[1].id) || (id == PCD[2].id) || 
+			 (id == FTC[1].id) || (id == FTC[2].id) )
+		{
+			input.value = Math.abs(parseFloat(input.value));
+		}
+		
+		if (!Validate_Setting(input)) { return }
+	}
 
   //Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, desc, Spoke_Colors)
 	Setup_Wheel(
-		E('ERD').value*1, E('NR').value*1, E('NF1').value*1, E('NF2').value*1,
-		E('PCD1').value*1, E('PCD2').value*1, E('SX1').value*1, E('SX2').value*1,
-		E('WH_HOLESIZE').value*1, "Not used?", Spoke_Colors
+		ERD.value*1, NR.value*1, NF[1].value*1, NF[2].value*1,
+		PCD[1].value*1, PCD[2].value*1, SX[1].value*1, SX[2].value*1,
+		HOLESIZE.value*1, "Not used?", Spoke_Colors
 	);
 }//end Build_Wheel() //********************************************************/
 
@@ -756,9 +958,9 @@ function Show_Hide_Class(classname, show) { //*********************************/
 
 
 
-function Show_Hide(id, show) { //**********************************************/
-	if (show) { E(id).style['display'] = ""     }
-	else 	  { E(id).style['display'] = "none" }
+function Show_Hide(what, show) { //**********************************************/
+	if (show) { what.style['display'] = ""     }
+	else 	  { what.style['display'] = "none" }
 }//end Show_Hide() //**********************************************************/
 
 
@@ -780,78 +982,78 @@ function Set_Attribute_by_Class(classname, attribute, value) { //**************/
 
 
 
+function Close_Messege() { //**************************************************/
+	MESSAGE_BOX.style['visibility'] = "hidden";
+	MESSAGE_DIV.innerHTML = "";
+	E(PRIOR_FOCUS).focus();
+}//end Close_Messege() { //****************************************************/
+
+
+
+
 function Assign_Input_Events() { //********************************************/
 
-	//Save prior value in case of error in new value.
-	var settings = ['ERD','NR','NF1','NF2','PCD1','PCD2','FTC1','FTC2','SX1','SX2','SHD'];
-	for (var x = 0; x <settings.length; x++) {
-		E(settings[x]).onfocus = function() { PRIOR_VALUE = this.value }
+	//Save prior/existing value in case of error in new value.
+	var settings = ['ERD','NR','NF1','NF2','PCD1','PCD2','FTC1','FTC2','OSB1','OSB2','SX1','SX2','SHD'];
+	for (var x = 0; x < settings.length; x++) {
+		E(settings[x]).addEventListener("focus", function() { PRIOR_VALUE = this.value } )
 	}
 
 
-	E('ERD') .onchange = function() { this.value = Math.abs(Math.floor(parseInt(this.value))); Build_Wheel(this) }
-	E('NR')	 .onchange = function() { this.value = Math.abs(Math.floor(parseInt(this.value))); Build_Wheel(this) }
-	E('NF1') .onchange = function() { this.value = Math.abs(Math.floor(parseInt(this.value))); Build_Wheel(this) }
-	E('NF2') .onchange = function() { this.value = Math.abs(Math.floor(parseInt(this.value))); Build_Wheel(this) }
-	E('PCD1').onchange = function() { this.value = Math.abs(parseFloat(this.value)); Build_Wheel(this) }
-	E('PCD2').onchange = function() { this.value = Math.abs(parseFloat(this.value)); Build_Wheel(this) }
-	E('FTC1').onchange = function() { this.value = Math.abs(parseFloat(this.value)); Build_Wheel(this) }
-	E('FTC2').onchange = function() { this.value = Math.abs(parseFloat(this.value)); Build_Wheel(this) }
-	E('SX1') .onchange = function() { this.value = Math.abs(Math.floor(this.value)); Build_Wheel(this) }
-	E('SX2') .onchange = function() { this.value = Math.abs(Math.floor(this.value)); Build_Wheel(this) }
-
-	// Only need to recalc final spoke lengths. SHD is ignored in display calculations for <line>'s
-	E('SHD').onchange = function() { 
-		this.value = Math.abs(parseFloat(this.value));
-		if (!Validate_Setting(this)) { return }
-		E('WH_LENGTH1').value = Calc_Spoke_Lengths(1, 'WH_spoke_1_1'); //WH_spoke_(flange)_(hole)
-		E('WH_LENGTH2').value = Calc_Spoke_Lengths(1, 'WH_spoke_1_2');
-		E('WH_LENGTH3').value = Calc_Spoke_Lengths(2, 'WH_spoke_2_1');
-		E('WH_LENGTH4').value = Calc_Spoke_Lengths(2, 'WH_spoke_2_2');
-	}
-
-
-	E('LACE_OPT') .onchange = function() { Build_Wheel() }
-
-	E('WH_COLOR1').onchange = function() { Set_Style_by_Class('WH_group1', "stroke", this.value) }
-	E('WH_COLOR2').onchange = function() { Set_Style_by_Class('WH_group2', "stroke", this.value) }
-	E('WH_COLOR3').onchange = function() { Set_Style_by_Class('WH_group3', "stroke", this.value) }
-	E('WH_COLOR4').onchange = function() { Set_Style_by_Class('WH_group4', "stroke", this.value) }
-	E('WH_SHOW1') .onchange = function() { Show_Hide_Class('WH_group1', this.checked) }
-	E('WH_SHOW2') .onchange = function() { Show_Hide_Class('WH_group2', this.checked) }
-	E('WH_SHOW3') .onchange = function() { Show_Hide_Class('WH_group3', this.checked) }
-	E('WH_SHOW4') .onchange = function() { Show_Hide_Class('WH_group4', this.checked) }
+	ERD		.addEventListener("change", function() { Build_Wheel(this) } )
+	NR		.addEventListener("change", function() { Build_Wheel(this) } )
+	NF[1]	.addEventListener("change", function() { Build_Wheel(this) } )
+	NF[2]	.addEventListener("change", function() { Build_Wheel(this) } )
+	PCD[1]	.addEventListener("change", function() { Build_Wheel(this) } )
+	PCD[2]	.addEventListener("change", function() { Build_Wheel(this) } )
+	FTC[1]	.addEventListener("change", function() { Build_Wheel(this) } )
+	FTC[2]	.addEventListener("change", function() { Build_Wheel(this) } )
+	SX[1]	.addEventListener("change", function() { Build_Wheel(this) } )
+	SX[2]	.addEventListener("change", function() { Build_Wheel(this) } )
+	WT		.addEventListener("change", function() { Build_Wheel(this) } )
 	
-	E('WH_SD') .onchange = function() { //Spoke Diameter, or Size. Affects display of spokes only (not calcs).
+	// Only need to recalc final spoke lengths. OSB & SHD are ignored in calculations for <line> endpoints.
+	OSB[1].addEventListener("change", function() { this.value = parseFloat(this.value); Calc_All_Spoke_Lengths(this) } )
+	OSB[2].addEventListener("change", function() { this.value = parseFloat(this.value); Calc_All_Spoke_Lengths(this) } )
+	SHD   .addEventListener("change", function() { this.value = Math.abs(parseFloat(this.value)); Calc_All_Spoke_Lengths(this) } )
+
+	COLOR1.addEventListener("change", function() { Set_Style_by_Class( SPOKE_GROUP_PREFIX + '1', "stroke", this.value) } )
+	COLOR2.addEventListener("change", function() { Set_Style_by_Class( SPOKE_GROUP_PREFIX + '2', "stroke", this.value) } )
+	COLOR3.addEventListener("change", function() { Set_Style_by_Class( SPOKE_GROUP_PREFIX + '3', "stroke", this.value) } )
+	COLOR4.addEventListener("change", function() { Set_Style_by_Class( SPOKE_GROUP_PREFIX + '4', "stroke", this.value) } )
+
+	SG1.addEventListener("change", function() { Show_Hide_Class( SPOKE_GROUP_PREFIX + '1', this.checked) } )
+	SG2.addEventListener("change", function() { Show_Hide_Class( SPOKE_GROUP_PREFIX + '2', this.checked) } )
+	SG3.addEventListener("change", function() { Show_Hide_Class( SPOKE_GROUP_PREFIX + '3', this.checked) } )
+	SG4.addEventListener("change", function() { Show_Hide_Class( SPOKE_GROUP_PREFIX + '4', this.checked) } )
+
+	//Spoke size (width). Affects display of spokes only (not calcs).
+	SD.addEventListener("change", function() { 
 		for (var group=1; group <= 4; group++) {
-			Set_Style_by_Class('WH_group' + group , "stroke-width", this.value);
+			Set_Style_by_Class( SPOKE_GROUP_PREFIX + group , "stroke-width", this.value);
 		}
-	}
+	})
 
-	E('WH_COLOR_R') .onchange = function() { E('WH_ERD') .style['stroke'] = this.value }
-	E('WH_COLOR_F1').onchange = function() { E('WH_PCD1').style['stroke'] = this.value }
-	E('WH_COLOR_F2').onchange = function() { E('WH_PCD2').style['stroke'] = this.value }
-	E('WH_SHOW_R')  .onchange = function() { Show_Hide('WH_ERD',  this.checked) }
-	E('WH_SHOW_F1') .onchange = function() { Show_Hide('WH_PCD1', this.checked) }
-	E('WH_SHOW_F2') .onchange = function() { Show_Hide('WH_PCD2', this.checked) }
+	COLOR_R .addEventListener("change", function() { RIM	.style['stroke'] = this.value } )
+	COLOR_F1.addEventListener("change", function() { FLANGE1.style['stroke'] = this.value } )
+	COLOR_F2.addEventListener("change", function() { FLANGE2.style['stroke'] = this.value } )
 
-	E('WH_COLOR_AXES').onchange = function() { Set_Style_by_Class('WH_axis', "stroke", this.value) }
-	E('WH_SHOW_AXES').onchange = function() { Show_Hide_Class('WH_axis', this.checked); }
+	SHOW_R .addEventListener("change", function() { Show_Hide(RIM    , this.checked) } )
+	SHOW_F1.addEventListener("change", function() { Show_Hide(FLANGE1, this.checked) } )
+	SHOW_F2.addEventListener("change", function() { Show_Hide(FLANGE2, this.checked) } )
 
-	E('WH_HOLESIZE') .onchange = function() {
+	COLOR_AXES.addEventListener("change", function() { Set_Style_by_Class( AXIS_CLASS, "stroke", this.value ) } )
+	SHOW_AXES .addEventListener("change", function() { Show_Hide_Class( AXIS_CLASS, this.checked ) } )
+
+	HOLESIZE.addEventListener("change", function() {
 		//set *radius* of holes (this.value/2)
-		Set_Attribute_by_Class('WH_rsh', 'r', this.value/2)
-		Set_Attribute_by_Class('WH_hsh', 'r', this.value/2)
-	}
+		Set_Attribute_by_Class( RIM_HOLE_CLASS, 'r', this.value/2)
+		Set_Attribute_by_Class( HUB_HOLE_CLASS, 'r', this.value/2)
+	} )
 
-	//Assign both onblur & onclick same function...
-	E('WH_CLOSE_MSG').onblur  =
-	E('WH_CLOSE_MSG').onclick = function() {
-		E('WH_MSG_BOX').style['visibility'] = "hidden";
-		E('WH_MESSEGE').innerHTML = "";
-		E(PRIOR_FOCUS).focus();
-	}
 
+	CLOSE_MSG.addEventListener("blur" , function() { Close_Messege() } )
+	CLOSE_MSG.addEventListener("click", function() { Close_Messege() } )
 }//end Assign_Input_Events() //************************************************/
 
 
@@ -859,42 +1061,43 @@ function Assign_Input_Events() { //********************************************/
 
 function WH_Init() { //********************************************************/
 	//Load default values.
-	E('ERD') .value = DEFAULTS['ERD'];
-	E('NR')  .value = DEFAULTS['NR'];
-	E('NF1') .value = DEFAULTS['NF1'];
-	E('NF2') .value = DEFAULTS['NF2'];
-	E('PCD1').value = DEFAULTS['PCD1'];
-	E('PCD2').value = DEFAULTS['PCD2'];
-	E('FTC1').value = DEFAULTS['FTC1'];
-	E('FTC2').value = DEFAULTS['FTC2'];
-	E('SX1') .value = DEFAULTS['SX1'];
-	E('SX2') .value = DEFAULTS['SX2'];
-	E('SHD') .value = DEFAULTS['SHD']; //Affects spoke length calcs only.
-	E('LACE_OPT').selectedIndex = DEFAULTS['LACE_OPT'];	 //The index (0 or 1) is used in Lacing_Option().
+	ERD   .value = DEFAULTS['ERD'];
+	NR    .value = DEFAULTS['NR'];
+	NF[1] .value = DEFAULTS['NF1'];
+	NF[2] .value = DEFAULTS['NF2'];
+	PCD[1].value = DEFAULTS['PCD1'];
+	PCD[2].value = DEFAULTS['PCD2'];
+	FTC[1].value = DEFAULTS['FTC1'];
+	FTC[2].value = DEFAULTS['FTC2'];
+	SX[1] .value = DEFAULTS['SX1'];
+	SX[2] .value = DEFAULTS['SX2'];
+	SHD   .value = DEFAULTS['SHD']; //Affects spoke length calcs only.
+
+	WT.selectedIndex = DEFAULTS['LACE_OPT'];	 //The index (0 or 1) is used in Lacing_Option().
 	
-	E('WH_COLOR1').value   = DEFAULTS['COLOR1'];
-	E('WH_COLOR2').value   = DEFAULTS['COLOR2'];
-	E('WH_COLOR3').value   = DEFAULTS['COLOR3'];
-	E('WH_COLOR4').value   = DEFAULTS['COLOR4'];
-	E('WH_SHOW1') .checked = DEFAULTS['SG1'];
-	E('WH_SHOW2') .checked = DEFAULTS['SG2'];
-	E('WH_SHOW3') .checked = DEFAULTS['SG3'];
-	E('WH_SHOW4') .checked = DEFAULTS['SG4'];
-	E('WH_SD')    .value   = DEFAULTS['SD']; //Spoke Diameter, or Size. Affects display of spokes only (not calcs).
+	COLOR1.value = DEFAULTS['COLOR1'];
+	COLOR2.value = DEFAULTS['COLOR2'];
+	COLOR3.value = DEFAULTS['COLOR3'];
+	COLOR4.value = DEFAULTS['COLOR4'];
+	SG1 .checked = DEFAULTS['SG1'];
+	SG2 .checked = DEFAULTS['SG2'];
+	SG3 .checked = DEFAULTS['SG3'];
+	SG4 .checked = DEFAULTS['SG4'];
+	SD  .value   = DEFAULTS['SD']; //Spoke Diameter, or Size. Affects display of spokes only (not calcs).
 
-	E('WH_COLOR_R') .value   = DEFAULTS['COLOR_R'];
-	E('WH_COLOR_F1').value   = DEFAULTS['COLOR_F1'];
-	E('WH_COLOR_F2').value   = DEFAULTS['COLOR_F2'];
-	E('WH_SHOW_R')  .checked = DEFAULTS['SHOW_R'];
-	E('WH_SHOW_F1') .checked = DEFAULTS['SHOW_F1'];
-	E('WH_SHOW_F2') .checked = DEFAULTS['SHOW_F2'];
+	COLOR_R .value   = DEFAULTS['COLOR_R'];
+	COLOR_F1.value   = DEFAULTS['COLOR_F1'];
+	COLOR_F2.value   = DEFAULTS['COLOR_F2'];
+	SHOW_R  .checked = DEFAULTS['SHOW_R'];
+	SHOW_F1 .checked = DEFAULTS['SHOW_F1'];
+	SHOW_F2 .checked = DEFAULTS['SHOW_F2'];
 
-	E('WH_COLOR_AXES').value   = DEFAULTS['COLOR_AXES'];
-	E('WH_SHOW_AXES') .checked = DEFAULTS['SHOW_AXES'];
-	E('WH_HOLESIZE')  .value   = DEFAULTS['HOLESIZE']; //Affects displed size only.
+	COLOR_AXES.value   = DEFAULTS['COLOR_AXES'];
+	SHOW_AXES .checked = DEFAULTS['SHOW_AXES'];
+	HOLESIZE  .value   = DEFAULTS['HOLESIZE']; //Affects displayed size only.
 
-	E('LACE_OPT').options[0].value = 1;  //The option values (1 or -1) are used in the 
-	E('LACE_OPT').options[1].value = -1; // spoke length calculations. DO NOT CHANGE 
+	WT.options[0].value = 1;  //The option values (1 or -1) are used in the 
+	WT.options[1].value = -1; // spoke length calculations. DO NOT CHANGE 
 	//end Loading default values
 
 
@@ -902,11 +1105,11 @@ function WH_Init() { //********************************************************/
 
 	Build_Wheel();
 
-	E('ERD').focus();
+	ERD.focus();
 }//end WH_Init() //************************************************************/
 
 
-window.addEventListener("keydown", function(event) {scroll_blur(event)} );
+document.addEventListener("keydown", function(event) {scroll_blur(event)} );
 window.addEventListener("load", function(){WH_Init()} );
 //*****************************************************************************/
 })();</script>
