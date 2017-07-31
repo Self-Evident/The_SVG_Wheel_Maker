@@ -5,7 +5,7 @@
 
 <!--=========================================================================..>
 The SVG Wheel Maker
-v.beta.18
+v.beta.19
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -49,14 +49,14 @@ body {margin: 0}
 	text-align: center;
 }
 
-.WH_settings td { vertical-align: top; padding: 2px 0 2px 0; XXXXX-border: solid 1px red } /*//##### */
+.WH_settings td { vertical-align: top; padding: 2px 0 2px 0; border: 0; }
 
-.WH_settings .WH_thv 	{ text-align: left; padding: 0 0 0 3px; width: 3.2rem; font-weight: bold; }
-.WH_settings input  { width: 3.2rem; text-align: center; font: 1rem courier; }
-.WH_settings select { width: 3rem; text-align: center; }
-div.WH_settings 	{ padding: 2px 0 }
-.WH_settings hr 	{ margin: .1rem 3px .5rem 3px }
-.WH_separator		{ padding: 0; height: .5rem; }
+.WH_settings .WH_thv { text-align: left; padding: 0 0 0 3px; width: 3.2rem; font-weight: bold; }
+.WH_settings input   { width: 3.2rem; text-align: center; font: 1rem courier; }
+.WH_settings select  { width: 3rem; text-align: center; }
+div.WH_settings 	 { padding: 2px 0 }
+.WH_settings hr 	 { margin: .1rem 3px .5rem 3px }
+.WH_separator		 { padding: 0; height: .5rem; }
 
 #WH_rim	 { fill: none; stroke: #999; }
 .WH_svg	 { border: solid 0px gray; display: inline-block; margin: auto; }
@@ -132,7 +132,7 @@ div.WH_settings 	{ padding: 2px 0 }
 }
 </style>
 
-<body id=body>
+
 
 
 <div id=WH_CONTAINER>
@@ -143,57 +143,57 @@ div.WH_settings 	{ padding: 2px 0 }
 <table class=WH_settings>
 <tr><th colspan=2>Wheel Settings</th></tr>
 <tr><td colspan=2><hr></td></tr>
-<tr><td class=WH_thv>ERD:</td><td><input id=ERD  type=text value=580></td></tr>
-<tr><td class=WH_thv>N<sub>R</sub>:</td><td><input id=NR   type=text value=24 ></td></tr>
+<tr><td class=WH_thv>ERD:</td><td><input id=WH_ERD type=text></td></tr>
+<tr><td class=WH_thv>N<sub>R</sub>:</td><td><input id=WH_NR type=text></td></tr>
 <tr>
 	<td class=WH_thv>N<sub>F</sub>:</td>
 	<td>
-		<input id=NF1  type=text>
-		<input id=NF2  type=text>
+		<input id=WH_NF1 type=text>
+		<input id=WH_NF2 type=text>
 	</td>
 </tr>
 <tr>
 	<td class=WH_thv>PCD:</td>
 	<td>
-		<input id=PCD1 type=text>
-		<input id=PCD2 type=text>
+		<input id=WH_PCD1 type=text>
+		<input id=WH_PCD2 type=text>
 	</td>
 </tr>
 <tr>
 	<td class=WH_thv>FtC:</td>
 	<td>
-		<input id=FTC1 type=text>
-		<input id=FTC2 type=text>
+		<input id=WH_FTC1 type=text>
+		<input id=WH_FTC2 type=text>
 	</td>
 </tr>
 <tr>
 	<td class=WH_thv>OSB:</td>
 	<td>
-		<input id=OSB1 type=text>
-		<input id=OSB2 type=text>
+		<input id=WH_OSB1 type=text>
+		<input id=WH_OSB2 type=text>
 	</td>
 </tr>
 <tr>
 	<td class=WH_thv>X:</td>
 	<td>
-		<input id=SX1  type=text>
-		<input id=SX2  type=text>
+		<input id=WH_SX1  type=text>
+		<input id=WH_SX2  type=text>
 	</td>
 </tr>
 <tr>
 	<td class=WH_thv>SHD:</td>
-	<td><input id=SHD  type=text></td>
+	<td><input id=WH_SHD  type=text></td>
 </tr>
 <tr><td colspan=2 class=WH_notes>(SHD affects Spoke Length Calcs only.)<br><br></td></tr>
 <tr>
 	<td class=WH_thv colspan=2>Lace Option:
-		<select id=LACE_OPT name=LACE_OPT>
+		<select id=WH_LACE_OPT name=LACE_OPT>
 			<option value= 1>1&nbsp;</option>
 			<option value=-1>2&nbsp;</option>
 		</select>
 	</td>
 </tr>
-<tr class=WH_separator><td colspan=3></td></td>
+<tr class=WH_separator><td colspan=2></td></tr>
 </table><!--//end Wheel Settings -->
 
 
@@ -215,7 +215,7 @@ div.WH_settings 	{ padding: 2px 0 }
 	<td><input id=WH_SHOW2  type=checkbox></td>
 </tr>
 
-<tr class=WH_separator><td colspan=3></td></td>
+<tr class=WH_separator><td colspan=3></td></tr>
 <tr class=WH_th2><td colspan=3>Side 2</td></tr>
 <tr>
 	<td>3</td>
@@ -227,9 +227,9 @@ div.WH_settings 	{ padding: 2px 0 }
 	<td><input id=WH_COLOR4 type=text></td>
 	<td><input id=WH_SHOW4  type=checkbox></td>
 </tr>
-<tr class=WH_separator><td colspan=3></td></td>
+<tr class=WH_separator><td colspan=3></td></tr>
 <tr><td colspan=3>Size: <input id=WH_SD type=text></td></tr>
-<tr><td colspan=3>&nbsp;</td></td>
+<tr><td colspan=3>&nbsp;</td></tr>
 
 <tr class=WH_th1><td colspan=3>Rim &amp; Flange</td></tr>
 <tr class=WH_th1><td></td><td>Color</td><td>Show?</td></tr>
@@ -249,11 +249,11 @@ div.WH_settings 	{ padding: 2px 0 }
 	<td><input id=WH_SHOW_F2  type=checkbox></td>
 </tr>
 
-<tr class=WH_separator><td colspan=3></td></td>
+<tr class=WH_separator><td colspan=3></td></tr>
 <tr><td colspan=3>Size: <input id=WH_RF type=text></td></tr>
 <tr><td colspan=3>Hole Size:  <input id=WH_HOLESIZE type=text></td></tr>
 <tr><td colspan=3 class=WH_notes>(Affects displayed size only.)</td></tr>
-<tr><td colspan=3>&nbsp;</td></td>
+<tr><td colspan=3>&nbsp;</td></tr>
 <tr>
 	<td>Axes</td>
 	<td><input id=WH_COLOR_AXES type=text></td>
@@ -313,14 +313,14 @@ div.WH_settings 	{ padding: 2px 0 }
 <tr><td>N<sub>F</sub></td><td>Number of spoke holes in the Flange. There are two flanges.</td></tr>
 <tr><td>PCD</td><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke holes in the flange. One for each flange</td></tr>
 <tr><td>FtC</td><td>"Flange to Center" distance.  Used in final spoke length calculation only - does't effect display. One for each flange.</td></tr>
-<tr><td>OSB</td><td>"Offset Spoke "Bed". If unknown, this enter 0. It generally has little effect of final spoke length. <p>The spoke holes in a rim with an OSB will be "offset" to one side, usualy by only 2 to 5 mm.   Enter a negative number for the side that the holes are closer to (spokes will be a tiny bit shorter); and enter a positive number for the side that the holes are further from (spoke will be a tiny bit longer).
+<tr><td>OSB</td><td>"Offset Spoke "Bed". If unknown, this enter 0. It generally has little effect of final spoke length. <p>The spoke holes in a rim with an OSB will be "offset" to one side, usualy by only 2 to 5 mm.   Enter a negative number for the side that the holes are closer to (spokes will be a tiny bit shorter); and enter a positive number for the side that the holes are further from (spoke will be a tiny bit longer).</td></tr>
 <tr><td>X</td><td>"Spoke Cross" value.  Number of spokes each spoke crosses on the same side of wheel.  One for each flange.</td></tr>
 <tr><td>SHD</td><td>"Spoke Hole Diameter". Like FtC, this value only affects final spoke length, and not as displayed.</td></tr>
-<table>
+</table>
 
 
 </div><!--//end WH_CONTAINER -->
-</body>
+
 
 
 
@@ -336,25 +336,25 @@ var PRIOR_VALUE = ""; //Used to revert to prior good value on error.
 
 
 //Assign all element references here.
-var ERD  = E('ERD');	// Effective Rim Diameter
-var NR   = E('NR');		// Number of holes in the Rim
+var ERD  = E('WH_ERD');	// Effective Rim Diameter
+var NR   = E('WH_NR');		// Number of holes in the Rim
 var NF	 = [];
-	NF[1]= E('NF1');	// Number of holes in Flange 1
-	NF[2]= E('NF2');	//    "		   "		"	 2
+	NF[1]= E('WH_NF1');	// Number of holes in Flange 1
+	NF[2]= E('WH_NF2');	//    "		   "		"	 2
 var PCD  = [];
-	PCD[1] = E('PCD1');	// Pitch Circle Diameter 1
-	PCD[2] = E('PCD2');	// 	 "	   "		"	 2
+	PCD[1] = E('WH_PCD1');	// Pitch Circle Diameter 1
+	PCD[2] = E('WH_PCD2');	// 	 "	   "		"	 2
 var FTC  = [];
-	FTC[1] = E('FTC1');	// Flange-to-Center 1 distance
-	FTC[2] = E('FTC2');	// 	  "			"	2	 "
+	FTC[1] = E('WH_FTC1');	// Flange-to-Center 1 distance
+	FTC[2] = E('WH_FTC2');	// 	  "			"	2	 "
 var OSB  = [];
-	OSB[1] = E('OSB1');	// Offset Spoke Bed 1 (off center rim)
-	OSB[2] = E('OSB2');	// 	  "			"	2	 "		"
+	OSB[1] = E('WH_OSB1');	// Offset Spoke Bed 1 (off center rim)
+	OSB[2] = E('WH_OSB2');	// 	  "			"	2	 "		"
 var SX   = [];
-	SX[1]= E('SX1');	// Spoke Crossing 1
-	SX[2]= E('SX2');	// Spoke Crossing 2
-var SHD  = E('SHD');	// Spoke Hole Diameter. Affects spoke length calcs only.
-var WT   = E('LACE_OPT');// Wheel Type/Lacing Option
+	SX[1]= E('WH_SX1');	// Spoke Crossing 1
+	SX[2]= E('WH_SX2');	// Spoke Crossing 2
+var SHD  = E('WH_SHD');	// Spoke Hole Diameter. Affects spoke length calcs only.
+var WT   = E('WH_LACE_OPT');// Wheel Type/Lacing Option
 
 var SL	 = [];				//Spoke Lengths
 	SL[1]= E('WH_LENGTH1');	//Flange 1 Group 1 (ie: leading/trailing, heads in/heads out...)
@@ -432,13 +432,13 @@ var DEFAULTS = {
 	'NF2' :16,
 	'PCD1':38.5,
 	'PCD2':50.6,
-	'FTC1':37.7,
-	'FTC2':17.1,
-	'OSB1':'',
-	'OSB2':'',
+	'FTC1':37.7, //FtC & OSB affect spoke length calcs only (not display).
+	'FTC2':17.1, //
+	'OSB1':'',   //
+	'OSB2':'',   //
 	'SX1' :0,    
 	'SX2' :3,
-	'SHD' :2.6,
+	'SHD' :2.6,  //Affects spoke length calcs only (not displayed size).
 	'LACE_OPT':0,
 	'SG1':1,
 	'SG2':1,
@@ -457,7 +457,7 @@ var DEFAULTS = {
 	'COLOR_F2': '#777',
 	'COLOR_AXES': '#999',
 	'SHOW_AXES': 1, // true/false or 1/0
-	'HOLESIZE' : 4,
+	'HOLESIZE' : 4, //Displayed size of spoke holes.
 	'RF_WIDTHS': 1,
 	'VIEWBOX_SIZE': 610 }; //Most wheels are < 600 ERD.
 
@@ -467,7 +467,7 @@ var DEFAULTS = {
 //##### ########################################################################
 /*************************************************./
 var DEFAULTS = {
-	'ERD' :0,
+	'ERD' :'',
 	'NR'  :1,
 	'NF1' :1,
 	'NF2' :1,
@@ -675,7 +675,7 @@ function Lacing_Option(f) { //*************************************************/
     In this program, it is presented as "Lacing Option".  Also, it only concerns the side with more spokes (ex: the 16
 	spoke side of an 8:16 triplet). 
     Well, those three options: spoke count, spoke cross, and lace type;  presents us with a three body quatum gravitational
-    paradoxical muonicly generational relativistic anti-matter equatorial teseract that cost me many hours of time & much 
+    paradoxical muonicly generational relativistic anti-matter equatorial teseract that has cost me many hours of time & much
     pounding of my head against a cinder block wall...
 
     Anyway, to determine the matching rim hole for a given flange hole, a modifier is needed, either 1 or -1, depending on
@@ -750,8 +750,6 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //************/
 
 
 function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, rf_widths, spoke_colors) { /****/
-	//While most of this function's parameters could be removed in lieu of accessing <input> values
-	//directly, parameter names are shorter and makes for cleaner reading in the code below.
 
 	Clear_Wheel(); 
 	
@@ -791,7 +789,7 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, rf_widths, sp
 
 	Show_Hide_Class( SPOKE_GROUP_PREFIX + '1', SG1.checked); //Spokes are destroyed & re-created
 	Show_Hide_Class( SPOKE_GROUP_PREFIX + '2', SG2.checked); // onchange of most settings.
-	Show_Hide_Class( SPOKE_GROUP_PREFIX + '3', SG3.checked); //So, re-set their display state.
+	Show_Hide_Class( SPOKE_GROUP_PREFIX + '3', SG3.checked); //So, re-set their display states.
 	Show_Hide_Class( SPOKE_GROUP_PREFIX + '4', SG4.checked); //
 
 
@@ -845,7 +843,10 @@ function Validate_Setting(input) { //*******************************************
 		}
 		
 		
-		/***********************/ //##### ##########
+		/***********************./ //##### ##########
+		//##### Not sure if these checks are helpful or a hinderance.
+		//Logically, they are helpful, but practically, the way things are currently laid out & inter-operate, they are not.
+		//
 		if ( NF[1].value*1 > NF[2].value*1) {
 			var msg = "NF1 must be less than or equal to NF2.<br>";
 			ERROR_NOTICE(id, msg);
@@ -873,7 +874,7 @@ function Validate_Setting(input) { //*******************************************
 		
 	} else if ((id == SX[1].id) || (id == SX[2].id)) {
 		
-		var f = id.substring(2); //get flange (1 or 2)
+		var f = id.slice(-1); //get flange (the last char of the id: 1 or 2)
 		//Long past practical, and the point things repeat or logically break...
 		if (value > NF[f].value*1) {
 			var msg = "Spoke cross cannot exceed spoke count for flange.";
@@ -914,7 +915,7 @@ function Build_Wheel(input) { //***********************************************/
 			 (id == SX[1].id) || (id == SX[2].id) ) {
 			input.value = Math.abs( Math.floor( parseInt(input.value) ) );
 		}
-		
+
 		//These can be floats.
 		if ( (id == PCD[1].id) || (id == PCD[2].id) || 
 			 (id == FTC[1].id) || (id == FTC[2].id) )
@@ -1066,11 +1067,13 @@ function WH_Init() { //********************************************************/
 	PCD[2].value = DEFAULTS['PCD2'];
 	FTC[1].value = DEFAULTS['FTC1'];
 	FTC[2].value = DEFAULTS['FTC2'];
+	OSB[1].value = DEFAULTS['OSB1'];
+	OSB[2].value = DEFAULTS['OSB2'];
 	SX[1] .value = DEFAULTS['SX1'];
 	SX[2] .value = DEFAULTS['SX2'];
-	SHD   .value = DEFAULTS['SHD']; //Affects spoke length calcs only.
+	SHD   .value = DEFAULTS['SHD'];
 
-	WT.selectedIndex = DEFAULTS['LACE_OPT'];	 //The index (0 or 1) is used in Lacing_Option().
+	WT.selectedIndex = DEFAULTS['LACE_OPT']; //"Wheel Type"  The index (0 or 1) is used in Lacing_Option().
 	
 	COLOR1.value = DEFAULTS['COLOR1'];
 	COLOR2.value = DEFAULTS['COLOR2'];
@@ -1111,13 +1114,13 @@ function WH_Init() { //********************************************************/
 	//Set xy axis...
 	var max_XY = DEFAULTS['VIEWBOX_SIZE']/2
 	X_axis.setAttribute('x1', -max_XY)
-	X_axis.setAttribute('y1',    0)
+	X_axis.setAttribute('y1', 0)
 	X_axis.setAttribute('x2',  max_XY)
-	X_axis.setAttribute('y2',    0)
+	X_axis.setAttribute('y2', 0)
 
-	Y_axis.setAttribute('x1',    0)
+	Y_axis.setAttribute('x1', 0)
 	Y_axis.setAttribute('y1', -max_XY)
-	Y_axis.setAttribute('x2',    0)
+	Y_axis.setAttribute('x2', 0)
 	Y_axis.setAttribute('y2',  max_XY)
 
 
