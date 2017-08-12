@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The SVG Wheel Maker
-v.beta.26
+v.beta.27
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -180,12 +180,10 @@ table.WH .WH_th3 th{ height: 1.5rem; font-size: 1rem; border: 0; vertical-align:
 
 table.WH td.WH_SL { height: 2rem; }
 table.WH td.WH_SL input { width: 5rem; text-align: center; font-size: 1rem; font-weight: bold; margin: 0; }
-table.WH td.WH_SL1 { padding: 0 0 0 1.5rem; height: .8rem; }
-table.WH td.WH_SL2 { padding: 0 1.5rem 0 0; height: .8rem; }
+table.WH td.WH_SLS1 { padding: 0 0 0 1.5rem; height: .8rem; }
+table.WH td.WH_SLS2 { padding: 0 1.5rem 0 0; height: .8rem; }
 
 table.WH tr.WH_SLH2 { height: 1.5rem; vertical-align: bottom }
-
-
 
 table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### ***/
 
@@ -366,16 +364,21 @@ table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### 
 <table class=WH id=WH_spoke_lengths>
 	<tr><th colspan=2>Spoke Lengths</th></tr>
 	<tr class=WH_SLH2>
-		<td class=WH_SL1>Side 1</td>
-		<td class=WH_SL2>Side 2</td>
+		<td class=WH_SLS1>Side 1</td>
+		<td class=WH_SLS2>Side 2</td>
 	</tr>
 	<tr>
-		<td  class="WH_SL WH_SL1"><input id=WH_LENGTH1 type=text readonly tabindex="-1"></td>
-		<td  class="WH_SL WH_SL2"><input id=WH_LENGTH3 type=text readonly tabindex="-1"></td>
+		<td  class="WH_SL WH_SLS1"><input id=WH_LENGTH1 type=text readonly tabindex="-1"></td>
+		<td  class="WH_SL WH_SLS2"><input id=WH_LENGTH3 type=text readonly tabindex="-1"></td>
 	</tr>
+
+	<tbody id=WH_SL_2_4>
+	<tr>
+		<td  class="WH_SL WH_SLS1"><input id=WH_LENGTH2 type=text readonly tabindex="-1"></td>
+		<td  class="WH_SL WH_SLS2"><input id=WH_LENGTH4 type=text readonly tabindex="-1"></td>
+	</tr>
+	</tbody>
 	<tr class=WH_separator><td colspan=2></td></tr>
-<!-- tr><td class=WH_SL>Side 1: <input id=WH_LENGTH2 type=text readonly tabindex="-1"></td></tr -->
-<!-- tr><td class=WH_SL>Side 2: <input id=WH_LENGTH4 type=text readonly tabindex="-1"></td></tr -->
 </table>
 </div><!--//end WH_left_side ======================================-->
 
@@ -507,20 +510,20 @@ table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### 
 				<div id=WH_disclaimer>
 					<p class=WH>This is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
 					<p class=WH>That is, just because this program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or possible. Or even that all required spokes lengths are listed.
-					<p class=WH>Additionally, while Custom mode permits a bit more flexibility in spoke pattern design, by allowing rim & hub values not otherwise available in Standard or Triplet modes, it furthers the possibility of generating impossible wheels.
+					<p class=WH>Additionally, while Custom mode permits a bit more flexibility in spoke pattern design, by allowing rim & hub values not otherwise available in Standard or Triplet modes, it furthers the possibility of generating impossible wheels.  However, it is often obvious is such situations.  But, again, no guarentees.
 					<p class=WH>For additional information, please refer to geometry. And physics.
 				</div>
 			</td></tr>
 			<tr><th class=WH>Rim Holes</th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
-			<tr><th class=WH>Flange Holes</th><td>Number of effective spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.</td></tr>
+			<tr><th class=WH>Flange Holes</th><td>Number of effective spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.</td></tr>
 			<tr><th class=WH>PCD</th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke holes in the flange.</td></tr>
 			<tr><th class=WH>FtC</th><td>"Flange to Center" distance.  Used in final spoke length calculation only - does't effect display.</td></tr>
 			<tr><th class=WH>OC</th><td>"Off-Center" - May also be referred to as "OSB", "Offset Spoke bed", "asymetrical", or similar terms.
 				<p>The spoke holes in the rim are "off-center", or "off-set", to one side.
 				<p>Useage: Enter a negative number for the side that the holes are closer to (spokes will be a tiny bit shorter); and enter a positive number for the side that the holes are further from (spoke will be a tiny bit longer). As with FtC, it does not affect displayed wheel.</td></tr>
 			<tr><th class=WH>Cross</th><td>"Spoke Cross" value.  Number of spokes each spoke crosses on the same side of wheel.
-				<br>Cross value must be zero if the number of holes in the flange is odd (not even).
-				<br>Also, after selecting Type "Triplet", spoke cross values are automatically set to common values for a given rim hole count, but can changed if desired.</td></tr>
+				<p>Cross value must be zero if the number of holes in the flange is odd (not even).
+				<p>In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.</td></tr>
 			<tr><th class=WH>SHD</th><td>"Spoke Hole Diameter". Like FtC &amp; OSB, this value only affects final spoke length, but not the wheel as displayed.</td></tr>
 			<tr><th class=WH>Lace Option</th><td>This is mostly for triplet wheels, but can affect any non-standard lace pattern.  Just try it & see.</td>
 		</table>
@@ -553,23 +556,19 @@ var PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set in onf
 var PRIOR_VALUE = ""; //Used to revert to prior good value on error.
 
 
-//Full msg copied from html & appended ...
-var MESSAGE = [];
-var NOTICE_HEADER  = '<div id="WH_message_header">Notice!</div>';
 
 
-
-
-//Various error messeges
-var $MSGS = {};
-$MSGS['invalid'] = 'Invalid input: ';
+//Various messeges
+var $MSGS = [];
+$MSGS['notice']  = "<div id=WH_message_header>Notice!</div>";
+$MSGS['invalid'] = "Invalid input: ";
 $MSGS['max_nr']  = "Maximum value for Rim Holes: ";
 $MSGS['even_nr'] = "Number of rim holes must be even for a standard wheel.";
 $MSGS['nr_3']    = "Number of rim holes must be divisible by 3 for Triplet wheels.";
 $MSGS['max_fl']  = "Maximum value for flange holes: ";
 $MSGS['nf1_2']   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>";
 $MSGS['sx_nf']   = "Spoke cross cannot exceed hole count for flange.";
-$MSGS['sx_set']  = "In Triplet mode, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.";
+$MSGS['sx_set']  = "In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.";
 
 
 
@@ -633,8 +632,11 @@ var LACE_OPT   = E(NS_ + 'LACE_OPT');// Wheel Type/Lacing Option
 var SL	 = [];				//Spoke Lengths
 	SL[1]= E(NS_ + 'LENGTH1');	//Flange 1 Group 1 (ie: leading/trailing...)
 	SL[3]= E(NS_ + 'LENGTH3');	//		 2		 3
-	//##### SL[2]= E(NS_ + 'LENGTH2');	//	  	 1		 2 //##### For future use.
-	//##### SL[4]= E(NS_ + 'LENGTH4');	//		 2		 4 //##### For future use.
+
+	SL[2]= E(NS_ + 'LENGTH2');	//	  	 1		 2
+	SL[4]= E(NS_ + 'LENGTH4');	//		 2		 4
+
+var SL_2_4 = E(NS_ + "SL_2_4");
 
 
 var DISPLAY_OPTIONS = E(NS_ + 'display_options'); //<div> around display options to enable show/hide
@@ -940,6 +942,7 @@ function Load_DEFAULTS_OPTIONS() { //******************************************/
 	HOLES_SHOW.checked   = DEFAULTS_OPTIONS['HOLES_SHOW'];
 
 	HOLESIZE.value     = DEFAULTS_OPTIONS['HOLESIZE'];
+	
 }//end Load_DEFAULTS_OPTIONS() //**********************************************/
 
 
@@ -998,7 +1001,7 @@ function Create_Spoke_Holes(hole_group, base_id, class1, class2, N, scale, shd, 
 		var full_id = base_id + sh;
 		
 		odd = !odd;
-		if (odd) { var class_X = class1 } else { var class_X = class2 } //##### Keep? not really used...
+		if (odd) { var class_X = class1 } else { var class_X = class2 } //##### Not yet used...
 		
 		var classes = SPOKE_HOLES + " " + class_X;
 		
@@ -1012,6 +1015,11 @@ function Create_Spoke_Holes(hole_group, base_id, class1, class2, N, scale, shd, 
 		
 		a += A; //Spoke hole 1 is first hole at or after 0 degrees/"6 o'clock".
 	}
+	
+	//##### Dev use.  Keep? ###################################
+	//##### WH_spoke_1_1	E(base_id + "1").style["fill"]   = "red"; //Spoke 1
+	//##### WH_spoke_2_1	E(base_id + "1").style["stroke"] = "red"; //  "
+
 }//end Create_Spoke_Holes() //*************************************************/
 
 
@@ -1049,14 +1057,19 @@ function Calc_All_Spoke_Lengths(changed, integer, abs) { //********************/
 	if (!Validate_Input(changed, integer, abs)) { return false }
 	PRIOR_VALUE = changed.value; //Also set in onfocus events and in Build_Wheel().
 	
+	//Odd spokes: 1, 3, 5, etc...
 	SL[1].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_1'); //WH_spoke_(flange)_(hole)
 	SL[3].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_1');
 
-	//##### For future. Maybe.  Before use, uncomment cooresponding html <input>'s & js elsewhere.
-	//##### SL[2].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_2'); //##### For future use.
-	//##### SL[4].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_2'); //##### For future use.
+	//Even spokes: 2, 4, 6, etc...
+	SL[2].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_2');
+	SL[4].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_2');
 
 	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
+
+	//##### #################### sanity check ######################
+	//##### Log(Spoke_Length_Calculator(1),1);
+	//##### Log(Spoke_Length_Calculator(2),1);
 }//end Calc_All_Spoke_Lengths() //*********************************************/
 
 
@@ -1065,6 +1078,7 @@ function Calc_All_Spoke_Lengths(changed, integer, abs) { //********************/
 
 function Spoke_Length_Calculator(f) { //*****************************************
 	//Tradtional method. For the most part. Not currently used.
+	//Not valid for some skip hole configurations (and maybe others).
 
 	var ftc = FTC[f].value*1; //Final spoke length requires Flange to Center
 	var osb = OSB[f].value*1; //and OSB...
@@ -1073,7 +1087,8 @@ function Spoke_Length_Calculator(f) { //****************************************
 	var aR  = 360/NR.value;    //angle between holes in Rim.
 	var aF  = 360/NF[f].value; //angle between holes in Flange.
 
-	//"zero cross" adjustment angle for triplets.
+	//"zero cross" adjustment angle for triplets. Fails for some skip-hole configs.
+	//Valid if flange1 spokes + flange2 spokes == rim holes.
 	if ((NR.value % NF[f].value) == 0) { var a0 = 0 } else { var a0  = aR - aF/2; }
 
 	var rR  = ERD   .value/2;  //radius of Rim
@@ -1084,8 +1099,6 @@ function Spoke_Length_Calculator(f) { //****************************************
 
 	var S = Math.sqrt(w*w + rR*rR + rF*rF - 2*rR*rF*cos_aF1) - SHD.value/2;
 		S = Math.round(S * 10)/10;
-
-	Log(">" + S + "<",1);
 
 	return S;
 }//end Spoke_Length_Calculator() { //*******************************************
@@ -1114,11 +1127,12 @@ function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //**********/
 	SPOKES.innerHTML += spoke;
 	
 	//Calculate & display final spoke length.
-	if (flange_hole == 1) { //#####  || (flange_hole == 2)  <-For future use. Before use, uncomment cooresponding html <input>'s
+	if ((flange_hole == 1) || (flange_hole == 2)) {
 		SL[group].value = Calc_Spoke_Length(flange, spoke_id);
 	}
 	
 	//##### In case I want to calc ALL spokes.
+	//##### if ((flange == 1) && (flange_hole == 1)) {Log();}//clear CONSOLE each build.
 	//##### Log(spoke_id + ") " + Calc_Spoke_Length(flange, spoke_id),1) 
 }//end Draw_Spoke() //*********************************************************/
 
@@ -1243,12 +1257,23 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors)
 	Create_Spoke_Holes( FLANGE1_HOLES , f1_prefix, HUB_HOLE_CLASS, HUB_HOLE_CLASS, nf1, pcd1/2, shd, 0);
 	Create_Spoke_Holes( FLANGE2_HOLES , f2_prefix, HUB_HOLE_CLASS, HUB_HOLE_CLASS, nf2, pcd2/2, shd, offset_f1_f2);
 
-	Create_Spoke_Groups(1, 2, nr, nf1, sx1, 1, spoke_colors);
-	Create_Spoke_Groups(3, 4, nr, nf2, sx2, 2, spoke_colors);
+	Create_Spoke_Groups(1, 2, nr, nf1, sx1, 1, spoke_colors); //Side 1
+	Create_Spoke_Groups(3, 4, nr, nf2, sx2, 2, spoke_colors); //Side 2
 
 	Set_Wheel_Styles();
 
 	G_WHEEL.setAttribute('transform', " rotate(" + rotate + ")");
+
+	//Are all spokes on each side the same length?
+	if ((SL[1].value == SL[2].value) && (SL[3].value == SL[4].value))
+	{
+		//Yes   Well, the first two are, at least.
+		SL_2_4.style['display'] = "none";
+	}
+	else {
+		//No
+		SL_2_4.style['display'] = "table-row-group";
+	}
 
 	//##### Log(SVG_CONTAINER_DIV.innerHTML,1,1) //##### 
 }//end Setup_Wheel() /*********************************************************/
@@ -1294,10 +1319,10 @@ function Clear_Wheel() { //****************************************************/
 	FLANGE1_HOLES.innerHTML = "";
 	FLANGE2_HOLES.innerHTML = "";
 	SPOKES		 .innerHTML = "";
-	SL[1].value = '';
-	SL[3].value = '';
-	//#####SL[2].value = ''; //##### For future use.
-	//#####SL[4].value = ''; //##### For future use.
+	SL[1].value = ''; //side 1, odd spokes
+	SL[2].value = ''; //side 1, even spokes
+	SL[3].value = ''; //side 2, odd spokes
+	SL[4].value = ''; //side 2, even spokes
 }//end Clear_Wheel() //********************************************************/
 
 
@@ -1327,11 +1352,14 @@ function Build_Wheel(save, input, integer) { //********************************/
 				 HOLESIZE.value*1, Spoke_Colors
 				);
 
-	//##### Spoke_Length_Calculator(1); //For future use...
-	//##### Spoke_Length_Calculator(2); //Maybe...
-
-
 	if (save) { Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES) }
+
+
+	//##### Dev use.  Keep? ###################################
+	//##### Log("1) " + Spoke_Length_Calculator(1),1);
+	//##### Log("2) " + Spoke_Length_Calculator(2),1);
+	//##### E("WH_spoke_1_1").style["stroke"] = "red"; //Spoke 1
+	//##### E("WH_spoke_2_1").style["stroke"] = "red"; //  "   2
 
 }//end Build_Wheel() //********************************************************/
 
@@ -1349,7 +1377,7 @@ function Error_Notice(init, what, msg) {//**************************************
 	MESSAGE_BOX.scrollTop = 0;
 	
 	//Resets input to prior value, except when...
-	if (!init && !(what.id == WHEEL_TYPE.id && what.value == "triplet")) { what.value = PRIOR_VALUE; }
+	if (!init && what.id != WHEEL_TYPE.id) { what.value = PRIOR_VALUE; }
 
 	PRIOR_FOCUS = what.id;
 
@@ -1385,6 +1413,33 @@ function Close_Message() { //**************************************************/
 
 
 
+function Set_Crosses() { //****************************************************/
+	//Practical default cross values for most flange hole counts. Even impractical ones.
+	//Do not call while in custom mode.
+
+	if (NF[2].value*1 < 10) { SX[2].value = 1 } else
+	if (NF[2].value*1 < 14) { SX[2].value = 2 } else
+	if (NF[2].value*1 < 20) { SX[2].value = 3 } else
+	if (NF[2].value*1 < 26) { SX[2].value = 4 } else
+							{ SX[2].value = 5 }
+
+	if (WHEEL_TYPE.value == "standard") { SX[1].value = SX[2].value; }
+	if (WHEEL_TYPE.value == "triplet")  { SX[1].value = 0; }
+}//end Set_Crosses() { //******************************************************/
+
+
+
+
+function SX_Enable_Disable(f) { //*********************************************/
+	//Spoke cross must be 0 if NF is odd.
+
+	if (NF[f].value%2 == 0)	{ SX[f].disabled = false; }
+	else 					{ SX[f].disabled = true;   SX[f].value = 0; }
+}//end SX_Enable_Disable() { //************************************************/
+
+
+
+
 function Validate_NR() { //****************************************************/
 
 	if ((NR.value*1 > MAX[NR.id])) { //(NR.value*1 < 1) ||
@@ -1404,7 +1459,9 @@ function Validate_NR() { //****************************************************/
 		NF[1].value = NR.value/2;
 		NF[2].value = NR.value/2;
 		
-		//Also, if NF becomoes odd, cross can only be 0.
+		Set_Crosses(); //Must come before SX_Enable_Disable()
+
+		//If NF becomoes odd, cross can only be 0.
 		SX_Enable_Disable(1);
 		SX_Enable_Disable(2);
 	}
@@ -1421,14 +1478,11 @@ function Validate_NR() { //****************************************************/
 		NF[1].value = NR.value/3;
 		NF[2].value = NF[1].value*2;
 		
+		Set_Crosses(); //Must come before SX_Enable_Disable()
+
 		//In triplets, if NR is odd, NF[1] is odd, so SX[1] must be 0.  (NF[2] is always even in triplets.)
 		SX_Enable_Disable(1);
 		
-		//Practical default cross values for most triplets spoke counts. Even impractical ones.
-		if (NR.value*1 < 15) { SX[2].value = 1 } else
-		if (NR.value*1 < 24) { SX[2].value = 2 } else
-		if (NR.value*1 < 36) { SX[2].value = 3 } else
-							 { SX[2].value = 4 }
 	}//end if (WHEEL_TYPE.value)
 	
 	
@@ -1436,10 +1490,10 @@ function Validate_NR() { //****************************************************/
 	if (NR.value*1 == 0) {
 		RIM_HOLES	 .innerHTML = "";
 		SPOKES		 .innerHTML = "";
-		SL[1].value = '';
-		SL[3].value = '';
-		//##### SL[2].value = ''; //##### For future use.
-		//##### SL[4].value = ''; //##### For future use.
+		SL[1].value = ''; //side 1, odd spokes
+		SL[2].value = '';
+		SL[3].value = ''; //side 2, odd spokes
+		SL[4].value = '';
 		
 		if (WHEEL_TYPE.value != "custom") {
 			FLANGE1_HOLES.innerHTML = "";
@@ -1614,16 +1668,6 @@ function Set_Attribute_by_Class(classname, attribute, value) { //**************/
 
 
 
-function SX_Enable_Disable(f) { //*********************************************/
-	//Spoke cross must be 0 if NF is odd.
-
-	if (NF[f].value%2 == 0)	{ SX[f].disabled = false; }
-	else 					{ SX[f].disabled = true;   SX[f].value = 0; }
-}//end SX_Enable_Disable() { //************************************************/
-
-
-
-
 function Setup_Wheel_Type() { //***********************************************/
 
 	SETTINGS.style['background-color'] = BG_PLAIN;
@@ -1633,15 +1677,20 @@ function Setup_Wheel_Type() { //***********************************************/
 		//NR must be even.
 		if (NR.value%2 != 0) {  NR.value = NR.value*1 + 1; } 
 		
+		//Cooresponding NF's required for a given NR.
 		NF[1].value = NR.value/2;
 		NF[2].value = NR.value/2;
 		
 		NF[1].disabled = true;
 		NF[2].disabled = true;
 		
+		Set_Crosses(); //Must come before SX_Enable_Disable()
+		
 		SX_Enable_Disable(1);
 		SX_Enable_Disable(2);
-
+		
+		Error_Notice('', WHEEL_TYPE, $MSGS['sx_set']);
+		
 	} else 
 	if (WHEEL_TYPE.value == "triplet") {
 		
@@ -1655,20 +1704,12 @@ function Setup_Wheel_Type() { //***********************************************/
 		NF[1].disabled = true;
 		NF[2].disabled = true;
 		
+		Set_Crosses(); //Must come before SX_Enable_Disable()
+		
 		SX_Enable_Disable(1);
-		SX[2].disabled = false; //NF[2] is always even in triplets
+		SX_Enable_Disable(2);
 		
-		//##### should we always do this? If user enters triplet, changes SX, leaves, then comes back to triplet mode...?
-		//Practical default cross values for most triplets spoke counts. Even impractical ones.
-		SX[1].value = 0;
-		if (NR.value*1 <  6) { SX[2].value = 0 } else
-		if (NR.value*1 < 15) { SX[2].value = 1 } else
-		if (NR.value*1 < 24) { SX[2].value = 2 } else
-		if (NR.value*1 < 36) { SX[2].value = 3 } else
-							 { SX[2].value = 4 }
-		
-		var msg = $MSGS['sx_set'];
-		Error_Notice('', WHEEL_TYPE, msg);
+		Error_Notice('', WHEEL_TYPE, $MSGS['sx_set']);
 		
 	} else { //"Custom"
 		
@@ -1829,7 +1870,7 @@ function WH_Init() { //********************************************************/
 	}
 
 	if (ACCEPT_MSG.value == "true") { ERD.focus(); }
-	else 							{ Error_Notice('init', ERD, NOTICE_HEADER + RESPONSIBILITY.innerHTML); }
+	else 							{ Error_Notice('init', ERD, $MSGS['notice'] + RESPONSIBILITY.innerHTML); }
 
 }//end WH_Init() //************************************************************/
 
