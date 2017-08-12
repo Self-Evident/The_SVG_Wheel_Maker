@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The SVG Wheel Maker
-v.beta.25
+v.beta.26
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -559,7 +559,22 @@ var NOTICE_HEADER  = '<div id="WH_message_header">Notice!</div>';
 
 
 
-//id & class prefixes, etc...
+
+//Various error messeges
+var $MSGS = {};
+$MSGS['invalid'] = 'Invalid input: ';
+$MSGS['max_nr']  = "Maximum value for Rim Holes: ";
+$MSGS['even_nr'] = "Number of rim holes must be even for a standard wheel.";
+$MSGS['nr_3']    = "Number of rim holes must be divisible by 3 for Triplet wheels.";
+$MSGS['max_fl']  = "Maximum value for flange holes: ";
+$MSGS['nf1_2']   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>";
+$MSGS['sx_nf']   = "Spoke cross cannot exceed hole count for flange.";
+$MSGS['sx_set']  = "In Triplet mode, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.";
+
+
+
+
+//id & class prefixes, etc.
 var SPOKE_ID_PREFIX 	= NS_ + "spoke_";
 var HUB_HOLE_ID_PREFIX	= NS_ + "f";	//Hub/flange hole id ex: WH_f1_sh1
 var HUB_HOLE_MESOFIX	= "_sh";	//HUB_HOLE_ID_PREFIX + 1 + HUB_HOLE_MESOFIX + 1
@@ -1327,7 +1342,7 @@ function Error_Notice(init, what, msg) {//**************************************
 	//what: id of changed input.
 	if (typeof msg == 'undefined') { msg = "" }
 
-	if (!init && (what.tagName == "INPUT")) { msg = 'Invalid input: "' + what.value + '".<br>' + msg; }
+	if (!init && (what.tagName == "INPUT")) { msg = $MSGS['invalid'] + ' "' + what.value + '".<br>' + msg; }
 
 	MESSAGE_DIV.innerHTML = msg;
 	MESSAGE_BOX.style['visibility'] = "visible"; 
@@ -1373,7 +1388,7 @@ function Close_Message() { //**************************************************/
 function Validate_NR() { //****************************************************/
 
 	if ((NR.value*1 > MAX[NR.id])) { //(NR.value*1 < 1) ||
-		var msg = "Maximum value for Rim Holes: " + MAX[NR.id] + ".<br>";
+		var msg = $MSGS['max_nr'] + MAX[NR.id] + ".<br>";
 		Error_Notice('', NR, msg);
 		return false;
 	}
@@ -1381,7 +1396,7 @@ function Validate_NR() { //****************************************************/
 	if (WHEEL_TYPE.value == "standard") {
 		
 		if(NR.value%2 != 0) {
-			var msg = "Number of rim holes must be even for a standard wheel.";
+			var msg = $MSGS['even_nr'];
 			Error_Notice('', NR, msg);
 			return false;
 		}
@@ -1397,7 +1412,7 @@ function Validate_NR() { //****************************************************/
 		
 		//NR must be divisible by 3.
 		if (NR.value%3 != 0) {
-			var msg= "Number of rim holes must be divisible by 3 for Triplet wheels.";
+			var msg= $MSGS['nr_3'];
 			Error_Notice('', NR, msg);
 			NR.value = PRIOR_VALUE;
 			return false;
@@ -1453,14 +1468,14 @@ function Validate_NF(nf, f) { //***********************************************/
 	if (value == PRIOR_VALUE) { return false }
 
 	if (value > MAX[nf.id]) { //(value < 1) ||
-		var msg = "Maximum value for flange holes:<br>" + MAX[nf.id] + ".<br>";
+		var msg = $MSGS['max_fl'] + MAX[nf.id] + ".<br>";
 		Error_Notice('', nf, msg);
 		return false;
 	}
 
 	//##### Figure out how to make this not needed (how flange-rim holes are matched up).
 	if ( NF[1].value*1 > NF[2].value*1) { //Things mess up otherwise...
-		var msg = "Number of flange holes:<br>Side 1  must be less than or equal to Side 2.<br>";
+		var msg = $MSGS['nf1_2'];
 		Error_Notice('', nf, msg);
 		return false;
 	}
@@ -1479,7 +1494,7 @@ function Validate_SX(sx, f) { //********************************************/
 
 	//Long past practical, and the point things repeat or logically break...
 	if (sx.value*1 > NF[f].value*1) {
-		var msg = "Spoke cross cannot exceed hole count for flange.";
+		var msg = $MSGS['sx_nf'];
 		Error_Notice('', sx, msg);
 		return false;
 	}
@@ -1652,7 +1667,7 @@ function Setup_Wheel_Type() { //***********************************************/
 		if (NR.value*1 < 36) { SX[2].value = 3 } else
 							 { SX[2].value = 4 }
 		
-		var msg = "In Triplet mode, spoke cross values are automatically set to common values for a given rim hole count, but can be changed if desired.";
+		var msg = $MSGS['sx_set'];
 		Error_Notice('', WHEEL_TYPE, msg);
 		
 	} else { //"Custom"
