@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The SVG Wheel Maker
-v.beta.28
+v.beta.29
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -281,7 +281,12 @@ table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### 
 </tr>
 
 <tr><td class=WH_thv>ERD</td><td><input id=WH_ERD class=WH type=text maxlength=5></td></tr>
-<tr><td class=WH_thv>Rim Holes</td><td><input id=WH_NR class=WH type=text maxlength=2></td></tr>
+
+<tr><td class=WH_thv>Rim Holes</td><td>
+		<!-- input id=WH_NR class=WH type=text maxlength=2 -->
+		<!-- <option>s added at runtime. -->
+		<select id=WH_NR class=WH></select>
+</td></tr>
 
 <tr><td></td><td>Side 1 &nbsp;Side 2</td></tr>
 
@@ -318,26 +323,26 @@ table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### 
 	<td class=WH_thv>Cross</td>
 	<td>
 		<select id=WH_SX1 class=WH>
-			<option value=0>0</option>
-			<option value=1>1</option>
-			<option value=2>2</option>
-			<option value=3>3</option>
-			<option value=4>4</option>
-			<option value=5>5</option>
-			<option value=6>6</option>
-			<option value=7>7</option>
 			<option value=8>8</option>
+			<option value=7>7</option>
+			<option value=6>6</option>
+			<option value=5>5</option>
+			<option value=4>4</option>
+			<option value=3>3</option>
+			<option value=2>2</option>
+			<option value=1>1</option>
+			<option value=0>0</option>
 		</select>
 		<select id=WH_SX2 class=WH>
-			<option value=0>0</option>
-			<option value=1>1</option>
-			<option value=2>2</option>
-			<option value=3>3</option>
-			<option value=4>4</option>
-			<option value=5>5</option>
-			<option value=6>6</option>
-			<option value=7>7</option>
 			<option value=8>8</option>
+			<option value=7>7</option>
+			<option value=6>6</option>
+			<option value=5>5</option>
+			<option value=4>4</option>
+			<option value=3>3</option>
+			<option value=2>2</option>
+			<option value=1>1</option>
+			<option value=0>0</option>
 		</select>
 	</td>
 </tr>
@@ -736,7 +741,7 @@ var DEFAULT_VALUES = {
 	'LACE_OPT':1 } //1 or -1
 
 
-var DEFAULTS_OPTIONS = {
+var DEFAULT_OPTIONS = {
 	'show_hide_notes':"none",
 	'show_hide_DO':"none", //"none" or "inline-block"
 	'SPOKE_COLOR1': '#477', //Spoke group colors
@@ -845,10 +850,28 @@ function Load_Saved_Settings(ls_name) { //*************************************/
 		if (E(id).type == "checkbox") { E(id).checked = (value == "true"); } 
 		else						  { E(id).value   = value }
 	}
-
-	//##### VALIDATE LOADED VALUES ??
-
 }//end Load_Saved_Settings() { //**********************************************/
+
+
+
+
+function Validate_Wheel_Settings() { //**********************************************/
+	//For now, just a very basic sanitation of loaded values.
+
+	if ((WHEEL_TYPE.value != "custom") && (WHEEL_TYPE.value != "triplet")) { WHEEL_TYPE.value = "standard"; }
+	if (LACE_OPT.value != "-1") { LACE_OPT.value = 1; }
+
+	//For now, just make sure they're numbers.
+	for (var name in DEFAULT_VALUES) {
+		var setting = E(NS_ + name);
+		if ( !setting ) { continue }
+		if ((setting == WHEEL_TYPE) || (setting == LACE_OPT)) { continue }
+		
+		if (isNaN(setting.value)) { setting.value = "" }
+	}
+	
+	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES); //In case where invalid.
+}//end Validate_Wheel_Settings() { //************************************************/
 
 
 
@@ -915,34 +938,54 @@ function Clear_Settings() { //*************************************************/
 
 
 
-function Load_DEFAULTS_OPTIONS() { //******************************************/
+function Load_DEFAULT_OPTIONS() { //******************************************/
 	for (var group = 1; group <=4; group++) {
-		SPOKE_COLOR[group]    .value   = DEFAULTS_OPTIONS['SPOKE_COLOR' + group];
-		SPOKE_LINE_SIZE[group].value   = DEFAULTS_OPTIONS['SPOKE_LINE_SIZE' + group];
-		SPOKE_SHOW[group]     .checked = DEFAULTS_OPTIONS['SPOKE_SHOW' + group];
+		SPOKE_COLOR[group]    .value   = DEFAULT_OPTIONS['SPOKE_COLOR' + group];
+		SPOKE_LINE_SIZE[group].value   = DEFAULT_OPTIONS['SPOKE_LINE_SIZE' + group];
+		SPOKE_SHOW[group]     .checked = DEFAULT_OPTIONS['SPOKE_SHOW' + group];
 	}
 
-	RIM_COLOR .value   = DEFAULTS_OPTIONS['RIM_COLOR'];
-	F1_COLOR.value     = DEFAULTS_OPTIONS['F1_COLOR'];
-	F2_COLOR.value     = DEFAULTS_OPTIONS['F2_COLOR'];
-	RIM_LINE_SIZE .value = DEFAULTS_OPTIONS['RIM_LINE_SIZE'];
-	F1_LINE_SIZE.value = DEFAULTS_OPTIONS['F1_LINE_SIZE'];
-	F2_LINE_SIZE.value = DEFAULTS_OPTIONS['F2_LINE_SIZE'];
-	RIM_SHOW .checked  = DEFAULTS_OPTIONS['RIM_SHOW'];
-	F1_SHOW.checked    = DEFAULTS_OPTIONS['F1_SHOW'];
-	F2_SHOW.checked    = DEFAULTS_OPTIONS['F2_SHOW'];
+	RIM_COLOR .value   = DEFAULT_OPTIONS['RIM_COLOR'];
+	F1_COLOR.value     = DEFAULT_OPTIONS['F1_COLOR'];
+	F2_COLOR.value     = DEFAULT_OPTIONS['F2_COLOR'];
+	RIM_LINE_SIZE .value = DEFAULT_OPTIONS['RIM_LINE_SIZE'];
+	F1_LINE_SIZE.value = DEFAULT_OPTIONS['F1_LINE_SIZE'];
+	F2_LINE_SIZE.value = DEFAULT_OPTIONS['F2_LINE_SIZE'];
+	RIM_SHOW .checked  = DEFAULT_OPTIONS['RIM_SHOW'];
+	F1_SHOW.checked    = DEFAULT_OPTIONS['F1_SHOW'];
+	F2_SHOW.checked    = DEFAULT_OPTIONS['F2_SHOW'];
 
-	AXES_COLOR.value     = DEFAULTS_OPTIONS['AXES_COLOR'];
-	AXES_LINE_SIZE.value = DEFAULTS_OPTIONS['AXES_LINE_SIZE'];
-	AXES_SHOW .checked   = DEFAULTS_OPTIONS['AXES_SHOW'];
+	AXES_COLOR.value     = DEFAULT_OPTIONS['AXES_COLOR'];
+	AXES_LINE_SIZE.value = DEFAULT_OPTIONS['AXES_LINE_SIZE'];
+	AXES_SHOW .checked   = DEFAULT_OPTIONS['AXES_SHOW'];
 
-	HOLE_COLOR.value     = DEFAULTS_OPTIONS['HOLE_COLOR'];
-	HOLE_LINE_SIZE.value = DEFAULTS_OPTIONS['HOLE_LINE_SIZE'];
-	HOLES_SHOW.checked   = DEFAULTS_OPTIONS['HOLES_SHOW'];
+	HOLE_COLOR.value     = DEFAULT_OPTIONS['HOLE_COLOR'];
+	HOLE_LINE_SIZE.value = DEFAULT_OPTIONS['HOLE_LINE_SIZE'];
+	HOLES_SHOW.checked   = DEFAULT_OPTIONS['HOLES_SHOW'];
 
-	HOLESIZE.value     = DEFAULTS_OPTIONS['HOLESIZE'];
+	HOLESIZE.value     = DEFAULT_OPTIONS['HOLESIZE'];
 	
-}//end Load_DEFAULTS_OPTIONS() //**********************************************/
+}//end Load_DEFAULT_OPTIONS() //**********************************************/
+
+
+
+
+function Build_NR_Options(wheel_type, max, new_value) { //*********************/
+	
+	var skip = 2; //"standard"
+	if (wheel_type == "triplet") { skip = 3 } else 
+	if (wheel_type == "custom" ) { skip = 1 }
+	
+	
+	var options = "";
+	for (var x = max; x >= 0; x-=skip) {
+		options += "<option value="+x+">"+x+"</option>\n"
+	}
+
+	NR.innerHTML = options;
+	NR.value = new_value;
+}//end Build_NR_Options(wheel_type) { //***************************************/
+
 
 
 
@@ -978,7 +1021,7 @@ function Show_Hide_Options(button, target, mode) { //***********************/
 
 	target.style["display"] = button.value;
 
-	Save_Settings(LS_DISPLAY_OPTIONS, DEFAULTS_OPTIONS);
+	Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
 }//end Show_Hide_Options() //**************************************************/
 
 
@@ -1230,7 +1273,7 @@ function Make_Rim(save) { //***************************************************/
 	RIM.style['stroke']	= RIM_COLOR.value;
 	RIM.style['stroke-width'] = RIM_LINE_SIZE.value;
 	Setup_Viewbox();
-	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULTS_OPTIONS) }
+	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS) }
 }//end Make_Rim() { //*********************************************************/
 
 
@@ -1412,6 +1455,32 @@ function Close_Message() { //**************************************************/
 
 
 
+function Set_NF_SX(nr_value) { //**********************************************/
+
+	if (WHEEL_TYPE.value == "standard") {
+		
+		//Cooresponding NF's required for a given NR.
+		NF[1].value = nr_value/2;
+		NF[2].value = nr_value/2;
+		
+		Set_Crosses();
+		
+	} else
+	if (WHEEL_TYPE.value == "triplet") {
+		
+		//Cooresponding NF's required for a given NR.
+		NF[1].value = nr_value/3;
+		NF[2].value = NF[1].value*2;
+		
+		Set_Crosses();
+		
+	}//end if (WHEEL_TYPE.value...)
+
+}//end Set_NF_SX() { //********************************************************/
+
+
+
+
 function Set_Crosses() { //****************************************************/
 	//Practical default cross values for most flange hole counts. Even impractical ones.
 	//Do not call while in custom mode.
@@ -1448,48 +1517,10 @@ function SX_Enable_Disable(f) { //*********************************************/
 
 
 function Validate_NR() { //****************************************************/
+	//This function used to actually validate NR when input was text & not select.
 
-	if ((NR.value*1 > MAX[NR.id])) { //(NR.value*1 < 1) ||
-		var msg = $MSGS['max_nr'] + MAX[NR.id] + ".<br>";
-		Error_Notice('', NR, msg);
-		return false;
-	}
-	
-	if (WHEEL_TYPE.value == "standard") {
-		
-		if(NR.value%2 != 0) {
-			var msg = $MSGS['even_nr'];
-			Error_Notice('', NR, msg)
-			NR.value = NR.prior_value;
-			return false;
-		}
-		
-		//Cooresponding NF's required for a given NR.
-		NF[1].value = NR.value/2;
-		NF[2].value = NR.value/2;
-		
-		Set_Crosses();
-		
-	} else
-	if (WHEEL_TYPE.value == "triplet") {
-		
-		//NR must be divisible by 3.
-		if (NR.value%3 != 0) {
-			var msg= $MSGS['nr_3'];
-			Error_Notice('', NR, msg);
-			NR.value = NR.prior_value;
-			return false;
-		}
-		
-		//Cooresponding NF's required for a given NR.
-		NF[1].value = NR.value/3;
-		NF[2].value = NF[1].value*2;
-		
-		Set_Crosses();
-		
-	}//end if (WHEEL_TYPE.value...)
-	
-	
+	Set_NF_SX(NR.value);
+
 	//If NR==0, clear the spokes & rim holes.
 	if (NR.value*1 == 0) {
 		RIM_HOLES	 .innerHTML = "";
@@ -1628,7 +1659,7 @@ function Show_Hide_Class(classname, show, save) { //***************************/
 		else 	  { items[s].style['display'] = "none" }
 	}
 
-	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULTS_OPTIONS); }
+	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS); }
 
 }//end Show_Hide_Class() //****************************************************/
 
@@ -1639,7 +1670,7 @@ function Show_Hide(what, show, save) { //**************************************/
 	if (show) { what.style['display'] = ""     }
 	else 	  { what.style['display'] = "none" }
 
-	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULTS_OPTIONS); }
+	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS); }
 
 }//end Show_Hide() //**********************************************************/
 
@@ -1650,7 +1681,7 @@ function Set_Style_by_Class(classname, style, value, save) { //****************/
 	var objects = D.getElementsByClassName(classname);
 	for (var s = 0; s < objects.length; s++) { objects[s].style[style] = value; }
 
-	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULTS_OPTIONS); }
+	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS); }
 
 }//end Set_Style_by_Class() //*************************************************/
 
@@ -1659,7 +1690,7 @@ function Set_Style_by_Class(classname, style, value, save) { //****************/
 
 function Set_Save_Style(element, style, value) { //***************************/
 	element.style[style] = value;
-	Save_Settings(LS_DISPLAY_OPTIONS, DEFAULTS_OPTIONS); 
+	Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS); 
 }//end Set_Save_Style() //****************************************************/
 
 
@@ -1677,29 +1708,26 @@ function Setup_Wheel_Type() { //***********************************************/
 
 	SETTINGS.style['background-color'] = BG_PLAIN;
 
-	if (WHEEL_TYPE.value == "standard") {
+	var nr_new = NR.value*1;
 
-		//NR must be even.
-		if (NR.value%2 != 0) {  NR.value = NR.value*1 + 1; } 
+	if (WHEEL_TYPE.value == "standard") { //NR must be even.
 		
-		//Cooresponding NF's required for a given NR.
-		NF[1].value = NR.value/2;
-		NF[2].value = NR.value/2;
-		
-		Set_Crosses();
-	} else 
-	if (WHEEL_TYPE.value == "triplet") {
-		
-		//NR must be divisible by 3
-		if (NR.value%3 != 0) { NR.value = NR.value*1 + (3 - NR.value%3); }
-		
-		//Cooresponding NF's required for a given NR.
-		NF[1].value = NR.value/3;
-		NF[2].value = NF[1].value*2;
-		
-		Set_Crosses();
+		if (nr_new%2 != 0) { nr_new = nr_new + 1; } 
 	}
-	else { //"Custom"
+
+
+	if (WHEEL_TYPE.value == "triplet") { //NR must be divisible by 3
+
+		if (nr_new%3 != 0) { nr_new = nr_new*1 + (3 - nr_new%3); }
+	}
+
+
+	Build_NR_Options(WHEEL_TYPE.value, MAX[NR.id], nr_new);
+	
+	Set_NF_SX(nr_new);
+	
+
+	if (WHEEL_TYPE.value == "custom") {
 		
 		NF[1].disabled = false;
 		NF[2].disabled = false;
@@ -1711,7 +1739,7 @@ function Setup_Wheel_Type() { //***********************************************/
 		
 		return false; //No need to Build_Wheel(), as no wheel values have changed.
 		
-	}//end if (WHEEL_TYPE.value...)
+	}
 
 	return true; //Build_Wheel() on return
 
@@ -1794,11 +1822,11 @@ function Assign_Events() { //**************************************************/
 	HOLESIZE.addEventListener("change", function() { 				//HOLESIZE is diameter
 		Set_Attribute_by_Class( RIM_HOLE_CLASS, 'r', this.value/2); //set *radius* of holes (this.value/2)
 		Set_Attribute_by_Class( HUB_HOLE_CLASS, 'r', this.value/2);
-		Save_Settings(LS_DISPLAY_OPTIONS, DEFAULTS_OPTIONS);
+		Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
 	});
 
 	RESET_OPTIONS.addEventListener("click", function() {
-		Load_DEFAULTS_OPTIONS();
+		Load_DEFAULT_OPTIONS();
 		Set_Wheel_Styles();
 		Set_Attribute_by_Class( RIM_HOLE_CLASS, 'r', HOLESIZE.value/2);
 		Set_Attribute_by_Class( HUB_HOLE_CLASS, 'r', HOLESIZE.value/2);
@@ -1827,9 +1855,15 @@ function WH_Init() { //********************************************************/
 
 	Assign_Events();
 
+	Build_NR_Options("custom", MAX[NR.id], 0); //Temp until settings loaded
+
 	Load_Saved_Settings(LS_WHEEL_SETTINGS);  //If any...
 
-	Load_DEFAULTS_OPTIONS();
+	Validate_Wheel_Settings();
+	
+	Build_NR_Options(WHEEL_TYPE.value, MAX[NR.id], NR.value); //Rebuild with current settings
+
+	Load_DEFAULT_OPTIONS();
 
 	Load_Saved_Settings(LS_DISPLAY_OPTIONS); //  "		
 
