@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The SVG Wheel Maker
-v.beta.27
+v.beta.28
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -204,8 +204,8 @@ table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### 
 	vertical-align: top;
 	width: 18rem;
 	position: absolute;
-	top		: 7rem;
-	left	: 12.5rem;
+	top		: 5.5rem;
+	left	: 13.5rem;
 	border	: solid 2px red;
 	border-radius	: 5px;
 	padding			: .5rem .5rem .5rem .5rem; 
@@ -553,7 +553,6 @@ var BG_PLAIN = "rgb(175,198,205)";  //Used for bg color of SETTINGS when in Stan
 var BG_WARN  = "#FAB";				//		"		"		"		"		Custom mode.
 
 var PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set in onfocus() events.
-var PRIOR_VALUE = ""; //Used to revert to prior good value on error.
 
 
 
@@ -1055,7 +1054,7 @@ function Calc_All_Spoke_Lengths(changed, integer, abs) { //********************/
 	//Calc spoke lengths for both sides. Used by onchange of OSB & SHD.
 
 	if (!Validate_Input(changed, integer, abs)) { return false }
-	PRIOR_VALUE = changed.value; //Also set in onfocus events and in Build_Wheel().
+	changed.prior_value = changed.value; //Also set in onfocus events and in Build_Wheel().
 	
 	//Odd spokes: 1, 3, 5, etc...
 	SL[1].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_1'); //WH_spoke_(flange)_(hole)
@@ -1335,9 +1334,9 @@ function Build_Wheel(save, input, integer) { //********************************/
 		if (!Validate_Input(input, integer)) { return false }
 		
 		//Check if basic "cleaned" value from Validate_Input() has really changed.
-		if (input.value == PRIOR_VALUE) { return false }
+		if (input.value == input.prior_value) { return false }
 		
-		PRIOR_VALUE = input.value; //Also set in onfocus events & in Calc_All_Spoke_Lengths().
+		input.prior_value = input.value; //Also set in onfocus events & in Calc_All_Spoke_Lengths().
 	}
 
 
@@ -1377,7 +1376,7 @@ function Error_Notice(init, what, msg) {//**************************************
 	MESSAGE_BOX.scrollTop = 0;
 	
 	//Resets input to prior value, except when...
-	if (!init && what.id != WHEEL_TYPE.id) { what.value = PRIOR_VALUE; }
+	if (!init && what.id != WHEEL_TYPE.id) { what.value = what.prior_value; }
 
 	PRIOR_FOCUS = what.id;
 
@@ -1425,6 +1424,14 @@ function Set_Crosses() { //****************************************************/
 
 	if (WHEEL_TYPE.value == "standard") { SX[1].value = SX[2].value; }
 	if (WHEEL_TYPE.value == "triplet")  { SX[1].value = 0; }
+	
+	//If NF is odd, cross can only be 0.
+	SX_Enable_Disable(1);
+	SX_Enable_Disable(2);
+
+	//For Standard & Triplet modes
+	NF[1].disabled = true;
+	NF[2].disabled = true;
 }//end Set_Crosses() { //******************************************************/
 
 
@@ -1452,38 +1459,35 @@ function Validate_NR() { //****************************************************/
 		
 		if(NR.value%2 != 0) {
 			var msg = $MSGS['even_nr'];
-			Error_Notice('', NR, msg);
+			Error_Notice('', NR, msg)
+			NR.value = NR.prior_value;
 			return false;
 		}
 		
+		//Cooresponding NF's required for a given NR.
 		NF[1].value = NR.value/2;
 		NF[2].value = NR.value/2;
 		
-		Set_Crosses(); //Must come before SX_Enable_Disable()
-
-		//If NF becomoes odd, cross can only be 0.
-		SX_Enable_Disable(1);
-		SX_Enable_Disable(2);
-	}
-	else if (WHEEL_TYPE.value == "triplet") {
+		Set_Crosses();
+		
+	} else
+	if (WHEEL_TYPE.value == "triplet") {
 		
 		//NR must be divisible by 3.
 		if (NR.value%3 != 0) {
 			var msg= $MSGS['nr_3'];
 			Error_Notice('', NR, msg);
-			NR.value = PRIOR_VALUE;
+			NR.value = NR.prior_value;
 			return false;
 		}
 		
+		//Cooresponding NF's required for a given NR.
 		NF[1].value = NR.value/3;
 		NF[2].value = NF[1].value*2;
 		
-		Set_Crosses(); //Must come before SX_Enable_Disable()
-
-		//In triplets, if NR is odd, NF[1] is odd, so SX[1] must be 0.  (NF[2] is always even in triplets.)
-		SX_Enable_Disable(1);
+		Set_Crosses();
 		
-	}//end if (WHEEL_TYPE.value)
+	}//end if (WHEEL_TYPE.value...)
 	
 	
 	//If NR==0, clear the spokes & rim holes.
@@ -1503,7 +1507,8 @@ function Validate_NR() { //****************************************************/
 		return false;
 	} 
 	
-	return true;
+	return true;//Build_WHeel() on return
+	
 }//end Validate_NR() { //******************************************************/
 
 
@@ -1519,7 +1524,7 @@ function Validate_NF(nf, f) { //***********************************************/
 	}
 
 	//Check if basic "cleaned" value from Build_Wheel() has really changed.
-	if (value == PRIOR_VALUE) { return false }
+	if (value == nf.prior_value) { return false }
 
 	if (value > MAX[nf.id]) { //(value < 1) ||
 		var msg = $MSGS['max_fl'] + MAX[nf.id] + ".<br>";
@@ -1673,7 +1678,7 @@ function Setup_Wheel_Type() { //***********************************************/
 	SETTINGS.style['background-color'] = BG_PLAIN;
 
 	if (WHEEL_TYPE.value == "standard") {
-		
+
 		//NR must be even.
 		if (NR.value%2 != 0) {  NR.value = NR.value*1 + 1; } 
 		
@@ -1681,16 +1686,7 @@ function Setup_Wheel_Type() { //***********************************************/
 		NF[1].value = NR.value/2;
 		NF[2].value = NR.value/2;
 		
-		NF[1].disabled = true;
-		NF[2].disabled = true;
-		
-		Set_Crosses(); //Must come before SX_Enable_Disable()
-		
-		SX_Enable_Disable(1);
-		SX_Enable_Disable(2);
-		
-		Error_Notice('', WHEEL_TYPE, $MSGS['sx_set']);
-		
+		Set_Crosses();
 	} else 
 	if (WHEEL_TYPE.value == "triplet") {
 		
@@ -1700,18 +1696,10 @@ function Setup_Wheel_Type() { //***********************************************/
 		//Cooresponding NF's required for a given NR.
 		NF[1].value = NR.value/3;
 		NF[2].value = NF[1].value*2;
-			
-		NF[1].disabled = true;
-		NF[2].disabled = true;
 		
-		Set_Crosses(); //Must come before SX_Enable_Disable()
-		
-		SX_Enable_Disable(1);
-		SX_Enable_Disable(2);
-		
-		Error_Notice('', WHEEL_TYPE, $MSGS['sx_set']);
-		
-	} else { //"Custom"
+		Set_Crosses();
+	}
+	else { //"Custom"
 		
 		NF[1].disabled = false;
 		NF[2].disabled = false;
@@ -1722,9 +1710,10 @@ function Setup_Wheel_Type() { //***********************************************/
 		SETTINGS.style['background-color'] = BG_WARN;
 		
 		return false; //No need to Build_Wheel(), as no wheel values have changed.
-	}
+		
+	}//end if (WHEEL_TYPE.value...)
 
-	return true; //Rebuild_Wheel() in case NF or SX values where changed above.
+	return true; //Build_Wheel() on return
 
 }//end Setup_Wheel_Type() { //*************************************************/
 
@@ -1735,13 +1724,13 @@ function Assign_Events() { //**************************************************/
 
 	var save = true; //Some functions have option to save settings, if the argument is true (or 1, etc).
 
-	//Save prior/existing value in case of error in new value.
+	//Save prior value in case of error in new value.
 	var settings = [WHEEL_TYPE.id, LACE_OPT.id, ERD.id, NR.id, NF[1].id, NF[2].id, PCD[1].id, PCD[2].id, FTC[1].id, FTC[2].id, OSB[1].id, OSB[2].id, SX[1].id, SX[2].id, SHD.id];
 	for (var x = 0; x < settings.length; x++) {
-		//PRIOR_VALUE also set in Build_Wheel().
+		//.prior_value also set in Build_Wheel().
 		E(settings[x]).addEventListener("focus", function() {
 			if (ACCEPT_MSG.value != "true") { ACCEPT_MSG.focus(); }
-			PRIOR_VALUE = this.value; //also set in Build_Wheel() and in Calc_All_Spoke_Lengths().
+			this.prior_value = this.value; //also set in Build_Wheel() and in Calc_All_Spoke_Lengths().
 		});
 	}
 
