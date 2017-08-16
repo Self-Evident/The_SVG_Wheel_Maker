@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The SVG Wheel Maker
-v.beta.31
+v.beta.32
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -79,7 +79,7 @@ select.WH:-moz-focusring {
 
 table.WH {
 	display: inline-table;
-	width: 15.5rem;
+	width: 16rem;
 	font-family: arial;
 	text-align: center;
 	border			: solid 1px #444;
@@ -186,11 +186,16 @@ table.WH td.WH_SLS2 { padding: 0 1.5rem 0 0; height: .8rem; }
 
 table.WH tr.WH_SLH2 { height: 1.5rem; vertical-align: bottom }
 
-table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### ***/
 
 
+table.WH, table.WH td, table.WH tr { XXXXX-border: solid 1px red; } /*** //##### ##################***/
 
-#WH_responsibility { font-weight: bold }
+
+table#WH_add_info.WH { border-spacing: 2px;}
+#WH_add_info td { font-size: .9rem; text-align: left; }
+
+
+#WH_responsibility { font-weight: bold}
 
 
 
@@ -324,10 +329,6 @@ table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### 
 	<td class=WH_thv>Cross</td>
 	<td>
 		<select id=WH_SX1 class=WH>
-			<option value=8>8</option>
-			<option value=7>7</option>
-			<option value=6>6</option>
-			<option value=5>5</option>
 			<option value=4>4</option>
 			<option value=3>3</option>
 			<option value=2>2</option>
@@ -335,10 +336,6 @@ table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### 
 			<option value=0>0</option>
 		</select>
 		<select id=WH_SX2 class=WH>
-			<option value=8>8</option>
-			<option value=7>7</option>
-			<option value=6>6</option>
-			<option value=5>5</option>
 			<option value=4>4</option>
 			<option value=3>3</option>
 			<option value=2>2</option>
@@ -373,19 +370,48 @@ table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### 
 		<td class=WH_SLS1>Side 1</td>
 		<td class=WH_SLS2>Side 2</td>
 	</tr>
+
 	<tr>
 		<td  class="WH_SL WH_SLS1"><input id=WH_LENGTH1 type=text readonly tabindex="-1"></td>
 		<td  class="WH_SL WH_SLS2"><input id=WH_LENGTH3 type=text readonly tabindex="-1"></td>
 	</tr>
 
-	<tbody id=WH_SL_2_4>
-	<tr>
+	<tr id=WH_SL_2_4>
 		<td  class="WH_SL WH_SLS1"><input id=WH_LENGTH2 type=text readonly tabindex="-1"></td>
 		<td  class="WH_SL WH_SLS2"><input id=WH_LENGTH4 type=text readonly tabindex="-1"></td>
 	</tr>
-	</tbody>
+	
 	<tr class=WH_separator><td colspan=2></td></tr>
 </table>
+
+<br><br>
+
+
+
+
+<table class=WH id=WH_add_info>
+	<tr><th colspan=3>Additional Info</th></tr>
+	<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
+	<tr>
+		<td>Spoke Ratio</td>
+		<td><input id=WH_spoke_ratio1 type=text readonly tabindex="-1"></td>
+		<td><input id=WH_spoke_ratio2 type=text readonly tabindex="-1"></td>
+	</tr>
+	<tr>
+		<td>Bracing Angles</td>
+		<td><input id=WH_brace_angle1 type=text readonly tabindex="-1">&deg;</td>
+		<td><input id=WH_brace_angle2 type=text readonly tabindex="-1">&deg;</td>
+	</tr>
+	<tr>
+		<td>Tension Ratio</td>
+		<td><input id=WH_tension_ratio1 type=text readonly tabindex="-1">%</td>
+		<td><input id=WH_tension_ratio2 type=text readonly tabindex="-1">%</td>
+	</tr>
+	<tr class=WH_separator><td colspan=2></td></tr>
+</table>
+
+
+
 </div><!--//end WH_left_side ======================================-->
 
 
@@ -533,7 +559,7 @@ table.WH, table.WH td, table.WH tr { XXXXXborder: solid 1px red; } /*** //##### 
 			</tr>
 			<tr><th class=WH>Cross</th>
 				<td>"Spoke Cross" value.  Number of spokes each spoke crosses on the same side of wheel.
-					<p>In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.  Also, the cross must be zero if the number of holes in the flange is odd (not even).
+					<p>In Triplet mode, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.  In both Standard and Triplet modes, the cross must be zero if the number of holes in the flange is odd (not even).
 					<p>In Custom mode, if the number of flange holes is odd, cross can be non-zero, but all spokes on that side will be laced the same direction.  Spokes on the opposite flange will be laced in the opposite direction if they are also odd, otherwise they will be laced normally.
 				</td>
 			</tr>
@@ -650,6 +676,19 @@ var SL	 = [];				//Spoke Lengths
 	SL[4]= E(NS_ + 'LENGTH4');	//		 2		 4
 
 var SL_2_4 = E(NS_ + "SL_2_4");
+
+var BRACE_ANGLE    = [];
+	BRACE_ANGLE[1] = E(NS_ + 'brace_angle1');
+	BRACE_ANGLE[2] = E(NS_ + 'brace_angle2');
+
+var SPOKE_RATIO	   = [];
+	SPOKE_RATIO[1] = E(NS_ + 'spoke_ratio1');
+	SPOKE_RATIO[2] = E(NS_ + 'spoke_ratio2');
+
+var TENSION_RATIO	   = [];
+	TENSION_RATIO[1] = E(NS_ + 'tension_ratio1');
+	TENSION_RATIO[2] = E(NS_ + 'tension_ratio2');
+
 
 
 var DISPLAY_OPTIONS = E(NS_ + 'display_options'); //<div> around display options to enable show/hide
@@ -885,7 +924,7 @@ function Validate_Wheel_Settings() { //*****************************************
 
 
 
-function Load_Samples(init) { //***********************************************/
+function Load_Samples() { //***************************************************/
 
 	if (ACCEPT_MSG.value != "true") { return; }
 
@@ -907,7 +946,7 @@ function Load_Samples(init) { //***********************************************/
 
 	Setup_Viewbox();
 
-	Setup_Wheel_Type();
+	Setup_Wheel_Type("init");
 
 	Build_Wheel();
 
@@ -1014,6 +1053,68 @@ function Show_Hide_Options(button, target, mode) { //***********************/
 	Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
 }//end Show_Hide_Options() //**************************************************/
 
+
+
+
+function Bracing_Angle(f, adj) { //********************************************/
+	//tan(bracing angle) = (FtC + SHD/2) / (rR - y1)
+	
+	if (!adj) { adj = 0 } //For future use: consider flange width & whether elbows in or out. (+/- ~2.5mm)
+
+	var rR = ERD.value/2;		//radius of Rim
+	var rF = PCD[f].value/2;	//radius of Flange
+	var ftc= FTC[f].value*1 + adj;	//flange to center +/- adj (heads in/out)
+	var osb= OSB[f].value*1;	//offset spoke bed (off-center)
+	var aR = 360/NR.value*1;	//angle between holes in Rim
+	var aF = 360/NF[f].value*1;	//angle between holes in flange
+	var tt = LACE_OPT.value*1;  //"triplet type", 1 or -1. For standard lacings, doesn't matter.
+	var a0 = (aR - aF/2) * tt;  //"angle" to hole zero. For standard, always 0.
+
+	var af     = (SX[f].value * aF) + (aR - aF/2) * tt; //angle to hole in flange of spoke.
+	var af_rad = af/180 * Math.PI; 		 //af in radians
+	var y1     = rF * Math.cos(af_rad);  // x1^2 + y1^2 = rF^2
+	var tan_aB = (ftc + osb) / (rR - y1);//tangent of Bracing angle
+	var aB_rad = Math.atan(tan_aB);		 //Bracing angle (in radians)
+	var aB    = aB_rad * 180 / Math.PI;	 //Bracing angle (in degrees)
+
+	return aB;
+}//end Bracing_Angle() { //****************************************************/
+
+
+
+
+function Update_Additional_Info() { //*****************************************/
+
+	var aB1 = Bracing_Angle(1);
+	var aB2 = Bracing_Angle(2);
+	var bracing_ratio = aB2/aB1;
+	
+	if (NF[1].value == 0) { var spoke_ratio = ""; }
+	else 				  {	var spoke_ratio   = parseFloat(NF[2].value/NF[1].value).toFixed(2); }
+
+	var tension_ratio = bracing_ratio * spoke_ratio;
+
+	BRACE_ANGLE[1].value = '';
+	BRACE_ANGLE[2].value = '';
+	SPOKE_RATIO[1].value = '';
+	SPOKE_RATIO[2].value = '';
+	TENSION_RATIO[1].value = '';
+	TENSION_RATIO[2].value = '';
+
+
+	if (NR.value != 0 && NF[1].value != 0) {
+		BRACE_ANGLE[1].value = parseFloat(aB1).toFixed(2);
+		SPOKE_RATIO[1].value = 1;
+		TENSION_RATIO[1].value = parseFloat(tension_ratio*100).toFixed(1);
+	}
+
+	if (NR.value != 0 && NF[2].value != 0) {
+		BRACE_ANGLE[2].value = parseFloat(aB2).toFixed(2);
+		SPOKE_RATIO[2].value = spoke_ratio;;
+		TENSION_RATIO[2].value = 100;
+	}
+
+}//end Update_Additional_Info() { //*******************************************/
 
 
 
@@ -1144,6 +1245,8 @@ function Calc_Spoke_Lengths(changed, integer, abs) { //********************/
 	//Even spokes: 2, 4, 6, etc...
 	SL[2].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_2');
 	SL[4].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_2');
+
+	Update_Additional_Info();
 
 	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
 
@@ -1370,7 +1473,7 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors)
 	}
 	else {
 		//No
-		SL_2_4.style['display'] = "table-row-group";
+		SL_2_4.style['display'] = "table-row";
 	}
 
 	//##### Log(SVG_CONTAINER_DIV.innerHTML,1,1) //##### 
@@ -1421,6 +1524,12 @@ function Clear_Wheel() { //****************************************************/
 	SL[2].value = ''; //side 1, even spokes
 	SL[3].value = ''; //side 2, odd spokes
 	SL[4].value = ''; //side 2, even spokes
+	BRACE_ANGLE[1].value = '';
+	BRACE_ANGLE[2].value = '';
+	SPOKE_RATIO[1].value = '';
+	SPOKE_RATIO[2].value = '';
+	TENSION_RATIO[1].value = '';
+	TENSION_RATIO[2].value = '';
 }//end Clear_Wheel() //********************************************************/
 
 
@@ -1452,12 +1561,14 @@ function Build_Wheel(save, input, integer) { //********************************/
 	if (save) { Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES) }
 
 
+	Update_Additional_Info();
+
+
 	//##### Dev use.  Keep? ###################################
 	//##### Log("1) " + Spoke_Length_Calculator(1),1);
 	//##### Log("2) " + Spoke_Length_Calculator(2),1);
 	//##### E("WH_spoke_1_1").style["stroke"] = "red"; //Spoke 1
 	//##### E("WH_spoke_2_1").style["stroke"] = "red"; //  "   2
-
 }//end Build_Wheel() //********************************************************/
 
 
