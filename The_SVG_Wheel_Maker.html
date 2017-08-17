@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The SVG Wheel Maker
-v.beta.32
+v.beta.33
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -328,20 +328,9 @@ table#WH_add_info.WH { border-spacing: 2px;}
 <tr>
 	<td class=WH_thv>Cross</td>
 	<td>
-		<select id=WH_SX1 class=WH>
-			<option value=4>4</option>
-			<option value=3>3</option>
-			<option value=2>2</option>
-			<option value=1>1</option>
-			<option value=0>0</option>
-		</select>
-		<select id=WH_SX2 class=WH>
-			<option value=4>4</option>
-			<option value=3>3</option>
-			<option value=2>2</option>
-			<option value=1>1</option>
-			<option value=0>0</option>
-		</select>
+		<!-- <option>s added at runtime. -->
+		<select id=WH_SX1 class=WH></select>
+		<select id=WH_SX2 class=WH></select>
 	</td>
 </tr>
 
@@ -390,24 +379,52 @@ table#WH_add_info.WH { border-spacing: 2px;}
 
 
 <table class=WH id=WH_add_info>
-	<tr><th colspan=3>Additional Info</th></tr>
+	<tr><th colspan=3><button type=button id=WH_show_hide_additional class="WH WH_ndo_buttons" value=none>Additional Build Info</button></th></tr>
+	<tbody id=WH_additional_info>
 	<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
 	<tr>
 		<td>Spoke Ratio</td>
 		<td><input id=WH_spoke_ratio1 type=text readonly tabindex="-1"></td>
 		<td><input id=WH_spoke_ratio2 type=text readonly tabindex="-1"></td>
 	</tr>
+
+	<tr class=WH_th3><th colspan=3>Elbows In</th></tr>
 	<tr>
 		<td>Bracing Angles</td>
-		<td><input id=WH_brace_angle1 type=text readonly tabindex="-1">&deg;</td>
-		<td><input id=WH_brace_angle2 type=text readonly tabindex="-1">&deg;</td>
+		<td><input id=WH_brace_angle_EI1 type=text readonly tabindex="-1">&deg;</td>
+		<td><input id=WH_brace_angle_EI2 type=text readonly tabindex="-1">&deg;</td>
 	</tr>
 	<tr>
 		<td>Tension Ratio</td>
-		<td><input id=WH_tension_ratio1 type=text readonly tabindex="-1">%</td>
-		<td><input id=WH_tension_ratio2 type=text readonly tabindex="-1">%</td>
+		<td><input id=WH_tension_ratio_EI1 type=text readonly tabindex="-1">%</td>
+		<td><input id=WH_tension_ratio_EI2 type=text readonly tabindex="-1">%</td>
 	</tr>
-	<tr class=WH_separator><td colspan=2></td></tr>
+
+	<tr class=WH_th3><th colspan=3>Flange Centerline</th></tr>
+	<tr>
+		<td>Bracing Angles</td>
+		<td><input id=WH_brace_angle_CL1 type=text readonly tabindex="-1">&deg;</td>
+		<td><input id=WH_brace_angle_CL2 type=text readonly tabindex="-1">&deg;</td>
+	</tr>
+	<tr>
+		<td>Tension Ratio</td>
+		<td><input id=WH_tension_ratio_CL1 type=text readonly tabindex="-1">%</td>
+		<td><input id=WH_tension_ratio_CL2 type=text readonly tabindex="-1">%</td>
+	</tr>
+
+	<tr class=WH_th3><th colspan=3>Elbows Out</th></tr>
+	<tr>
+		<td>Bracing Angles</td>
+		<td><input id=WH_brace_angle_EO1 type=text readonly tabindex="-1">&deg;</td>
+		<td><input id=WH_brace_angle_EO2 type=text readonly tabindex="-1">&deg;</td>
+	</tr>
+	<tr>
+		<td>Tension Ratio</td>
+		<td><input id=WH_tension_ratio_EO1 type=text readonly tabindex="-1">%</td>
+		<td><input id=WH_tension_ratio_EO2 type=text readonly tabindex="-1">%</td>
+	</tr>
+	<tr class=WH_separator><td colspan=3></td></tr>
+	</tbody>
 </table>
 
 
@@ -559,7 +576,7 @@ table#WH_add_info.WH { border-spacing: 2px;}
 			</tr>
 			<tr><th class=WH>Cross</th>
 				<td>"Spoke Cross" value.  Number of spokes each spoke crosses on the same side of wheel.
-					<p>In Triplet mode, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.  In both Standard and Triplet modes, the cross must be zero if the number of holes in the flange is odd (not even).
+					<p>In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.  Additionally, the cross must be zero if the number of holes in the flange is odd (not even).
 					<p>In Custom mode, if the number of flange holes is odd, cross can be non-zero, but all spokes on that side will be laced the same direction.  Spokes on the opposite flange will be laced in the opposite direction if they are also odd, otherwise they will be laced normally.
 				</td>
 			</tr>
@@ -595,6 +612,10 @@ var BG_CUSTOM   = "#FAB";			  //	"		"		"		"		   Custom mode.
 var PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set in onfocus() events.
 
 
+//##### make inputs for this?  (Flange width + spoke diameter)/2
+//ex: flange width = 3mm, spoke diameter at flange = 2mm, BRACE_ADJ = +/- 2.5mm (+elbows out/-elbows in)
+var BRACE_ADJ = 2.5; 
+
 
 
 //Various messeges
@@ -606,6 +627,7 @@ $MSGS['even_nr'] = "Number of rim holes must be even for a standard wheel.";
 $MSGS['nr_3']    = "Number of rim holes must be divisible by 3 for Triplet wheels.";
 $MSGS['max_fl']  = "Maximum value for flange holes: ";
 $MSGS['nf1_2']   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>";
+$MSGS['nf2_1']   = "Number of flange holes:<br>Side 2 must be greater than or equal to Side 1.<br>";
 $MSGS['sx_nf']   = "Spoke cross cannot exceed hole count for flange.";
 $MSGS['sx_set']  = "In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.";
 
@@ -645,10 +667,13 @@ var NF	 = [];
 	NF[1]= E(NS_ + 'NF1');	// Number of holes in Flange 1
 	NF[2]= E(NS_ + 'NF2');	//    "		   "		"	 2
 
+
+	//not elements, but requires a few definitions above...
 var MAX = {};			//At these values, it starts to takes to long to run.
 	MAX[NR.id] = 72;    //MAX NR need to be divisible by 3 AND by 4,  for Build_NR() to work for both standard & triplet modes.
 	MAX[NF[1].id] = 72;
 	MAX[NF[2].id] = 72;
+
 
 var PCD  = [];
 	PCD[1] = E(NS_ + 'PCD1');	// Pitch Circle Diameter 1
@@ -677,19 +702,38 @@ var SL	 = [];				//Spoke Lengths
 
 var SL_2_4 = E(NS_ + "SL_2_4");
 
-var BRACE_ANGLE    = [];
-	BRACE_ANGLE[1] = E(NS_ + 'brace_angle1');
-	BRACE_ANGLE[2] = E(NS_ + 'brace_angle2');
+
+
+var SHOW_HIDE_ADDITIONAL = E(NS_ + 'show_hide_additional'); //<button> to show/hide additional build info
+var ADDITIONAL_INFO = E(NS_ + 'additional_info'); //<container> around additional info.
 
 var SPOKE_RATIO	   = [];
 	SPOKE_RATIO[1] = E(NS_ + 'spoke_ratio1');
 	SPOKE_RATIO[2] = E(NS_ + 'spoke_ratio2');
 
-var TENSION_RATIO	   = [];
-	TENSION_RATIO[1] = E(NS_ + 'tension_ratio1');
-	TENSION_RATIO[2] = E(NS_ + 'tension_ratio2');
+var BRACE_ANGLE_CL    = [];
+	BRACE_ANGLE_CL[1] = E(NS_ + 'brace_angle_CL1'); //CL = CenterLine
+	BRACE_ANGLE_CL[2] = E(NS_ + 'brace_angle_CL2');
 
+var TENSION_RATIO_CL	   = [];
+	TENSION_RATIO_CL[1] = E(NS_ + 'tension_ratio_CL1');
+	TENSION_RATIO_CL[2] = E(NS_ + 'tension_ratio_CL2');
 
+var BRACE_ANGLE_EI    = [];
+	BRACE_ANGLE_EI[1] = E(NS_ + 'brace_angle_EI1'); //EI = Elbows In
+	BRACE_ANGLE_EI[2] = E(NS_ + 'brace_angle_EI2');
+
+var TENSION_RATIO_EI	= [];
+	TENSION_RATIO_EI[1] = E(NS_ + 'tension_ratio_EI1');
+	TENSION_RATIO_EI[2] = E(NS_ + 'tension_ratio_EI2');
+
+var BRACE_ANGLE_EO    = [];
+	BRACE_ANGLE_EO[1] = E(NS_ + 'brace_angle_EO1'); //EI = Elbows In
+	BRACE_ANGLE_EO[2] = E(NS_ + 'brace_angle_EO2');
+
+var TENSION_RATIO_EO	= [];
+	TENSION_RATIO_EO[1] = E(NS_ + 'tension_ratio_EO1');
+	TENSION_RATIO_EO[2] = E(NS_ + 'tension_ratio_EO2');
 
 var DISPLAY_OPTIONS = E(NS_ + 'display_options'); //<div> around display options to enable show/hide
 
@@ -790,6 +834,7 @@ var DEFAULT_VALUES = {
 
 
 var DEFAULT_OPTIONS = {
+	'show_hide_additional':"none", //none or talbe-row-group
 	'show_hide_notes':"none",
 	'show_hide_DO':"none", //"none" or "inline-block"
 	'SPOKE_COLOR1': "#477", //Spoke group colors
@@ -938,11 +983,14 @@ function Load_Samples() { //***************************************************/
 	FTC[2].value = DEFAULT_VALUES['FTC2'];
 	OSB[1].value = DEFAULT_VALUES['OSB1'];
 	OSB[2].value = DEFAULT_VALUES['OSB2'];
-	SX[1] .value = DEFAULT_VALUES['SX1'];
-	SX[2] .value = DEFAULT_VALUES['SX2'];
 	SHD   .value = DEFAULT_VALUES['SHD'];
 
 	LACE_OPT.value = DEFAULT_VALUES['LACE_OPT'];
+
+	Setup_SX(WHEEL_TYPE.value);
+
+	SX[1] .value = DEFAULT_VALUES['SX1'];
+	SX[2] .value = DEFAULT_VALUES['SX2'];
 
 	Setup_Viewbox();
 
@@ -1059,7 +1107,7 @@ function Show_Hide_Options(button, target, mode) { //***********************/
 function Bracing_Angle(f, adj) { //********************************************/
 	//tan(bracing angle) = (FtC + SHD/2) / (rR - y1)
 	
-	if (!adj) { adj = 0 } //For future use: consider flange width & whether elbows in or out. (+/- ~2.5mm)
+	if (!adj) { adj = 0 } //Consider flange width & whether elbows out or in. (+/- ~2.5mm)
 
 	var rR = ERD.value/2;		//radius of Rim
 	var rF = PCD[f].value/2;	//radius of Flange
@@ -1083,37 +1131,42 @@ function Bracing_Angle(f, adj) { //********************************************/
 
 
 
-function Update_Additional_Info() { //*****************************************/
+function Update_Additional_Info($SR, $BA, $TR, adj) { //***********************/
 
-	var aB1 = Bracing_Angle(1);
-	var aB2 = Bracing_Angle(2);
-	var bracing_ratio = aB2/aB1;
+	var aB1 = Bracing_Angle(1, adj);
+	var aB2 = Bracing_Angle(2, adj);
+	
+	if (!aB1) {aB1 = ''};
+	if (!aB2) {aB2 = ''};
+	
+	if (!aB1 || !aB2) { var bracing_ratio = 0; }
+	else 			  { var bracing_ratio = aB2/aB1; }
 	
 	if (NF[1].value == 0) { var spoke_ratio = ""; }
 	else 				  {	var spoke_ratio   = parseFloat(NF[2].value/NF[1].value).toFixed(2); }
 
-	var tension_ratio = bracing_ratio * spoke_ratio;
+	if (spoke_ratio == 0)	{var tension_ratio = 0;}
+	else					{var tension_ratio = bracing_ratio * spoke_ratio;}
 
-	BRACE_ANGLE[1].value = '';
-	BRACE_ANGLE[2].value = '';
-	SPOKE_RATIO[1].value = '';
-	SPOKE_RATIO[2].value = '';
-	TENSION_RATIO[1].value = '';
-	TENSION_RATIO[2].value = '';
+	$SR[1].value = '';
+	$SR[2].value = '';
+	$BA[1].value = '';
+	$BA[2].value = '';
+	$TR[1].value = '';
+	$TR[2].value = '';
 
 
-	if (NR.value != 0 && NF[1].value != 0) {
-		BRACE_ANGLE[1].value = parseFloat(aB1).toFixed(2);
-		SPOKE_RATIO[1].value = 1;
-		TENSION_RATIO[1].value = parseFloat(tension_ratio*100).toFixed(1);
+	if (NR.value != 0 && NF[1].value != 0 && FTC[1].value != 0) {
+		$SR[1].value = 1;
+		$BA[1].value = parseFloat(aB1).toFixed(2);
+		$TR[1].value = parseFloat(tension_ratio*100).toFixed(1);
 	}
 
-	if (NR.value != 0 && NF[2].value != 0) {
-		BRACE_ANGLE[2].value = parseFloat(aB2).toFixed(2);
-		SPOKE_RATIO[2].value = spoke_ratio;;
-		TENSION_RATIO[2].value = 100;
+	if (NR.value != 0 && NF[2].value != 0 && FTC[2].value != 0) {
+		$SR[2].value = spoke_ratio;
+		$BA[2].value = parseFloat(aB2).toFixed(2);
+		$TR[2].value = 100;
 	}
-
 }//end Update_Additional_Info() { //*******************************************/
 
 
@@ -1138,30 +1191,31 @@ function Build_NR_Options(wheel_type, max, new_value) { //*********************/
 
 
 
-function Build_SX_Options(f, cross) { //***************************************/
+function Build_SX_Options(wheel_type, f, value) { //***************************/
 
-	cross = cross*1;
+	value = value*1;
 
 	var options = ""
 	
-	if (WHEEL_TYPE.value == "custom") {
+
+	if (wheel_type == "custom") {
 		var max = NF[f].value;
 	}
 	else {
 		var max = Math.floor(NF[f].value/4);
 	}
-	
+
+
 	for (var x = max; x >= 0; x--) { 
 		options += "<option value="+x+">"+x+"</option>\n"
 	}
 
 
-	if (max == 0)    { cross = 0       } else
-	if (cross > max) { cross = max - 1 }
+	if (max == 0)    { value = 0       } else
+	if (value > max) { value = max - 1 }
 
 	SX[f].innerHTML = options;
-	SX[f].value = cross;
-
+	SX[f].value = value;
 }//end Build_SX_Options() { //*************************************************/
 
 
@@ -1246,7 +1300,10 @@ function Calc_Spoke_Lengths(changed, integer, abs) { //********************/
 	SL[2].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_2');
 	SL[4].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_2');
 
-	Update_Additional_Info();
+	Update_Additional_Info(SPOKE_RATIO, BRACE_ANGLE_CL, TENSION_RATIO_CL,  0  );
+	Update_Additional_Info(SPOKE_RATIO, BRACE_ANGLE_EI, TENSION_RATIO_EI, -BRACE_ADJ);
+	Update_Additional_Info(SPOKE_RATIO, BRACE_ANGLE_EI, TENSION_RATIO_EI,  BRACE_ADJ);
+	
 
 	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
 
@@ -1524,12 +1581,16 @@ function Clear_Wheel() { //****************************************************/
 	SL[2].value = ''; //side 1, even spokes
 	SL[3].value = ''; //side 2, odd spokes
 	SL[4].value = ''; //side 2, even spokes
-	BRACE_ANGLE[1].value = '';
-	BRACE_ANGLE[2].value = '';
 	SPOKE_RATIO[1].value = '';
 	SPOKE_RATIO[2].value = '';
-	TENSION_RATIO[1].value = '';
-	TENSION_RATIO[2].value = '';
+	BRACE_ANGLE_CL[1].value = '';
+	BRACE_ANGLE_CL[2].value = '';
+	TENSION_RATIO_CL[1].value = '';
+	TENSION_RATIO_CL[2].value = '';
+	BRACE_ANGLE_EI[1].value = '';
+	BRACE_ANGLE_EI[2].value = '';
+	TENSION_RATIO_EI[1].value = '';
+	TENSION_RATIO_EI[2].value = '';
 }//end Clear_Wheel() //********************************************************/
 
 
@@ -1561,8 +1622,9 @@ function Build_Wheel(save, input, integer) { //********************************/
 	if (save) { Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES) }
 
 
-	Update_Additional_Info();
-
+	Update_Additional_Info(SPOKE_RATIO, BRACE_ANGLE_CL, TENSION_RATIO_CL,  0  );
+	Update_Additional_Info(SPOKE_RATIO, BRACE_ANGLE_EI, TENSION_RATIO_EI, -BRACE_ADJ);
+	Update_Additional_Info(SPOKE_RATIO, BRACE_ANGLE_EO, TENSION_RATIO_EO,  BRACE_ADJ);
 
 	//##### Dev use.  Keep? ###################################
 	//##### Log("1) " + Spoke_Length_Calculator(1),1);
@@ -1639,16 +1701,18 @@ function Set_Crosses() { //****************************************************/
 
 
 
-function Setup_SX() { //*********************************************************/
+function Setup_SX(wheel_type) { //*********************************************/
 	//Do not call while *in* "custom" mode.
 
-	Build_SX_Options(1, SX[1].value);
-	Build_SX_Options(2, SX[2].value);
+
+	Build_SX_Options(wheel_type, 1, SX[1].value);
+	Build_SX_Options(wheel_type, 2, SX[2].value);
 
 
-	if (WHEEL_TYPE.value == "custom") { return; }
+	if (wheel_type == "custom") { return; }
 
-	if (WHEEL_TYPE.value == "triplet") { Set_Crosses() } 
+	//#####if (wheel_type == "triplet") { Set_Crosses() } //#####
+	 Set_Crosses(); //#####
 
 	//If NF is odd, cross can only be 0. (Except in "custom" mode.)
 	SX_Enable_Disable(1);
@@ -1714,7 +1778,7 @@ function Validate_NR() { //****************************************************/
 	//Acutal validation of NR is no longer needed (NR is now a <select>), but some other checks are.
 
 	Set_NF(NR.value);
-	Setup_SX();
+	Setup_SX(WHEEL_TYPE.value);
 
 	if (NR.value*1 > 0) { return true } //Build_WHeel() on return
 
@@ -1752,13 +1816,14 @@ function Validate_NF(nf, f) { //***********************************************/
 	}
 
 	//##### Figure out how to make this not needed (how flange-rim holes are matched up).
-	if ( NF[1].value*1 > NF[2].value*1) { //Things mess up otherwise...
-		var msg = $MSGS['nf1_2'];
+	if ( NF[1].value*1 > NF[2].value*1) { //Things mess up...
+		if (f==1) { var msg = $MSGS['nf1_2']; }
+		else 	  { var msg = $MSGS['nf2_1']; }
 		Error_Notice('', NF[f], msg);
 		return false;
 	}
 
-	Build_SX_Options(f, SX[f].value);
+	Build_SX_Options(WHEEL_TYPE.value, f, SX[f].value);
 	SX_Enable_Disable(f);
 
 	return true;
@@ -1899,19 +1964,21 @@ function Setup_Wheel_Type(init) { //*******************************************/
 
 	if (WHEEL_TYPE.value != "custom") {
 		Set_NF(nr_new);
-		if (init != "init") { Setup_SX(); }
+		if (init != "init") { Setup_SX(WHEEL_TYPE.value); }
 		return true; //Build_Wheel() on return
 	}
 
 	//else custom...
-	Build_SX_Options(1, SX[1].value);
-	Build_SX_Options(2, SX[2].value);
-	
-	NF[1].disabled = false;
-	NF[2].disabled = false;
-	
-	SX[1].disabled = false;
-	SX[2].disabled = false;
+	var f = 1;
+	Build_SX_Options(WHEEL_TYPE.value, f, SX[f].value);
+	NF[f].disabled = false;
+	SX[f].disabled = false;
+
+	var f = 2;
+	Build_SX_Options(WHEEL_TYPE.value, f, SX[f].value);
+	NF[f].disabled = false;
+	SX[f].disabled = false;
+
 	
 	SETTINGS.style['background-color'] = BG_CUSTOM;
 	
@@ -1962,6 +2029,7 @@ function Assign_Events() { //**************************************************/
 	OSB[2].addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 1); });
 	SHD   .addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 0); });
 
+	SHOW_HIDE_ADDITIONAL.addEventListener("click", function() { Show_Hide_Options(this, ADDITIONAL_INFO, "table-row-group"); });
 	SHOW_HIDE_NOTES.addEventListener("click", function() { Show_Hide_Options(this, NOTES, "inline-block"); });
 	SHOW_HIDE_DO.addEventListener("click", function() {	Show_Hide_Options(this, DISPLAY_OPTIONS, "inline-block"); });
 
@@ -2030,6 +2098,8 @@ function WH_Init() { //********************************************************/
 	Assign_Events();
 
 	Build_NR_Options("custom", MAX[NR.id], 0); //Temp until settings loaded, then again in Setup_Wheel_Type().
+	Build_SX_Options("custom", 1, 0);			//		"		"		"		"		"		"		"
+	Build_SX_Options("custom", 2, 0);			//		"		"		"		"		"		"		"
 
 	Load_Saved_Settings(LS_WHEEL_SETTINGS);  //If any...
 	Validate_Wheel_Settings();
@@ -2043,7 +2113,7 @@ function WH_Init() { //********************************************************/
 
 	Build_Wheel();
 
-
+	ADDITIONAL_INFO.style["display"] = SHOW_HIDE_ADDITIONAL.value;
 	NOTES.style["display"] = SHOW_HIDE_NOTES.value;
 	DISPLAY_OPTIONS.style["display"] = SHOW_HIDE_DO.value;
 
