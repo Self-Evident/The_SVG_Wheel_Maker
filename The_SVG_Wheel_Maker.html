@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The SVG Wheel Maker
-v.beta.34
+v.beta.35
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -379,9 +379,9 @@ table#WH_add_info.WH { border-spacing: 2px;}
 
 
 
-
+<button type=button id=WH_show_hide_additional class="WH WH_ndo_buttons" value=none>Additional Build Info</button>
 <table class=WH id=WH_add_info>
-	<tr><th colspan=3><button type=button id=WH_show_hide_additional class="WH WH_ndo_buttons" value=none>Additional Build Info</button></th></tr>
+	<!-- tr><th colspan=3>Advanvced Build Info</th></tr -->
 	<tbody id=WH_additional_info>
 	<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
 	<tr>
@@ -1898,16 +1898,24 @@ function Show_Hide(what, show, save) { //**************************************/
 
 
 
-function Scroll_Into_View(target) { //*****************************************/
-	//Only scroll if target not already on screen.
+function Scroll_Into_View(target, extra) { //**********************************/
+	//Only scroll if target display is !=none, and 
+	//if the top of the element is not visible in the window.
 
-    var rect = target.getBoundingClientRect();
-    if (rect.bottom > window.innerHeight) {
-        target.scrollIntoView(false);
-    }
-    if (rect.top < 0) {
-        target.scrollIntoView();
-    } 
+	if (target.style['display'] == "none") { return; }
+
+	var rect = target.getBoundingClientRect();
+
+	//window contents scroll down if off the top...
+    if (rect.top < extra) { window.scrollBy(0, rect.top - extra); return; }
+
+
+	var viewable_amount = window.innerHeight - rect.top;
+	var min_top_visible = 150; //SCroll this much of element into view, if less than this amount.
+
+	//window contents scroll up if off the bottom...
+    if (viewable_amount < min_top_visible) { window.scrollBy(0, min_top_visible - viewable_amount); }
+
 }//end Scroll_Into_View() { //*************************************************/
 
 
@@ -2038,17 +2046,17 @@ function Assign_Events() { //**************************************************/
 
 	SHOW_HIDE_ADDITIONAL.addEventListener("click", function() {
 		Show_Hide_Options(this, ADDITIONAL_INFO, "table-row-group");
-		Scroll_Into_View(ADDITIONAL_INFO);
+		Scroll_Into_View(ADDITIONAL_INFO, this.offsetHeight + 10);
 	});
 
 	SHOW_HIDE_DO.addEventListener("click", function() {
 		Show_Hide_Options(this, DISPLAY_OPTIONS, "inline-block");
-		Scroll_Into_View(DISPLAY_OPTIONS);
+		Scroll_Into_View(DISPLAY_OPTIONS, this.offsetHeight + 10);
 	});
 
 	SHOW_HIDE_NOTES.addEventListener("click", function() {
 		Show_Hide_Options(this, NOTES, "inline-block");
-		Scroll_Into_View(NOTES);
+		Scroll_Into_View(NOTES, this.offsetHeight + 10);
 	});
 
 	for (var group = 1; group <= 4; group++) {
