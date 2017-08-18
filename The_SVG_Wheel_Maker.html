@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The SVG Wheel Maker
-v.beta.33
+v.beta.34
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -36,7 +36,9 @@ SOFTWARE.
 
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-XXXXX-body { margin: 1rem; }
+body { overflow-y: scroll; }
+
+
 /*** The prefix "WH_" simple means "WHeel" ***/
 
 
@@ -619,17 +621,12 @@ var BRACE_ADJ = 2.5;
 
 
 //Various messeges
-var $MSGS = {};
-$MSGS['notice']  = "<div id=WH_message_header>Notice!</div>";
-$MSGS['invalid'] = "Invalid input: ";
-$MSGS['max_nr']  = "Maximum value for Rim Holes: ";
-$MSGS['even_nr'] = "Number of rim holes must be even for a standard wheel.";
-$MSGS['nr_3']    = "Number of rim holes must be divisible by 3 for Triplet wheels.";
-$MSGS['max_fl']  = "Maximum value for flange holes: ";
-$MSGS['nf1_2']   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>";
-$MSGS['nf2_1']   = "Number of flange holes:<br>Side 2 must be greater than or equal to Side 1.<br>";
-$MSGS['sx_nf']   = "Spoke cross cannot exceed hole count for flange.";
-$MSGS['sx_set']  = "In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.";
+var MSGS = {};
+MSGS['notice']  = "<div id=WH_message_header>Notice!</div>";
+MSGS['invalid'] = "Invalid input: ";
+MSGS['max_fl']  = "Maximum value for flange holes: ";
+MSGS['nf1_2']   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>";
+MSGS['nf2_1']   = "Number of flange holes:<br>Side 2 must be greater than or equal to Side 1.<br>";
 
 
 
@@ -943,12 +940,14 @@ function Load_Saved_Settings(ls_name) { //*************************************/
 		if (E(id).type == "checkbox") { E(id).checked = (value == "true"); } 
 		else						  { E(id).value   = value }
 	}
+
+	return true;
 }//end Load_Saved_Settings() { //**********************************************/
 
 
 
 
-function Validate_Wheel_Settings() { //**********************************************/
+function Validate_Wheel_Settings() { //****************************************/
 	//For now, just a very basic sanitation of loaded values.
 
 	if ((WHEEL_TYPE.value != "custom") && (WHEEL_TYPE.value != "triplet")) { WHEEL_TYPE.value = "standard"; }
@@ -963,8 +962,8 @@ function Validate_Wheel_Settings() { //*****************************************
 		if (isNaN(setting.value)) { setting.value = "" }
 	}
 	
-	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES); //In case where invalid.
-}//end Validate_Wheel_Settings() { //************************************************/
+	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES); //in case any were invalid.
+}//end Validate_Wheel_Settings() { //******************************************/
 
 
 
@@ -987,14 +986,18 @@ function Load_Samples() { //***************************************************/
 
 	LACE_OPT.value = DEFAULT_VALUES['LACE_OPT'];
 
-	Setup_SX(WHEEL_TYPE.value);
+	Build_SX_Options(WHEEL_TYPE.value, 1, NF[1].value, SX[1].value);
+	Build_SX_Options(WHEEL_TYPE.value, 2, NF[2].value, SX[2].value);
 
-	SX[1] .value = DEFAULT_VALUES['SX1'];
-	SX[2] .value = DEFAULT_VALUES['SX2'];
+	SX[1].value = DEFAULT_VALUES['SX1'];
+	SX[2].value = DEFAULT_VALUES['SX2'];
+
+	SX_Enable_Disable(1);
+	SX_Enable_Disable(2);
 
 	Setup_Viewbox();
 
-	Setup_Wheel_Type("init");
+	Setup_Wheel_Type();
 
 	Build_Wheel();
 
@@ -1034,7 +1037,7 @@ function Clear_Settings() { //*************************************************/
 
 
 
-function Load_DEFAULT_OPTIONS() { //******************************************/
+function Load_DEFAULT_OPTIONS() { //*******************************************/
 	for (var group = 1; group <=4; group++) {
 		SPOKE_COLOR[group]    .value   = DEFAULT_OPTIONS['SPOKE_COLOR' + group];
 		SPOKE_LINE_SIZE[group].value   = DEFAULT_OPTIONS['SPOKE_LINE_SIZE' + group];
@@ -1061,7 +1064,7 @@ function Load_DEFAULT_OPTIONS() { //******************************************/
 
 	HOLESIZE.value     = DEFAULT_OPTIONS['HOLESIZE'];
 	
-}//end Load_DEFAULT_OPTIONS() //**********************************************/
+}//end Load_DEFAULT_OPTIONS() //***********************************************/
 
 
 
@@ -1090,7 +1093,7 @@ function scroll_blur(event){ //************************************************/
 
 
 
-function Show_Hide_Options(button, target, mode) { //***********************/
+function Show_Hide_Options(button, target, mode) { //**************************/
 	//Toggle button.value, and Show or Hide target,
 
 	if (button.value == "none") { button.value     = mode;   } //inline-block, etc...
@@ -1191,20 +1194,14 @@ function Build_NR_Options(wheel_type, max, new_value) { //*********************/
 
 
 
-function Build_SX_Options(wheel_type, f, value) { //***************************/
+function Build_SX_Options(wheel_type, f, max, value) { //**********************/
 
 	value = value*1;
 
 	var options = ""
 	
 
-	if (wheel_type == "custom") {
-		var max = NF[f].value;
-	}
-	else {
-		var max = Math.floor(NF[f].value/4);
-	}
-
+	if (wheel_type != "custom") { max = Math.floor(max/4); }
 
 	for (var x = max; x >= 0; x--) { 
 		options += "<option value="+x+">"+x+"</option>\n"
@@ -1286,7 +1283,7 @@ function Calc_Spoke_Length(flange, spoke_id) { //******************************/
 
 
 
-function Calc_Spoke_Lengths(changed, integer, abs) { //********************/
+function Calc_Spoke_Lengths(changed, integer, abs) { //************************/
 	//Calc spoke lengths for both sides. Used by onchange of OSB & SHD.
 
 	if (!Validate_Input(changed, integer, abs)) { return false }
@@ -1306,17 +1303,13 @@ function Calc_Spoke_Lengths(changed, integer, abs) { //********************/
 	
 
 	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
-
-	//##### #################### sanity check ######################
-	//##### Log(Spoke_Length_Calculator(1),1);
-	//##### Log(Spoke_Length_Calculator(2),1);
-}//end Calc_Spoke_Lengths() //*********************************************/
+}//end Calc_Spoke_Lengths() //*************************************************/
 
 
 
 
 
-function Spoke_Length_Calculator(f) { //*****************************************
+function Spoke_Length_Calculator(f) { //***************************************/
 	//Tradtional method. For the most part. Not currently used.
 	//Not valid for some skip hole configurations (and maybe others).
 
@@ -1341,7 +1334,7 @@ function Spoke_Length_Calculator(f) { //****************************************
 		S = Math.round(S * 10)/10;
 
 	return S;
-}//end Spoke_Length_Calculator() { //*******************************************
+}//end Spoke_Length_Calculator() { //******************************************/
 
 
 
@@ -1371,7 +1364,7 @@ function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //**********/
 		SL[group].value = Calc_Spoke_Length(flange, spoke_id);
 	}
 	
-	//##### In case I want to calc ALL spokes.
+	//##### In case I want to calc ALL spokes. ##############################
 	//##### if ((flange == 1) && (flange_hole == 1)) {Log();}//clear CONSOLE each build.
 	//##### Log(spoke_id + ") " + Calc_Spoke_Length(flange, spoke_id),1) 
 }//end Draw_Spoke() //*********************************************************/
@@ -1381,9 +1374,10 @@ function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //**********/
 
 function Lacing_Option(f) { //*************************************************/
     /****************************************************../
-    tl;dr: "It's complicated..."  :)
+    tl;dr: Without Lacing_Option(), the spokes/wheel re-orient with changes. Sort of.  It's complicated...  :) 
 
-    In a triplet wheel, with a given spoke count & cross (actually, whether they're even/odd),
+	"Full" Explanation:
+    In a triplet wheel, with a given spoke count & cross (just whether they're even/odd),
     there are two lace patterns possible: "Type 1" and "Type 2"  :)
     
     In this program, it is presented as "Lacing Option".  Also, it really only matters on the side
@@ -1636,11 +1630,11 @@ function Build_Wheel(save, input, integer) { //********************************/
 
 
 
-function Error_Notice(init, what, msg) {//*******************************************/
+function Error_Notice(init, what, msg) {//*************************************/
 	//what: id of changed input.
 	if (typeof msg == 'undefined') { msg = "" }
 
-	if (!init && (what.tagName == "INPUT")) { msg = $MSGS['invalid'] + ' "' + what.value + '".<br>' + msg; }
+	if (!init && (what.tagName == "INPUT")) { msg = MSGS['invalid'] + ' "' + what.value + '".<br>' + msg; }
 
 	MESSAGE_DIV.innerHTML = msg;
 	MESSAGE_BOX.style['visibility'] = "visible"; 
@@ -1683,8 +1677,11 @@ function Close_Message() { //**************************************************/
 
 
 
-function Set_Crosses() { //****************************************************/
+function Set_SX() { //*********************************************************/
 	//Set practical default cross values for most flange hole counts, even impractical ones.
+	//User can change SX manually if desired.
+
+	if (WHEEL_TYPE.value == "custom") { return; }
 
 	if (NF[2].value*1 <  4) { SX[2].value = 0 } else
 	if (NF[2].value*1 < 10) { SX[2].value = 1 } else
@@ -1696,29 +1693,7 @@ function Set_Crosses() { //****************************************************/
 	
 	if (WHEEL_TYPE.value == "standard") { SX[1].value = SX[2].value; }
 	if (WHEEL_TYPE.value == "triplet")  { SX[1].value = 0; }
-}//end Set_Crosses() { //******************************************************/
-
-
-
-
-function Setup_SX(wheel_type) { //*********************************************/
-	//Do not call while *in* "custom" mode.
-
-
-	Build_SX_Options(wheel_type, 1, SX[1].value);
-	Build_SX_Options(wheel_type, 2, SX[2].value);
-
-
-	if (wheel_type == "custom") { return; }
-
-	//#####if (wheel_type == "triplet") { Set_Crosses() } //#####
-	 Set_Crosses(); //#####
-
-	//If NF is odd, cross can only be 0. (Except in "custom" mode.)
-	SX_Enable_Disable(1);
-	SX_Enable_Disable(2);
-
-}//end Setup_SX() { //***********************************************************/
+}//end Set_SX() { //***********************************************************/
 
 
 
@@ -1778,7 +1753,16 @@ function Validate_NR() { //****************************************************/
 	//Acutal validation of NR is no longer needed (NR is now a <select>), but some other checks are.
 
 	Set_NF(NR.value);
-	Setup_SX(WHEEL_TYPE.value);
+
+	Build_SX_Options(WHEEL_TYPE.value, 1, NF[1].value, SX[1].value);
+	Build_SX_Options(WHEEL_TYPE.value, 2, NF[2].value, SX[2].value);
+
+	Set_SX()
+
+	//If NF is odd, cross can only be 0. (Except in "custom" mode.)
+	SX_Enable_Disable(1);
+	SX_Enable_Disable(2);
+
 
 	if (NR.value*1 > 0) { return true } //Build_WHeel() on return
 
@@ -1810,20 +1794,20 @@ function Validate_NR() { //****************************************************/
 function Validate_NF(nf, f) { //***********************************************/
 
 	if (NF[f].value*1 > MAX[NF[f].id]) {
-		var msg = $MSGS['max_fl'] + MAX[NF[f].id] + ".<br>";
+		var msg = MSGS['max_fl'] + MAX[NF[f].id] + ".<br>";
 		Error_Notice('', NF[f], msg);
 		return false;
 	}
 
 	//##### Figure out how to make this not needed (how flange-rim holes are matched up).
 	if ( NF[1].value*1 > NF[2].value*1) { //Things mess up...
-		if (f==1) { var msg = $MSGS['nf1_2']; }
-		else 	  { var msg = $MSGS['nf2_1']; }
+		if (f==1) { var msg = MSGS['nf1_2']; }
+		else 	  { var msg = MSGS['nf2_1']; }
 		Error_Notice('', NF[f], msg);
 		return false;
 	}
 
-	Build_SX_Options(WHEEL_TYPE.value, f, SX[f].value);
+	Build_SX_Options(WHEEL_TYPE.value, f, NF[f].value, SX[f].value);
 	SX_Enable_Disable(f);
 
 	return true;
@@ -1854,7 +1838,7 @@ function Validate_Input(input, integer, allow_neg) { //************************/
 
 function Setup_Viewbox() { //**************************************************/
 
-	if (ERD.value == 0 && PCD[1].value == 0 && PCD[2].value == 0) { total = 600; }
+	if (ERD.value == 0 && PCD[1].value == 0 && PCD[2].value == 0) { total = DEFAULT_OPTIONS['VIEWBOX_SIZE']; }
 	else {
 		var erd = ERD.value*1;
 		var rim = RIM_LINE_SIZE.value*1;
@@ -1914,6 +1898,21 @@ function Show_Hide(what, show, save) { //**************************************/
 
 
 
+function Scroll_Into_View(target) { //*****************************************/
+	//Only scroll if target not already on screen.
+
+    var rect = target.getBoundingClientRect();
+    if (rect.bottom > window.innerHeight) {
+        target.scrollIntoView(false);
+    }
+    if (rect.top < 0) {
+        target.scrollIntoView();
+    } 
+}//end Scroll_Into_View() { //*************************************************/
+
+
+
+
 function Set_Style_by_Class(classname, style, value, save) { //****************/
 	var objects = D.getElementsByClassName(classname);
 	for (var s = 0; s < objects.length; s++) { objects[s].style[style] = value; }
@@ -1925,7 +1924,7 @@ function Set_Style_by_Class(classname, style, value, save) { //****************/
 
 
 
-function Set_Save_Style(element, style, value) { //***************************/
+function Set_Save_Style(element, style, value) { //****************************/
 	element.style[style] = value;
 	Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS); 
 }//end Set_Save_Style() //****************************************************/
@@ -1942,6 +1941,7 @@ function Set_Attribute_by_Class(classname, attribute, value) { //**************/
 
 
 function Setup_Wheel_Type(init) { //*******************************************/
+	//Adjust/set NR, NF, & SX as needed for each type(mode) -  (standard/triplet/custom).
 
 	var nr_new = NR.value*1;
 
@@ -1964,18 +1964,26 @@ function Setup_Wheel_Type(init) { //*******************************************/
 
 	if (WHEEL_TYPE.value != "custom") {
 		Set_NF(nr_new);
-		if (init != "init") { Setup_SX(WHEEL_TYPE.value); }
+		Build_SX_Options(WHEEL_TYPE.value, 1, NF[1].value, SX[1].value);
+		Build_SX_Options(WHEEL_TYPE.value, 2, NF[2].value, SX[2].value);
+		
+		if (init != "init") {
+	 		Set_SX();
+			
+			SX_Enable_Disable(1);
+			SX_Enable_Disable(2);
+		}
 		return true; //Build_Wheel() on return
 	}
 
 	//else custom...
 	var f = 1;
-	Build_SX_Options(WHEEL_TYPE.value, f, SX[f].value);
+	Build_SX_Options(WHEEL_TYPE.value, f, NF[f].value, SX[f].value);
 	NF[f].disabled = false;
 	SX[f].disabled = false;
 
 	var f = 2;
-	Build_SX_Options(WHEEL_TYPE.value, f, SX[f].value);
+	Build_SX_Options(WHEEL_TYPE.value, f, NF[f].value, SX[f].value);
 	NF[f].disabled = false;
 	SX[f].disabled = false;
 
@@ -1991,12 +1999,11 @@ function Setup_Wheel_Type(init) { //*******************************************/
 
 function Assign_Events() { //**************************************************/
 
-	var save = true; //Some functions have option to save settings, if the argument is true (or 1, etc).
+	var save = true; //Just for clarity below, as some functions have an option to save settings.
 
-	//Save prior value in case of error in new value.
+	//Save current value (as .prior_value) onfocus in case of error in new value.
 	var settings = [WHEEL_TYPE, LACE_OPT, ERD, NR, NF[1], NF[2], PCD[1], PCD[2], FTC[1], FTC[2], OSB[1], OSB[2], SX[1], SX[2], SHD];
 	for (var x = 0; x < settings.length; x++) {
-		//.prior_value also set in Build_Wheel().
 		settings[x].addEventListener("focus", function() {
 			if (ACCEPT_MSG.value != "true") { ACCEPT_MSG.focus(); }
 			this.prior_value = this.value; //also set in Build_Wheel() and in Calc_Spoke_Lengths().
@@ -2029,9 +2036,20 @@ function Assign_Events() { //**************************************************/
 	OSB[2].addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 1); });
 	SHD   .addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 0); });
 
-	SHOW_HIDE_ADDITIONAL.addEventListener("click", function() { Show_Hide_Options(this, ADDITIONAL_INFO, "table-row-group"); });
-	SHOW_HIDE_NOTES.addEventListener("click", function() { Show_Hide_Options(this, NOTES, "inline-block"); });
-	SHOW_HIDE_DO.addEventListener("click", function() {	Show_Hide_Options(this, DISPLAY_OPTIONS, "inline-block"); });
+	SHOW_HIDE_ADDITIONAL.addEventListener("click", function() {
+		Show_Hide_Options(this, ADDITIONAL_INFO, "table-row-group");
+		Scroll_Into_View(ADDITIONAL_INFO);
+	});
+
+	SHOW_HIDE_DO.addEventListener("click", function() {
+		Show_Hide_Options(this, DISPLAY_OPTIONS, "inline-block");
+		Scroll_Into_View(DISPLAY_OPTIONS);
+	});
+
+	SHOW_HIDE_NOTES.addEventListener("click", function() {
+		Show_Hide_Options(this, NOTES, "inline-block");
+		Scroll_Into_View(NOTES);
+	});
 
 	for (var group = 1; group <= 4; group++) {
 		(function(g) {
@@ -2097,12 +2115,13 @@ function WH_Init() { //********************************************************/
 
 	Assign_Events();
 
-	Build_NR_Options("custom", MAX[NR.id], 0); //Temp until settings loaded, then again in Setup_Wheel_Type().
-	Build_SX_Options("custom", 1, 0);			//		"		"		"		"		"		"		"
-	Build_SX_Options("custom", 2, 0);			//		"		"		"		"		"		"		"
+	Build_NR_Options("custom", MAX[NR.id], 0);  //Temp until settings loaded, then again in Setup_Wheel_Type().
+	Build_SX_Options("custom", 1, MAX[NR.id], 0);	//		"		"		"		"		"		"		"
+	Build_SX_Options("custom", 2, MAX[NR.id], 0);	//		"		"		"		"		"		"		"
 
-	Load_Saved_Settings(LS_WHEEL_SETTINGS);  //If any...
-	Validate_Wheel_Settings();
+	var saved_settings_found = Load_Saved_Settings(LS_WHEEL_SETTINGS);  //If any...
+
+	if (saved_settings_found) { Validate_Wheel_Settings(); }
 
 	Load_DEFAULT_OPTIONS();
 	Load_Saved_Settings(LS_DISPLAY_OPTIONS); //  "		
@@ -2111,11 +2130,11 @@ function WH_Init() { //********************************************************/
 
 	Setup_Wheel_Type("init");
 
-	Build_Wheel();
+	if (saved_settings_found) { Build_Wheel(); }
 
 	ADDITIONAL_INFO.style["display"] = SHOW_HIDE_ADDITIONAL.value;
-	NOTES.style["display"] = SHOW_HIDE_NOTES.value;
 	DISPLAY_OPTIONS.style["display"] = SHOW_HIDE_DO.value;
+	NOTES.style["display"] = SHOW_HIDE_NOTES.value;
 
 	//Reduce the visually jarring, if brief,  jumping around of page elements during page load.
 	CONTAINER.style['visibility'] = "visible";
@@ -2134,7 +2153,7 @@ function WH_Init() { //********************************************************/
 	}
 
 	if (ACCEPT_MSG.value == "true") { ERD.focus(); }
-	else 							{ Error_Notice('init', ERD, $MSGS['notice'] + RESPONSIBILITY.innerHTML); }
+	else 							{ Error_Notice('init', ERD, MSGS['notice'] + RESPONSIBILITY.innerHTML); }
 
 }//end WH_Init() //************************************************************/
 
