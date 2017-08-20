@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The SVG Wheel Maker
-v.beta.36
+v.beta.37
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -381,10 +381,16 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 
 
 
+
 <button type=button id=WH_show_hide_additional class="WH WH_ndo_buttons" value=none>Additional Build Info</button>
 <table class=WH id=WH_add_info>
 	<!-- tr><th colspan=3>Advanvced Build Info</th></tr -->
 	<tbody id=WH_additional_info>
+
+	<tr><td colspan=2>Flange width at spoke holes:</td><td><input id=WH_FW  class="WH" type=text maxlength=4></td></tr>
+	<tr><td colspan=2>Spoke diameter at bend:     </td><td><input id=WH_SDB class="WH" type=text maxlength=4></td></tr>
+	<tr class=WH_separator><td colspan=3></td></tr>
+
 	<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
 	<tr>
 		<td>Spoke Ratio</td>
@@ -393,6 +399,11 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 	</tr>
 
 	<tr class=WH_th3><th colspan=3>Elbows In</th></tr>
+	<tr>
+		<td>Spoke Lengths</td>
+		<td><input id=WH_SL_EI1 type=text readonly tabindex="-1"></td>
+		<td><input id=WH_SL_EI2 type=text readonly tabindex="-1"></td>
+	</tr>
 	<tr>
 		<td>Bracing Angles</td>
 		<td><input id=WH_brace_angle_EI1 type=text readonly tabindex="-1">&deg;</td>
@@ -406,6 +417,11 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 
 	<tr class=WH_th3><th colspan=3>Flange Centerline</th></tr>
 	<tr>
+		<td>Spoke Lengths</td>
+		<td><input id=WH_SL_CL1 type=text readonly tabindex="-1"></td>
+		<td><input id=WH_SL_CL2 type=text readonly tabindex="-1"></td>
+	</tr>
+	<tr>
 		<td>Bracing Angles</td>
 		<td><input id=WH_brace_angle_CL1 type=text readonly tabindex="-1">&deg;</td>
 		<td><input id=WH_brace_angle_CL2 type=text readonly tabindex="-1">&deg;</td>
@@ -417,6 +433,11 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 	</tr>
 
 	<tr class=WH_th3><th colspan=3>Elbows Out</th></tr>
+	<tr>
+		<td>Spoke Lengths</td>
+		<td><input id=WH_SL_EO1 type=text readonly tabindex="-1"></td>
+		<td><input id=WH_SL_EO2 type=text readonly tabindex="-1"></td>
+	</tr>
 	<tr>
 		<td>Bracing Angles</td>
 		<td><input id=WH_brace_angle_EO1 type=text readonly tabindex="-1">&deg;</td>
@@ -565,7 +586,7 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 					</div>
 					<div>
 						<p class=WH>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
-						<p class=WH>That is, just because the program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or possible. Or even that all required spokes lengths are listed.  The precedeing will more likely become evident in Custom mode, as it has fewer restrictions on rim & hub values than Standard & Triplet modes.  And while it will generally be obvious when values produce an unrealistic wheel, again, there are no guarantees.
+						<p class=WH>That is, just because the program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim & hub values than Standard & Triplet modes.  And while it will generally be obvious when values produce an unrealistic wheel, again, there are no guarantees.
 						<p class=WH>For additional information, please refer to geometry. And physics.
 					</div>
 				</td>
@@ -616,10 +637,6 @@ var BG_CUSTOM   = "#FAB";			   //	"		"		"		"		   Custom mode.
 var PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocus() of the inputs.
 
 
-//##### make inputs for this?  (Flange width + spoke diameter)/2
-//ex: flange width = 3mm, spoke diameter at flange = 2mm, BRACE_ADJ = +/- 2.5mm (+elbows out/-elbows in)
-var BRACE_ADJ = 2.5; 
-
 
 
 //Various messeges
@@ -657,6 +674,7 @@ var $LOAD_SAMPLES	= E(NS_ + 'load_samples');
 var $CLEAR_SETTINGS	= E(NS_ + 'clear_settings');
 var $WHEEL_TYPE		= E(NS_ + 'WHEEL_TYPE');
 
+
 var $ERD  = E(NS_ + 'ERD');	// Effective Rim Diameter
 var $NR   = E(NS_ + 'NR');	// Number of holes in the Rim
 var $NF	 = [];
@@ -665,8 +683,8 @@ var $NF	 = [];
 
 
 	//not elements, but requires a few elements defined above...
-var MAX = {};			//At these values, it starts to take to long to run.
-	MAX[$NR.id] = 72;    //MAX NR need to be divisible by 3 AND by 4,  for Build_NR() to work for both standard & triplet modes.
+var MAX = {};			 //At these values, it starts to take to long to run.
+	MAX[$NR.id]    = 72; //MAX NR need to be divisible by 3 AND by 4,  for Build_NR() to work for both standard & triplet modes.
 	MAX[$NF[1].id] = 72;
 	MAX[$NF[2].id] = 72;
 
@@ -698,14 +716,19 @@ var $SL   = [];					//Spoke Lengths
 
 var $SL_2_4 = E(NS_ + "SL_2_4");
 
-
-
 var $SHOW_HIDE_ADDITIONAL = E(NS_ + 'show_hide_additional'); //<button> to show/hide additional build info
 var $ADDITIONAL_INFO = E(NS_ + 'additional_info'); //<container> around additional info.
+
+var $FW	 = E(NS_ + 'FW');  //Flange Width, at spoke holes.
+var $SDB = E(NS_ + 'SDB'); //Spoke Diameter, at bend.
 
 var $SPOKE_RATIO    = [];
 	$SPOKE_RATIO[1] = E(NS_ + 'spoke_ratio1');
 	$SPOKE_RATIO[2] = E(NS_ + 'spoke_ratio2');
+
+var $SL_CL	  = []; //Spoke Lengths Elbows In 
+	$SL_CL[1] = E(NS_ + 'SL_CL1');
+	$SL_CL[2] = E(NS_ + 'SL_CL2');
 
 var $BRACE_ANGLE_CL    = [];
 	$BRACE_ANGLE_CL[1] = E(NS_ + 'brace_angle_CL1'); //CL = CenterLine
@@ -715,6 +738,10 @@ var $TENSION_RATIO_CL    = [];
 	$TENSION_RATIO_CL[1] = E(NS_ + 'tension_ratio_CL1');
 	$TENSION_RATIO_CL[2] = E(NS_ + 'tension_ratio_CL2');
 
+var $SL_EI	  = []; //Spoke Lengths Elbows In 
+	$SL_EI[1] = E(NS_ + 'SL_EI1');
+	$SL_EI[2] = E(NS_ + 'SL_EI2');
+
 var $BRACE_ANGLE_EI    = [];
 	$BRACE_ANGLE_EI[1] = E(NS_ + 'brace_angle_EI1'); //EI = Elbows In
 	$BRACE_ANGLE_EI[2] = E(NS_ + 'brace_angle_EI2');
@@ -722,6 +749,10 @@ var $BRACE_ANGLE_EI    = [];
 var $TENSION_RATIO_EI    = [];
 	$TENSION_RATIO_EI[1] = E(NS_ + 'tension_ratio_EI1');
 	$TENSION_RATIO_EI[2] = E(NS_ + 'tension_ratio_EI2');
+
+var $SL_EO	  = []; //Spoke Lengths Elbows In 
+	$SL_EO[1] = E(NS_ + 'SL_EO1');
+	$SL_EO[2] = E(NS_ + 'SL_EO2');
 
 var $BRACE_ANGLE_EO    = [];
 	$BRACE_ANGLE_EO[1] = E(NS_ + 'brace_angle_EO1'); //EI = Elbows In
@@ -825,8 +856,10 @@ var DEFAULT_VALUES = {
 	'OSB2':"",   //
 	'SX1' :2,    
 	'SX2' :2,
-	'SHD' :2.6,  //Affects spoke length calcs only (not displayed size).
-	'LACE_OPT':1 } //1 or -1
+	'SHD' :2.6,		//Affects spoke length calcs only (not displayed size).
+	'LACE_OPT':1,	//1 or -1
+	'FW'  :3,		//Flange Width, at spoke holes.
+	'SDB' :2 }		//Spoke Diameter, at bend.
 
 
 var DEFAULT_OPTIONS = {
@@ -984,6 +1017,9 @@ function Load_Samples() { //***************************************************/
 	$SHD   .value = DEFAULT_VALUES['SHD'];
 
 	$LACE_OPT.value = DEFAULT_VALUES['LACE_OPT'];
+	$FW .value = DEFAULT_VALUES['FW'];
+	$SDB.value = DEFAULT_VALUES['SDB'];
+
 
 	Build_SX_Options($WHEEL_TYPE.value, 1, $NF[1].value, $SX[1].value);
 	Build_SX_Options($WHEEL_TYPE.value, 2, $NF[2].value, $SX[2].value);
@@ -1109,18 +1145,20 @@ function Show_Hide_Options(button, target, mode) { //**************************/
 function Bracing_Angle(f, adj) { //********************************************/
 	//tan(bracing angle) = (FtC + SHD/2) / (rR - y1)
 	
-	if (!adj) { adj = 0 } //Consider flange width & whether elbows out or in. (+/- ~2.5mm)
+	if (!adj) { adj = 0 } //Consider whether spokes laced elbows out or in. (+/- ~2.5mm)
 
 	var rR = $ERD.value/2;		//radius of Rim
 	var rF = $PCD[f].value/2;	//radius of Flange
-	var ftc= $FTC[f].value*1 + adj;	//flange to center +/- adj (heads in/out)
+	var ftc= $FTC[f].value*1 + adj;	//flange to center...
 	var osb= $OSB[f].value*1;	//offset spoke bed (off-center)
 	var aR = 360/$NR.value*1;	//angle between holes in Rim
 	var aF = 360/$NF[f].value*1;	//angle between holes in flange
-	var tt = $LACE_OPT.value*1;  //"triplet type", 1 or -1. For standard lacings, doesn't matter.
-	var a0 = (aR - aF/2) * tt;  //"angle" to hole zero. For standard, always 0.
+	var lo = $LACE_OPT.value*1;  //lacing option, 1 or -1. For standard lacings, doesn't matter.
 
-	var af     = ($SX[f].value * aF) + (aR - aF/2) * tt; //angle to hole in flange of spoke.
+	//"angle" to hole zero. For standard wheels = 0.
+	if (($NR.value % $NF[f].value) == 0) { var a0 = 0; } else { var a0  = aR - aF/2; }
+
+	var af     = ($SX[f].value * aF) + a0 * lo; //angle to hole in flange  spoke.
 	var af_rad = af/180 * Math.PI; 		 //af in radians
 	var y1     = rF * Math.cos(af_rad);  // x1^2 + y1^2 = rF^2
 	var tan_aB = (ftc + osb) / (rR - y1);//tangent of Bracing angle
@@ -1133,42 +1171,69 @@ function Bracing_Angle(f, adj) { //********************************************/
 
 
 
-function Update_Additional_Info($SR, $BA, $TR, adj) { //***********************/
+function Calc_Brace_Tension(spoke_ratio, $BA, $TR, in_out) { //****************/
+	//Calculate Brace Angles (BA) and Tension Ratios (TR)
 
-	var aB1 = Bracing_Angle(1, adj);
-	var aB2 = Bracing_Angle(2, adj);
-	
-	if (!aB1) {aB1 = ''};
-	if (!aB2) {aB2 = ''};
-	
-	if (!aB1 || !aB2) { var bracing_ratio = 0; }
-	else 			  { var bracing_ratio = aB2/aB1; }
-	
-	if ($NF[1].value == 0) { var spoke_ratio = ""; }
-	else 				  {	var spoke_ratio   = parseFloat($NF[2].value / $NF[1].value).toFixed(2); }
-
-	if (spoke_ratio == 0)	{var tension_ratio = 0;}
-	else					{var tension_ratio = bracing_ratio * spoke_ratio;}
-
-	$SR[1].value = '';
-	$SR[2].value = '';
 	$BA[1].value = '';
 	$BA[2].value = '';
 	$TR[1].value = '';
 	$TR[2].value = '';
 
+	var aB1 = Bracing_Angle(1, in_out);
+	var aB2 = Bracing_Angle(2, in_out);
+
+	if (!aB1) {aB1 = ''};
+	if (!aB2) {aB2 = ''};
+
+	if (!aB1 || !aB2) { var bracing_ratio = 0; }
+	else 			  { var bracing_ratio = aB2/aB1; }
+
+	var tension_ratio = bracing_ratio * spoke_ratio;
 
 	if ($NR.value != 0 && $NF[1].value != 0 && $FTC[1].value != 0) {
-		$SR[1].value = 1;
 		$BA[1].value = parseFloat(aB1).toFixed(2);
 		$TR[1].value = parseFloat(tension_ratio*100).toFixed(1);
 	}
 
 	if ($NR.value != 0 && $NF[2].value != 0 && $FTC[2].value != 0) {
-		$SR[2].value = spoke_ratio;
 		$BA[2].value = parseFloat(aB2).toFixed(2);
 		$TR[2].value = 100;
 	}
+}//end Calc_Brace_Tension() { //***********************************************/
+
+
+
+
+function Update_Additional_Info(save) { //*************************************/
+
+	$SPOKE_RATIO[1].value = '';
+	$SPOKE_RATIO[2].value = '';
+
+	if ($NF[1].value == 0) { var spoke_ratio = ""; }
+	else 				   { var spoke_ratio = parseFloat($NF[2].value / $NF[1].value).toFixed(2); }
+
+	if ($NR.value != 0 && $NF[1].value != 0 && $FTC[1].value != 0) { $SPOKE_RATIO[1].value = 1; }
+	$SPOKE_RATIO[2].value = spoke_ratio;
+
+	//For determining brace angles when spokes laced Elbows In/Elbows out, vs flange Center Line.
+	//(Flange Width + Spoke Diameter at Bend)/2
+	var brace_adj = $FW.value/2 + $SDB.value/2;
+
+	Calc_Brace_Tension(spoke_ratio, $BRACE_ANGLE_CL, $TENSION_RATIO_CL,  0 );
+	Calc_Brace_Tension(spoke_ratio, $BRACE_ANGLE_EI, $TENSION_RATIO_EI, -brace_adj);
+	Calc_Brace_Tension(spoke_ratio, $BRACE_ANGLE_EO, $TENSION_RATIO_EO,  brace_adj);
+
+	$SL_EI[1].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_1', -brace_adj);
+	$SL_EI[2].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_1', -brace_adj);
+
+	$SL_CL[1].value = $SL[1].value;
+	$SL_CL[2].value = $SL[3].value;
+
+	$SL_EO[1].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_1',  brace_adj);
+	$SL_EO[2].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_1',  brace_adj);
+
+	if (save) { Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES) }
+
 }//end Update_Additional_Info() { //*******************************************/
 
 
@@ -1248,19 +1313,22 @@ function Create_Spoke_Holes(hole_group, base_id, class1, class2, N, scale, shd, 
 	}
 	
 	//##### Dev use.  Keep? ###################################
-	//##### WH_spoke_1_1	E(base_id + "1").style["fill"]   = "red"; //Spoke 1
-	//##### WH_spoke_2_1	E(base_id + "1").style["stroke"] = "red"; //  "
+	//##### E(base_id + "1").style["fill"]   = "red"; //Spoke 1   WH_spoke_1_1
+	//##### E(base_id + "1").style["stroke"] = "red"; //  "       WH_spoke_2_1
 
 }//end Create_Spoke_Holes() //*************************************************/
 
 
 
 
-function Calc_Spoke_Length(flange, spoke_id) { //******************************/
+function Calc_Spoke_Length(flange, spoke_id, elbows) { //**********************/
 	//Calculate actual spoke length in 3-d space, including flange-to-center measurement..
+	//elbows = +/- offset from flange centerline to spoke centerline (elbows out/in)
 	
 	if (!E(spoke_id)) { return ''; }
 	
+	if (!elbows) { elbows = 0 }
+
 	//Get spoke ends
 	var x1 = E(spoke_id).getAttribute('x1');
 	var y1 = E(spoke_id).getAttribute('y1');
@@ -1272,7 +1340,7 @@ function Calc_Spoke_Length(flange, spoke_id) { //******************************/
 
 	var ftc = $FTC[flange].value*1; //Final spoke length requires Flange to Center
 	var osb = $OSB[flange].value*1; //and OSB...
-	var w = ftc + osb;
+	var w = ftc + osb + elbows;
 
 	var S = Math.sqrt(w*w + dx*dx + dy*dy) - $SHD.value/2;
 
@@ -1287,7 +1355,7 @@ function Calc_Spoke_Lengths(changed, integer, abs) { //************************/
 
 	if (!Validate_Input(changed, integer, abs)) { return false }
 	changed.prior_value = changed.value; //Also set in onfocus events and in Build_Wheel().
-	
+
 	//Odd spokes: 1, 3, 5, etc...
 	$SL[1].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_1'); //WH_spoke_(flange)_(hole)
 	$SL[3].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_1');
@@ -1296,11 +1364,8 @@ function Calc_Spoke_Lengths(changed, integer, abs) { //************************/
 	$SL[2].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_2');
 	$SL[4].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_2');
 
-	Update_Additional_Info($SPOKE_RATIO, $BRACE_ANGLE_CL, $TENSION_RATIO_CL,  0  );
-	Update_Additional_Info($SPOKE_RATIO, $BRACE_ANGLE_EI, $TENSION_RATIO_EI, -BRACE_ADJ);
-	Update_Additional_Info($SPOKE_RATIO, $BRACE_ANGLE_EO, $TENSION_RATIO_EO,  BRACE_ADJ);
+	Update_Additional_Info(true); //update & save settings
 
-	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
 }//end Calc_Spoke_Lengths() //*************************************************/
 
 
@@ -1308,7 +1373,7 @@ function Calc_Spoke_Lengths(changed, integer, abs) { //************************/
 
 
 function Spoke_Length_Calculator(f) { //***************************************/
-	//Tradtional method. For the most part. Not currently used.
+	//Tradtional method. For the most part. Not currently used except for dev.
 	//Not valid for some skip hole configurations (and maybe others).
 
 	var ftc = $FTC[f].value*1; //Final spoke length requires Flange to Center
@@ -1614,16 +1679,17 @@ function Build_Wheel(save, input, integer) { //********************************/
 				 $HOLESIZE.value*1, Spoke_Colors
 				);
 
+
+	Update_Additional_Info(save);
+
+
 	if (save) { Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES) }
 
-
-	Update_Additional_Info($SPOKE_RATIO, $BRACE_ANGLE_CL, $TENSION_RATIO_CL,  0  );
-	Update_Additional_Info($SPOKE_RATIO, $BRACE_ANGLE_EI, $TENSION_RATIO_EI, -BRACE_ADJ);
-	Update_Additional_Info($SPOKE_RATIO, $BRACE_ANGLE_EO, $TENSION_RATIO_EO,  BRACE_ADJ);
 
 	//##### Dev use.  Keep? ###################################
 	//##### Log("1) " + Spoke_Length_Calculator(1),1);
 	//##### Log("2) " + Spoke_Length_Calculator(2),1);
+	//##### Log("<hr>");
 	//##### E("WH_spoke_1_1").style["stroke"] = "red"; //Spoke 1
 	//##### E("WH_spoke_2_1").style["stroke"] = "red"; //  "   2
 }//end Build_Wheel() //********************************************************/
@@ -2011,11 +2077,11 @@ function Assign_Events() { //**************************************************/
 	var save = true; //Just for clarity below, as some functions have an option to save settings.
 
 	//Save current value (as .prior_value) onfocus in case of error in new value.
-	var settings = [$WHEEL_TYPE, $LACE_OPT, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SX[1], $SX[2], $SHD];
+	var settings = [$WHEEL_TYPE, $LACE_OPT, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SX[1], $SX[2], $SHD, $FW, $SDB];
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
 			if ($ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
-			this.prior_value = this.value; //also set in Build_Wheel() and in Calc_Spoke_Lengths().
+			this.prior_value = this.value; //also set i() and in Calc_Spoke_Lengths().
 		});
 	}
 
@@ -2044,6 +2110,9 @@ function Assign_Events() { //**************************************************/
 	$OSB[1].addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 1); });
 	$OSB[2].addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 1); });
 	$SHD   .addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 0); });
+
+	$FW .addEventListener("change", function() { Update_Additional_Info(save) });
+	$SDB.addEventListener("change", function() { Update_Additional_Info(save) });
 
 	$SHOW_HIDE_ADDITIONAL.addEventListener("click", function() {
 		Show_Hide_Options(this, $ADDITIONAL_INFO, "table-row-group");
