@@ -33,7 +33,7 @@ To try it out, get the latest version from above.  It's a simple html/javascript
 
 Now, as indicated above, this is not just your average everyday spoke length calculator.  No, this one raises the bar, several times.  For starters, after spoke lengths, it provides some "advanced" build information, such as bracing angles & spoke tension ratios - but not just for the "center flange" (ie: average) approximations: it also provides the values for spokes laced both elbows in and elbows out.
 
-Additionally, it also has options for standard, triplet, and custom lacing patterns (and possibly in the future, paired holed hubs and rims).  That is, in "triplet" mode for example, there is no need for figuring non-integer "spoke cross" values.  In both standard & triplet modes, it suggests appropriate spoke cross values based on rim/hub spoke hole counts.
+Additionally, it also has options for standard, triplet, and custom lacing patterns (and possibly in the future, paired holed hubs and rims).  That is, in "triplet" mode for example, there is no need for figuring non-integer "spoke cross" values.  In both standard & triplet modes, it suggests appropriate spoke cross values (all integers) based on rim/hub spoke hole counts.
 
 As useful as all the of that is, the most interesting, and unique, feature of this calculator is that it actually draws the wheel on screen!  It's nothing fancy: no 3-d rendering or views, but it produces a pretty cool image none-the-less, even if I do say so myself.
 
