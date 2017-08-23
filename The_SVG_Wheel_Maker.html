@@ -4,8 +4,8 @@
 
 
 <!--============================================================================
-The SVG Wheel Maker
-v.beta.39
+The Wheel Maker
+v.beta.40
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -70,7 +70,7 @@ select.WH:-moz-focusring {
 	padding: 1rem 0 0 0;
 	visibility: hidden;		/* opacity & visibility changed at end of onload. */
 	opacity: 0;
-	transition: opacity .5s;
+	transition: opacity .7s;
 }
 
 #WH_The_SVG    { width: 630px; display: inline-block; border: 0; }
@@ -98,10 +98,9 @@ table.WH .WH_thv { text-align: left; padding: 0 0 0 3px; width: 6.8rem; font-wei
 table.WH input   { width: 3.5rem; text-align: center; font: 1rem courier; }
 table.WH .WH_color { width: 6rem; }
 
-.WH_load_clear { margin: 0; width: 8.5rem;}
-#WH_clear_settings	{ margin: 0; }
+.WH_load_clear { margin: 0; padding: 0 .5rem; }
 
-.WH_separator { padding: 0; height: .5rem; }
+.WH_separator { padding: 0; height: .3rem; }
 
 .WH_containers { display: inline-block; vertical-align: top; margin: 0 .5rem; }
 
@@ -180,10 +179,13 @@ table.WH tr.WH_SLH2 { height: 1.5rem; vertical-align: bottom }
 
 #WH_SL_2_4 { display: none; } /**Set to table-row in Setup_Wheel() if needed.**/
 
-table#WH_add_info.WH { border-spacing: 2px;}
-#WH_add_info td { font-size: .9rem; text-align: left; }
+table#WH_advanced_info.WH { border-spacing: 2px; display: inline-block; }
+#WH_advanced_info td { font-size: .9rem; text-align: left; padding-left: .2rem; }
 
 select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
+
+#WH_advanced_info .lesser_settings td 	   { font-size: .8em; padding-left: .5rem; }
+#WH_advanced_info .lesser_settings td input { font-size: .9em; width: 2rem; }
 
 #WH_assumes { font-weight: bold }
 
@@ -277,8 +279,11 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 <table class=WH id=WH_settings>
 <tr><th colspan=2>Wheel Settings</th></tr>
 
-<tr><td colspan=2><button type=button id=WH_load_samples   class="WH WH_load_clear">Load Sample Values</button></td></tr>
-<tr><td colspan=2><button type=button id=WH_clear_settings class="WH WH_load_clear">Clear Values</button></td></tr>
+<tr><td colspan=2>
+		<button type=button id=WH_load_samples   class="WH WH_load_clear">Load Sample Values</button> 
+		<button type=button id=WH_clear_settings class="WH WH_load_clear">Clear Values</button>
+</td></tr>
+<tr><td colspan=2></td></tr>
 
 <tr>
 	<td colspan=2><b>Type</b>
@@ -316,7 +321,7 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 	</td>
 </tr>
 <tr>
-	<td class=WH_thv>FtC</td>
+	<td class=WH_thv>Flange Offset</td>
 	<td>
 		<input id=WH_FTC1 class=WH type=text maxlength=5>
 		<input id=WH_FTC2 class=WH type=text maxlength=5>
@@ -383,13 +388,13 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 
 
 
-<button type=button id=WH_show_hide_additional class="WH WH_ndo_buttons" value=none>Additional Build Info</button>
-<table class=WH id=WH_add_info>
+<button type=button id=WH_show_hide_advanced class="WH WH_ndo_buttons" value=none>Advanced Build Info</button>
+<table class=WH id=WH_advanced_info>
 	<!-- tr><th colspan=3>Advanvced Build Info</th></tr -->
-	<tbody id=WH_additional_info>
-
-	<tr><td colspan=2>Flange width at spoke holes:</td><td><input id=WH_FW  class="WH" type=text maxlength=4></td></tr>
-	<tr><td colspan=2>Spoke diameter at bend:     </td><td><input id=WH_SDB class="WH" type=text maxlength=4></td></tr>
+	<tbody id=WH_adv_info_tbody>
+	<tr class=WH_separator><td colspan=3></td></tr>
+	<tr class=lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input id=WH_FW  class="WH" type=text maxlength=4></td></tr>
+	<tr class=lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input id=WH_SDB class="WH" type=text maxlength=4></td></tr>
 
 	<tr class=WH_separator><td colspan=3></td></tr>
 	<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
@@ -575,17 +580,20 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 					</div>
 				</td>
 			</tr>
-			<tr><th class=WH></th><th>Wheel Settings</th>
+			<tr><th class=WH></th>
+				<th>Wheel Settings
+					<p>All measurement settings are mm (millimeters).
+				</th>
 			<tr><th class=WH>Rim Holes</th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
 			<tr><th class=WH>Flange Holes</th><td>Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.</td></tr>
-			<tr><th class=WH>PCD</th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke holes in the flange.</td></tr>
-			<tr><th class=WH>FtC</th><td>"Flange to Center" distance.  Used in final spoke length calculation only - does't effect display.</td></tr>
+			<tr><th class=WH>PCD</th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
+			<tr><th class=WH>Flange Offset</th><td> The distance the flange is offset from the hub center.  Also referred to as "Flange to Center", or "Center to Flange", etc.  It is used in the spoke length calculation, but does't affect the displayed image of the wheel.</td></tr>
 			<tr><th class=WH>OC</th>
 				<td>"Off-Center" - May also be referred to as "OSB", "Offset Spoke bed", "asymetrical", or similar terms.
 					<p>The spoke holes in the rim are "off-center", or "off-set", to one side.
 					<p>Useage: Enter a (-)negative number for the side that the holes are closer to (spokes will be a tiny bit shorter); and enter a (+)positive number for the side that the holes are further from (spoke will be a tiny bit longer).
 					<p>For example, on a rear wheel rim with a 3mm offset, enter -3 for "Side 1" (the left/non-drive side), and 3 for "Side 2" (the right/drive side).
-					<p>As with FtC, it does not affect the displayed wheel.
+					<p>As with Flange Offset, it does not affect the displayed wheel.
 				</td>
 			</tr>
 			<tr><th class=WH>Cross</th>
@@ -598,16 +606,18 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 			<tr><th class=WH>Lace Option</th><td>This is mostly for triplet wheels, but can affect any non-standard lace pattern.  Just try it &amp; see.</td>
 
 			<tr><th class=WH></th><th>
-				<p>Additional Build Info
-				<p>This section is mostly academic, and can be ignored for most practical spoke length calculations.
+				<p>Advanced Build Info
+				<p>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.
 			</th>
 			<tr><th class=WH>Flange Width</th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm.</td>
 			<tr><th class=WH>Spoke Diameter at the Bend</th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio.</td>
-			<tr><th class=WH>Elbows Laced</th><td>Specify if the spokes are laced elbows In, Out, or Center (alternating). Mathmatically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations.</td>
+
+			<tr><th class=WH>Elbows Laced</th><td>Specify if the spokes are laced elbows In, Out, or Center (alternating).  This affects the bracing angle, and subsequently, the tension ratio.  Mathmatically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations.  </td>
+			
 			<tr><th class=WH>Length Adjust.</th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td>
-			<tr><th class=WH>Spoke Ratio</th><td>The side 1:side 2 spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td>
+			<tr><th class=WH>Spoke Ratio</th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td>
 			<tr><th class=WH>Bracing Angles</th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross.</td>
-			<tr><th class=WH>Tension Ratio</th><td>The theoretical spoke tension ratio (side 1:side 2).  Side 2 is defined as 100%.</td>
+			<tr><th class=WH>Tension Ratio</th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.</td>
 
 			<tr><th class=WH></th><td></td>
 		</table>
@@ -717,8 +727,8 @@ var $SL   = [];					//Spoke Lengths
 
 var $SL_2_4 = E(NS_ + "SL_2_4"); //<tr> with lengths for "even" numbered spokes. Usually the same and not displayed.
 
-var $SHOW_HIDE_ADDITIONAL = E(NS_ + 'show_hide_additional'); //<button> to show/hide additional build info
-var $ADDITIONAL_INFO = E(NS_ + 'additional_info'); //<container> around additional info.
+var $SHOW_HIDE_ADVANCED = E(NS_ + 'show_hide_advanced'); //<button> to show/hide advanced build info
+var $ADVANCED_INFO = E(NS_ + 'advanced_info'); //<container> around advanced info.
 
 var $FW	 = E(NS_ + 'FW');  //Flange Width, at spoke holes.
 var $SDB = E(NS_ + 'SDB'); //Spoke Diameter, at bend.
@@ -847,7 +857,7 @@ var DEFAULT_VALUES = {
 
 
 var DEFAULT_OPTIONS = {
-	'show_hide_additional':"none", //none or talbe-row-group
+	'show_hide_advanced':"none", //none or talbe-row-group
 	'show_hide_notes':"none",
 	'show_hide_DO':"none", //"none" or "inline-block"
 	'SPOKE_COLOR1': "#477", //Spoke group colors
@@ -1132,7 +1142,7 @@ function Show_Hide_Options(button, target, mode) { //**************************/
 
 
 function Bracing_Angle(f, adj) { //********************************************/
-	//tan(bracing angle) = (FtC + SHD/2) / (rR - y1)
+	//tan(bracing angle) = (FtC +/- OSB) / (rR - y1)
 	
 	if (!adj) { adj = 0 } //Consider whether spokes laced elbows out or in. (+/- ~2.5mm)
 
@@ -1143,6 +1153,7 @@ function Bracing_Angle(f, adj) { //********************************************/
 	var aR = 360/$NR.value*1;		//angle between holes in Rim
 	var aF = 360/$NF[f].value*1;	//angle between holes in flange
 	var lo = $LACE_OPT.value*1; 	//lacing option, 1 or -1. For standard lacings, doesn't matter.
+	//(Geometrically, the SHD affects the bracing angle, but not practically, and is ignored here.)
 
 	//"angle" to hole zero. For standard wheels = 0, but not for triplets.
 	if (($NR.value % $NF[f].value) == 0) { var a0 = 0; } else { var a0  = aR - aF/2; }
@@ -1160,7 +1171,7 @@ function Bracing_Angle(f, adj) { //********************************************/
 
 
 
-function Update_Additional_Info(save) { //*************************************/
+function Update_Advanced_Info(save) { //***************************************/
 
 	$SPOKE_RATIO[1].value = '';
 	$SPOKE_RATIO[2].value = '';
@@ -1210,7 +1221,7 @@ function Update_Additional_Info(save) { //*************************************/
 
 	if (save) { Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES) }
 
-}//end Update_Additional_Info() { //*******************************************/
+}//end Update_Advanced_Info() { //*********************************************/
 
 
 
@@ -1263,11 +1274,11 @@ function Create_Spoke_Holes(hole_group, base_id, class1, class2, N, scale, shd, 
 	if (typeof offset == "undefined") { offset = 0 }
 
 	var A = 360/N; //angle between holes
-	
+
 	var a = offset;	//angle to current hole from 0
 	var cx, cy;		//coordinates for hole
 
-	var odd = true;		//for alternating classes
+	var odd = true;	//for alternating classes
 
 	for (var sh = 1; sh <= N; sh++) {
 		var full_id = base_id + sh;
@@ -1279,15 +1290,15 @@ function Create_Spoke_Holes(hole_group, base_id, class1, class2, N, scale, shd, 
 		
 		hole_group.innerHTML += '<circle id=' + full_id + ' class="' + classes + '" r="' + (shd/2) + '" cx="0" cy="0" />';
 		
-		cx = Math.round(Math.sin( (a/180) * Math.PI) * scale * 10000)/10000;
-		cy = Math.round(Math.cos( (a/180) * Math.PI) * scale * 10000)/10000;
+		cx = Math.sin( (a/180) * Math.PI) * scale;
+		cy = Math.cos( (a/180) * Math.PI) * scale;
 		
 		E(full_id).setAttribute('cx', cx);
 		E(full_id).setAttribute('cy', cy);
 		
-		a += A; //Spoke hole 1 is first hole at or after 0 degrees/"6 o'clock".
+		a += A; //Spoke hole 1 is first hole at or after 0 degrees/(6 o'clock), ccw.
 	}
-	
+
 	//##### Dev use.  Keep? ###################################
 	//##### E(base_id + "1").style["fill"]   = "red"; //Spoke 1   WH_spoke_1_1
 	//##### E(base_id + "1").style["stroke"] = "red"; //  "       WH_spoke_2_1
@@ -1328,11 +1339,13 @@ function Calc_Spoke_Length(flange, spoke_id, round_to, elbows) { //************/
 
 
 
-function Calc_Spoke_Lengths(changed, integer, allow_neg) { //******************/
+function Calc_Spoke_Lengths(validate, changed, integer, allow_neg) { //********/
 	//Calc spoke lengths for both sides. Used by onchange of OSB & SHD.
 
-	if (!Validate_Input(changed, integer, allow_neg)) { return false }
-	changed.prior_value = changed.value; //Also set in onfocus events and in Build_Wheel().
+	if (validate) {
+		if (!Validate_Input(changed, integer, allow_neg)) { return false }
+		changed.prior_value = changed.value; //Also set in onfocus events and in Build_Wheel().
+	}
 
 	//Odd spokes: 1, 3, 5, etc...
 	$SL[1].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_1'); //WH_spoke_(flange)_(hole)
@@ -1342,7 +1355,7 @@ function Calc_Spoke_Lengths(changed, integer, allow_neg) { //******************/
 	$SL[2].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_2');
 	$SL[4].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_2');
 
-	Update_Additional_Info(true); //update & save settings
+	Update_Advanced_Info(true); //update & save settings
 
 }//end Calc_Spoke_Lengths() //*************************************************/
 
@@ -1380,7 +1393,7 @@ function Spoke_Length_Calculator(f) { //***************************************/
 
 
 
-function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //**********/
+function Add_Spoke(group, flange, flange_hole, rim_hole, color) { //***********/
 
 	if (typeof color == "undefined") { color = "black" }
 
@@ -1400,15 +1413,10 @@ function Draw_Spoke(group, flange, flange_hole, rim_hole, color) { //**********/
 	var spoke = '<line id="' + spoke_id + '" class="' + classes+ '" ' + coords + style + '/>' + "\n";
 	$SPOKES.innerHTML += spoke;
 	
-	//Calculate & display final spoke length.
-	if ((flange_hole == 1) || (flange_hole == 2)) {
-		$SL[group].value = Calc_Spoke_Length(flange, spoke_id);
-	}
-	
 	//##### In case I want to calc ALL spokes. ##############################
-	//##### if ((flange == 1) && (flange_hole == 1)) {Log();}//clear CONSOLE each build.
-	//##### Log(spoke_id + ") " + Calc_Spoke_Length(flange, spoke_id),1) 
-}//end Draw_Spoke() //*********************************************************/
+	//##### if ((flange == 2) && (flange_hole == 1)) {Log();}//clear CONSOLE each build. Flange 2 built first.
+	//##### Log(spoke_id + ") " + Calc_Spoke_Length(flange, spoke_id, 100), 1) 
+}//end Add_Spoke() //**********************************************************/
 
 
 
@@ -1505,7 +1513,9 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //***************/
 		if (r_hole > nr) {r_hole -= nr;}
 		if (r_hole <  1) {r_hole += nr;}
 		
-		Draw_Spoke(gn,  f,  h_hole,  r_hole ,  color[gn]);
+		//Make sure there's a hole in both rim & hub for the spoke
+		if ((nr != 0) && (nf != 0)) { Add_Spoke(gn,  f,  h_hole,  r_hole ,  color[gn]); }
+		
 		if (gn == g2) { var gn = g1 } else { var gn = g2 }
 		
 		
@@ -1559,17 +1569,6 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors)
 	Set_Wheel_Styles();
 
 	$G_WHEEL.setAttribute('transform', " rotate(" + rotate + ")");
-
-	//Are all spokes on each side the same length?
-	if (($SL[1].value == $SL[2].value) && ($SL[3].value == $SL[4].value))
-	{
-		//Yes   Well, the first two are, at least.
-		$SL_2_4.style['display'] = "none";
-	}
-	else {
-		//No
-		$SL_2_4.style['display'] = "table-row";
-	}
 
 	//##### Log($SVG_CONTAINER_DIV.innerHTML,1,1) //##### 
 }//end Setup_Wheel() /*********************************************************/
@@ -1646,9 +1645,13 @@ function Build_Wheel(save, input, integer) { //********************************/
 
 	Clear_Wheel();
 
+
+	//Any spokes to build?
 	if ($ERD.value == 0 && $PCD[1].value == 0 && $PCD[2].value == 0) { return false; }
 
+
 	var Spoke_Colors = ["", $SPOKE_COLOR[1].value, $SPOKE_COLOR[2].value,  $SPOKE_COLOR[3].value, $SPOKE_COLOR[4].value ];
+
 
   //Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, Spoke_Colors)
 	Setup_Wheel( $ERD.value*1, $NR.value*1, $NF[1].value*1, $NF[2].value*1,
@@ -1657,7 +1660,16 @@ function Build_Wheel(save, input, integer) { //********************************/
 				);
 
 
-	Update_Additional_Info(save);
+	Calc_Spoke_Lengths();
+
+
+	//Are all spokes on each side the same length? (Only check first two.)
+	if ( (($NF[1].value < 2) || ($SL[1].value == $SL[2].value)) && ($SL[3].value == $SL[4].value))
+		 { $SL_2_4.style['display'] = "none";      } //Yes   Well, the first two are, at least.
+	else { $SL_2_4.style['display'] = "table-row"; } //No
+
+
+	Update_Advanced_Info(save);
 
 
 	//##### Dev use.  Keep? ###################################
@@ -1985,7 +1997,7 @@ function Set_Style_by_Class(classname, style, value, save) { //****************/
 function Set_Save_Style(element, style, value) { //****************************/
 	element.style[style] = value;
 	Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS); 
-}//end Set_Save_Style() //****************************************************/
+}//end Set_Save_Style() //*****************************************************/
 
 
 
@@ -2090,18 +2102,19 @@ function Assign_Events() { //**************************************************/
 	$LACE_OPT.addEventListener("change", function() { Build_Wheel(save) });
 
 	// Only need to recalc final spoke lengths. OSB & SHD are ignored in display calculations for <line> endpoints.
-	$OSB[1]	  .addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 1); }); //3rd param, 1, allows neg numbers.
-	$OSB[2]	  .addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 1); });
-	$SHD	  .addEventListener("change", function() { Calc_Spoke_Lengths(this, 0, 0); });
+	var validate = true;
+	$OSB[1]	  .addEventListener("change", function() { Calc_Spoke_Lengths(validate, this, 0, 1); }); //3rd param, 1, allows neg numbers.
+	$OSB[2]	  .addEventListener("change", function() { Calc_Spoke_Lengths(validate, this, 0, 1); });
+	$SHD	  .addEventListener("change", function() { Calc_Spoke_Lengths(validate, this, 0, 0); });
 
-	$ELBOWS[1].addEventListener("change", function() { Update_Additional_Info(save); });
-	$ELBOWS[2].addEventListener("change", function() { Update_Additional_Info(save); });
-	$FW 	  .addEventListener("change", function() { Update_Additional_Info(save); });
-	$SDB	  .addEventListener("change", function() { Update_Additional_Info(save); });
+	$ELBOWS[1].addEventListener("change", function() { Update_Advanced_Info(save); });
+	$ELBOWS[2].addEventListener("change", function() { Update_Advanced_Info(save); });
+	$FW 	  .addEventListener("change", function() { Update_Advanced_Info(save); });
+	$SDB	  .addEventListener("change", function() { Update_Advanced_Info(save); });
 
-	$SHOW_HIDE_ADDITIONAL.addEventListener("click", function() {
-		Show_Hide_Options(this, $ADDITIONAL_INFO, "table-row-group");
-		Scroll_Into_View($ADDITIONAL_INFO, this.offsetHeight + 10);
+	$SHOW_HIDE_ADVANCED.addEventListener("click", function() {
+		Show_Hide_Options(this, $ADVANCED_INFO, "inline-block");
+		Scroll_Into_View($ADVANCED_INFO, this.offsetHeight + 10);
 	});
 
 	$SHOW_HIDE_DO.addEventListener("click", function() {
@@ -2169,12 +2182,15 @@ function Assign_Events() { //**************************************************/
 		D.cookie = $ACCEPT_MSG.id + "=true; expires=" + expires.toUTCString() + "; path=/";
 		Close_Message();
 	});
+
+
+	D.addEventListener("keydown", function(event) {scroll_blur(event)});
 }//end Assign_Events() //******************************************************/
 
 
 
 
-function WH_Init() { //********************************************************/
+function Init() { //***********************************************************/
 
 	Assign_Events();
 
@@ -2195,9 +2211,9 @@ function WH_Init() { //********************************************************/
 
 	if (saved_settings_found) { Build_Wheel(); }
 
-	$ADDITIONAL_INFO.style["display"] = $SHOW_HIDE_ADDITIONAL.value;
+	$ADVANCED_INFO  .style["display"] = $SHOW_HIDE_ADVANCED.value;
 	$DISPLAY_OPTIONS.style["display"] = $SHOW_HIDE_DO.value;
-	$NOTES.style["display"] = $SHOW_HIDE_NOTES.value;
+	$NOTES			.style["display"] = $SHOW_HIDE_NOTES.value;
 
 	//Reduce the visually jarring, if brief,  jumping around of page elements during page load.
 	$CONTAINER.style['visibility'] = "visible";
@@ -2218,14 +2234,13 @@ function WH_Init() { //********************************************************/
 	if ($ACCEPT_MSG.value == "true") { $ERD.focus(); }
 	else 							 { Error_Notice('init', $ERD, MSGS['notice'] + $RESPONSIBILITY.innerHTML); }
 
-}//end WH_Init() //************************************************************/
+}//end Init() //***************************************************************/
 
 
 
 
-document.addEventListener("keydown", function(event) {scroll_blur(event)});
-window  .addEventListener("load", function(){WH_Init()});
 
+window.addEventListener("load", function(){Init()});
 //*****************************************************************************/
 })();</script>
 
