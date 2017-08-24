@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The Wheel Maker
-v.beta.40
+v1.00
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -55,7 +55,6 @@ input[disabled].WH, select.WH:disabled {
 select.WH { padding-left: .3rem; width: 3.5rem; font-size: .9rem}
 select.WH option { padding-left: .5rem }
 
-ul.WH li {margin-left: 1rem; }
 
 /* Removes that annoying dotted onfocus outline of FF selects */
 select.WH:-moz-focusring {
@@ -89,6 +88,7 @@ table.WH {
 	border-radius	: 8px;
 	border-spacing	: 3px;
 	background-color: rgb(175,198,205);  /** #ccc; **/
+	vertical-align: top;
 }
 
 table.WH td { padding: 0 0 0 0; border: 0; }
@@ -98,7 +98,7 @@ table.WH .WH_thv { text-align: left; padding: 0 0 0 3px; width: 6.8rem; font-wei
 table.WH input   { width: 3.5rem; text-align: center; font: 1rem courier; }
 table.WH .WH_color { width: 6rem; }
 
-.WH_load_clear { margin: 0; padding: 0 .5rem; }
+.WH_load_clear { margin: 0; padding: 0 .2rem; }
 
 .WH_separator { padding: 0; height: .3rem; }
 
@@ -145,12 +145,11 @@ table.WH .WH_color { width: 6rem; }
 
 
 
-#WH_reset_options {
-	height: 2rem;
-	width: 16rem;
-	margin: .3rem auto .3rem auto;
-	font-size: 1rem;
-	padding: 0;
+.WH_reset_options {
+	font-size: .8rem;
+	padding: 0 .2rem;
+	float: right;
+	margin: 0 0 .2rem -2rem;
 }
 
 
@@ -231,35 +230,6 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 
 
 #WH_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 2px; }
-
-#WH_CONSOLE { 
-	float: right;
-	vertical-align:top;
-	display: none; 
-	font-family: Courier New; 
-	font-size: .8em; 
-	border: solid 1px red;
-	max-height: 40rem ;
-	max-width: 16rem; 
-	overflow-y: scroll;
-	word-break: break-all;
-	padding: 0 .5em;
-}
-
-
-
-/** //##### ################################################################ **/
-/** //##### Just for dev & trouble-shooting ############################### **./
-
-table.WH, table.WH td, table.WH tr { border: solid 1px red; }
-
-#WH_CONTAINER		{ border: solid 5px green; }	
-.WH_containers		{ border: solid 1px red; }
-#WH_left_side  		{ border: solid 1px red; }
-#WH_The_SVG    		{ border: solid 2px red; }
-#WH_svg_wheel		{ border: solid 2px #333; }
-#WH_display_options { border: solid 2px blue; } 
-/** //##### ################################################################ **/
 </style>
 
 
@@ -448,7 +418,7 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 
 
 
-<div id=WH_The_SVG><!--============================================-->
+<div id=WH_The_SVG><!-- and Dispaly Options =======================-->
 	<svg id="WH_svg_wheel" class="WH_svg" width="100%" height="100%">
 		<title>Wheel</title>
 		<g id="WH_axes">
@@ -461,7 +431,6 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 			<circle id="WH_flange1" class="WH_pcd" r=""/>
 			<circle id="WH_flange2" class="WH_pcd" r=""/>
 			
-			
 			<g id=WH_Holes_and_Spokes>
 				<g id="WH_rim_holes"></g>
 				<g id="WH_holes_f1"></g>
@@ -470,13 +439,20 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 			</g>
 		</g><!-- end id=WH_wheel -->
 	</svg>
+
+
+
 	<div class=WH_containers><!--Display Options button & table -->
 		
 		<button type=button id=WH_show_hide_DO class="WH WH_ndo_buttons" value=none>Display Options</button>
 		
 		<div id=WH_display_options><!--Display Options-->
 			<table class=WH>
-				<tr><th colspan=4>Spokes</th></tr>
+				<tr>
+					<th colspan=4>Spokes
+						<button type=button id=WH_reset_options_spokes class="WH WH_reset_options">Reset</button>
+					</th>
+				</tr>
 				<tr class=WH_th3><th></th><th>Line</th><th>Line</th><th></th></tr>
 				<tr class=WH_th1><td>Group</td><td>Color</td><td>Size</td><td>Show?</td></tr>
 				<tr class=WH_th2><td colspan=4>Side 1</td></tr>
@@ -510,7 +486,12 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 			</table>
 			
 			<table class=WH>
-				<tr><th colspan=4>Rim, Flange &amp; Axes</th></tr>
+				<tr>
+					<th colspan=4>
+						Rim, Flange &amp; Axes
+						<button type=button id=WH_reset_options_rim_etc class="WH WH_reset_options">Reset</button></th></tr>
+					</th>
+				</tr>
 				<tr class=WH_th3><th></th><th>Line</th><th>Line</th><th></th></tr>
 				<tr class=WH_th1><td></td><td>Color</td><td>Size</td><td>Show?</td></tr>
 				<tr>
@@ -548,8 +529,6 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 				</tr>
 				<tr class=WH_separator><td colspan=4></td></tr>
 			</table>
-			
-			<button type=button id=WH_reset_options class="WH WH_ndo_buttons">Reset to Default Display Options</button>
 		</div><!--//end Display Options ==============-->
 	</div><!--//end Display Options <button> & <table>s & <reset>-->
 </div><!--//end WH_The_SVG ========================================-->
@@ -558,7 +537,7 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 
 
 
-<div id=WH_CONSOLE></div><br><!-- //##### #####-->
+
 
 
 
@@ -580,6 +559,7 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 					</div>
 				</td>
 			</tr>
+
 			<tr><th class=WH></th>
 				<th>Wheel Settings
 					<p>All measurement settings are mm (millimeters).
@@ -611,14 +591,11 @@ table.WH, table.WH td, table.WH tr { border: solid 1px red; }
 			</th>
 			<tr><th class=WH>Flange Width</th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm.</td>
 			<tr><th class=WH>Spoke Diameter at the Bend</th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio.</td>
-
-			<tr><th class=WH>Elbows Laced</th><td>Specify if the spokes are laced elbows In, Out, or Center (alternating).  This affects the bracing angle, and subsequently, the tension ratio.  Mathmatically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations.  </td>
-			
+			<tr><th class=WH>Elbows Laced</th><td>Specify if the spokes are laced elbows In, Out, or Center (alternating).  This affects the bracing angle, and subsequently, the tension ratio.  Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations.  </td>
 			<tr><th class=WH>Length Adjust.</th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td>
 			<tr><th class=WH>Spoke Ratio</th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td>
-			<tr><th class=WH>Bracing Angles</th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross.</td>
-			<tr><th class=WH>Tension Ratio</th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.</td>
-
+			<tr><th class=WH>Bracing Angles</th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td>
+			<tr><th class=WH>Tension Ratio</th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td>
 			<tr><th class=WH></th><td></td>
 		</table>
 	</div><!--//end Notes button & table  =============-->
@@ -757,7 +734,9 @@ var $DISPLAY_OPTIONS = E(NS_ + 'display_options'); //<div> around display option
 
 var $SHOW_HIDE_NOTES = E(NS_ + 'show_hide_notes'); //<button> to show/hide Notes.
 var $SHOW_HIDE_DO    = E(NS_ + 'show_hide_DO');    //<button> to show/hide display options.
-var $RESET_OPTIONS   = E(NS_ + 'reset_options');   //<button> to reset display options.
+
+var $RESET_OPTIONS_SPOKES  = E(NS_ + 'reset_options_spokes');   //<button> to reset display options.
+var $RESET_OPTIONS_RIM_ETC = E(NS_ + 'reset_options_rim_etc');  //<button> to reset display options.
 
 var $SPOKE_COLOR    = [];
 	$SPOKE_COLOR[1] = E(NS_ + 'SPOKE_COLOR1');//Spoke group 1 color
@@ -892,36 +871,6 @@ var DEFAULT_OPTIONS = {
 
 	'VIEWBOX_SIZE': 640 }; //Most wheels are < 600 ERD.
 /*************************************************/
-
-
-
-
-//##### ########################################################################
-function Log(something, br, esc) {
-	var console = E('WH_CONSOLE');
-	if (typeof something === 'undefined') {
-		console.innerHTML = ""
-		console.style['display'] = "none";
-		return;
-	}
-
-	if (esc) { something = escape_HTML(something + "") }
-	
-	if (br == true) { br = "<br>" } else { br = "" }
-	
-	console.innerHTML += something + br;
-	console.scrollTop = console.scrollHeight;
-	console.style['display'] = "inline-block";
-}//end Log()
-//##### ########################################################################
-//##### ########################################################################
-function escape_HTML(text) {
-  var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-
-  return text.replace(/[&<>"']/g, function(m) { return map[m]; });
-}//end escape_HTML()
-//##### ########################################################################
-
 
 
 
@@ -1071,13 +1020,18 @@ function Clear_Settings() { //*************************************************/
 
 
 
-function Load_DEFAULT_OPTIONS() { //*******************************************/
+function Load_DEFAULT_OPTIONS_Spokes() { //************************************/
 	for (var group = 1; group <=4; group++) {
-		$SPOKE_COLOR[group]    .value   = DEFAULT_OPTIONS['SPOKE_COLOR' + group];
+		$SPOKE_COLOR[group]    .value   = DEFAULT_OPTIONS['SPOKE_COLOR'     + group];
 		$SPOKE_LINE_SIZE[group].value   = DEFAULT_OPTIONS['SPOKE_LINE_SIZE' + group];
-		$SPOKE_SHOW[group]     .checked = DEFAULT_OPTIONS['SPOKE_SHOW' + group];
+		$SPOKE_SHOW[group]     .checked = DEFAULT_OPTIONS['SPOKE_SHOW'      + group];
 	}
+}//end Load_DEFAULT_OPTIONS_Spokes() { //**************************************/
 
+
+
+
+function Load_DEFAULT_OPTIONS_Rim_etc() { //***********************************/
 	$RIM_COLOR .value   = DEFAULT_OPTIONS['RIM_COLOR'];
 	$F1_COLOR.value     = DEFAULT_OPTIONS['F1_COLOR'];
 	$F2_COLOR.value     = DEFAULT_OPTIONS['F2_COLOR'];
@@ -1097,7 +1051,17 @@ function Load_DEFAULT_OPTIONS() { //*******************************************/
 	$HOLES_SHOW.checked   = DEFAULT_OPTIONS['HOLES_SHOW'];
 
 	$HOLESIZE.value       = DEFAULT_OPTIONS['HOLESIZE'];
-	
+}//end Load_DEFAULT_OPTIONS_Rim_etc() { //*************************************/
+
+
+
+
+function Load_DEFAULT_OPTIONS() { //*******************************************/
+
+	Load_DEFAULT_OPTIONS_Spokes();
+
+	Load_DEFAULT_OPTIONS_Rim_etc()	
+
 }//end Load_DEFAULT_OPTIONS() //***********************************************/
 
 
@@ -1142,7 +1106,7 @@ function Show_Hide_Options(button, target, mode) { //**************************/
 
 
 function Bracing_Angle(f, adj) { //********************************************/
-	//tan(bracing angle) = (FtC +/- OSB) / (rR - y1)
+	//tan(bracing angle) = (FtC +/- OSB) / (rR - y1 - rSH)
 	
 	if (!adj) { adj = 0 } //Consider whether spokes laced elbows out or in. (+/- ~2.5mm)
 
@@ -1150,10 +1114,11 @@ function Bracing_Angle(f, adj) { //********************************************/
 	var rF = $PCD[f].value/2;		//radius of Flange
 	var ftc= $FTC[f].value*1 + adj;	//flange to center + elbows laced in or out...
 	var osb= $OSB[f].value*1;		//offset spoke bed (off-center)
+	var rSH= $SHD.value/2;			//radius of Spoke Hole (spoke hole diameter/2)
 	var aR = 360/$NR.value*1;		//angle between holes in Rim
 	var aF = 360/$NF[f].value*1;	//angle between holes in flange
 	var lo = $LACE_OPT.value*1; 	//lacing option, 1 or -1. For standard lacings, doesn't matter.
-	//(Geometrically, the SHD affects the bracing angle, but not practically, and is ignored here.)
+	
 
 	//"angle" to hole zero. For standard wheels = 0, but not for triplets.
 	if (($NR.value % $NF[f].value) == 0) { var a0 = 0; } else { var a0  = aR - aF/2; }
@@ -1161,7 +1126,7 @@ function Bracing_Angle(f, adj) { //********************************************/
 	var af     = ($SX[f].value * aF) + a0 * lo; //angle to hole in flange  spoke.
 	var af_rad = af/180 * Math.PI; 		 //af in radians
 	var y1     = rF * Math.cos(af_rad);  // x1^2 + y1^2 = rF^2
-	var tan_aB = (ftc + osb) / (rR - y1);//tangent of Bracing angle
+	var tan_aB = (ftc + osb) / (rR - y1 - rSH);//tangent of Bracing angle
 	var aB_rad = Math.atan(tan_aB);		 //Bracing angle (in radians)
 	var aB    = aB_rad * 180 / Math.PI;	 //Bracing angle (in degrees)
 
@@ -1298,11 +1263,6 @@ function Create_Spoke_Holes(hole_group, base_id, class1, class2, N, scale, shd, 
 		
 		a += A; //Spoke hole 1 is first hole at or after 0 degrees/(6 o'clock), ccw.
 	}
-
-	//##### Dev use.  Keep? ###################################
-	//##### E(base_id + "1").style["fill"]   = "red"; //Spoke 1   WH_spoke_1_1
-	//##### E(base_id + "1").style["stroke"] = "red"; //  "       WH_spoke_2_1
-
 }//end Create_Spoke_Holes() //*************************************************/
 
 
@@ -1413,9 +1373,6 @@ function Add_Spoke(group, flange, flange_hole, rim_hole, color) { //***********/
 	var spoke = '<line id="' + spoke_id + '" class="' + classes+ '" ' + coords + style + '/>' + "\n";
 	$SPOKES.innerHTML += spoke;
 	
-	//##### In case I want to calc ALL spokes. ##############################
-	//##### if ((flange == 2) && (flange_hole == 1)) {Log();}//clear CONSOLE each build. Flange 2 built first.
-	//##### Log(spoke_id + ") " + Calc_Spoke_Length(flange, spoke_id, 100), 1) 
 }//end Add_Spoke() //**********************************************************/
 
 
@@ -1569,25 +1526,28 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors)
 	Set_Wheel_Styles();
 
 	$G_WHEEL.setAttribute('transform', " rotate(" + rotate + ")");
-
-	//##### Log($SVG_CONTAINER_DIV.innerHTML,1,1) //##### 
 }//end Setup_Wheel() /*********************************************************/
 
 
 
 
-function Set_Wheel_Styles() { //***********************************************/
-	Make_Rim(); //Rim line size affects displayed rim radius.
-	$FLANGE1.style['stroke'] = $F1_COLOR.value;
-	$FLANGE2.style['stroke'] = $F2_COLOR.value;
-	$FLANGE1.style['stroke-width'] = $F1_LINE_SIZE.value*1;
-	$FLANGE2.style['stroke-width'] = $F2_LINE_SIZE.value*1;
-
+function Set_Wheel_Styles_Spokes() { //****************************************/
 	for (var group = 1; group <= 4; group++) {
 		Set_Style_by_Class( SPOKE_GROUP_PREFIX + group, "stroke-width", $SPOKE_LINE_SIZE[group].value);
 		Set_Style_by_Class( SPOKE_GROUP_PREFIX + group, "stroke"      , $SPOKE_COLOR[group].value);
 		Show_Hide_Class(SPOKE_GROUP_PREFIX + group, $SPOKE_SHOW[group].checked);
 	}
+}//end Set_Wheel_Styles_Spokes() { //******************************************/
+
+
+
+
+function Set_Wheel_Styles_Rim_etc() { //***************************************/
+	Make_Rim(); //Rim line size affects displayed rim radius.
+	$FLANGE1.style['stroke'] = $F1_COLOR.value;
+	$FLANGE2.style['stroke'] = $F2_COLOR.value;
+	$FLANGE1.style['stroke-width'] = $F1_LINE_SIZE.value*1;
+	$FLANGE2.style['stroke-width'] = $F2_LINE_SIZE.value*1;
 
 	Set_Style_by_Class(SPOKE_HOLES, 'stroke-width', $HOLE_LINE_SIZE.value);
 	Set_Style_by_Class(SPOKE_HOLES, "stroke", $HOLE_COLOR.value);
@@ -1600,7 +1560,14 @@ function Set_Wheel_Styles() { //***********************************************/
 	Show_Hide($RIM    , $RIM_SHOW.checked);
 	Show_Hide($FLANGE1, $F1_SHOW.checked);
 	Show_Hide($FLANGE2, $F2_SHOW.checked);
+}//end Set_Wheel_Styles_Rim_etc() { //*****************************************/
 
+
+
+
+function Set_Wheel_Styles() { //***********************************************/
+	Set_Wheel_Styles_Spokes();
+	Set_Wheel_Styles_Rim_etc()
 }//end Set_Wheel_Styles() { //*************************************************/
 
 
@@ -1670,14 +1637,6 @@ function Build_Wheel(save, input, integer) { //********************************/
 
 
 	Update_Advanced_Info(save);
-
-
-	//##### Dev use.  Keep? ###################################
-	//##### Log("1) " + Spoke_Length_Calculator(1),1);
-	//##### Log("2) " + Spoke_Length_Calculator(2),1);
-	//##### Log("<hr>");
-	//##### E("WH_spoke_1_1").style["stroke"] = "red"; //Spoke 1
-	//##### E("WH_spoke_2_1").style["stroke"] = "red"; //  "   2
 }//end Build_Wheel() //********************************************************/
 
 
@@ -2161,14 +2120,20 @@ function Assign_Events() { //**************************************************/
 		Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
 	});
 
-	$RESET_OPTIONS.addEventListener("click", function() {
-		Load_DEFAULT_OPTIONS();
-		Set_Wheel_Styles();
+
+	$RESET_OPTIONS_SPOKES.addEventListener("click", function() {
+		Load_DEFAULT_OPTIONS_Spokes();
+		Set_Wheel_Styles_Spokes();
+		Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
+	});
+
+
+	$RESET_OPTIONS_RIM_ETC.addEventListener("click", function() {
+		Load_DEFAULT_OPTIONS_Rim_etc();
+		Set_Wheel_Styles_Rim_etc();
 		Set_Attribute_by_Class( RIM_HOLE_CLASS, 'r', $HOLESIZE.value/2);
 		Set_Attribute_by_Class( HUB_HOLE_CLASS, 'r', $HOLESIZE.value/2);
-		Set_Style_by_Class( AXIS_CLASS, "stroke", this.value);
-		Show_Hide_Class( AXIS_CLASS, $AXES_SHOW.checked);
-		localStorage.removeItem(LS_DISPLAY_OPTIONS);
+		Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
 	});
 
 
