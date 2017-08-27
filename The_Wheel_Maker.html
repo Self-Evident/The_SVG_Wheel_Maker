@@ -5,10 +5,10 @@
 
 <!--============================================================================
 The Wheel Maker
-v1.00
+v1.01
 
 
-Copyright © 2017 https://github.com/Self-Evident
+Copyright Â© 2017 https://github.com/Self-Evident
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -489,7 +489,7 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 				<tr>
 					<th colspan=4>
 						Rim, Flange &amp; Axes
-						<button type=button id=WH_reset_options_rim_etc class="WH WH_reset_options">Reset</button></th></tr>
+						<button type=button id=WH_reset_options_rim_etc class="WH WH_reset_options">Reset</button>
 					</th>
 				</tr>
 				<tr class=WH_th3><th></th><th>Line</th><th>Line</th><th></th></tr>
@@ -911,7 +911,7 @@ function Load_Saved_Settings(ls_name) { //*************************************/
 		
 		if (!E(id)) { continue }; //skip inValid element id's.
 		
-		//.checked is boolean, and both strings "true" and "false" become false.
+		//.checked is boolean, and strings, even "true", become false if assigned as a string.
 		if (E(id).type == "checkbox") { E(id).checked = (value == "true"); } 
 		else						  { E(id).value   = value }
 	}
@@ -1488,6 +1488,8 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //***************/
 
 function Make_Rim(save) { //***************************************************/
 	//Adjust displayed rim radius so spoke ends only touch inner radius, not middle/actual radius.
+	
+	if ($ERD.value == 0) { return false; }
 	var rim_radius = $ERD.value/2 + $RIM_LINE_SIZE.value/2 - .5;
 	$RIM.setAttribute('r', rim_radius);
 	$RIM.style['stroke']	= $RIM_COLOR.value;
@@ -1620,7 +1622,7 @@ function Build_Wheel(save, input, integer) { //********************************/
 	var Spoke_Colors = ["", $SPOKE_COLOR[1].value, $SPOKE_COLOR[2].value,  $SPOKE_COLOR[3].value, $SPOKE_COLOR[4].value ];
 
 
-  //Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, Spoke_Colors)
+	//Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, Spoke_Colors)
 	Setup_Wheel( $ERD.value*1, $NR.value*1, $NF[1].value*1, $NF[2].value*1,
 				 $PCD[1].value*1, $PCD[2].value*1, $SX[1].value*1, $SX[2].value*1,
 				 $HOLESIZE.value*1, Spoke_Colors
