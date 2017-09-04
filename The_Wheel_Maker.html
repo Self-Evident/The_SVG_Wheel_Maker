@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The Wheel Maker
-v1.01
+v1.02
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -42,7 +42,9 @@ body { overflow-y: scroll; }
 /*** The prefix "WH_" simple means "WHeel" ***/
 
 
-p.WH {margin-top: .6rem;}
+#WH_notes p {margin-top: .6rem;}
+
+hr.WH {margin: .5rem 0;}
 
 button.WH::-moz-focus-inner { border: 0 }
 input.WH:focus, select.WH:focus, button.WH:focus { box-shadow: 0 0 3pt 1pt #006060 }
@@ -74,7 +76,8 @@ select.WH:-moz-focusring {
 
 #WH_The_SVG    { width: 630px; display: inline-block; border: 0; }
 
-#WH_WHEEL_TYPE { margin: .3rem 0 .8rem 1.5rem; width: 6rem }
+#WH_WHEEL_TYPE { margin: .3rem 0 .8rem 1rem; padding-left: .1rem; width: 8rem; }
+
 #WH_LACE_OPT   { margin: .5rem 0 .5rem 0; }
 #WH_left_side  { display: inline-block; vertical-align: top; position: relative; border: 0; }
 
@@ -130,7 +133,7 @@ table.WH .WH_color { width: 6rem; }
 	width: 100%;
 	height: 2rem;
 	margin: .3rem auto .3rem auto;
-	padding: 3px 1rem; ;
+	padding: 3px .5rem; ;
 	text-align: center;
 	font: normal 1.2rem arial;
 	border: solid 1px #444;
@@ -188,7 +191,7 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 
 #WH_assumes { font-weight: bold }
 
-
+#WH_other_calcs { font-family: arial; text-align: left; display: none; }
 
 #WH_MSG_HEADER {
 	margin			: auto;
@@ -261,6 +264,7 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 			<option value="standard">Standard</option>
 			<option value="triplet" >Triplet</option>
 			<option value="custom"  >Custom</option>
+			<!-- option>Paired Hole Hub</option //Coming soon to a spoke calculator near you! -->
 		</select>
 		<br>
 	</td>
@@ -412,8 +416,31 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 </table>
 
 
+	<br><br>
+	<button type=button id=WH_show_hide_other class="WH WH_ndo_buttons" value="none">A few other calculators</button>
+	<div id=WH_other_calcs>
+	
+		<a href="D-SC.1.html">D-SC 1<a/><br>
+		<a href="D-SC.3.html">D-SC 3<a/><br>
+	
+		<hr class=WH>I have no affiliation with any of the <br> 
+					 following calculators or websites.<br>
+					 These links are provided for<br>
+					 convenience and comparison only.<hr class=WH>
+		<a href="https://www.sheldonbrown.com/rinard/spocalc.htm" target="_blank">Sheldon's SpoCalc</a><br>
+		<a href="http://www.mrrabbit.net/wheelsbyfleming.php" target="_blank">Mr. Rabbit's SpokeChart v2-0</a><br>
+		<a href="http://www.bikeschool.com/tools/spoke-length-calculator" target="_blank">Bike School</a><br>
+		<a href="http://www.prowheelbuilder.com/spokelengthcalculator" target="_blank">Pro Wheel Builder</a><br>
+		<a href="https://leonard.io/edd/" target="_blank">Edd</a><br>
+		<a href="http://www.sapim.be/spoke-calculator" target="_blank">Sapim</a><br>
+		<a href="https://spokes-calculator.dtswiss.com/en/" target="_blank">DT Swiss</a><br>
+		<a href="http://www.wheelpro.co.uk/spokecalc/" target="_blank">Wheel Pro</a><br>
+		<a href="https://biketechtools.com/spoke-length-calculator" target="_blank">Bike Tech Tools</a><br>
+		<a href="http://www.kstoerz.com/freespoke/fullcalc" target="_blank">FreeSpoke</a><br>
+	</div>
 
 </div><!--//end WH_left_side ======================================-->
+
 
 
 
@@ -536,13 +563,6 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 
 
 
-
-
-
-
-
-
-
 <br>
 	<div class=WH_containers><!-- Notes button & table -->
 		<button type=button id=WH_show_hide_notes class="WH WH_ndo_buttons" value=none>Notes</button>
@@ -583,7 +603,7 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 				</td>
 			</tr>
 			<tr><th class=WH>SHD</th><td>"Spoke Hole Diameter". Like FtC &amp; OSB, this value only affects final spoke length, and not the wheel as displayed.</td></tr>
-			<tr><th class=WH>Lace Option</th><td>This is mostly for triplet wheels, but can affect any non-standard lace pattern.  Just try it &amp; see.</td>
+			<tr><th class=WH>Lace Option</th><td>Asymetrical lacings, such as triplets and skip-hole, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td>
 
 			<tr><th class=WH></th><th>
 				<p>Advanced Build Info
@@ -623,7 +643,6 @@ var BG_TRIPLET  = "rgb(130,166,176)";  //	"		"		"		"		   Triplet mode.
 var BG_CUSTOM   = "#FAB";			   //	"		"		"		"		   Custom mode.
 
 var PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocus() of the inputs.
-
 
 
 
@@ -705,7 +724,7 @@ var $SL   = [];					//Spoke Lengths
 var $SL_2_4 = E(NS_ + "SL_2_4"); //<tr> with lengths for "even" numbered spokes. Usually the same and not displayed.
 
 var $SHOW_HIDE_ADVANCED = E(NS_ + 'show_hide_advanced'); //<button> to show/hide advanced build info
-var $ADVANCED_INFO = E(NS_ + 'advanced_info'); //<container> around advanced info.
+var $ADVANCED_INFO = E(NS_ + 'advanced_info'); //<div> around advanced info.
 
 var $FW	 = E(NS_ + 'FW');  //Flange Width, at spoke holes.
 var $SDB = E(NS_ + 'SDB'); //Spoke Diameter, at bend.
@@ -732,6 +751,9 @@ var $TENSION_RATIO    = [];
 
 var $DISPLAY_OPTIONS = E(NS_ + 'display_options'); //<div> around display options to enable show/hide
 
+var $OTHER_CALCS = E(NS_ + 'other_calcs'); //<div> around A Few Other Calcs links
+
+var $SHOW_HIDE_OTHER = E(NS_ + 'show_hide_other'); //<button> to show/hide other calcs links.
 var $SHOW_HIDE_NOTES = E(NS_ + 'show_hide_notes'); //<button> to show/hide Notes.
 var $SHOW_HIDE_DO    = E(NS_ + 'show_hide_DO');    //<button> to show/hide display options.
 
@@ -836,9 +858,10 @@ var DEFAULT_VALUES = {
 
 
 var DEFAULT_OPTIONS = {
-	'show_hide_advanced':"none", //none or talbe-row-group
-	'show_hide_notes':"none",
-	'show_hide_DO':"none", //"none" or "inline-block"
+	'show_hide_advanced':"none", //none or inline-block
+	'show_hide_other': "none", 	 //  "			"
+	'show_hide_notes': "none", 	 //  "			"
+	'show_hide_DO'   : "none", 	 //  "			"
 	'SPOKE_COLOR1': "#477", //Spoke group colors
 	'SPOKE_COLOR2': "#477", //
 	'SPOKE_COLOR3': "#355", //
@@ -1098,6 +1121,8 @@ function Show_Hide_Options(button, target, mode) { //**************************/
 	else 						{ button.value     = "none"; }
 
 	target.style["display"] = button.value;
+
+	Scroll_Into_View(target, button.offsetHeight + 10);
 
 	Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
 }//end Show_Hide_Options() //**************************************************/
@@ -2073,20 +2098,12 @@ function Assign_Events() { //**************************************************/
 	$FW 	  .addEventListener("change", function() { Update_Advanced_Info(save); });
 	$SDB	  .addEventListener("change", function() { Update_Advanced_Info(save); });
 
-	$SHOW_HIDE_ADVANCED.addEventListener("click", function() {
-		Show_Hide_Options(this, $ADVANCED_INFO, "inline-block");
-		Scroll_Into_View($ADVANCED_INFO, this.offsetHeight + 10);
-	});
 
-	$SHOW_HIDE_DO.addEventListener("click", function() {
-		Show_Hide_Options(this, $DISPLAY_OPTIONS, "inline-block");
-		Scroll_Into_View($DISPLAY_OPTIONS, this.offsetHeight + 10);
-	});
+	$SHOW_HIDE_ADVANCED.addEventListener("click", function() { Show_Hide_Options(this, $ADVANCED_INFO	, "inline-block"); });
+	$SHOW_HIDE_DO      .addEventListener("click", function() { Show_Hide_Options(this, $DISPLAY_OPTIONS	, "inline-block"); });
+	$SHOW_HIDE_NOTES   .addEventListener("click", function() { Show_Hide_Options(this, $NOTES			, "inline-block"); });
+	$SHOW_HIDE_OTHER   .addEventListener("click", function() { Show_Hide_Options(this, $OTHER_CALCS		, "inline-block"); });
 
-	$SHOW_HIDE_NOTES.addEventListener("click", function() {
-		Show_Hide_Options(this, $NOTES, "inline-block");
-		Scroll_Into_View($NOTES, this.offsetHeight + 10);
-	});
 
 	for (var group = 1; group <= 4; group++) {
 		(function(g) {
@@ -2170,7 +2187,7 @@ function Init() { //***********************************************************/
 	if (saved_settings_found) { Validate_Wheel_Settings(); } else { $LACE_OPT.value = 1 ; }
 
 	Load_DEFAULT_OPTIONS();
-	Load_Saved_Settings(LS_DISPLAY_OPTIONS); //  "		
+	Load_Saved_Settings(LS_DISPLAY_OPTIONS); //If any...		
 
 	Setup_Viewbox();
 
@@ -2178,7 +2195,9 @@ function Init() { //***********************************************************/
 
 	if (saved_settings_found) { Build_Wheel(); }
 
+
 	$ADVANCED_INFO  .style["display"] = $SHOW_HIDE_ADVANCED.value;
+	$OTHER_CALCS	.style["display"] = $SHOW_HIDE_OTHER.value;
 	$DISPLAY_OPTIONS.style["display"] = $SHOW_HIDE_DO.value;
 	$NOTES			.style["display"] = $SHOW_HIDE_NOTES.value;
 
@@ -2188,6 +2207,7 @@ function Init() { //***********************************************************/
 
 
 	//Disclaimer - check cookies to see if already accepted.
+	//Why cookies? I don't know, it was late/early and seemed like a good idea at the time...
 	$ACCEPT_MSG.value = "false"; //initialize [I Accept] button value.
 	var COOKIES = D.cookie.split("; ");
 	for (var x = 0; x < COOKIES.length; x++) {
@@ -2198,8 +2218,10 @@ function Init() { //***********************************************************/
 		}
 	}
 
-	if ($ACCEPT_MSG.value == "true") { $ERD.focus(); }
-	else 							 { Error_Notice('init', $ERD, MSGS['notice'] + $RESPONSIBILITY.innerHTML); }
+	if ($ACCEPT_MSG.value == "true")
+		{ $ERD.focus(); }
+	else
+		{ Error_Notice('init', $ERD, MSGS['notice'] + $RESPONSIBILITY.innerHTML); }
 
 }//end Init() //***************************************************************/
 
