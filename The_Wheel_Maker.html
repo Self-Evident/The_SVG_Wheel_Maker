@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <meta charset="utf-8"/>
-
+<link rel='shortcut icon' type='image/ico' href='favicon.ico'>
 
 
 <!--============================================================================
 The Wheel Maker
-v1.02
+v1.03
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -71,7 +71,7 @@ select.WH:-moz-focusring {
 	padding: 1rem 0 0 0;
 	visibility: hidden;		/* opacity & visibility changed at end of onload. */
 	opacity: 0;
-	transition: opacity .7s;
+	transition: opacity .5s;
 }
 
 #WH_The_SVG    { width: 630px; display: inline-block; border: 0; }
@@ -234,7 +234,6 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 
 #WH_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 2px; }
 </style>
-
 
 
 
@@ -420,8 +419,8 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 	<button type=button id=WH_show_hide_other class="WH WH_ndo_buttons" value="none">A few other calculators</button>
 	<div id=WH_other_calcs>
 	
-		<a href="D-SC.1.html">D-SC 1<a/><br>
-		<a href="D-SC.3.html">D-SC 3<a/><br>
+		<a href="D-SC.1.html">D-SC 1</a><br>
+		<a href="D-SC.3.html">D-SC 3</a><br>
 	
 		<hr class=WH>I have no affiliation with any of the <br> 
 					 following calculators or websites.<br>
@@ -611,7 +610,9 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 			</th>
 			<tr><th class=WH>Flange Width</th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm.</td>
 			<tr><th class=WH>Spoke Diameter at the Bend</th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio.</td>
-			<tr><th class=WH>Elbows Laced</th><td>Specify if the spokes are laced elbows In, Out, or Center (alternating).  This affects the bracing angle, and subsequently, the tension ratio.  Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations.  </td>
+
+			<tr><th class=WH>Elbows Laced</th><td>Specify if the spokes are laced elbows In, Out, or Center (alternating).  This affects the bracing angle, and subsequently, the tension ratio.  Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations.  However, generally, spokes can not actually be laced there (center).  Generally speaking.</td>
+
 			<tr><th class=WH>Length Adjust.</th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td>
 			<tr><th class=WH>Spoke Ratio</th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td>
 			<tr><th class=WH>Bracing Angles</th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td>
@@ -710,7 +711,7 @@ var $SX     = [];
 	$SX[2]  = E(NS_ + 'SX2');	// Spoke Crossing side 2
 var $SHD    = E(NS_ + 'SHD');	// Spoke Hole Diameter. Affects spoke length calcs only.
 
-var $LACE_OPT = E(NS_ + 'LACE_OPT');// Wheel Type/Lacing Option
+var $LACE_OPT = E(NS_ + 'LACE_OPT'); // Wheel Type/Lacing Option
 	$LACE_OPT.options[0].value = -1; //Type 2. The option values (1 or -1) are used in the 
 	$LACE_OPT.options[1].value =  1; //Type 1. spoke length calculations. DO NOT CHANGE 
 
@@ -909,8 +910,8 @@ function Save_Settings(ls_name, defaults) { //*********************************/
 		if (!setting) { continue }
 		
 		if (x++ > 0) { all_settings += "&"; }
-		if (setting.type == "checkbox") { all_settings += setting.id + ":" + setting.checked; }
-		else 							{ all_settings += setting.id + ":" + setting.value;   }
+		if (setting.type == "checkbox") { all_settings += id + ":" + setting.checked; }
+		else 							{ all_settings += id + ":" + setting.value;   }
 	}
 
 	localStorage.setItem(ls_name, all_settings);
@@ -929,8 +930,8 @@ function Load_Saved_Settings(ls_name) { //*************************************/
 
 	for (var x = 0; x < settings.length; x++){
 		
-		var id    = settings[x].split(":")[0];
-		var value = settings[x].split(":")[1];
+		var id    = NS_ + settings[x].split(":")[0];
+		var value =       settings[x].split(":")[1];
 		
 		if (!E(id)) { continue }; //skip inValid element id's.
 		
@@ -1034,7 +1035,7 @@ function Clear_Settings() { //*************************************************/
 
 	Setup_Viewbox();
 
-	Clear_Wheel();
+	Clear_Wheel(true);
 
 	localStorage.removeItem(LS_WHEEL_SETTINGS);
 
@@ -1270,24 +1271,26 @@ function Create_Spoke_Holes(hole_group, base_id, class1, class2, N, scale, shd, 
 
 	var odd = true;	//for alternating classes
 
+	var holes = "";
+
 	for (var sh = 1; sh <= N; sh++) {
 		var full_id = base_id + sh;
 		
-		odd = !odd;
-		if (odd) { var class_X = class1 } else { var class_X = class2 } //##### Not yet used...
+		odd = !odd;	 //##### Not yet really utilized. (class1 == class2)
+		if (odd) { var class_X = class1 } else { var class_X = class2 }
 		
 		var classes = SPOKE_HOLES + " " + class_X;
-		
-		hole_group.innerHTML += '<circle id=' + full_id + ' class="' + classes + '" r="' + (shd/2) + '" cx="0" cy="0" />';
 		
 		cx = Math.sin( (a/180) * Math.PI) * scale;
 		cy = Math.cos( (a/180) * Math.PI) * scale;
 		
-		E(full_id).setAttribute('cx', cx);
-		E(full_id).setAttribute('cy', cy);
+		holes += '<circle id=' + full_id + ' class="' + classes + '" r="' + (shd/2) + '" cx="' + cx +'" cy="' + cy + '" />' + "\n";
 		
 		a += A; //Spoke hole 1 is first hole at or after 0 degrees/(6 o'clock), ccw.
 	}
+
+	hole_group.innerHTML = hole_group.innerHTML + holes;
+
 }//end Create_Spoke_Holes() //*************************************************/
 
 
@@ -1397,55 +1400,55 @@ function Add_Spoke(group, flange, flange_hole, rim_hole, color) { //***********/
 
 	var spoke = '<line id="' + spoke_id + '" class="' + classes+ '" ' + coords + style + '/>' + "\n";
 	$SPOKES.innerHTML += spoke;
-	
+
 }//end Add_Spoke() //**********************************************************/
 
 
 
 
 function Lacing_Option(f) { //*************************************************/
-    /****************************************************../
-    tl;dr: It's complicated...  :) 
+	/****************************************************../
+	tl;dr: It's complicated...  :) 
 
 	"Full" Explanation:
-    In a triplet wheel, with a given spoke count & cross (just whether they're even/odd),
-    there are two lace patterns possible: "Type 1" and "Type 2".  In wheels with standard 
+	In a triplet wheel, with a given spoke count & cross (just whether they're even/odd),
+	there are two lace patterns possible: "Type 1" and "Type 2".  In wheels with standard 
 	lace patterns (2x, 3x, etc), the two pattern types end up just being mirror images of 
 	one another. 
-    
-    In this program, it is presented as "Lacing Option".  Also, it really only matters on the side
-    with more spokes (ex: the 16 spoke side of an 8:16 triplet). 
 
-    Well, those three options: even/odd spoke count, even/odd spoke cross, and lace type,
-    presents us with a three body quatum paradoxical muonicly  gravitational relativistic 
-    generational equatorial anti-matter teseract.  And the effort to solve it cost me many hours 
-    of time & much pounding of my head against a cinder block wall.
-    Yes, many brain cells died to bring us this informtaiton...
+	Well, those three options: even/odd spoke count, even/odd spoke cross, and lace type,
+	presents us with a three body quatum paradoxical muonicly  gravitational relativistic 
+	generational equatorial anti-matter teseract.  And the effort to solve it cost me many hours 
+	of time & much pounding of my head against a cinder block wall.
+	Yes, many brain cells died to bring us this informtaiton...
 
-    Anyway, for a consistent display of the wheel (spokes don't keep changing direcion), to determine
+	Anyway, for a consistent display of the wheel (spokes don't keep changing direction), to determine
 	the matching rim hole for a given flange hole, a modifier is needed,  either 1 or -1, depending on 
 	the desired triplet type & other two conditions. But, it's not always the same. And sometimes it's 
 	different, except when it's not...
 
-    All 8 possible combinations (3 "bits": count, cross, type) and their resultant modifers are summerized 
-    in the table below. 
+	All 8 possible combinations (3 "bits": count, cross, type) and their resultant modifers are summerized 
+	in the table below. 
 
-     NR SX T|          NR: Even or Odd Number of holes in the Rim
-     -------+--        SX: Even or Odd Spoke Cross
-     E  E  1|          T : Triplet Type (1 or 2)
-     O  E  1| M        M : Resultant Modifier (1 or -1)
-     E  O  2| 1
-     O  O  2|
-     -------+--     \ | /    | | |
-     E  O  1|        \|/     | | |   (The "middle spoke" is on the opposite flange.)
-     O  O  1| M       X      | | |  
-     E  E  2|-1      /|\     | | |  
-     O  E  2|       Type 1   Type 2 
+	 NR SX T|          NR: Even or Odd Number of holes in the Rim
+	 -------+--        SX: Even or Odd Spoke Cross
+	 E  E  1|          T : Triplet Type (1 or 2)
+	 O  E  1| M        M : Resultant Modifier (1 or -1)
+	 E  O  2| 1
+	 O  O  2|
+	 -------+--     \ | /    | | |
+	 E  O  1|        \|/     | | |   (The "middle spoke" is on the opposite flange.)
+	 O  O  1| M       X      | | |  
+	 E  E  2|-1      /|\     | | |  
+	 O  E  2|       Type 1   Type 2 
 
-    Now, in basic spoke calc math, it's much simpler, because all that matters is spoke cross - we
-    don't care about the voodoo involved in determining matching spoke holes in space.  But here,
-    holes matter. And space.  And time.  I think. I guess.  Maybe. I don't know.  But it works now!  :)
-    /******************************************************/
+	Now, in basic spoke calc math, it's much simpler, because all that matters is spoke cross - we
+	don't care about the voodoo involved in determining matching spoke holes in space.  But here,
+	holes matter. And space.  And time.  I think. I guess.  Maybe. I don't know.  But it works now!  :)
+
+	In this program, it is presented as "Lacing Option".  Also, it really only matters on the side
+	with more spokes (ex: the 16 spoke side of an 8:16 triplet). 
+	/******************************************************/
 
 
 	var NRE = ($NR.value    % 2  == 0); // Even number of rim holes?
@@ -1476,7 +1479,7 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //***************/
 	if (nf < 1) { return } //can't lace a spoke with no flange holes...
 
 	var gn = g1; //Used to toggle between g1 & g2
-	var d  = 1;   //Direction. ie: leading or trailing spokes.
+	var d  = 1;  //Direction. ie: leading or trailing spokes.
 
 	if (Custom_Odd_NF(nf) && f == 2 ) { d = -1 }
 
@@ -1525,9 +1528,10 @@ function Make_Rim(save) { //***************************************************/
 
 
 
+
 function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors) { /****/
-	//shd as used here, and in Create_Spoke_Holes(), only affects 
-	//displayed spoke hole size, and not spoke length calcs.
+	//shd, as used here, and in Create_Spoke_Holes(), only affects
+	//the displayed spoke hole size, and not spoke length calcs.
 
 	var AF = 360/nf2; //Angle between holes in Flange.
 	var offset_f1_f2 = AF/2; //Offset angle between left & right hub flange holes. The radial side is "0".
@@ -1600,13 +1604,19 @@ function Set_Wheel_Styles() { //***********************************************/
 
 
 
-function Clear_Wheel() { //****************************************************/
-	$RIM    .setAttribute('r', 0);
-	$FLANGE1.setAttribute('r', 0);
-	$FLANGE2.setAttribute('r', 0);
+function Clear_Wheel(all) { //*************************************************/
+	if (all){
+		$RIM    .setAttribute('r', 0);
+		$FLANGE1.setAttribute('r', 0);
+		$FLANGE2.setAttribute('r', 0);
+	}
+	
+	if (all || ($WHEEL_TYPE.value != "custom")) {
+		$FLANGE1_HOLES.innerHTML = "";
+		$FLANGE2_HOLES.innerHTML = "";
+	}
+
 	$RIM_HOLES	  .innerHTML = "";
-	$FLANGE1_HOLES.innerHTML = "";
-	$FLANGE2_HOLES.innerHTML = "";
 	$SPOKES		  .innerHTML = "";
 	$SL[1].value = ''; //side 1, odd spokes
 	$SL[2].value = ''; //side 1, even spokes
@@ -1637,7 +1647,7 @@ function Build_Wheel(save, input, integer) { //********************************/
 	}
 
 
-	Clear_Wheel();
+	Clear_Wheel(true);
 
 
 	//Any spokes to build?
@@ -1802,33 +1812,12 @@ function Validate_NR() { //****************************************************/
 	SX_Enable_Disable(1);
 	SX_Enable_Disable(2);
 
-
 	if ($NR.value*1 > 0) { return true } //Build_WHeel() on return
 
 	//Else if NR==0, clear the spokes, rim holes, & various spoke length results.
 	$NR.prior_value = $NR.value;
 
-	$RIM_HOLES	 .innerHTML = "";
-	$SPOKES		 .innerHTML = "";
-	$SL[1].value = ''; //side 1, odd spokes
-	$SL[2].value = '';
-	$SL[3].value = ''; //side 2, odd spokes
-	$SL[4].value = '';
-
-	$SL_ADJ[1].value = '';
-	$SL_ADJ[2].value = '';
-	$SPOKE_RATIO[1].value = '';
-	$SPOKE_RATIO[2].value = '';
-	$BRACE_ANGLE[1].value = '';
-	$BRACE_ANGLE[2].value = '';
-	$TENSION_RATIO[1].value = '';
-	$TENSION_RATIO[2].value = '';
-
-	if ($WHEEL_TYPE.value != "custom") {
-		$FLANGE1_HOLES.innerHTML = "";
-		$FLANGE2_HOLES.innerHTML = "";
-	}
-
+	Clear_Wheel(); //all except the rim & flanges, and the flange holes if in custom mode.
 
 	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
 
@@ -1921,15 +1910,8 @@ function Setup_Viewbox() { //**************************************************/
 
 function Show_Hide_Class(classname, show, save) { //***************************/
 	var items = D.getElementsByClassName(classname);
-
-	for (var s = 0; s < items.length; s++)
-	{
-		if (show) { items[s].style['display'] = "" ;   }
-		else 	  { items[s].style['display'] = "none" }
-	}
-
+	for (var s = 0; s < items.length; s++) { Show_Hide(items[s], show, false) }
 	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS); }
-
 }//end Show_Hide_Class() //****************************************************/
 
 
@@ -1940,7 +1922,6 @@ function Show_Hide(what, show, save) { //**************************************/
 	else 	  { what.style['display'] = "none" }
 
 	if (save) { Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS); }
-
 }//end Show_Hide() //**********************************************************/
 
 
@@ -2178,9 +2159,9 @@ function Init() { //***********************************************************/
 
 	Assign_Events();
 
-	Build_NR_Options("custom", MAX[$NR.id], 0);  //Temp until settings loaded, then again in Setup_Wheel_Type().
-	Build_SX_Options("custom", 1, MAX[$NR.id], 0);	//		"		"		"		"		"		"		"
-	Build_SX_Options("custom", 2, MAX[$NR.id], 0);	//		"		"		"		"		"		"		"
+	Build_NR_Options("custom", MAX[$NR.id], 0);     //Temp until settings loaded, then again in Setup_Wheel_Type().
+	Build_SX_Options("custom", 1, MAX[$NR.id], 0);  //		"		"		"		"		"		"		"
+	Build_SX_Options("custom", 2, MAX[$NR.id], 0);  //		"		"		"		"		"		"		"
 
 	var saved_settings_found = Load_Saved_Settings(LS_WHEEL_SETTINGS);  //If any...
 
@@ -2203,7 +2184,7 @@ function Init() { //***********************************************************/
 
 	//Reduce the visually jarring, if brief,  jumping around of page elements during page load.
 	$CONTAINER.style['visibility'] = "visible";
-	$CONTAINER.style.opacity = '1'
+	$CONTAINER.style.opacity = '1';
 
 
 	//Disclaimer - check cookies to see if already accepted.
@@ -2230,6 +2211,6 @@ function Init() { //***********************************************************/
 
 
 window.addEventListener("load", function(){Init()});
+window.onbeforeunload =  function() { $CONTAINER.style.opacity = '0' }
 //*****************************************************************************/
 })();</script>
-
