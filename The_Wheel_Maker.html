@@ -5,7 +5,7 @@
 
 <!--============================================================================
 The Wheel Maker
-v1.03
+v1.04
 
 
 Copyright © 2017 https://github.com/Self-Evident
@@ -49,13 +49,15 @@ hr.WH {margin: .5rem 0;}
 button.WH::-moz-focus-inner { border: 0 }
 input.WH:focus, select.WH:focus, button.WH:focus { box-shadow: 0 0 3pt 1pt #006060 }
 input[disabled].WH, select.WH:disabled {
-	color			: #444;
+	color			: #555;
 	background-color: #ddd;
 	border			: solid .5px #999;
 	padding			: 1px 0 1px 0
 }
 select.WH { padding-left: .3rem; width: 3.5rem; font-size: .9rem}
 select.WH option { padding-left: .5rem }
+
+input[disabled]#WH_SCALE { color: transparent; }
 
 
 /* Removes that annoying dotted onfocus outline of FF selects */
@@ -75,6 +77,8 @@ select.WH:-moz-focusring {
 }
 
 #WH_The_SVG    { width: 630px; display: inline-block; border: 0; }
+
+#WH_svg_wheel  { border: solid 1px #AAA; border-radius: 8px;}
 
 #WH_WHEEL_TYPE { margin: .3rem 0 .8rem 1rem; padding-left: .1rem; width: 8rem; }
 
@@ -98,7 +102,7 @@ table.WH td { padding: 0 0 0 0; border: 0; }
 table.WH th { height: 2.2rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
 table.WH .WH_thv { text-align: left; padding: 0 0 0 3px; width: 6.8rem; font-weight: bold; }
-table.WH input   { width: 3.5rem; text-align: center; font: 1rem courier; }
+.WH input   { width: 3.5rem; text-align: center; font: 1rem courier; }
 table.WH .WH_color { width: 6rem; }
 
 .WH_load_clear { margin: 0; padding: 0 .2rem; }
@@ -108,6 +112,22 @@ table.WH .WH_color { width: 6rem; }
 .WH_containers { display: inline-block; vertical-align: top; margin: 0 .5rem; }
 
 #WH_display_options  { display: none; vertical-align: top; border: 0; } 
+
+table.WH_DO { height: 19rem; }
+
+#WH_SCALE_MODE { padding: 0 .3em 0 .2rem; width: 4rem; }
+#WH_SCALE { width: 3rem; text-align: center; margin: .2rem .5rem; }
+#WH_scale_options {
+	margin: 0 0 .25rem 0;
+	font-family: arial;
+	text-align: center;
+	border			: solid 1px #444;
+	border-collapse	: separate;
+	border-radius	: 8px;
+	border-spacing	: 3px;
+	background-color: rgb(175,198,205);  /** #ccc; **/
+	vertical-align: top;
+}
 
 #WH_show_hide_notes { margin: 0 0 0 0; }
 
@@ -121,6 +141,9 @@ table.WH .WH_color { width: 6rem; }
 	padding: 0 0 0 0;
 }
 
+#WH_adv_hdr { border-bottom: solid 2px #333; }
+#WH_see_notes { }
+
 #WH_notes td { padding: .2rem .2rem .2rem .5rem; border: solid 1px #555; }
 #WH_notes th { padding: .2rem .5rem .2rem .2rem; border: solid 1px #555; }
 #WH_notes th.WH_th1 { font-size: 1.2rem; text-decoration: none; }
@@ -133,7 +156,7 @@ table.WH .WH_color { width: 6rem; }
 	width: 100%;
 	height: 2rem;
 	margin: .3rem auto .3rem auto;
-	padding: 3px .5rem; ;
+	padding: 3px .5rem;
 	text-align: center;
 	font: normal 1.2rem arial;
 	border: solid 1px #444;
@@ -159,9 +182,9 @@ table.WH .WH_color { width: 6rem; }
 #WH_rim	 { fill: none; stroke: #999; }
 .WH_svg	 { display: inline-block; margin: auto; border: 0; }
 .WH_axis { stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; }
-.WH_rsh	 { fill: none; stroke: #777; } /*rim spoke holes*/
-.WH_hsh	 { fill: none; stroke: #777; } /*hub spoke holes*/
-.WH_hsh2 { fill: none; stroke: #ccc; } /*hub spoke holes 2*/
+.WH_rsh	 { fill: #000; stroke: #777; stroke-width: 0; } /*rim spoke holes*/
+.WH_hsh	 { fill: #000; stroke: #777; stroke-width: 0; } /*hub spoke holes 1 */
+.WH_hsh2 { fill: #000; stroke: #ccc; stroke-width: 0; } /*hub spoke holes 2 */
 .WH_spoke{ fill: none; stroke: #000; stroke-width: 2; }
 .WH_pcd	 { fill: none; stroke: #000; stroke-width: 1; }
 
@@ -365,7 +388,11 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 <table class=WH id=WH_advanced_info>
 	<!-- tr><th colspan=3>Advanvced Build Info</th></tr -->
 	<tbody id=WH_adv_info_tbody>
-	<tr class=WH_separator><td colspan=3></td></tr>
+	<tr class=WH_separator><td colspan=3 id=WH_adv_hdr>
+		(This section does not directly affect the "Spoke Lengths" provided above.
+		See <button type=button id=WH_see_notes class="WH">Notes</button>
+		for more information.)
+	</td></tr>
 	<tr class=lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input id=WH_FW  class="WH" type=text maxlength=4></td></tr>
 	<tr class=lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input id=WH_SDB class="WH" type=text maxlength=4></td></tr>
 
@@ -409,6 +436,11 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 		<td>Tension Ratio</td>
 		<td><input id=WH_tension_ratio1 type=text readonly tabindex="-1">%</td>
 		<td><input id=WH_tension_ratio2 type=text readonly tabindex="-1">%</td>
+	</tr>
+	<tr>
+		<td>Tension</td>
+		<td><input id=WH_TENSION1 type=text readonly tabindex="-1"></td>
+		<td><input id=WH_TENSION2 type=text></td>
 	</tr>
 	<tr class=WH_separator><td colspan=3></td></tr>
 	</tbody>
@@ -468,12 +500,23 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 
 
 
-	<div class=WH_containers><!--Display Options button & table -->
+	<div class=WH_containers><!-- Display Options button & tables -->
 		
 		<button type=button id=WH_show_hide_DO class="WH WH_ndo_buttons" value=none>Display Options</button>
 		
-		<div id=WH_display_options><!--Display Options-->
-			<table class=WH>
+		<div id=WH_display_options>
+			
+			<div id=WH_scale_options class=WH>
+				Scale:
+				<select id=WH_SCALE_MODE class=WH>
+					<option value="auto">auto</option>
+					<option value="fixed">fixed</option>
+				</select>
+				<input id=WH_SCALE class=WH type=text>
+				<button type=button id=WH_reset_scale class="WH">Reset</button>
+			</div>
+			
+			<table class="WH WH_DO">
 				<tr>
 					<th colspan=4>Spokes
 						<button type=button id=WH_reset_options_spokes class="WH WH_reset_options">Reset</button>
@@ -508,10 +551,10 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 					<td><input id=WH_SPOKE_LINE_SIZE4 class=WH type=text></td>
 					<td><input id=WH_SPOKE_SHOW4  class=WH type=checkbox></td>
 				</tr>
-				<tr class=WH_separator><td colspan=4></td></tr>
+				<tr class=WH_separator><td colspan=4>&nbsp;</td></tr>
 			</table>
 			
-			<table class=WH>
+			<table class="WH WH_DO">
 				<tr>
 					<th colspan=4>
 						Rim, Flange &amp; Axes
@@ -539,12 +582,12 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 					<td><input id=WH_F2_SHOW  class=WH type=checkbox></td>
 				</tr>
 				<tr>
-					<td>Holes</td>
+					<td>Spoke Holes</td>
 					<td><input id=WH_HOLE_COLOR class="WH WH_color" type=text></td>
-					<td><input id=WH_HOLE_LINE_SIZE class=WH type=text></td>
+					<td><!-- //##### input id=WH_HOLE_LINE_SIZE class=WH type=text --></td>
 					<td><input id=WH_HOLES_SHOW class=WH type=checkbox></td>
 				</tr>
-				<tr><td colspan=4>Hole Diameter <input id=WH_HOLESIZE class=WH type=text></td></tr>
+				<tr><td colspan=4>Spoke Hole Diameter <input id=WH_HOLESIZE class=WH type=text></td></tr>
 				<tr><td colspan=4 class=WH_desc>(Affects displayed size only.)</td></tr>
 				<tr class=WH_separator><td colspan=4></td></tr>
 				<tr>
@@ -555,14 +598,15 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 				</tr>
 				<tr class=WH_separator><td colspan=4></td></tr>
 			</table>
+			<br>
 		</div><!--//end Display Options ==============-->
 	</div><!--//end Display Options <button> & <table>s & <reset>-->
 </div><!--//end WH_The_SVG ========================================-->
+<br><br>
 
 
 
 
-<br>
 	<div class=WH_containers><!-- Notes button & table -->
 		<button type=button id=WH_show_hide_notes class="WH WH_ndo_buttons" value=none>Notes</button>
 		<table id=WH_notes>
@@ -578,11 +622,17 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 					</div>
 				</td>
 			</tr>
-
+			
 			<tr><th class=WH></th>
 				<th>Wheel Settings
 					<p>All measurement settings are mm (millimeters).
 				</th>
+			</tr>
+			<tr><th class=WH>ERD</th>
+				<td>The "Effective Rim Diameter".<br>
+				Note that when the Display Option "Scale" is set to "auto", the displayed wheel size automatically scales based on this value.</td>
+			</tr>
+			
 			<tr><th class=WH>Rim Holes</th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
 			<tr><th class=WH>Flange Holes</th><td>Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.</td></tr>
 			<tr><th class=WH>PCD</th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
@@ -601,28 +651,66 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 					<p>In Custom mode, if the number of flange holes is odd, cross can be non-zero, but all spokes on that side will be laced the same direction.  Spokes on the opposite flange will be laced in the opposite direction if they are also odd, otherwise they will be laced normally.
 				</td>
 			</tr>
-			<tr><th class=WH>SHD</th><td>"Spoke Hole Diameter". Like FtC &amp; OSB, this value only affects final spoke length, and not the wheel as displayed.</td></tr>
-			<tr><th class=WH>Lace Option</th><td>Asymetrical lacings, such as triplets and skip-hole, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td>
-
-			<tr><th class=WH></th><th>
-				<p>Advanced Build Info
-				<p>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.
-			</th>
-			<tr><th class=WH>Flange Width</th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm.</td>
-			<tr><th class=WH>Spoke Diameter at the Bend</th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio.</td>
-
-			<tr><th class=WH>Elbows Laced</th><td>Specify if the spokes are laced elbows In, Out, or Center (alternating).  This affects the bracing angle, and subsequently, the tension ratio.  Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations.  However, generally, spokes can not actually be laced there (center).  Generally speaking.</td>
-
-			<tr><th class=WH>Length Adjust.</th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td>
-			<tr><th class=WH>Spoke Ratio</th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td>
-			<tr><th class=WH>Bracing Angles</th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td>
-			<tr><th class=WH>Tension Ratio</th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td>
-			<tr><th class=WH></th><td></td>
+			<tr><th class=WH>SHD</th><td>"Spoke Hole Diameter". Like Flange Offset &amp; OC, this value only affects final spoke length, and not the wheel as displayed.</td></tr>
+			<tr><th class=WH>Lace Option</th><td>Asymetrical lacings, such as triplets and skip-hole, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
+			
+			<tr><th class=WH id=WH_advanced_notes></th>
+				<th>
+					<p>Advanced Build Info
+					<p>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.
+					<p>Basically, this section does not directly affect the "Spoke Lengths" provided above. Instead, it
+						just indicates the effects to various spoke values (length, angle, etc) based on "Flange width", 
+						"Spoke diameter at bend", and "Elbows Laced".
+				</th>
+			<tr><th class=WH>Flange Width</th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			<tr><th class=WH>Spoke Diameter at the Bend</th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			
+			<tr><th class=WH>Elbows Laced</th>
+				<td>Specify if the spokes are laced elbows In, Out, or Center.  This affects the bracing angle and tension ratio.  It also affects spoke length a tiny amount. The differences between "Center" and "In" or "Out" are determined by Flange Width and Spoke Diameter at Bend.
+					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by every spoke length calculator.  However, except for specially made hubs, spokes can not actually be laced there (center).
+					<p>So, if "Center" is used to approximate a common wheel where the spokes are acually laced alternately in/out/in/out (default), the other Advanced values (Length Adjust, Bracing Angles, etc) are just rough approximations.
+					<p>A lot of other superfluous details are left out, because it gets complicated and doesn't really matter. So, go ride!
+				</td>
+			</tr>
+			
+			<tr><th class=WH>Length Adjust.</th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td></tr>
+			<tr><th class=WH>Spoke Ratio</th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td></tr>
+			<tr><th class=WH>Bracing Angles</th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td></tr>
+			<tr><th class=WH>Tension Ratio</th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td></tr>
+			<tr><th class=WH>Tension</th>
+				<td>Enter a spoke tension value under Side 2 to see the cooresponding tension value for Side 1 spokes, based on the Tension Ratio.
+				<p>The spoke tensions between Side 1 and Side 2 of a wheel are interdependent. 
+					That is, you can't change the tension on one side without affecting the other.*
+					<p>So, generally, one side (such as the drive side of a rear wheel) is set to an appropriate tension level, and the other side is what it is, based on hub & rim geometry.
+					<p>*Actually, adjusting the tension of <i>any</i> spoke also affects the tension of <i>every other</i> spoke a little bit.
+				</td>
+			</tr>
+			
+			<tr><th class=WH></th><th>Disaplay Options</th></tr>
+			<tr>
+				<th>Scale</th>
+				<td>
+					"auto"<br>
+					The wheel, regardless of ERD or rim width, will fit, and fill, the display window.
+					<p>"fixed"<br>
+					Defines the "size" the display window represents, in mm. The actual size on screen remains the same.
+					This allows "zooming in" (or out) of the wheel.
+					<p>For example, to "zoom" in on the hub, set the Scale options to "fixed" and "100".
+				</td>
+			</tr>
+			<tr><th class=WH>Colors</th>
+				<td>Colors can be specified using common 
+				<a href="https://www.w3schools.com/Colors/colors_names.asp" target="_blank">html/css color names</a> 
+				(black, gray, red, blue, green, skyblue, etc.),
+				or by any currently valid html/css color code format (hex, rgb, cymk, etc.).
+				</td>
+			</tr>
+			<tr><th class=WH></th><td></td></tr>
 		</table>
 	</div><!--//end Notes button & table  =============-->
 
 </div><!--//end WH_CONTAINER ================================================-->
-
+<br>
 
 
 
@@ -725,7 +813,8 @@ var $SL   = [];					//Spoke Lengths
 var $SL_2_4 = E(NS_ + "SL_2_4"); //<tr> with lengths for "even" numbered spokes. Usually the same and not displayed.
 
 var $SHOW_HIDE_ADVANCED = E(NS_ + 'show_hide_advanced'); //<button> to show/hide advanced build info
-var $ADVANCED_INFO = E(NS_ + 'advanced_info'); //<div> around advanced info.
+var $ADVANCED_INFO      = E(NS_ + 'advanced_info'); //<div> around advanced info.
+var $SEE_NOTES          = E(NS_ + 'see_notes'); //
 
 var $FW	 = E(NS_ + 'FW');  //Flange Width, at spoke holes.
 var $SDB = E(NS_ + 'SDB'); //Spoke Diameter, at bend.
@@ -750,6 +839,10 @@ var $TENSION_RATIO    = [];
 	$TENSION_RATIO[1] = E(NS_ + 'tension_ratio1');
 	$TENSION_RATIO[2] = E(NS_ + 'tension_ratio2');
 
+var $TENSION    = [];
+	$TENSION[1] = E(NS_ + 'TENSION1');
+	$TENSION[2] = E(NS_ + 'TENSION2');
+
 var $DISPLAY_OPTIONS = E(NS_ + 'display_options'); //<div> around display options to enable show/hide
 
 var $OTHER_CALCS = E(NS_ + 'other_calcs'); //<div> around A Few Other Calcs links
@@ -758,6 +851,10 @@ var $SHOW_HIDE_OTHER = E(NS_ + 'show_hide_other'); //<button> to show/hide other
 var $SHOW_HIDE_NOTES = E(NS_ + 'show_hide_notes'); //<button> to show/hide Notes.
 var $SHOW_HIDE_DO    = E(NS_ + 'show_hide_DO');    //<button> to show/hide display options.
 
+var $SCALE_MODE = E(NS_ + 'SCALE_MODE');
+var $SCALE      = E(NS_ + 'SCALE');
+
+var $RESET_SCALE = E(NS_ + 'reset_scale');
 var $RESET_OPTIONS_SPOKES  = E(NS_ + 'reset_options_spokes');   //<button> to reset display options.
 var $RESET_OPTIONS_RIM_ETC = E(NS_ + 'reset_options_rim_etc');  //<button> to reset display options.
 
@@ -797,7 +894,7 @@ var $F2_SHOW  = E(NS_ + 'F2_SHOW');	// Show Flange 2 circle.
 
 var $HOLESIZE	    = E(NS_ + 'HOLESIZE');  //Displayed spoke hole size (all holes)
 var $HOLE_COLOR     = E(NS_ + 'HOLE_COLOR');     //Spoke hole color
-var $HOLE_LINE_SIZE = E(NS_ + 'HOLE_LINE_SIZE'); //Spoke hole line thickness
+//##### var $HOLE_LINE_SIZE = E(NS_ + 'HOLE_LINE_SIZE'); //Spoke hole line thickness
 var $HOLES_SHOW	    = E(NS_ + 'HOLES_SHOW');     //Take a guess...
 
 var $AXES_COLOR     = E(NS_ + 'AXES_COLOR');//
@@ -821,6 +918,7 @@ var $G_WHEEL   = E(NS_ + 'wheel'); //<g> containing just the wheel elements: spo
 var $SVG_CONTAINER_DIV = E(NS_ + 'The_SVG');
 
 var $NOTES = E(NS_ + 'notes'); //Notes <div>.
+var $NOTES_ADVANCED_BUILD_INFO = E(NS_ + 'advanced_notes');
 
 var $X_axis = E(NS_ + 'x-axis');
 var $Y_axis = E(NS_ + 'y-axis');
@@ -853,8 +951,9 @@ var DEFAULT_VALUES = {
 	'LACE_OPT': 1,	//1 or -1
 	'FW'  : 3,		//Flange Width, at spoke holes.
 	'SDB' : 2,		//Spoke Diameter, at bend.
-	'ELBOWS1': 0,	//0 = flange center, 1 = elbows out, -1 = elbows in
-	'ELBOWS2': 0	//
+	'ELBOWS1' : 0,	//0 = flange center, 1 = elbows out, -1 = elbows in
+	'ELBOWS2' : 0,	//
+	'TENSION2': 120
 }
 
 
@@ -886,27 +985,28 @@ var DEFAULT_OPTIONS = {
 	'F1_COLOR'  : "#AAA",
 	'F2_COLOR'  : "#777",
 	'HOLE_COLOR': "#000",
-	'HOLE_LINE_SIZE': 2, //This plus HOLESIZE = displayed diameter.
+	//##### 'HOLE_LINE_SIZE': 0, //Not currently used. Set to 0 in css (stroke-width).
+	'HOLESIZE'      : 2.6, //Hole diameter (if HOLE_LINE_SIZE = 0 (stroke-width)).
 	'HOLES_SHOW': 1,
-	'HOLESIZE'  : 2, //Displayed size/diameter of spoke holes (less line size).
-
 	'AXES_COLOR': "#999",
 	'AXES_SHOW' : 1, // true/false or 1/0
-
-	'VIEWBOX_SIZE': 640 }; //Most wheels are < 600 ERD.
+	'SCALE_MODE': 'auto',
+	'SCALE'     : 670	 //viewbox size for "fixed" mode. Most wheels are < 700.
+ };
 /*************************************************/
 
 
 
 
 function Save_Settings(ls_name, defaults) { //*********************************/
-	//Save as "id1:value1&id2:value..."
+	//Save as "id1:value1&id2:value2..."
 
 	var setting = "", all_settings = "";
 	var x = 0;
 
 	for (var id in defaults) {
 		setting = E(NS_ + id);
+		
 		if (!setting) { continue }
 		
 		if (x++ > 0) { all_settings += "&"; }
@@ -971,6 +1071,8 @@ function Load_Samples() { //***************************************************/
 
 	if ($ACCEPT_MSG.value != "true") { return; }
 
+	$WHEEL_TYPE.value = DEFAULT_VALUES['WHEEL_TYPE'];
+
 	$ERD   .value = DEFAULT_VALUES['ERD'];
 	$NR	   .value = DEFAULT_VALUES['NR'];
 	$NF[1] .value = DEFAULT_VALUES['NF1'];
@@ -988,7 +1090,8 @@ function Load_Samples() { //***************************************************/
 	$SDB.value = DEFAULT_VALUES['SDB'];
 	$ELBOWS[1].value = DEFAULT_VALUES['ELBOWS1']
 	$ELBOWS[2].value = DEFAULT_VALUES['ELBOWS2']
-
+	$TENSION[2].value = DEFAULT_VALUES['TENSION2']
+	
 	Build_SX_Options($WHEEL_TYPE.value, 1, $NF[1].value, $SX[1].value);
 	Build_SX_Options($WHEEL_TYPE.value, 2, $NF[2].value, $SX[2].value);
 
@@ -1056,22 +1159,22 @@ function Load_DEFAULT_OPTIONS_Spokes() { //************************************/
 
 
 function Load_DEFAULT_OPTIONS_Rim_etc() { //***********************************/
-	$RIM_COLOR .value   = DEFAULT_OPTIONS['RIM_COLOR'];
-	$F1_COLOR.value     = DEFAULT_OPTIONS['F1_COLOR'];
-	$F2_COLOR.value     = DEFAULT_OPTIONS['F2_COLOR'];
-	$RIM_LINE_SIZE .value = DEFAULT_OPTIONS['RIM_LINE_SIZE'];
-	$F1_LINE_SIZE.value = DEFAULT_OPTIONS['F1_LINE_SIZE'];
-	$F2_LINE_SIZE.value = DEFAULT_OPTIONS['F2_LINE_SIZE'];
-	$RIM_SHOW .checked  = DEFAULT_OPTIONS['RIM_SHOW'];
-	$F1_SHOW.checked    = DEFAULT_OPTIONS['F1_SHOW'];
-	$F2_SHOW.checked    = DEFAULT_OPTIONS['F2_SHOW'];
+	$RIM_COLOR.value     = DEFAULT_OPTIONS['RIM_COLOR'];
+	$F1_COLOR.value      = DEFAULT_OPTIONS['F1_COLOR'];
+	$F2_COLOR.value      = DEFAULT_OPTIONS['F2_COLOR'];
+	$RIM_LINE_SIZE.value = DEFAULT_OPTIONS['RIM_LINE_SIZE'];
+	$F1_LINE_SIZE.value  = DEFAULT_OPTIONS['F1_LINE_SIZE'];
+	$F2_LINE_SIZE.value  = DEFAULT_OPTIONS['F2_LINE_SIZE'];
+	$RIM_SHOW.checked    = DEFAULT_OPTIONS['RIM_SHOW'];
+	$F1_SHOW.checked     = DEFAULT_OPTIONS['F1_SHOW'];
+	$F2_SHOW.checked     = DEFAULT_OPTIONS['F2_SHOW'];
 
 	$AXES_COLOR.value     = DEFAULT_OPTIONS['AXES_COLOR'];
 	$AXES_LINE_SIZE.value = DEFAULT_OPTIONS['AXES_LINE_SIZE'];
-	$AXES_SHOW .checked   = DEFAULT_OPTIONS['AXES_SHOW'];
+	$AXES_SHOW.checked    = DEFAULT_OPTIONS['AXES_SHOW'];
 
 	$HOLE_COLOR.value     = DEFAULT_OPTIONS['HOLE_COLOR'];
-	$HOLE_LINE_SIZE.value = DEFAULT_OPTIONS['HOLE_LINE_SIZE'];
+	//##### $HOLE_LINE_SIZE.value = DEFAULT_OPTIONS['HOLE_LINE_SIZE'];
 	$HOLES_SHOW.checked   = DEFAULT_OPTIONS['HOLES_SHOW'];
 
 	$HOLESIZE.value       = DEFAULT_OPTIONS['HOLESIZE'];
@@ -1082,11 +1185,27 @@ function Load_DEFAULT_OPTIONS_Rim_etc() { //***********************************/
 
 function Load_DEFAULT_OPTIONS() { //*******************************************/
 
+	$SCALE_MODE.value = DEFAULT_OPTIONS['SCALE_MODE'];
+	$SCALE     .value = DEFAULT_OPTIONS['SCALE'];
+
+	if ($SCALE_MODE.value == "auto") { $SCALE.disabled = true ; }
+	else /***************** fixed */ { $SCALE.disabled = false; }
+
 	Load_DEFAULT_OPTIONS_Spokes();
 
 	Load_DEFAULT_OPTIONS_Rim_etc()	
 
 }//end Load_DEFAULT_OPTIONS() //***********************************************/
+
+
+
+
+function Round(number,places) {
+	if (isNaN(places)) { places = 0; }
+	else               { places = Math.floor(places); }
+	//Use exponetial notation to avoid the 1.005 issue... try it: alert(1.005*10)  or,  alert(Math.round(1.005*100)/100)
+	return  Number( Math.round( number + 'e' + places ) + 'e-' + places );
+}//end Round()
 
 
 
@@ -1111,6 +1230,19 @@ function scroll_blur(event){ //************************************************/
 		else if (event_code == PD) { window.scrollBy(0, 400); }
 	}
 }//end scroll_blur() //********************************************************/
+
+
+
+
+function Advanced_Build_Notes_btn() { //***************************************/
+
+	var $Notes = $SHOW_HIDE_NOTES; //[Notes] button at bottom of page
+	
+	//If notes are hidden, show them...
+	if ($Notes.value == "none") { Show_Hide_Options($SHOW_HIDE_NOTES, $NOTES, "inline-block"); }
+	
+	$NOTES_ADVANCED_BUILD_INFO.scrollIntoView();
+}//end Advanced_Build_Notes_btn() //*******************************************/
 
 
 
@@ -1209,6 +1341,7 @@ function Update_Advanced_Info(save) { //***************************************/
 	$SL_ADJ[1].value = Math.round((sl_1io - sl_1)*100)/100;
 	$SL_ADJ[2].value = Math.round((sl_2io - sl_2)*100)/100;
 
+	$TENSION[1].value = Round(parseInt($TENSION[2].value) * $TENSION_RATIO[1].value / 100);
 
 	if (save) { Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES) }
 
@@ -1422,7 +1555,7 @@ function Lacing_Option(f) { //*************************************************/
 	of time & much pounding of my head against a cinder block wall.
 	Yes, many brain cells died to bring us this informtaiton...
 
-	Anyway, for a consistent display of the wheel (spokes don't keep changing direction), to determine
+	Anyway, for a consistent display of the wheel (spokes don't keep changing direction), and to determine
 	the matching rim hole for a given flange hole, a modifier is needed,  either 1 or -1, depending on 
 	the desired triplet type & other two conditions. But, it's not always the same. And sometimes it's 
 	different, except when it's not...
@@ -1446,8 +1579,8 @@ function Lacing_Option(f) { //*************************************************/
 	don't care about the voodoo involved in determining matching spoke holes in space.  But here,
 	holes matter. And space.  And time.  I think. I guess.  Maybe. I don't know.  But it works now!  :)
 
-	In this program, it is presented as "Lacing Option".  Also, it really only matters on the side
-	with more spokes (ex: the 16 spoke side of an 8:16 triplet). 
+	Finally, in this program, it is presented as "Lacing Option".  Also, it really only matters on the
+	side with more spokes (ex: the 16 spoke side of an 8:16 triplet). 
 	/******************************************************/
 
 
@@ -1580,8 +1713,9 @@ function Set_Wheel_Styles_Rim_etc() { //***************************************/
 	$FLANGE1.style['stroke-width'] = $F1_LINE_SIZE.value*1;
 	$FLANGE2.style['stroke-width'] = $F2_LINE_SIZE.value*1;
 
-	Set_Style_by_Class(SPOKE_HOLES, 'stroke-width', $HOLE_LINE_SIZE.value);
-	Set_Style_by_Class(SPOKE_HOLES, "stroke", $HOLE_COLOR.value);
+	//##### Set_Style_by_Class(SPOKE_HOLES, 'stroke-width', $HOLE_LINE_SIZE.value); //##### Not currently used (always 0).
+	Set_Style_by_Class(SPOKE_HOLES, "fill", $HOLE_COLOR.value);
+
 	Show_Hide_Class( SPOKE_HOLES, $HOLES_SHOW.checked);
 
 	Set_Style_by_Class( AXIS_CLASS, 'stroke-width', $AXES_LINE_SIZE.value );
@@ -1875,21 +2009,27 @@ function Validate_Input(input, integer, allow_neg) { //************************/
 
 function Setup_Viewbox() { //**************************************************/
 
-	if ($ERD.value == 0 && $PCD[1].value == 0 && $PCD[2].value == 0) { total = DEFAULT_OPTIONS['VIEWBOX_SIZE']; }
+	var view_box_size = DEFAULT_OPTIONS['SCALE'];
+
+	if ($SCALE_MODE.value == 'fixed') { view_box_size = parseInt($SCALE.value); }
 	else {
-		var erd = $ERD.value*1;
-		var rim = $RIM_LINE_SIZE.value*1;
-		var total = (erd + rim * 2) * 1.05; //The 1.05 just adds a little buffer space around the wheel.
+		if ($ERD.value == 0 && $PCD[1].value == 0 && $PCD[2].value == 0) { ; }
+		else {
+			var erd = $ERD.value*1;
+			var rim = $RIM_LINE_SIZE.value*1;
+			var view_box_size = (erd + rim * 2) * 1.05; //The 1.05 just adds a small buffer space around the wheel.
+		}
 	}
-
-	var view_box_size = total
-
+	
+	view_box_size = Round(view_box_size);
+	
 	//Setup viewbox...
 	var view_W = view_box_size; //Width
 	var view_H = view_box_size; //Height
-	var V_offset = (-view_H/2); //Vertical Offset 
+	var V_offset = (-view_H/2); //Vertical Offset
+	var H_offset = (-view_W/2); //Horizontal Offset
 
-	$SVG_WHEEL.setAttribute('viewBox', (-view_W/2) + " " + V_offset + " " + view_W + " " + view_H);
+	$SVG_WHEEL.setAttribute('viewBox', H_offset + " " + V_offset + " " + view_W + " " + view_H);
 
 	//Set xy axis...
 	var max_XY = view_box_size/2;
@@ -1903,6 +2043,7 @@ function Setup_Viewbox() { //**************************************************/
 	$Y_axis.setAttribute('x2', 0);
 	$Y_axis.setAttribute('y2',  max_XY);
 
+	return view_box_size;
 }//end Setup_Viewbox() { //****************************************************/
 
 
@@ -2078,12 +2219,17 @@ function Assign_Events() { //**************************************************/
 	$ELBOWS[2].addEventListener("change", function() { Update_Advanced_Info(save); });
 	$FW 	  .addEventListener("change", function() { Update_Advanced_Info(save); });
 	$SDB	  .addEventListener("change", function() { Update_Advanced_Info(save); });
+	$TENSION[2].addEventListener("change", function() {
+		$TENSION[1].value = Round(parseInt(this.value) * $TENSION_RATIO[1].value / 100);
+		Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
+	});
 
 
 	$SHOW_HIDE_ADVANCED.addEventListener("click", function() { Show_Hide_Options(this, $ADVANCED_INFO	, "inline-block"); });
 	$SHOW_HIDE_DO      .addEventListener("click", function() { Show_Hide_Options(this, $DISPLAY_OPTIONS	, "inline-block"); });
 	$SHOW_HIDE_NOTES   .addEventListener("click", function() { Show_Hide_Options(this, $NOTES			, "inline-block"); });
 	$SHOW_HIDE_OTHER   .addEventListener("click", function() { Show_Hide_Options(this, $OTHER_CALCS		, "inline-block"); });
+	$SEE_NOTES         .addEventListener("click", function() { Advanced_Build_Notes_btn();} );
 
 
 	for (var group = 1; group <= 4; group++) {
@@ -2110,13 +2256,42 @@ function Assign_Events() { //**************************************************/
 	$AXES_LINE_SIZE.addEventListener("change", function() { Set_Style_by_Class(AXIS_CLASS, 'stroke-width', this.value, save); });
 	$AXES_SHOW     .addEventListener("change", function() { Show_Hide_Class( AXIS_CLASS, this.checked, 1); });
 
-	$HOLE_COLOR    .addEventListener("change", function() { Set_Style_by_Class(SPOKE_HOLES, "stroke"      , this.value, save); });
-	$HOLE_LINE_SIZE.addEventListener("change", function() { Set_Style_by_Class(SPOKE_HOLES, 'stroke-width', this.value, save); });
+	$HOLE_COLOR    .addEventListener("change", function() { Set_Style_by_Class(SPOKE_HOLES, "fill"      , this.value, save); });
+	//##### $HOLE_LINE_SIZE.addEventListener("change", function() { Set_Style_by_Class(SPOKE_HOLES, 'stroke-width', this.value, save); });
 	$HOLES_SHOW    .addEventListener("change", function() { Show_Hide_Class(SPOKE_HOLES, this.checked, save); });
 	
 	$HOLESIZE.addEventListener("change", function() { 				//$HOLESIZE is diameter
 		Set_Attribute_by_Class( RIM_HOLE_CLASS, 'r', this.value/2); //set *radius* of holes (this.value/2)
 		Set_Attribute_by_Class( HUB_HOLE_CLASS, 'r', this.value/2);
+		Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
+	});
+
+
+	$SCALE_MODE.addEventListener("change", function() {
+		Setup_Viewbox();
+		Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
+		if (this.value == "auto") { $SCALE.disabled = true; }
+		else /**          fixed*/ { $SCALE.disabled = false;}
+	});
+
+
+	$SCALE.addEventListener("change", function() {
+		var scale = parseInt(this.value);
+		
+		if (isNaN(scale)) { this.value = DEFAULT_OPTIONS['SCALE']; }
+		else  { this.value = scale; }
+		
+		Setup_Viewbox();
+		Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
+	});
+
+
+	$RESET_SCALE.addEventListener("click", function() {
+		$SCALE_MODE.value = DEFAULT_OPTIONS['SCALE_MODE'];
+		$SCALE     .value = DEFAULT_OPTIONS['SCALE'];
+		if ($SCALE_MODE.value == "auto") { $SCALE.disabled = true; }
+		else /***                fixed*/ { $SCALE.disabled = false;}
+		Setup_Viewbox();
 		Save_Settings(LS_DISPLAY_OPTIONS, DEFAULT_OPTIONS);
 	});
 
@@ -2170,12 +2345,14 @@ function Init() { //***********************************************************/
 	Load_DEFAULT_OPTIONS();
 	Load_Saved_Settings(LS_DISPLAY_OPTIONS); //If any...		
 
+	if ($SCALE_MODE.value == "auto") { $SCALE.disabled = true ; }
+	else /***************** fixed */ { $SCALE.disabled = false; }
+
 	Setup_Viewbox();
 
 	Setup_Wheel_Type("init");
 
 	if (saved_settings_found) { Build_Wheel(); }
-
 
 	$ADVANCED_INFO  .style["display"] = $SHOW_HIDE_ADVANCED.value;
 	$OTHER_CALCS	.style["display"] = $SHOW_HIDE_OTHER.value;
@@ -2211,6 +2388,6 @@ function Init() { //***********************************************************/
 
 
 window.addEventListener("load", function(){Init()});
-window.onbeforeunload =  function() { $CONTAINER.style.opacity = '0' }
+//##### window.onbeforeunload =  function() { $CONTAINER.style.opacity = '0' }
 //*****************************************************************************/
 })();</script>
