@@ -4,11 +4,9 @@
 
 
 <!--============================================================================
-The Wheel Maker
-v1.04
+The Wheel Maker and Spoke Length Calculator
 
-
-Copyright © 2017 https://github.com/Self-Evident
+Copyright © 2017-2018 https://github.com/Self-Evident
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -30,6 +28,11 @@ SOFTWARE.
 =============================================================================-->
 
 
+<!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
+<script>var SLC_VERSION = "v1.05, 2018-06-28" //##### </script>
+<!--//======================================================-->
+
+
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
@@ -39,34 +42,34 @@ SOFTWARE.
 body { overflow-y: scroll; }
 
 
-/*** The prefix "WH_" simple means "WHeel" ***/
+/*** The prefix "SLC_" simply means "Spoke Length Calculator" ***/
 
 
-#WH_notes p {margin-top: .6rem;}
+#SLC_notes p {margin-top: .6rem;}
 
-hr.WH {margin: .5rem 0;}
+hr.SLC {margin: .5rem 0;}
 
-button.WH::-moz-focus-inner { border: 0 }
-input.WH:focus, select.WH:focus, button.WH:focus { box-shadow: 0 0 3pt 1pt #006060 }
-input[disabled].WH, select.WH:disabled {
+button.SLC::-moz-focus-inner { border: 0 }
+input.SLC:focus, select.SLC:focus, button.SLC:focus { box-shadow: 0 0 3pt 1pt #006060 }
+input[disabled].SLC, select.SLC:disabled {
 	color			: #555;
 	background-color: #ddd;
 	border			: solid .5px #999;
 	padding			: 1px 0 1px 0
 }
-select.WH { padding-left: .3rem; width: 3.5rem; font-size: .9rem}
-select.WH option { padding-left: .5rem }
+select.SLC { padding-left: .3rem; width: 3.5rem; font-size: .9rem}
+select.SLC option { padding-left: .5rem }
 
-input[disabled]#WH_SCALE { color: transparent; }
+input[disabled]#SLC_SCALE { color: transparent; }
 
 
 /* Removes that annoying dotted onfocus outline of FF selects */
-select.WH:-moz-focusring {
+select.SLC:-moz-focusring {
 	color: transparent;
 	text-shadow: 0 0 0 #000;
 }
 
-#WH_CONTAINER {
+#SLC_CONTAINER {
 	border: 0;
 	margin: auto;
 	text-align: center;
@@ -76,16 +79,43 @@ select.WH:-moz-focusring {
 	transition: opacity .5s;
 }
 
-#WH_The_SVG    { width: 630px; display: inline-block; border: 0; }
+#SLC_The_SVG    { width: 630px; display: inline-block; border: 0; }
 
-#WH_svg_wheel  { border: solid 1px #AAA; border-radius: 8px;}
+#SLC_svg_wheel  { border: solid 1px #AAA; border-radius: 8px;}
 
-#WH_WHEEL_TYPE { margin: .3rem 0 .8rem 1rem; padding-left: .1rem; width: 8rem; }
+#SLC_WHEEL_TYPE { margin: .3rem 0 .8rem 1rem; padding-left: .1rem; width: 8rem; }
 
-#WH_LACE_OPT   { margin: .5rem 0 .5rem 0; }
-#WH_left_side  { display: inline-block; vertical-align: top; position: relative; border: 0; }
+#SLC_LACE_OPT   { margin: .5rem 0 .5rem 0; }
+#SLC_left_side  { display: inline-block; vertical-align: top; position: relative; border: 0; }
 
-table.WH {
+#SLC_WHEEL_SELECT_OPTS td { text-align: right; padding-right: .5rem; }
+
+#SLC_rename_box   {
+	position: relative;
+	display: inline-block;
+	width: 11.5rem;
+	margin: 2px 0 0 0;
+	XXXXXborder: solid 1px red;
+}
+#SLC_CURRENT_WHEEL { width: 11.5rem; padding: 0; margin: 0; font-family: arial; }
+#SLC_CURRENT_WHEEL option { text-align: left; padding-left: .2rem;}
+#SLC_WHEEL_NAME {
+	position: absolute;
+	top     : 2px;
+	left    : 2.25rem;
+	margin: 0;
+	padding: 0 0 0 .05rem;
+	text-align: left;
+	width: 7.8rem;
+	font-family: arial; /** set to same as CURRENT_WHEEL. **/
+	font-size: .9rem;
+	border: solid 1px transparent;
+	height: 1.1rem;
+	visibility: hidden; /** visible on rename only **/
+}
+
+
+table.SLC {
 	display: inline-table;
 	width: 16rem;
 	font-family: arial;
@@ -98,26 +128,26 @@ table.WH {
 	vertical-align: top;
 }
 
-table.WH td { padding: 0 0 0 0; border: 0; }
-table.WH th { height: 2.2rem; font-size: 1.1rem; border-bottom: solid 2px #333}
+table.SLC td { padding: 0 0 0 0; border: 0; }
+table.SLC th { height: 2.2rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
-table.WH .WH_thv { text-align: left; padding: 0 0 0 3px; width: 6.8rem; font-weight: bold; }
-.WH input   { width: 3.5rem; text-align: center; font: 1rem courier; }
-table.WH .WH_color { width: 6rem; }
+table.SLC .SLC_thv { text-align: left; padding: 0 0 0 3px; width: 6.8rem; font-weight: bold; }
+.SLC input   { width: 3.5rem; text-align: center; font: 1rem courier; }
+table.SLC .SLC_color { width: 6rem; }
 
-.WH_load_clear { margin: 0; padding: 0 .2rem; }
+.SLC_load_clear { margin: 0; padding: 0 .2rem; }
 
-.WH_separator { padding: 0; height: .3rem; }
+.SLC_separator { padding: 0; height: .3rem; }
 
-.WH_containers { display: inline-block; vertical-align: top; margin: 0 .5rem; }
+.SLC_containers { display: inline-block; vertical-align: top; margin: 0 .5rem; }
 
-#WH_display_options  { display: none; vertical-align: top; border: 0; } 
+#SLC_display_options  { display: none; vertical-align: top; border: 0; } 
 
-table.WH_DO { height: 19rem; }
+table.SLC_DO { height: 19rem; }
 
-#WH_SCALE_MODE { padding: 0 .3em 0 .2rem; width: 4rem; }
-#WH_SCALE { width: 3rem; text-align: center; margin: .2rem .5rem; }
-#WH_scale_options {
+#SLC_SCALE_MODE { padding: 0 .3em 0 .2rem; width: 4rem; }
+#SLC_SCALE { width: 3rem; text-align: center; margin: .2rem .5rem; }
+#SLC_scale_options {
 	margin: 0 0 .25rem 0;
 	font-family: arial;
 	text-align: center;
@@ -129,9 +159,9 @@ table.WH_DO { height: 19rem; }
 	vertical-align: top;
 }
 
-#WH_show_hide_notes { margin: 0 0 0 0; }
+#SLC_show_hide_notes { margin: 0 0 0 0; }
 
-#WH_notes  {
+#SLC_notes  {
 	vertical-align: top;
 	border: solid 0px black;
 	font-family: arial;
@@ -141,16 +171,16 @@ table.WH_DO { height: 19rem; }
 	padding: 0 0 0 0;
 }
 
-#WH_adv_hdr { border-bottom: solid 2px #333; }
-#WH_see_notes { }
+#SLC_adv_hdr { border-bottom: solid 2px #333; }
+#SLC_see_notes { }
 
-#WH_notes td { padding: .2rem .2rem .2rem .5rem; border: solid 1px #555; }
-#WH_notes th { padding: .2rem .5rem .2rem .2rem; border: solid 1px #555; }
-#WH_notes th.WH_th1 { font-size: 1.2rem; text-decoration: none; }
-#WH_notes th.WH { width: 9rem; }
+#SLC_notes td { padding: .2rem .2rem .2rem .5rem; border: solid 1px #555; }
+#SLC_notes th { padding: .2rem .5rem .2rem .2rem; border: solid 1px #555; }
+#SLC_notes th.SLC_th1 { font-size: 1.2rem; text-decoration: none; }
+#SLC_notes th.SLC { width: 9rem; }
 
 
-.WH_ndo_buttons {
+.SLC_ndo_buttons {
 	display: block;
 	min-width: 11rem;
 	width: 100%;
@@ -165,13 +195,13 @@ table.WH_DO { height: 19rem; }
 	background: linear-gradient(to bottom, #CCC, #EEE, #EEE, #CCC);
 }
 
-.WH_ndo_buttons:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
-.WH_ndo_buttons:hover  { background: linear-gradient(to bottom, #bbb, #FFF, #FFF, #bbb); }
-.WH_ndo_buttons:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 3px 2px 1px 2px; }
+.SLC_ndo_buttons:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
+.SLC_ndo_buttons:hover  { background: linear-gradient(to bottom, #bbb, #FFF, #FFF, #bbb); }
+.SLC_ndo_buttons:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 3px 2px 1px 2px; }
 
 
 
-.WH_reset_options {
+.SLC_reset_options {
 	font-size: .8rem;
 	padding: 0 .2rem;
 	float: right;
@@ -179,56 +209,56 @@ table.WH_DO { height: 19rem; }
 }
 
 
-#WH_rim	 { fill: none; stroke: #999; }
-.WH_svg	 { display: inline-block; margin: auto; border: 0; }
-.WH_axis { stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; }
-.WH_rsh	 { fill: #000; stroke: #777; stroke-width: 0; } /*rim spoke holes*/
-.WH_hsh	 { fill: #000; stroke: #777; stroke-width: 0; } /*hub spoke holes 1 */
-.WH_hsh2 { fill: #000; stroke: #ccc; stroke-width: 0; } /*hub spoke holes 2 */
-.WH_spoke{ fill: none; stroke: #000; stroke-width: 2; }
-.WH_pcd	 { fill: none; stroke: #000; stroke-width: 1; }
+#SLC_rim	 { fill: none; stroke: #999; }
+.SLC_svg	 { display: inline-block; margin: auto; border: 0; }
+.SLC_axis { stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; }
+.SLC_rsh	 { fill: #000; stroke: #777; stroke-width: 0; } /*rim spoke holes*/
+.SLC_hsh	 { fill: #000; stroke: #777; stroke-width: 0; } /*hub spoke holes 1 */
+.SLC_hsh2 { fill: #000; stroke: #ccc; stroke-width: 0; } /*hub spoke holes 2 */
+.SLC_spoke{ fill: none; stroke: #000; stroke-width: 2; }
+.SLC_pcd	 { fill: none; stroke: #000; stroke-width: 1; }
 
-.WH_desc { font-siZe: .8rem }
-.WH_th1	 { height: 1.0rem; text-decoration: underline; font-weight: bold; }
-.WH_th2	 { height: 1.8rem; text-decoration: underline; }
+.SLC_desc { font-siZe: .8rem }
+.SLC_th1	 { height: 1.0rem; text-decoration: underline; font-weight: bold; }
+.SLC_th2	 { height: 1.8rem; text-decoration: underline; }
 
-table.WH .WH_th3 th{ height: 1.5rem; font-size: 1rem; border: 0; vertical-align: bottom; }
+table.SLC .SLC_th3 th{ height: 1.5rem; font-size: 1rem; border: 0; vertical-align: bottom; }
 
 
-table.WH td.WH_SL { height: 2rem; }
-table.WH td.WH_SL input { width: 5rem; text-align: center; font-size: 1rem; font-weight: bold; margin: 0; }
-table.WH td.WH_SLS1 { padding: 0 0 0 1.5rem; height: .8rem; }
-table.WH td.WH_SLS2 { padding: 0 1.5rem 0 0; height: .8rem; }
+table.SLC td.SLC_SL { height: 2rem; }
+table.SLC td.SLC_SL input { width: 5rem; text-align: center; font-size: 1rem; font-weight: bold; margin: 0; }
+table.SLC td.SLC_SLS1 { padding: 0 0 0 1.5rem; height: .8rem; }
+table.SLC td.SLC_SLS2 { padding: 0 1.5rem 0 0; height: .8rem; }
 
-table.WH tr.WH_SLH2 { height: 1.5rem; vertical-align: bottom }
+table.SLC tr.SLC_SLH2 { height: 1.5rem; vertical-align: bottom }
 
-#WH_SL_2_4 { display: none; } /**Set to table-row in Setup_Wheel() if needed.**/
+#SLC_SL_2_4 { display: none; } /**Set to table-row in Setup_Wheel() if needed.**/
 
-table#WH_advanced_info.WH { border-spacing: 2px; display: inline-block; }
-#WH_advanced_info td { font-size: .9rem; text-align: left; padding-left: .2rem; }
+table#SLC_advanced_info.SLC { border-spacing: 2px; display: inline-block; }
+#SLC_advanced_info td { font-size: .9rem; text-align: left; padding-left: .2rem; }
 
-select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
+select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 
-#WH_advanced_info .lesser_settings td 	   { font-size: .8em; padding-left: .5rem; }
-#WH_advanced_info .lesser_settings td input { font-size: .9em; width: 2rem; }
+#SLC_advanced_info .lesser_settings td 	   { font-size: .8em; padding-left: .5rem; }
+#SLC_advanced_info .lesser_settings td input { font-size: .9em; width: 2rem; }
 
-#WH_assumes { font-weight: bold }
+#SLC_assumes { font-weight: bold }
 
-#WH_other_calcs { font-family: arial; text-align: left; display: none; }
+#SLC_other_calcs { font-family: arial; text-align: left; display: none; }
 
-#WH_MSG_HEADER {
+#SLC_MSG_HEADER {
 	margin			: auto;
 	text-align		: center;
 	font-weight		: bold;
 	text-decoration : underline;
 }
 
-#WH_msg_box {
+#SLC_msg_box {
 	vertical-align: top;
 	width: 18rem;
 	position: absolute;
-	top		: 5.5rem;
-	left	: 13.5rem;
+	top		: 3rem;
+	left	: 14.5rem;
 	border	: solid 2px red;
 	border-radius	: 5px;
 	padding			: .5rem .5rem .5rem .5rem; 
@@ -238,10 +268,11 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 	visibility		: hidden;  /** toggled in Error_Notice() **/
 	max-height: 30rem;
 	overflow-y: auto;
+	margin-top: 3rem;
 }
 
 
-#WH_close_msg {
+#SLC_close_msg {
 	height	: 1.3rem;
 	width	: 1.5rem;
 	float: right;
@@ -255,34 +286,48 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 }
 
 
-#WH_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 2px; }
+#SLC_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 2px; }
+
+#SLC_DELETE_ALL_DATA {  }
 </style>
 
 
 
 
 
-<div id=WH_CONTAINER><!--====================================================-->
-<div id=WH_left_side><!--==========================================-->
 
-<div id=WH_msg_box>
-	<button id=WH_close_msg class=WH>X</button>
-	<div id=WH_message><br></div>
-	<button id=WH_ACCEPT_MSG class=WH>I Accept</button>
+
+<div id=SLC_CONTAINER><!--====================================================-->
+<div id=SLC_left_side><!--==========================================-->
+
+<div id=SLC_msg_box>
+	<button id=SLC_close_msg class=SLC>X</button>
+	<div id=SLC_message><br></div>
+	<button id=SLC_ACCEPT_MSG class=SLC>I Accept</button>
 </div>
 
-<table class=WH id=WH_settings>
+<table class=SLC id=SLC_settings>
 <tr><th colspan=2>Wheel Settings</th></tr>
 
+<tr id=SLC_WHEEL_SELECT_OPTS>
+	<td colspan=2><b>Wheel</b>
+		<div id=SLC_rename_box>
+			<select id=SLC_CURRENT_WHEEL class=SLC><!-- Populated onload --></select><br>
+			<input id=SLC_WHEEL_NAME type=text class=SLC value="" tabindex=-1>
+		</div>
+	</td>
+</tr>
+
 <tr><td colspan=2>
-		<button type=button id=WH_load_samples   class="WH WH_load_clear">Load Sample Values</button> 
-		<button type=button id=WH_clear_settings class="WH WH_load_clear">Clear Values</button>
+		<button type=button id=SLC_rename_wheel   class="SLC SLC_load_clear">Rename</button>
+		<button type=button id=SLC_load_samples   class="SLC SLC_load_clear">Load Sample</button> 
+		<button type=button id=SLC_clear_settings class="SLC SLC_load_clear">Clear</button>
 </td></tr>
 <tr><td colspan=2></td></tr>
 
 <tr>
 	<td colspan=2><b>Type</b>
-		<select id=WH_WHEEL_TYPE class=WH>
+		<select id=SLC_WHEEL_TYPE class=SLC>
 			<option value="standard">Standard</option>
 			<option value="triplet" >Triplet</option>
 			<option value="custom"  >Custom</option>
@@ -292,63 +337,61 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 	</td>
 </tr>
 
-<tr><td class=WH_thv>ERD</td><td><input id=WH_ERD class=WH type=text maxlength=5></td></tr>
+<tr><td class=SLC_thv>ERD</td><td><input id=SLC_ERD class=SLC type=text maxlength=5></td></tr>
 
-<tr><td class=WH_thv>Rim Holes</td><td>
-		<!-- input id=WH_NR class=WH type=text maxlength=2 -->
-		<!-- <option>s added at runtime. -->
-		<select id=WH_NR class=WH></select>
+<tr><td class=SLC_thv>Rim Holes</td><td>
+		<select id=SLC_NR class=SLC><!-- <option>s added at runtime. --></select>
 </td></tr>
 
 <tr><td></td><td>Side 1 &nbsp;Side 2</td></tr>
 
 <tr>
-	<td class=WH_thv>Flange Holes</td>
+	<td class=SLC_thv>Flange Holes</td>
 	<td>
-		<input id=WH_NF1 class=WH type=text maxlength=2>
-		<input id=WH_NF2 class=WH type=text maxlength=2>
+		<input id=SLC_NF1 class=SLC type=text maxlength=2>
+		<input id=SLC_NF2 class=SLC type=text maxlength=2>
 	</td>
 </tr>
 <tr>
-	<td class=WH_thv>PCD</td>
+	<td class=SLC_thv>PCD</td>
 	<td>
-		<input id=WH_PCD1 class=WH type=text maxlength=5>
-		<input id=WH_PCD2 class=WH type=text maxlength=5>
+		<input id=SLC_PCD1 class=SLC type=text maxlength=5>
+		<input id=SLC_PCD2 class=SLC type=text maxlength=5>
 	</td>
 </tr>
 <tr>
-	<td class=WH_thv>Flange Offset</td>
+	<td class=SLC_thv>Flange Offset</td>
 	<td>
-		<input id=WH_FTC1 class=WH type=text maxlength=5>
-		<input id=WH_FTC2 class=WH type=text maxlength=5>
+		<input id=SLC_FTC1 class=SLC type=text maxlength=5>
+		<input id=SLC_FTC2 class=SLC type=text maxlength=5>
 	</td>
 </tr>
 <tr>
-	<td class=WH_thv>OC Rim</td>
+	<td class=SLC_thv>OC Rim</td>
 	<td>
-		<input id=WH_OSB1 class=WH type=text maxlength=4>
-		<input id=WH_OSB2 class=WH type=text maxlength=4>
+		<input id=SLC_OSB1 class=SLC type=text maxlength=4>
+		<input id=SLC_OSB2 class=SLC type=text maxlength=4>
 	</td>
 </tr>
 
 <tr>
-	<td class=WH_thv>Cross</td>
+	<td class=SLC_thv>Cross</td>
 	<td>
 		<!-- <option>s added at runtime. -->
-		<select id=WH_SX1 class=WH></select>
-		<select id=WH_SX2 class=WH></select>
+		<select id=SLC_SX1 class=SLC></select>
+		<select id=SLC_SX2 class=SLC></select>
 	</td>
 </tr>
 
 <tr>
-	<td class=WH_thv>SHD</td>
-	<td><input id=WH_SHD class=WH type=text maxlength=4></td>
+	<td class=SLC_thv>SHD</td>
+	<td><input id=SLC_SHD class=SLC type=text maxlength=4></td>
 </tr>
 
 <tr>
-	<td class=WH_thv>Lace Option:</td>
+	<td class=SLC_thv>Lace Option:</td>
 	<td>
-		<select id=WH_LACE_OPT class=WH>
+		<select id=SLC_LACE_OPT class=SLC>
 			<option value="-1">2&nbsp;</option>
 			<option value=" 1" selected>1&nbsp;</option>
 		</select>
@@ -359,24 +402,24 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 <br>
 
 
-<table class=WH id=WH_spoke_lengths>
+<table class=SLC id=SLC_spoke_lengths>
 	<tr><th colspan=2>Spoke Lengths</th></tr>
-	<tr class=WH_SLH2>
-		<td class=WH_SLS1>Side 1</td>
-		<td class=WH_SLS2>Side 2</td>
+	<tr class=SLC_SLH2>
+		<td class=SLC_SLS1>Side 1</td>
+		<td class=SLC_SLS2>Side 2</td>
 	</tr>
 
 	<tr>
-		<td  class="WH_SL WH_SLS1"><input id=WH_LENGTH1 type=text readonly tabindex="-1"></td>
-		<td  class="WH_SL WH_SLS2"><input id=WH_LENGTH3 type=text readonly tabindex="-1"></td>
+		<td  class="SLC_SL SLC_SLS1"><input id=SLC_LENGTH1 type=text readonly tabindex="-1"></td>
+		<td  class="SLC_SL SLC_SLS2"><input id=SLC_LENGTH3 type=text readonly tabindex="-1"></td>
 	</tr>
 
-	<tr id=WH_SL_2_4>
-		<td  class="WH_SL WH_SLS1"><input id=WH_LENGTH2 type=text readonly tabindex="-1"></td>
-		<td  class="WH_SL WH_SLS2"><input id=WH_LENGTH4 type=text readonly tabindex="-1"></td>
+	<tr id=SLC_SL_2_4>
+		<td  class="SLC_SL SLC_SLS1"><input id=SLC_LENGTH2 type=text readonly tabindex="-1"></td>
+		<td  class="SLC_SL SLC_SLS2"><input id=SLC_LENGTH4 type=text readonly tabindex="-1"></td>
 	</tr>
 	
-	<tr class=WH_separator><td colspan=2></td></tr>
+	<tr class=SLC_separator><td colspan=2></td></tr>
 </table>
 
 <br><br>
@@ -384,31 +427,30 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 
 
 
-<button type=button id=WH_show_hide_advanced class="WH WH_ndo_buttons" value=none>Advanced Build Info</button>
-<table class=WH id=WH_advanced_info>
-	<!-- tr><th colspan=3>Advanvced Build Info</th></tr -->
-	<tbody id=WH_adv_info_tbody>
-	<tr class=WH_separator><td colspan=3 id=WH_adv_hdr>
+<button type=button id=SLC_show_hide_advanced class="SLC SLC_ndo_buttons" value=none>Advanced Build Info</button>
+<table class=SLC id=SLC_advanced_info>
+	<tbody id=SLC_adv_info_tbody>
+	<tr class=SLC_separator><td colspan=3 id=SLC_adv_hdr>
 		(This section does not directly affect the "Spoke Lengths" provided above.
-		See <button type=button id=WH_see_notes class="WH">Notes</button>
+		See <button type=button id=SLC_see_notes class="SLC">Notes</button>
 		for more information.)
 	</td></tr>
-	<tr class=lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input id=WH_FW  class="WH" type=text maxlength=4></td></tr>
-	<tr class=lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input id=WH_SDB class="WH" type=text maxlength=4></td></tr>
+	<tr class=lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input id=SLC_FW  class="SLC" type=text maxlength=4></td></tr>
+	<tr class=lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input id=SLC_SDB class="SLC" type=text maxlength=4></td></tr>
 
-	<tr class=WH_separator><td colspan=3></td></tr>
+	<tr class=SLC_separator><td colspan=3></td></tr>
 	<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
 	<tr>
 		<td>Elbows Laced</td>
 		<td>
-			<select id=WH_ELBOWS1 class="WH WH_elbows_laced">
+			<select id=SLC_ELBOWS1 class="SLC SLC_elbows_laced">
 				<option value="-1">In</option>
 				<option value="0" >Center</option>
 				<option value="1" >Out</option>
 			</select>
 		</td>
 		<td>
-			<select id=WH_ELBOWS2 class="WH WH_elbows_laced">
+			<select id=SLC_ELBOWS2 class="SLC SLC_elbows_laced">
 				<option value="-1">In</option>
 				<option value="0" >Center</option>
 				<option value="1" >Out</option>
@@ -416,48 +458,48 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 		</td>
 	</tr>
 
-	<tr class=WH_separator><td colspan=3></td></tr>
+	<tr class=SLC_separator><td colspan=3></td></tr>
 	<tr>
 		<td>Length Adjust.</td>
-		<td><input id=WH_SL_ADJ1 type=text readonly tabindex="-1"></td>
-		<td><input id=WH_SL_ADJ2 type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_SL_ADJ1 type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_SL_ADJ2 type=text readonly tabindex="-1"></td>
 	</tr>
 	<tr>
 		<td>Spoke Ratio</td>
-		<td><input id=WH_spoke_ratio1 type=text readonly tabindex="-1"></td>
-		<td><input id=WH_spoke_ratio2 type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_spoke_ratio1 type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_spoke_ratio2 type=text readonly tabindex="-1"></td>
 	</tr>
 	<tr>
 		<td>Bracing Angles</td>
-		<td><input id=WH_brace_angle1 type=text readonly tabindex="-1">&deg;</td>
-		<td><input id=WH_brace_angle2 type=text readonly tabindex="-1">&deg;</td>
+		<td><input id=SLC_brace_angle1 type=text readonly tabindex="-1">&deg;</td>
+		<td><input id=SLC_brace_angle2 type=text readonly tabindex="-1">&deg;</td>
 	</tr>
 	<tr>
 		<td>Tension Ratio</td>
-		<td><input id=WH_tension_ratio1 type=text readonly tabindex="-1">%</td>
-		<td><input id=WH_tension_ratio2 type=text readonly tabindex="-1">%</td>
+		<td><input id=SLC_tension_ratio1 type=text readonly tabindex="-1">%</td>
+		<td><input id=SLC_tension_ratio2 type=text readonly tabindex="-1">%</td>
 	</tr>
 	<tr>
 		<td>Tension</td>
-		<td><input id=WH_TENSION1 type=text readonly tabindex="-1"></td>
-		<td><input id=WH_TENSION2 type=text></td>
+		<td><input id=SLC_TENSION1 type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_TENSION2 type=text></td>
 	</tr>
-	<tr class=WH_separator><td colspan=3></td></tr>
+	<tr class=SLC_separator><td colspan=3></td></tr>
 	</tbody>
 </table>
 
 
 	<br><br>
-	<button type=button id=WH_show_hide_other class="WH WH_ndo_buttons" value="none">A few other calculators</button>
-	<div id=WH_other_calcs>
+	<button type=button id=SLC_show_hide_other class="SLC SLC_ndo_buttons" value="none">A few other calculators</button>
+	<div id=SLC_other_calcs>
 	
 		<a href="D-SC.1.html">D-SC 1</a><br>
 		<a href="D-SC.3.html">D-SC 3</a><br>
 	
-		<hr class=WH>I have no affiliation with any of the <br> 
+		<hr class=SLC>I have no affiliation with any of the <br> 
 					 following calculators or websites.<br>
 					 These links are provided for<br>
-					 convenience and comparison only.<hr class=WH>
+					 convenience and comparison only.<hr class=SLC>
 		<a href="https://www.sheldonbrown.com/rinard/spocalc.htm" target="_blank">Sheldon's SpoCalc</a><br>
 		<a href="http://www.mrrabbit.net/wheelsbyfleming.php" target="_blank">Mr. Rabbit's SpokeChart v2-0</a><br>
 		<a href="http://www.bikeschool.com/tools/spoke-length-calculator" target="_blank">Bike School</a><br>
@@ -470,174 +512,174 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 		<a href="http://www.kstoerz.com/freespoke/fullcalc" target="_blank">FreeSpoke</a><br>
 	</div>
 
-</div><!--//end WH_left_side ======================================-->
+</div><!--//end SLC_left_side ======================================-->
 
 
 
 
 
-<div id=WH_The_SVG><!-- and Dispaly Options =======================-->
-	<svg id="WH_svg_wheel" class="WH_svg" width="100%" height="100%">
+<div id=SLC_The_SVG><!-- and Dispaly Options =======================-->
+	<svg id="SLC_svg_wheel" class="SLC_svg" width="100%" height="100%">
 		<title>Wheel</title>
-		<g id="WH_axes">
-			<line id="WH_x-axis" class="WH_axis"/>
-			<line id="WH_y-axis" class="WH_axis"/>
+		<g id="SLC_axes">
+			<line id="SLC_x-axis" class="SLC_axis"/>
+			<line id="SLC_y-axis" class="SLC_axis"/>
 		</g>
 		
-		<g id="WH_wheel">
-			<circle id="WH_rim"	r=""/>
-			<circle id="WH_flange1" class="WH_pcd" r=""/>
-			<circle id="WH_flange2" class="WH_pcd" r=""/>
+		<g id="SLC_wheel">
+			<circle id="SLC_rim"	r=""/>
+			<circle id="SLC_flange1" class="SLC_pcd" r=""/>
+			<circle id="SLC_flange2" class="SLC_pcd" r=""/>
 			
-			<g id=WH_Holes_and_Spokes>
-				<g id="WH_rim_holes"></g>
-				<g id="WH_holes_f1"></g>
-				<g id="WH_holes_f2"></g>
-				<g id="WH_spokes"></g>
+			<g id=SLC_Holes_and_Spokes>
+				<g id="SLC_rim_holes"></g>
+				<g id="SLC_holes_f1"></g>
+				<g id="SLC_holes_f2"></g>
+				<g id="SLC_spokes"></g>
 			</g>
-		</g><!-- end id=WH_wheel -->
+		</g><!--//end id=SLC_wheel -->
 	</svg>
 
 
 
-	<div class=WH_containers><!-- Display Options button & tables -->
+	<div class=SLC_containers><!-- Display Options button & tables -->
 		
-		<button type=button id=WH_show_hide_DO class="WH WH_ndo_buttons" value=none>Display Options</button>
+		<button type=button id=SLC_show_hide_DO class="SLC SLC_ndo_buttons" value=none>Display Options</button>
 		
-		<div id=WH_display_options>
+		<div id=SLC_display_options>
 			
-			<div id=WH_scale_options class=WH>
+			<div id=SLC_scale_options class=SLC>
 				Scale:
-				<select id=WH_SCALE_MODE class=WH>
+				<select id=SLC_SCALE_MODE class=SLC>
 					<option value="auto">auto</option>
 					<option value="fixed">fixed</option>
 				</select>
-				<input id=WH_SCALE class=WH type=text>
-				<button type=button id=WH_reset_scale class="WH">Reset</button>
+				<input id=SLC_SCALE class=SLC type=text>
+				<button type=button id=SLC_reset_scale class="SLC">Reset</button>
 			</div>
 			
-			<table class="WH WH_DO">
+			<table class="SLC SLC_DO">
 				<tr>
 					<th colspan=4>Spokes
-						<button type=button id=WH_reset_options_spokes class="WH WH_reset_options">Reset</button>
+						<button type=button id=SLC_reset_options_spokes class="SLC SLC_reset_options">Reset</button>
 					</th>
 				</tr>
-				<tr class=WH_th3><th></th><th>Line</th><th>Line</th><th></th></tr>
-				<tr class=WH_th1><td>Group</td><td>Color</td><td>Size</td><td>Show?</td></tr>
-				<tr class=WH_th2><td colspan=4>Side 1</td></tr>
+				<tr class=SLC_th3><th></th><th>Line</th><th>Line</th><th></th></tr>
+				<tr class=SLC_th1><td>Group</td><td>Color</td><td>Size</td><td>Show?</td></tr>
+				<tr class=SLC_th2><td colspan=4>Side 1</td></tr>
 				<tr>
 					<td>1</td>
-					<td><input id=WH_SPOKE_COLOR1 class="WH WH_color" type=text></td>
-					<td><input id=WH_SPOKE_LINE_SIZE1 class=WH type=text></td>
-					<td><input id=WH_SPOKE_SHOW1  class=WH type=checkbox></td>
+					<td><input id=SLC_SPOKE_COLOR1 class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_SPOKE_LINE_SIZE1 class=SLC type=text></td>
+					<td><input id=SLC_SPOKE_SHOW1  class=SLC type=checkbox></td>
 				</tr>
 				<tr>
 					<td>2</td>
-					<td><input id=WH_SPOKE_COLOR2 class="WH WH_color" type=text></td>
-					<td><input id=WH_SPOKE_LINE_SIZE2 class=WH type=text></td>
-					<td><input id=WH_SPOKE_SHOW2  class=WH type=checkbox></td>
+					<td><input id=SLC_SPOKE_COLOR2 class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_SPOKE_LINE_SIZE2 class=SLC type=text></td>
+					<td><input id=SLC_SPOKE_SHOW2  class=SLC type=checkbox></td>
 				</tr>
-				<tr class=WH_separator><td colspan=4></td></tr>
-				<tr class=WH_th2><td colspan=4>Side 2</td></tr>
+				<tr class=SLC_separator><td colspan=4></td></tr>
+				<tr class=SLC_th2><td colspan=4>Side 2</td></tr>
 				<tr>
 					<td>3</td>
-					<td><input id=WH_SPOKE_COLOR3 class="WH WH_color" type=text></td>
-					<td><input id=WH_SPOKE_LINE_SIZE3 class=WH type=text></td>
-					<td><input id=WH_SPOKE_SHOW3  class=WH type=checkbox></td>
+					<td><input id=SLC_SPOKE_COLOR3 class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_SPOKE_LINE_SIZE3 class=SLC type=text></td>
+					<td><input id=SLC_SPOKE_SHOW3  class=SLC type=checkbox></td>
 				</tr>
 				<tr>
 					<td>4</td>
-					<td><input id=WH_SPOKE_COLOR4 class="WH WH_color" type=text></td>
-					<td><input id=WH_SPOKE_LINE_SIZE4 class=WH type=text></td>
-					<td><input id=WH_SPOKE_SHOW4  class=WH type=checkbox></td>
+					<td><input id=SLC_SPOKE_COLOR4 class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_SPOKE_LINE_SIZE4 class=SLC type=text></td>
+					<td><input id=SLC_SPOKE_SHOW4  class=SLC type=checkbox></td>
 				</tr>
-				<tr class=WH_separator><td colspan=4>&nbsp;</td></tr>
+				<tr class=SLC_separator><td colspan=4>&nbsp;</td></tr>
 			</table>
 			
-			<table class="WH WH_DO">
+			<table class="SLC SLC_DO">
 				<tr>
 					<th colspan=4>
 						Rim, Flange &amp; Axes
-						<button type=button id=WH_reset_options_rim_etc class="WH WH_reset_options">Reset</button>
+						<button type=button id=SLC_reset_options_rim_etc class="SLC SLC_reset_options">Reset</button>
 					</th>
 				</tr>
-				<tr class=WH_th3><th></th><th>Line</th><th>Line</th><th></th></tr>
-				<tr class=WH_th1><td></td><td>Color</td><td>Size</td><td>Show?</td></tr>
+				<tr class=SLC_th3><th></th><th>Line</th><th>Line</th><th></th></tr>
+				<tr class=SLC_th1><td></td><td>Color</td><td>Size</td><td>Show?</td></tr>
 				<tr>
 					<td>Rim</td>
-					<td><input id=WH_RIM_COLOR class="WH WH_color" type=text></td>
-					<td><input id=WH_RIM_LINE_SIZE  class=WH type=text></td>
-					<td><input id=WH_RIM_SHOW  class=WH type=checkbox></td>
+					<td><input id=SLC_RIM_COLOR class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_RIM_LINE_SIZE  class=SLC type=text></td>
+					<td><input id=SLC_RIM_SHOW  class=SLC type=checkbox></td>
 				</tr>
 				<tr>
 					<td>F1</td>
-					<td><input id=WH_F1_COLOR class="WH WH_color" type=text></td>
-					<td><input id=WH_F1_LINE_SIZE  class=WH type=text></td>
-					<td><input id=WH_F1_SHOW  class=WH type=checkbox></td>
+					<td><input id=SLC_F1_COLOR class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_F1_LINE_SIZE  class=SLC type=text></td>
+					<td><input id=SLC_F1_SHOW  class=SLC type=checkbox></td>
 				</tr>
 				<tr>
 					<td>F2</td>
-					<td><input id=WH_F2_COLOR class="WH WH_color" type=text></td>
-					<td><input id=WH_F2_LINE_SIZE  class=WH type=text></td>
-					<td><input id=WH_F2_SHOW  class=WH type=checkbox></td>
+					<td><input id=SLC_F2_COLOR class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_F2_LINE_SIZE  class=SLC type=text></td>
+					<td><input id=SLC_F2_SHOW  class=SLC type=checkbox></td>
 				</tr>
 				<tr>
 					<td>Spoke Holes</td>
-					<td><input id=WH_HOLE_COLOR class="WH WH_color" type=text></td>
-					<td><!-- //##### input id=WH_HOLE_LINE_SIZE class=WH type=text --></td>
-					<td><input id=WH_HOLES_SHOW class=WH type=checkbox></td>
+					<td><input id=SLC_HOLE_COLOR class="SLC SLC_color" type=text></td>
+					<td></td>
+					<td><input id=SLC_HOLES_SHOW class=SLC type=checkbox></td>
 				</tr>
-				<tr><td colspan=4>Spoke Hole Diameter <input id=WH_HOLESIZE class=WH type=text></td></tr>
-				<tr><td colspan=4 class=WH_desc>(Affects displayed size only.)</td></tr>
-				<tr class=WH_separator><td colspan=4></td></tr>
+				<tr><td colspan=4>Spoke Hole Diameter <input id=SLC_HOLESIZE class=SLC type=text></td></tr>
+				<tr><td colspan=4 class=SLC_desc>(Affects displayed size only.)</td></tr>
+				<tr class=SLC_separator><td colspan=4></td></tr>
 				<tr>
 					<td>Axes</td>
-					<td><input id=WH_AXES_COLOR class="WH WH_color" type=text></td>
-					<td><input id=WH_AXES_LINE_SIZE  class=WH type=text></td>
-					<td><input id=WH_AXES_SHOW  class=WH type=checkbox></td>
+					<td><input id=SLC_AXES_COLOR class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_AXES_LINE_SIZE  class=SLC type=text></td>
+					<td><input id=SLC_AXES_SHOW  class=SLC type=checkbox></td>
 				</tr>
-				<tr class=WH_separator><td colspan=4></td></tr>
+				<tr class=SLC_separator><td colspan=4></td></tr>
 			</table>
 			<br>
 		</div><!--//end Display Options ==============-->
 	</div><!--//end Display Options <button> & <table>s & <reset>-->
-</div><!--//end WH_The_SVG ========================================-->
+</div><!--//end SLC_The_SVG ========================================-->
 <br><br>
 
 
 
 
-	<div class=WH_containers><!-- Notes button & table -->
-		<button type=button id=WH_show_hide_notes class="WH WH_ndo_buttons" value=none>Notes</button>
-		<table id=WH_notes>
-			<tr><th class=WH>Disclaimer</th>
+	<div class=SLC_containers><!-- Notes button & table -->
+		<button type=button id=SLC_show_hide_notes class="SLC SLC_ndo_buttons" value=none>Notes</button>
+		<table id=SLC_notes>
+			<tr><th class=SLC>Disclaimer</th>
 				<td>
-					<div id=WH_responsibility>
-						<p id=WH_assumes class=WH>In all cases, the user assumes full responsibility for the use of any spoke length, image, or other output of this program.
+					<div id=SLC_responsibility>
+						<p id=SLC_assumes class=SLC>In all cases, the user assumes full responsibility for the use of any spoke length, image, or other output of this program.
 					</div>
 					<div>
-						<p class=WH>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
-						<p class=WH>That is, just because the program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than Standard &amp; Triplet modes.  And while it will generally be obvious when values produce an unrealistic wheel, again, there are no guarantees.
-						<p class=WH>For additional information, please refer to geometry. And physics.
+						<p class=SLC>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
+						<p class=SLC>That is, just because the program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than Standard &amp; Triplet modes.  And while it will generally be obvious when values produce an unrealistic wheel, again, there are no guarantees.
+						<p class=SLC>For additional information, please refer to geometry. And physics.
 					</div>
 				</td>
 			</tr>
 			
-			<tr><th class=WH></th>
+			<tr><th class=SLC></th>
 				<th>Wheel Settings
 					<p>All measurement settings are mm (millimeters).
 				</th>
 			</tr>
-			<tr><th class=WH>ERD</th>
+			<tr><th class=SLC>ERD</th>
 				<td>The "Effective Rim Diameter".<br>
 				Note that when the Display Option "Scale" is set to "auto", the displayed wheel size automatically scales based on this value.</td>
 			</tr>
 			
-			<tr><th class=WH>Rim Holes</th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
-			<tr><th class=WH>Flange Holes</th><td>Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.</td></tr>
-			<tr><th class=WH>PCD</th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
-			<tr><th class=WH>Flange Offset</th><td> The distance the flange is offset from the hub center.  Also referred to as "Flange to Center", or "Center to Flange", etc.  It is used in the spoke length calculation, but does't affect the displayed image of the wheel.</td></tr>
-			<tr><th class=WH>OC</th>
+			<tr><th class=SLC>Rim Holes</th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
+			<tr><th class=SLC>Flange Holes</th><td>Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.</td></tr>
+			<tr><th class=SLC>PCD</th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
+			<tr><th class=SLC>Flange Offset</th><td> The distance the flange is offset from the hub center.  Also referred to as "Flange to Center", or "Center to Flange", etc.  It is used in the spoke length calculation, but does't affect the displayed image of the wheel.</td></tr>
+			<tr><th class=SLC>OC</th>
 				<td>"Off-Center" - May also be referred to as "OSB", "Offset Spoke bed", "asymetrical", or similar terms.
 					<p>The spoke holes in the rim are "off-center", or "off-set", to one side.
 					<p>Useage: Enter a (-)negative number for the side that the holes are closer to (spokes will be a tiny bit shorter); and enter a (+)positive number for the side that the holes are further from (spoke will be a tiny bit longer).
@@ -645,16 +687,16 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 					<p>As with Flange Offset, it does not affect the displayed wheel.
 				</td>
 			</tr>
-			<tr><th class=WH>Cross</th>
+			<tr><th class=SLC>Cross</th>
 				<td>"Spoke Cross" value.  Number of spokes each spoke crosses on the same side of wheel.
 					<p>In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.  Additionally, the cross must be zero if the number of holes in the flange is odd (not even).
 					<p>In Custom mode, if the number of flange holes is odd, cross can be non-zero, but all spokes on that side will be laced the same direction.  Spokes on the opposite flange will be laced in the opposite direction if they are also odd, otherwise they will be laced normally.
 				</td>
 			</tr>
-			<tr><th class=WH>SHD</th><td>"Spoke Hole Diameter". Like Flange Offset &amp; OC, this value only affects final spoke length, and not the wheel as displayed.</td></tr>
-			<tr><th class=WH>Lace Option</th><td>Asymetrical lacings, such as triplets and skip-hole, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
+			<tr><th class=SLC>SHD</th><td>"Spoke Hole Diameter". Like Flange Offset &amp; OC, this value only affects final spoke length, and not the wheel as displayed.</td></tr>
+			<tr><th class=SLC>Lace Option</th><td>Asymetrical lacings, such as triplets and skip-hole, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
 			
-			<tr><th class=WH id=WH_advanced_notes></th>
+			<tr><th class=SLC id=SLC_advanced_notes></th>
 				<th>
 					<p>Advanced Build Info
 					<p>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.
@@ -662,10 +704,10 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 						just indicates the effects to various spoke values (length, angle, etc) based on "Flange width", 
 						"Spoke diameter at bend", and "Elbows Laced".
 				</th>
-			<tr><th class=WH>Flange Width</th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
-			<tr><th class=WH>Spoke Diameter at the Bend</th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			<tr><th class=SLC>Flange Width</th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			<tr><th class=SLC>Spoke Diameter at the Bend</th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
 			
-			<tr><th class=WH>Elbows Laced</th>
+			<tr><th class=SLC>Elbows Laced</th>
 				<td>Specify if the spokes are laced elbows In, Out, or Center.  This affects the bracing angle and tension ratio.  It also affects spoke length a tiny amount. The differences between "Center" and "In" or "Out" are determined by Flange Width and Spoke Diameter at Bend.
 					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by every spoke length calculator.  However, except for specially made hubs, spokes can not actually be laced there (center).
 					<p>So, if "Center" is used to approximate a common wheel where the spokes are acually laced alternately in/out/in/out (default), the other Advanced values (Length Adjust, Bracing Angles, etc) are just rough approximations.
@@ -673,11 +715,11 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=WH>Length Adjust.</th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td></tr>
-			<tr><th class=WH>Spoke Ratio</th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td></tr>
-			<tr><th class=WH>Bracing Angles</th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td></tr>
-			<tr><th class=WH>Tension Ratio</th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td></tr>
-			<tr><th class=WH>Tension</th>
+			<tr><th class=SLC>Length Adjust.</th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td></tr>
+			<tr><th class=SLC>Spoke Ratio</th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td></tr>
+			<tr><th class=SLC>Bracing Angles</th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td></tr>
+			<tr><th class=SLC>Tension Ratio</th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td></tr>
+			<tr><th class=SLC>Tension</th>
 				<td>Enter a spoke tension value under Side 2 to see the cooresponding tension value for Side 1 spokes, based on the Tension Ratio.
 				<p>The spoke tensions between Side 1 and Side 2 of a wheel are interdependent. 
 					That is, you can't change the tension on one side without affecting the other.*
@@ -686,7 +728,7 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=WH></th><th>Disaplay Options</th></tr>
+			<tr><th class=SLC></th><th>Disaplay Options</th></tr>
 			<tr>
 				<th>Scale</th>
 				<td>
@@ -698,19 +740,32 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 					<p>For example, to "zoom" in on the hub, set the Scale options to "fixed" and "100".
 				</td>
 			</tr>
-			<tr><th class=WH>Colors</th>
+			<tr><th class=SLC>Colors</th>
 				<td>Colors can be specified using common 
 				<a href="https://www.w3schools.com/Colors/colors_names.asp" target="_blank">html/css color names</a> 
 				(black, gray, red, blue, green, skyblue, etc.),
-				or by any currently valid html/css color code format (hex, rgb, cymk, etc.).
+				or with any currently valid html/css color code format (hex, rgb, cymk, etc.).
 				</td>
 			</tr>
-			<tr><th class=WH></th><td></td></tr>
+			<tr><th class=SLC></th><th>ETC</th></tr>
+			<tr><th class=SLC>Saved Settings</th><td>
+				<p>All information generated and used by this program, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage & cookies.
+				<p>To clear all wheel data & display options from this device, click the following button:<br>
+				<button type=button id=SLC_DELETE_ALL_DATA class="SLC SLC_load_clear">DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
+				<p>Your browser's cache is not affected by this option, and may retain some information.
+			</td></tr>
+
+			<tr><th class=SLC>Version</th><td id=SLC_VERSION>
+				
+			</td></tr>
+			
+			<tr><th class=SLC></th><td></td></tr>
 		</table>
 	</div><!--//end Notes button & table  =============-->
 
-</div><!--//end WH_CONTAINER ================================================-->
+</div><!--//end SLC_CONTAINER ================================================-->
 <br>
+
 
 
 
@@ -722,10 +777,16 @@ select.WH_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 var D = document;
 function E(id) { return document.getElementById(id); }
 
-var NS_ = "WH_"; //"Namespace" prefix used for <element> id's & class names.
+var NS_ = "SLC_"; //"Namespace" prefix used for <element> id's & class names.
 
-var LS_WHEEL_SETTINGS  = NS_ + 'wheel_settings';  //Name of wheel settings saved to localStorage.
+//Local Storage key names.
+var LS_VALUES_PREFIX   = NS_ + "WHEEL_";
+var LS_CURRENT_WHEEL   = NS_ + "CURRENT_WHEEL"; //1, 2, 3, etc...
 var LS_DISPLAY_OPTIONS = NS_ + 'display_options'; //Name of display settings saved to localStorage.
+
+var MAX_WHEELS = 10; //##### MAKE USER OPTION??? #####
+
+var SSI = " :: " //Saved Settings Indicator. Used in CURRENT_WHEEL <select> list <option>'s.
 
 var BG_STANDARD = "rgb(175,198,205)";  //Used for bg color of SETTINGS when in Standard mode.
 var BG_TRIPLET  = "rgb(130,166,176)";  //	"		"		"		"		   Triplet mode.
@@ -737,7 +798,7 @@ var PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocu
 
 //Various messeges
 var MSGS = {};
-MSGS['notice']  = "<div id=WH_MSG_HEADER>Notice!</div>";
+MSGS['notice']  = "<div id=SLC_MSG_HEADER>Notice!</div>";
 MSGS['invalid'] = "Invalid input: ";
 MSGS['max_fl']  = "Maximum value for flange holes: ";
 MSGS['nf1_2']   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>";
@@ -748,11 +809,11 @@ MSGS['nf2_1']   = "Number of flange holes:<br>Side 2 must be greater than or equ
 
 //id & class prefixes, etc.
 var SPOKE_ID_PREFIX 	= NS_ + "spoke_";
-var HUB_HOLE_ID_PREFIX	= NS_ + "f";	//Hub/flange hole id ex: WH_f1_sh1
+var HUB_HOLE_ID_PREFIX	= NS_ + "f";	//Hub/flange hole id ex: SLC_f1_sh1
 var HUB_HOLE_MESOFIX	= "_sh";	//HUB_HOLE_ID_PREFIX + 1 + HUB_HOLE_MESOFIX + 1
-var RIM_HOLE_ID_PREFIX	= NS_ + "rsh"; //WH_rsh1, WH_rsh2, etc...
+var RIM_HOLE_ID_PREFIX	= NS_ + "rsh"; //SLC_rsh1, SLC_rsh2, etc...
 var RIM_HOLE_CLASS		= NS_ + "rsh";
-var SPOKE_GROUP_PREFIX	= NS_ + "group"; //WH_group1, ..., WH_group4
+var SPOKE_GROUP_PREFIX	= NS_ + "group"; //SLC_group1, ..., SLC_group4
 var SPOKE_BASE_CLASS	= NS_ + "spoke";
 var HUB_HOLE_CLASS		= NS_ + "hsh";
 var AXIS_CLASS			= NS_ + "axis";
@@ -766,10 +827,15 @@ var $RESPONSIBILITY = E(NS_ + 'responsibility');
 
 var $CONTAINER		= E(NS_ + 'CONTAINER');
 var $SETTINGS		= E(NS_ + 'settings');
+
+var $CURRENT_WHEEL  = E(NS_ + 'CURRENT_WHEEL'); //1, 2, 3, etc...
+var $WHEEL_NAME     = E(NS_ + 'WHEEL_NAME');
+
+var $RENAME_WHEEL   = E(NS_ + 'rename_wheel');
 var $LOAD_SAMPLES	= E(NS_ + 'load_samples');
 var $CLEAR_SETTINGS	= E(NS_ + 'clear_settings');
-var $WHEEL_TYPE		= E(NS_ + 'WHEEL_TYPE');
 
+var $WHEEL_TYPE		= E(NS_ + 'WHEEL_TYPE');
 
 var $ERD  = E(NS_ + 'ERD');	// Effective Rim Diameter
 var $NR   = E(NS_ + 'NR');	// Number of holes in the Rim
@@ -894,7 +960,6 @@ var $F2_SHOW  = E(NS_ + 'F2_SHOW');	// Show Flange 2 circle.
 
 var $HOLESIZE	    = E(NS_ + 'HOLESIZE');  //Displayed spoke hole size (all holes)
 var $HOLE_COLOR     = E(NS_ + 'HOLE_COLOR');     //Spoke hole color
-//##### var $HOLE_LINE_SIZE = E(NS_ + 'HOLE_LINE_SIZE'); //Spoke hole line thickness
 var $HOLES_SHOW	    = E(NS_ + 'HOLES_SHOW');     //Take a guess...
 
 var $AXES_COLOR     = E(NS_ + 'AXES_COLOR');//
@@ -923,6 +988,9 @@ var $NOTES_ADVANCED_BUILD_INFO = E(NS_ + 'advanced_notes');
 var $X_axis = E(NS_ + 'x-axis');
 var $Y_axis = E(NS_ + 'y-axis');
 
+var $DELETE_ALL_DATA = E(NS_ + 'DELETE_ALL_DATA');
+
+var $SLC_VERSION     = E(NS_ + 'VERSION');
 //end assignment of element references.
 
 
@@ -934,6 +1002,7 @@ var $Y_axis = E(NS_ + 'y-axis');
 
 /*************************************************/
 var DEFAULT_VALUES = {
+	'WHEEL_NAME': "New Wheel",
 	'WHEEL_TYPE': "standard", //0=Standard, 1=Triplet, 2=Custom
 	'ERD' : 577,
 	'NR'  : 24,
@@ -985,7 +1054,6 @@ var DEFAULT_OPTIONS = {
 	'F1_COLOR'  : "#AAA",
 	'F2_COLOR'  : "#777",
 	'HOLE_COLOR': "#000",
-	//##### 'HOLE_LINE_SIZE': 0, //Not currently used. Set to 0 in css (stroke-width).
 	'HOLESIZE'      : 2.6, //Hole diameter (if HOLE_LINE_SIZE = 0 (stroke-width)).
 	'HOLES_SHOW': 1,
 	'AXES_COLOR': "#999",
@@ -998,46 +1066,104 @@ var DEFAULT_OPTIONS = {
 
 
 
-function Save_Settings(ls_name, defaults) { //*********************************/
-	//Save as "id1:value1&id2:value2..."
+function Parse_Settings(string) { //*******************************************/
+	//Currently, only used to parse returned saved settings from localStorage.
+	//If the parse fails, return null, as localStorage does if a localStorage item doesn't exit.
+	//ie: return null on any non object/failure/error.
+	try {
+		var parsed = JSON.parse(string);
+		// Non-exception exceptions:
+		// JSON.parse(false) and JSON.parse(1234) simply return false & 1234.
+		// We'd prefer null, but JSON.parse(null) returns null, and typeof null === "object".
+		// So check for those. And since null is falsey, this works:
+		if (parsed && typeof parsed === "object") { return parsed; }
+	}
+	catch (e) {}
+	return null;
+}//end Parse_Settings() //*****************************************************/
 
-	var setting = "", all_settings = "";
-	var x = 0;
+
+
+
+function Normalize_Event(event) { //*******************************************/
+	//Normalize the event & which/keycode/charcode...
+	if (!event) {var event = window.event;} //for IE
+	var key_code = event.which || event.keyCode || event.charCode;
+	event.key_code = key_code;
+	return event;
+}//end Normalize_Event() //****************************************************/
+
+
+
+
+function Pad10(wheel) { //*****************************************************/
+	if ((wheel * 1) < 10) { var pad = "&nbsp; "; } else { var pad = ""; }
+	return pad;
+}//end Pad10() //**************************************************************/
+
+
+
+
+function Save_Settings(what, defaults, misc) { //******************************/
+	//Save properties of what, only if property exists in defauts.
+	//Used for both wheel values & display options.
+
+	var $setting = "";
+	var settings = {};
 
 	for (var id in defaults) {
-		setting = E(NS_ + id);
+		$setting = E(NS_ + id);
 		
-		if (!setting) { continue }
+		//Ignore invalid id's (no cooresponding <element>). Shouldn't be any, but just in case...
+		if (!$setting) { continue }
 		
-		if (x++ > 0) { all_settings += "&"; }
-		if (setting.type == "checkbox") { all_settings += id + ":" + setting.checked; }
-		else 							{ all_settings += id + ":" + setting.value;   }
+		if ($setting.type == "checkbox") { settings[id] = $setting.checked + ""; }
+		else 							 { settings[id] = $setting.value;   }		
 	}
 
-	localStorage.setItem(ls_name, all_settings);
+	//New wheel?
+	var current_wheel = $CURRENT_WHEEL.value;
+	var saving_wheel = (what == (LS_VALUES_PREFIX + current_wheel));
+	
+	if (saving_wheel && localStorage.getItem(LS_VALUES_PREFIX + current_wheel) == null) {  
+		
+		if (misc == "copy") { $WHEEL_NAME.value = "Copy of " + $WHEEL_NAME.value; }
+		else //If user set wheel name to start new wheel, leave it. Otherwise set default new name.
+		if (misc != "name") { $WHEEL_NAME.value = DEFAULT_VALUES.WHEEL_NAME; }
+		
+		var option = $CURRENT_WHEEL.options[current_wheel - 1]; //CURRENT_WHEEL counts from 1, options from 0.
+		option.innerHTML = Pad10(current_wheel) + current_wheel + SSI + $WHEEL_NAME.value;
+		
+		settings.WHEEL_NAME = $WHEEL_NAME.value;
+	}
 
+	localStorage.setItem(what, JSON.stringify(settings));
 }//end Save_Settings() { //****************************************************/
 
 
 
 
-function Load_Saved_Settings(ls_name) { //*************************************/
-	var all_settigns = localStorage.getItem(ls_name);
+function Load_Saved_Settings(what) { //****************************************/
 
-	if (all_settigns == null) { return false; }
+	var settings = Parse_Settings(localStorage.getItem(what));
 
-	var settings = all_settigns.split("&"); //get id:value pairs
+	if (settings == null) { return false; }
 
-	for (var x = 0; x < settings.length; x++){
+	for (var id in settings) {
+		var $setting = E(NS_ + id);
 		
-		var id    = NS_ + settings[x].split(":")[0];
-		var value =       settings[x].split(":")[1];
-		
-		if (!E(id)) { continue }; //skip inValid element id's.
+		//Ignore invalid id's (no cooresponding <element>). Shouldn't be any, but just in case...
+		if (!$setting) { continue }
+		var value = settings[id];
 		
 		//.checked is boolean, and strings, even "true", become false if assigned as a string.
-		if (E(id).type == "checkbox") { E(id).checked = (value == "true"); } 
-		else						  { E(id).value   = value }
+		if ($setting.type == "checkbox") { $setting.checked = (value == "true"); } 
+		else						     { $setting.value   = value;             }
+	}
+
+
+	if ($CURRENT_WHEEL.value && what == (LS_VALUES_PREFIX + $CURRENT_WHEEL.value)) {
+		$WHEEL_NAME.current = $WHEEL_NAME.value;
 	}
 
 	return true;
@@ -1048,20 +1174,22 @@ function Load_Saved_Settings(ls_name) { //*************************************/
 
 function Validate_Wheel_Settings() { //****************************************/
 	//For now, just a very basic sanitation of loaded values.
+	//Currently only checks <input type=text> values.
+	//##### Need method to also validate <select>s & checkboxes. #####
 
 	if (($WHEEL_TYPE.value != "custom") && ($WHEEL_TYPE.value != "triplet")) { $WHEEL_TYPE.value = "standard"; }
 	if ($LACE_OPT.value != "-1") { $LACE_OPT.value = 1; }
 
-	//For now, just make sure they're numbers.
+	//For now, just make sure they're numbers (those that should be, at leaset).
 	for (var name in DEFAULT_VALUES) {
-		var setting = E(NS_ + name);
-		if ( !setting ) { continue }
-		if ((setting == $WHEEL_TYPE) || (setting == $LACE_OPT)) { continue }
+		var $setting = E(NS_ + name);
+		if ( !$setting ) { continue }
 		
-		if (isNaN(setting.value)) { setting.value = "" }
+		if ($setting.tagName == "INPUT" && $setting.type == "text" && isNaN($setting.value) && $setting.id != $WHEEL_NAME.id)
+			{ $setting.value = ""; }
 	}
-	
-	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES); //in case any were invalid.
+
+	Save_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value, DEFAULT_VALUES); //in case any were invalid.
 }//end Validate_Wheel_Settings() { //******************************************/
 
 
@@ -1071,6 +1199,7 @@ function Load_Samples() { //***************************************************/
 
 	if ($ACCEPT_MSG.value != "true") { return; }
 
+	$WHEEL_NAME.value = DEFAULT_VALUES.WHEEL_NAME;
 	$WHEEL_TYPE.value = DEFAULT_VALUES['WHEEL_TYPE'];
 
 	$ERD   .value = DEFAULT_VALUES['ERD'];
@@ -1107,7 +1236,7 @@ function Load_Samples() { //***************************************************/
 
 	Build_Wheel();
 
-	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
+	Save_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value, DEFAULT_VALUES);
 
 }//end Load_Samples() { //*****************************************************/
 
@@ -1116,6 +1245,11 @@ function Load_Samples() { //***************************************************/
 
 function Clear_Settings() { //*************************************************/
 
+	$WHEEL_TYPE.value = DEFAULT_VALUES['WHEEL_TYPE'];
+	Setup_Wheel_Type(true);
+
+	$WHEEL_NAME.value   = '';
+	$WHEEL_NAME.current = '';
 	$ERD   .value = '';
 	$NR	   .value = '';
 	$NF[1] .value = '';
@@ -1140,8 +1274,12 @@ function Clear_Settings() { //*************************************************/
 
 	Clear_Wheel(true);
 
-	localStorage.removeItem(LS_WHEEL_SETTINGS);
+	var current_wheel = $CURRENT_WHEEL.value;
+	var option = $CURRENT_WHEEL.options[current_wheel - 1]; //current_wheel counts from 1, options from 0.
+	option.innerHTML = Pad10(current_wheel) + current_wheel;
 
+	localStorage.removeItem(LS_VALUES_PREFIX + current_wheel);
+	
 }//end Clear_Settings() { //***************************************************/
 
 
@@ -1174,7 +1312,6 @@ function Load_DEFAULT_OPTIONS_Rim_etc() { //***********************************/
 	$AXES_SHOW.checked    = DEFAULT_OPTIONS['AXES_SHOW'];
 
 	$HOLE_COLOR.value     = DEFAULT_OPTIONS['HOLE_COLOR'];
-	//##### $HOLE_LINE_SIZE.value = DEFAULT_OPTIONS['HOLE_LINE_SIZE'];
 	$HOLES_SHOW.checked   = DEFAULT_OPTIONS['HOLES_SHOW'];
 
 	$HOLESIZE.value       = DEFAULT_OPTIONS['HOLESIZE'];
@@ -1210,26 +1347,73 @@ function Round(number,places) {
 
 
 
-function scroll_blur(event){ //************************************************/
+function Scroll_Blur(event){ //************************************************/
 	//Permit "clearing" focus, and some keyboard navigation while in <input>'s.
 
-	//Normalize the event & which/key/charcode...
-	if (!event) {var event = window.event;} //for IE
-	var event_code = event.which || event.keyCode || event.charCode;
+	Normalize_Event(event);
 	
 	var ESC = 27, AU = 38, AD = 40, PU = 33, PD = 34;
 
+	//ESC "cancels" current renaming of wheel & reverts back to current name.
+	if ((event.target.id == $WHEEL_NAME.id) && (event.key_code == ESC)) { $WHEEL_NAME.value = $WHEEL_NAME.current; }
+
 	//remove focus from input/select to allow keyboard arrows/pageup/pagedown/etc page scrolling.
-	if (event_code == ESC) { D.activeElement.blur(); return; }
+	if (event.key_code == ESC) { D.activeElement.blur(); return; }
 
 	if (event.target.tagName == "INPUT") {
 		//Arrow down scrolls the page up, towards the bottom of the page, and vice-versa.
-		if      (event_code == AU) { window.scrollBy(0, -38); }
-		else if (event_code == AD) { window.scrollBy(0,  38); }
-		else if (event_code == PU) { window.scrollBy(0,-400); }
-		else if (event_code == PD) { window.scrollBy(0, 400); }
+		if      (event.key_code == AU) { window.scrollBy(0, -38); }
+		else if (event.key_code == AD) { window.scrollBy(0,  38); }
+		else if (event.key_code == PU) { window.scrollBy(0,-400); }
+		else if (event.key_code == PD) { window.scrollBy(0, 400); }
 	}
-}//end scroll_blur() //********************************************************/
+}//end Scroll_Blur() //********************************************************/
+
+
+
+
+function Build_Select_Wheel_List(max_wheels) { //******************************/
+
+	var wheel_index = localStorage.getItem(LS_CURRENT_WHEEL) * 1; //1, 2, 3, etc...
+
+	if (isNaN(wheel_index)) { wheel_index = 1; }
+	if (wheel_index < 1)    { wheel_index = 1; }
+	if (wheel_index > max_wheels) { wheel_index = max_wheels; }	
+	localStorage.setItem(LS_CURRENT_WHEEL, wheel_index);
+
+	$CURRENT_WHEEL.innerHTML = ""; //Clear any current <option>s
+
+	var mark = ""; //Indicates options with saved settings. Either " :: ", or " :: User Supplied Wheel Name".
+	var option_list = "";
+
+	for (var wheel = 1; wheel <= max_wheels; wheel++) {
+		
+		var settings = Parse_Settings(localStorage.getItem(LS_VALUES_PREFIX + wheel));
+		
+		//If wheel settings exist, get "WHEEL_NAME" & show in <option> text.
+		if (settings == null) { mark = "" }
+		else {	
+			//Make sure WHEEL_NAME is not missing.
+			if ( !('WHEEL_NAME' in settings) ) {
+				settings['WHEEL_NAME'] = '';
+				localStorage.setItem(LS_VALUES_PREFIX + wheel, JSON.stringify(settings));
+			}
+			
+			for (var id in settings) {
+				var value = settings[id];
+				if (id == "WHEEL_NAME") {
+					mark = SSI + value;
+					break;
+				}
+			}
+		}
+		
+		option_list += "<option value='"+wheel+"'>" + Pad10(wheel) + wheel + mark + "</option>";
+	}
+
+	$CURRENT_WHEEL.innerHTML = option_list;
+	$CURRENT_WHEEL.value     = wheel_index;
+}//end Build_Select_Wheel_List() //********************************************/
 
 
 
@@ -1343,7 +1527,7 @@ function Update_Advanced_Info(save) { //***************************************/
 
 	$TENSION[1].value = Round(parseInt($TENSION[2].value) * $TENSION_RATIO[1].value / 100);
 
-	if (save) { Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES) }
+	if (save) { Save_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value, DEFAULT_VALUES); }
 
 }//end Update_Advanced_Info() { //*********************************************/
 
@@ -1469,7 +1653,7 @@ function Calc_Spoke_Lengths(validate, changed, integer, allow_neg) { //********/
 	}
 
 	//Odd spokes: 1, 3, 5, etc...
-	$SL[1].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_1'); //WH_spoke_(flange)_(hole)
+	$SL[1].value = Calc_Spoke_Length(1, SPOKE_ID_PREFIX + '1_1'); //SLC_spoke_(flange)_(hole)
 	$SL[3].value = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_1');
 
 	//Even spokes: 2, 4, 6, etc...
@@ -1527,7 +1711,7 @@ function Add_Spoke(group, flange, flange_hole, rim_hole, color) { //***********/
 	var y2 = E(rim_hole_id).getAttribute('cy');
 
 	var spoke_id = SPOKE_ID_PREFIX + flange + "_" + flange_hole;
-	var classes = SPOKE_BASE_CLASS + ' ' + SPOKE_GROUP_PREFIX + group; //ex: 'WH_spoke WH_group1'
+	var classes = SPOKE_BASE_CLASS + ' ' + SPOKE_GROUP_PREFIX + group; //ex: 'SLC_spoke SLC_group1'
 	var coords = ' x1="' + x1 +  '" y1="' + y1 +  '" x2="' + x2 +  '" y2="' + y2 +  '" ';
 	var style = ' style="stroke:' + color + '"';
 
@@ -1713,7 +1897,6 @@ function Set_Wheel_Styles_Rim_etc() { //***************************************/
 	$FLANGE1.style['stroke-width'] = $F1_LINE_SIZE.value*1;
 	$FLANGE2.style['stroke-width'] = $F2_LINE_SIZE.value*1;
 
-	//##### Set_Style_by_Class(SPOKE_HOLES, 'stroke-width', $HOLE_LINE_SIZE.value); //##### Not currently used (always 0).
 	Set_Style_by_Class(SPOKE_HOLES, "fill", $HOLE_COLOR.value);
 
 	Show_Hide_Class( SPOKE_HOLES, $HOLES_SHOW.checked);
@@ -1750,8 +1933,8 @@ function Clear_Wheel(all) { //*************************************************/
 		$FLANGE2_HOLES.innerHTML = "";
 	}
 
-	$RIM_HOLES	  .innerHTML = "";
-	$SPOKES		  .innerHTML = "";
+	$RIM_HOLES.innerHTML = "";
+	$SPOKES   .innerHTML = "";
 	$SL[1].value = ''; //side 1, odd spokes
 	$SL[2].value = ''; //side 1, even spokes
 	$SL[3].value = ''; //side 2, odd spokes
@@ -1785,7 +1968,10 @@ function Build_Wheel(save, input, integer) { //********************************/
 
 
 	//Any spokes to build?
-	if ($ERD.value == 0 && $PCD[1].value == 0 && $PCD[2].value == 0) { return false; }
+	if ($ERD.value == 0 && $PCD[1].value == 0 && $PCD[2].value == 0) {
+		if (save) { Save_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value, DEFAULT_VALUES); }
+		return false;
+	}
 
 
 	var Spoke_Colors = ["", $SPOKE_COLOR[1].value, $SPOKE_COLOR[2].value,  $SPOKE_COLOR[3].value, $SPOKE_COLOR[4].value ];
@@ -1817,7 +2003,7 @@ function Error_Notice(init, what, msg) {//*************************************/
 	//what: id of changed input.
 	if (typeof msg == 'undefined') { msg = "" }
 
-	if (!init && (what.tagName == "INPUT")) { msg = MSGS['invalid'] + ' "' + what.value + '".<br>' + msg; }
+	if (!init && (what.tagName == "INPUT")) { msg = MSGS['invalid'] + ' "' + what.value + '"<br>' + msg; }
 
 	$MESSAGE_DIV.innerHTML = msg;
 	$MSG_BOX.style['visibility'] = "visible"; 
@@ -1946,14 +2132,14 @@ function Validate_NR() { //****************************************************/
 	SX_Enable_Disable(1);
 	SX_Enable_Disable(2);
 
-	if ($NR.value*1 > 0) { return true } //Build_WHeel() on return
+	if ($NR.value*1 > 0) { return true } //Build_Wheel() on return
 
 	//Else if NR==0, clear the spokes, rim holes, & various spoke length results.
 	$NR.prior_value = $NR.value;
 
 	Clear_Wheel(); //all except the rim & flanges, and the flange holes if in custom mode.
 
-	Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
+	Save_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value, DEFAULT_VALUES);
 
 	return false; //No spokes, so can't Build_Wheel().
 
@@ -2017,7 +2203,7 @@ function Setup_Viewbox() { //**************************************************/
 		else {
 			var erd = $ERD.value*1;
 			var rim = $RIM_LINE_SIZE.value*1;
-			var view_box_size = (erd + rim * 2) * 1.05; //The 1.05 just adds a small buffer space around the wheel.
+			var view_box_size = (erd + rim * 2) * 1.05; //The 1.05 adds a small buffer space around the wheel.
 		}
 	}
 	
@@ -2177,10 +2363,8 @@ function Setup_Wheel_Type(init) { //*******************************************/
 
 function Assign_Events() { //**************************************************/
 
-	var save = true; //Just for clarity below, as some functions have an option to save settings.
-
-	//Save current value (as .prior_value) onfocus in case of error in new value.
-	var settings = [$WHEEL_TYPE, $LACE_OPT, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SX[1], $SX[2], $SHD, $FW, $SDB];
+	//Save current value (as .prior_value) onfocus for <input type=text>s in case of error in new value.
+	var settings = [$ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB];
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
 			if ($ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
@@ -2189,13 +2373,74 @@ function Assign_Events() { //**************************************************/
 	}
 
 
-	$LOAD_SAMPLES  .addEventListener("click", function () { Load_Samples()   });
-	$CLEAR_SETTINGS.addEventListener("click", function () { Clear_Settings() });
+	$CURRENT_WHEEL.addEventListener("change", function() {
+		this.prior_value = localStorage.getItem(LS_CURRENT_WHEEL);
+		localStorage.setItem(LS_CURRENT_WHEEL, this.value);
+		
+		var current_wheel_found = ((LS_VALUES_PREFIX + $CURRENT_WHEEL.value      ) in localStorage);
+		var prior_wheel_found   = ((LS_VALUES_PREFIX + $CURRENT_WHEEL.prior_value) in localStorage);
+		
+		if(current_wheel_found) {
+			//Temp <select> lists until any saved settings loaded. NR & SX will then be rebuilt in Setup_Wheel_Type().
+			Build_NR_Options("custom", MAX[$NR.id], 0);
+			Build_SX_Options("custom", 1, MAX[$NR.id], 0);
+			Build_SX_Options("custom", 2, MAX[$NR.id], 0);
+			Load_Saved_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
+			Validate_Wheel_Settings();
+			Setup_Wheel_Type();
+			Build_Wheel();
+		} else if (prior_wheel_found) { //copy prior wheel to new wheel
+			Save_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value, DEFAULT_VALUES, 'copy');//saves current settings to new 
+		} else {
+			Clear_Settings()
+		}
+	});
+
+	
+	$CURRENT_WHEEL.addEventListener("keypress", function(event) {
+		Normalize_Event(event);
+		//Yes, both blur() & focus() are needed...
+		if(event.key_code == 13) {
+			D.activeElement.blur();
+			$WHEEL_NAME.style['visibility'] = "visible";
+			$WHEEL_NAME.focus();
+		}
+	});
+
+
+	$WHEEL_NAME.addEventListener("change", function() {
+		this.value   = this.value.trim();
+		this.current = this.value;
+		var current_wheel = $CURRENT_WHEEL.value;
+		var option = $CURRENT_WHEEL.options[current_wheel - 1]; //CURRENT_WHEEL counts from 1, options from 0.
+		option.innerHTML = Pad10(current_wheel) + current_wheel + SSI + $WHEEL_NAME.value;
+		Save_Settings(LS_VALUES_PREFIX + current_wheel, DEFAULT_VALUES, 'name');
+	});
+
+
+	$WHEEL_NAME.addEventListener("keypress", function(event) {
+		Normalize_Event(event);
+		//Yes, both blur() & focus() are needed...
+		if(event.key_code == 13) { D.activeElement.blur(); $CURRENT_WHEEL.focus(); }
+	});
+
+	$RENAME_WHEEL.onclick = function() {
+		$WHEEL_NAME.style['visibility'] = "visible";
+		$WHEEL_NAME.focus();
+	}
+
+	$WHEEL_NAME.addEventListener("blur" , function(event) { $WHEEL_NAME.style['visibility'] = "hidden" ; });
+
+	
+	$LOAD_SAMPLES  .addEventListener("click", function() { Load_Samples()   });
+	$CLEAR_SETTINGS.addEventListener("click", function() { Clear_Settings() });
 
 	$WHEEL_TYPE.addEventListener("change", function() {
 		if (Setup_Wheel_Type()) { Build_Wheel() }
-		Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
+		Save_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value, DEFAULT_VALUES);
 	});
+
+	var save = true; //Just for clarity below, as some functions have an option to save settings.
 
 	$ERD     .addEventListener("change", function() { Build_Wheel(save, this, 0); Setup_Viewbox(); });
 	$NR      .addEventListener("change", function() { if (Validate_NR())        { Build_Wheel(save, this, 1); } });
@@ -2221,7 +2466,7 @@ function Assign_Events() { //**************************************************/
 	$SDB	  .addEventListener("change", function() { Update_Advanced_Info(save); });
 	$TENSION[2].addEventListener("change", function() {
 		$TENSION[1].value = Round(parseInt(this.value) * $TENSION_RATIO[1].value / 100);
-		Save_Settings(LS_WHEEL_SETTINGS, DEFAULT_VALUES);
+		Save_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value, DEFAULT_VALUES);
 	});
 
 
@@ -2257,7 +2502,6 @@ function Assign_Events() { //**************************************************/
 	$AXES_SHOW     .addEventListener("change", function() { Show_Hide_Class( AXIS_CLASS, this.checked, 1); });
 
 	$HOLE_COLOR    .addEventListener("change", function() { Set_Style_by_Class(SPOKE_HOLES, "fill"      , this.value, save); });
-	//##### $HOLE_LINE_SIZE.addEventListener("change", function() { Set_Style_by_Class(SPOKE_HOLES, 'stroke-width', this.value, save); });
 	$HOLES_SHOW    .addEventListener("change", function() { Show_Hide_Class(SPOKE_HOLES, this.checked, save); });
 	
 	$HOLESIZE.addEventListener("change", function() { 				//$HOLESIZE is diameter
@@ -2319,12 +2563,30 @@ function Assign_Events() { //**************************************************/
 	$ACCEPT_MSG.addEventListener("click", function() {
 		$ACCEPT_MSG.value = "true";
 		var expires = new Date(+new Date() + 2592000000); //in 30 days (in milliseconds) Should it be Longer? Shorter?
-		D.cookie = $ACCEPT_MSG.id + "=true; expires=" + expires.toUTCString() + "; path=/";
+		var domain = window.location.hostname;
+		D.cookie = $ACCEPT_MSG.id + "=true; expires=" + expires.toUTCString() + '; path=/; domain=.' + domain;
 		Close_Message();
 	});
 
 
-	D.addEventListener("keydown", function(event) {scroll_blur(event)});
+	$DELETE_ALL_DATA.addEventListener('click', function() {
+		var msg = "This will delete all saved wheel and display information.\n\nAre you sure?"
+		var DELETE_ALL = confirm(msg);
+		if (!DELETE_ALL) { return; }
+		localStorage.removeItem(LS_CURRENT_WHEEL);
+		localStorage.removeItem(LS_DISPLAY_OPTIONS);
+		for (var wheel = 1; wheel <= MAX_WHEELS; wheel++) {
+			localStorage.removeItem(LS_VALUES_PREFIX + wheel);
+		}
+		var domain = window.location.hostname;
+		document.cookie = $ACCEPT_MSG.id + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=.' + domain;
+		$SHOW_HIDE_NOTES.value = "none";
+		$NOTES.style["display"] = $SHOW_HIDE_NOTES.value;
+		Error_Notice('init', $ERD, MSGS['notice'] + $RESPONSIBILITY.innerHTML);
+		//##### location.reload(true); //##### This causes CURRENT_WHEEL to be resaved.
+	});
+
+	D.addEventListener("keydown", function(event) {Scroll_Blur(event)});
 }//end Assign_Events() //******************************************************/
 
 
@@ -2334,25 +2596,12 @@ function Init() { //***********************************************************/
 
 	Assign_Events();
 
-	Build_NR_Options("custom", MAX[$NR.id], 0);     //Temp until settings loaded, then again in Setup_Wheel_Type().
-	Build_SX_Options("custom", 1, MAX[$NR.id], 0);  //		"		"		"		"		"		"		"
-	Build_SX_Options("custom", 2, MAX[$NR.id], 0);  //		"		"		"		"		"		"		"
-
-	var saved_settings_found = Load_Saved_Settings(LS_WHEEL_SETTINGS);  //If any...
-
-	if (saved_settings_found) { Validate_Wheel_Settings(); } else { $LACE_OPT.value = 1 ; }
-
 	Load_DEFAULT_OPTIONS();
-	Load_Saved_Settings(LS_DISPLAY_OPTIONS); //If any...		
+
+	Load_Saved_Settings(LS_DISPLAY_OPTIONS);
 
 	if ($SCALE_MODE.value == "auto") { $SCALE.disabled = true ; }
 	else /***************** fixed */ { $SCALE.disabled = false; }
-
-	Setup_Viewbox();
-
-	Setup_Wheel_Type("init");
-
-	if (saved_settings_found) { Build_Wheel(); }
 
 	$ADVANCED_INFO  .style["display"] = $SHOW_HIDE_ADVANCED.value;
 	$OTHER_CALCS	.style["display"] = $SHOW_HIDE_OTHER.value;
@@ -2363,6 +2612,24 @@ function Init() { //***********************************************************/
 	$CONTAINER.style['visibility'] = "visible";
 	$CONTAINER.style.opacity = '1';
 
+
+	//Temp <select> lists until any saved settings loaded. NR & SX will then be rebuilt in Setup_Wheel_Type().
+	Build_NR_Options("custom", MAX[$NR.id], 0);
+	Build_SX_Options("custom", 1, MAX[$NR.id], 0);
+	Build_SX_Options("custom", 2, MAX[$NR.id], 0);
+
+	Build_Select_Wheel_List(MAX_WHEELS);
+
+	var saved_settings_found = Load_Saved_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
+
+	if (saved_settings_found) { Validate_Wheel_Settings(); }
+	$WHEEL_NAME.current = $WHEEL_NAME.value;
+
+	Setup_Wheel_Type("init");
+
+	if (saved_settings_found) { Build_Wheel(); }
+
+	Setup_Viewbox();
 
 	//Disclaimer - check cookies to see if already accepted.
 	//Why cookies? I don't know, it was late/early and seemed like a good idea at the time...
@@ -2381,8 +2648,8 @@ function Init() { //***********************************************************/
 	else
 		{ Error_Notice('init', $ERD, MSGS['notice'] + $RESPONSIBILITY.innerHTML); }
 
+	$SLC_VERSION.innerHTML = SLC_VERSION;
 }//end Init() //***************************************************************/
-
 
 
 
