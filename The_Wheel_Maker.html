@@ -29,7 +29,7 @@ SOFTWARE.
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var SLC_VERSION = "v1.05, 2018-06-28" //##### </script>
+<script>var SLC_VERSION = "v1.06 2018-06-30 4:04pm ET" //##### </script>
 <!--//======================================================-->
 
 
@@ -90,28 +90,31 @@ select.SLC:-moz-focusring {
 
 #SLC_WHEEL_SELECT_OPTS td { text-align: right; padding-right: .5rem; }
 
-#SLC_rename_box   {
+#SLC_rename_box {
 	position: relative;
 	display: inline-block;
-	width: 11.5rem;
 	margin: 2px 0 0 0;
-	XXXXXborder: solid 1px red;
 }
-#SLC_CURRENT_WHEEL { width: 11.5rem; padding: 0; margin: 0; font-family: arial; }
+#SLC_CURRENT_WHEEL {
+	width  : 11.5rem;
+	margin : 0;
+	padding: 0;
+	font-family: arial;
+}
 #SLC_CURRENT_WHEEL option { text-align: left; padding-left: .2rem;}
 #SLC_WHEEL_NAME {
 	position: absolute;
 	top     : 2px;
 	left    : 2.25rem;
-	margin: 0;
-	padding: 0 0 0 .05rem;
-	text-align: left;
-	width: 7.8rem;
-	font-family: arial; /** set to same as CURRENT_WHEEL. **/
-	font-size: .9rem;
-	border: solid 1px transparent;
-	height: 1.1rem;
-	visibility: hidden; /** visible on rename only **/
+	margin  : 0;
+	padding : 0 0 0 .05rem;
+	width   : 9.2rem;
+	height  : 1.1rem;
+	border     : solid 1px transparent;
+	text-align : left;
+	font-size  : .9rem;
+	font-family: arial;  /** set to same as CURRENT_WHEEL. **/
+	visibility : hidden; /** visible during rename only **/
 }
 
 
@@ -290,6 +293,7 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 
 #SLC_DELETE_ALL_DATA {  }
 </style>
+
 
 
 
@@ -502,7 +506,7 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 					 convenience and comparison only.<hr class=SLC>
 		<a href="https://www.sheldonbrown.com/rinard/spocalc.htm" target="_blank">Sheldon's SpoCalc</a><br>
 		<a href="http://www.mrrabbit.net/wheelsbyfleming.php" target="_blank">Mr. Rabbit's SpokeChart v2-0</a><br>
-		<a href="http://www.bikeschool.com/tools/spoke-length-calculator" target="_blank">Bike School</a><br>
+		<a href="https://www.bikeschool.com/index.php/resources/spoke-calculator" target="_blank">Bike School</a><br>
 		<a href="http://www.prowheelbuilder.com/spokelengthcalculator" target="_blank">Pro Wheel Builder</a><br>
 		<a href="https://leonard.io/edd/" target="_blank">Edd</a><br>
 		<a href="http://www.sapim.be/spoke-calculator" target="_blank">Sapim</a><br>
@@ -659,7 +663,7 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 					</div>
 					<div>
 						<p class=SLC>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
-						<p class=SLC>That is, just because the program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than Standard &amp; Triplet modes.  And while it will generally be obvious when values produce an unrealistic wheel, again, there are no guarantees.
+						<p class=SLC>That is, just because the program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than Standard &amp; Triplet modes.  And while it will may often be obvious when values produce an unrealistic wheel, again, there are no guarantees.
 						<p class=SLC>For additional information, please refer to geometry. And physics.
 					</div>
 				</td>
@@ -676,9 +680,16 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 			</tr>
 			
 			<tr><th class=SLC>Rim Holes</th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
+
 			<tr><th class=SLC>Flange Holes</th><td>Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.</td></tr>
+
 			<tr><th class=SLC>PCD</th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
-			<tr><th class=SLC>Flange Offset</th><td> The distance the flange is offset from the hub center.  Also referred to as "Flange to Center", or "Center to Flange", etc.  It is used in the spoke length calculation, but does't affect the displayed image of the wheel.</td></tr>
+
+			<tr><th class=SLC>Flange Offset</th><td> The distance the flange is offset from the hub center.  Also referred to as "Flange to Center", or "Center to Flange", etc.  It is used in the spoke length calculation, but does't affect the displayed image of the wheel.
+				<p>Since it's highly impractical to actually measure anything from the hub center (since it's never marked), to obtain these values, measure from the locknut to the flange, and then subtract that value from 1/2 the hub length (the "OLD", or "over locknut distance").
+				<p>For example, common road hubs have an "OLD" of 130mm.  Half of that is 65mm.  SO, if the distance from the left (or Side 1) locknut to the left flange center is 27.5mm, then the Side 1 Flange Offset is 37.5mm (65 - 27.5).
+			</td></tr>
+
 			<tr><th class=SLC>OC</th>
 				<td>"Off-Center" - May also be referred to as "OSB", "Offset Spoke bed", "asymetrical", or similar terms.
 					<p>The spoke holes in the rim are "off-center", or "off-set", to one side.
@@ -709,7 +720,7 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 			
 			<tr><th class=SLC>Elbows Laced</th>
 				<td>Specify if the spokes are laced elbows In, Out, or Center.  This affects the bracing angle and tension ratio.  It also affects spoke length a tiny amount. The differences between "Center" and "In" or "Out" are determined by Flange Width and Spoke Diameter at Bend.
-					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by every spoke length calculator.  However, except for specially made hubs, spokes can not actually be laced there (center).
+					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by every spoke length calculator.  However, except for specially made hubs and spokes (eg: straight pull), spokes can not actually be laced "center".
 					<p>So, if "Center" is used to approximate a common wheel where the spokes are acually laced alternately in/out/in/out (default), the other Advanced values (Length Adjust, Bracing Angles, etc) are just rough approximations.
 					<p>A lot of other superfluous details are left out, because it gets complicated and doesn't really matter. So, go ride!
 				</td>
@@ -750,7 +761,7 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 			<tr><th class=SLC></th><th>ETC</th></tr>
 			<tr><th class=SLC>Saved Settings</th><td>
 				<p>All information generated and used by this program, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage & cookies.
-				<p>To clear all wheel data & display options from this device, click the following button:<br>
+				<p>To clear all wheel data & display options stored by this web browser on this device, click the following button:<br>
 				<button type=button id=SLC_DELETE_ALL_DATA class="SLC SLC_load_clear">DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
 				<p>Your browser's cache is not affected by this option, and may retain some information.
 			</td></tr>
@@ -1096,9 +1107,9 @@ function Normalize_Event(event) { //*******************************************/
 
 
 
-function Pad10(wheel) { //*****************************************************/
-	if ((wheel * 1) < 10) { var pad = "&nbsp; "; } else { var pad = ""; }
-	return pad;
+function Pad10(number) { //****************************************************/
+	if ((number * 1) < 10) { var pad = "&nbsp; "; } else { var pad = ""; }
+	return pad + number;
 }//end Pad10() //**************************************************************/
 
 
@@ -1127,12 +1138,12 @@ function Save_Settings(what, defaults, misc) { //******************************/
 	
 	if (saving_wheel && localStorage.getItem(LS_VALUES_PREFIX + current_wheel) == null) {  
 		
-		if (misc == "copy") { $WHEEL_NAME.value = "Copy of " + $WHEEL_NAME.value; }
-		else //If user set wheel name to start new wheel, leave it. Otherwise set default new name.
-		if (misc != "name") { $WHEEL_NAME.value = DEFAULT_VALUES.WHEEL_NAME; }
+		if      (misc == "copy") { $WHEEL_NAME.value = "Copy of " + $WHEEL_NAME.value; }
+		else if (misc != "name") { $WHEEL_NAME.value = DEFAULT_VALUES.WHEEL_NAME; }
+		//else  { the user set a wheel name to start the wheel, so leave it. }
 		
 		var option = $CURRENT_WHEEL.options[current_wheel - 1]; //CURRENT_WHEEL counts from 1, options from 0.
-		option.innerHTML = Pad10(current_wheel) + current_wheel + SSI + $WHEEL_NAME.value;
+		option.innerHTML = Pad10(current_wheel) + SSI + $WHEEL_NAME.value;
 		
 		settings.WHEEL_NAME = $WHEEL_NAME.value;
 	}
@@ -1197,7 +1208,7 @@ function Validate_Wheel_Settings() { //****************************************/
 
 function Load_Samples() { //***************************************************/
 
-	if ($ACCEPT_MSG.value != "true") { return; }
+	if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { return; }
 
 	$WHEEL_NAME.value = DEFAULT_VALUES.WHEEL_NAME;
 	$WHEEL_TYPE.value = DEFAULT_VALUES['WHEEL_TYPE'];
@@ -1276,7 +1287,7 @@ function Clear_Settings() { //*************************************************/
 
 	var current_wheel = $CURRENT_WHEEL.value;
 	var option = $CURRENT_WHEEL.options[current_wheel - 1]; //current_wheel counts from 1, options from 0.
-	option.innerHTML = Pad10(current_wheel) + current_wheel;
+	option.innerHTML = Pad10(current_wheel);
 
 	localStorage.removeItem(LS_VALUES_PREFIX + current_wheel);
 	
@@ -1408,7 +1419,7 @@ function Build_Select_Wheel_List(max_wheels) { //******************************/
 			}
 		}
 		
-		option_list += "<option value='"+wheel+"'>" + Pad10(wheel) + wheel + mark + "</option>";
+		option_list += "<option value='"+wheel+"'>" + Pad10(wheel) + mark + "</option>";
 	}
 
 	$CURRENT_WHEEL.innerHTML = option_list;
@@ -2367,7 +2378,7 @@ function Assign_Events() { //**************************************************/
 	var settings = [$ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB];
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
-			if ($ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
+			if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
 			this.prior_value = this.value; //also set in Bulid_Wheel() and in Calc_Spoke_Lengths().
 		});
 	}
@@ -2408,28 +2419,33 @@ function Assign_Events() { //**************************************************/
 	});
 
 
-	$WHEEL_NAME.addEventListener("change", function() {
-		this.value   = this.value.trim();
-		this.current = this.value;
-		var current_wheel = $CURRENT_WHEEL.value;
-		var option = $CURRENT_WHEEL.options[current_wheel - 1]; //CURRENT_WHEEL counts from 1, options from 0.
-		option.innerHTML = Pad10(current_wheel) + current_wheel + SSI + $WHEEL_NAME.value;
-		Save_Settings(LS_VALUES_PREFIX + current_wheel, DEFAULT_VALUES, 'name');
-	});
-
-
 	$WHEEL_NAME.addEventListener("keypress", function(event) {
 		Normalize_Event(event);
 		//Yes, both blur() & focus() are needed...
 		if(event.key_code == 13) { D.activeElement.blur(); $CURRENT_WHEEL.focus(); }
 	});
 
+
+	$WHEEL_NAME.addEventListener("blur" , function(event) {
+		$WHEEL_NAME.style['visibility'] = "hidden";
+		$CURRENT_WHEEL.focus();
+	});
+
+
+	$WHEEL_NAME.addEventListener("change", function() {
+		this.value   = this.value.trim();
+		this.current = this.value;
+		var current_wheel = $CURRENT_WHEEL.value;
+		var option = $CURRENT_WHEEL.options[current_wheel - 1]; //CURRENT_WHEEL counts from 1, options from 0.
+		option.innerHTML = Pad10(current_wheel) + SSI + $WHEEL_NAME.value;
+		Save_Settings(LS_VALUES_PREFIX + current_wheel, DEFAULT_VALUES, 'name');
+	});
+
+
 	$RENAME_WHEEL.onclick = function() {
 		$WHEEL_NAME.style['visibility'] = "visible";
 		$WHEEL_NAME.focus();
 	}
-
-	$WHEEL_NAME.addEventListener("blur" , function(event) { $WHEEL_NAME.style['visibility'] = "hidden" ; });
 
 	
 	$LOAD_SAMPLES  .addEventListener("click", function() { Load_Samples()   });
@@ -2573,21 +2589,60 @@ function Assign_Events() { //**************************************************/
 		var msg = "This will delete all saved wheel and display information.\n\nAre you sure?"
 		var DELETE_ALL = confirm(msg);
 		if (!DELETE_ALL) { return; }
+		
+		Build_Select_Wheel_List(MAX_WHEELS);
+
+		Clear_Settings();
 		localStorage.removeItem(LS_CURRENT_WHEEL);
 		localStorage.removeItem(LS_DISPLAY_OPTIONS);
+		
 		for (var wheel = 1; wheel <= MAX_WHEELS; wheel++) {
 			localStorage.removeItem(LS_VALUES_PREFIX + wheel);
 		}
+		
+		
+		$SHOW_HIDE_NOTES   .value         = "none";
+		$SHOW_HIDE_ADVANCED.value         = "none";
+		$SHOW_HIDE_OTHER   .value         = "none";
+		$SHOW_HIDE_DO      .value         = "none";
+		$NOTES          .style["display"] = "none";
+		$ADVANCED_INFO  .style["display"] = "none";
+		$OTHER_CALCS	.style["display"] = "none";
+		$DISPLAY_OPTIONS.style["display"] = "none";
+
+
 		var domain = window.location.hostname;
 		document.cookie = $ACCEPT_MSG.id + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=.' + domain;
-		$SHOW_HIDE_NOTES.value = "none";
-		$NOTES.style["display"] = $SHOW_HIDE_NOTES.value;
-		Error_Notice('init', $ERD, MSGS['notice'] + $RESPONSIBILITY.innerHTML);
+		
+		if ($ACCEPT_MSG.ENABLED) { Error_Notice('init', $ERD, MSGS['notice'] + $RESPONSIBILITY.innerHTML); }
+		
 		//##### location.reload(true); //##### This causes CURRENT_WHEEL to be resaved.
+		$CURRENT_WHEEL.value = 1;
+		$CURRENT_WHEEL.focus();
 	});
 
 	D.addEventListener("keydown", function(event) {Scroll_Blur(event)});
 }//end Assign_Events() //******************************************************/
+
+
+
+
+function Check_if_Disclaimer_Accepted() { //***********************************/
+	//Disclaimer - check cookies to see if already accepted.
+	//Why cookies? I don't know, it was late/early and seemed like a good idea at the time...
+	
+	$ACCEPT_MSG.value = "false"; //initialize [I Accept] button value.
+	var COOKIES = D.cookie.split("; ");
+	for (var x = 0; x < COOKIES.length; x++) {
+		COOKIES[x] = COOKIES[x].split("=");
+		if (COOKIES[x][0] == $ACCEPT_MSG.id) {
+			if (COOKIES[x][1] == "true") { $ACCEPT_MSG.value = "true"; }
+			return true; //There can be only one...
+		}
+	}
+	
+	return false;
+}//end Check_if_Disclaimer_Accepted() //***************************************/
 
 
 
@@ -2631,22 +2686,18 @@ function Init() { //***********************************************************/
 
 	Setup_Viewbox();
 
-	//Disclaimer - check cookies to see if already accepted.
-	//Why cookies? I don't know, it was late/early and seemed like a good idea at the time...
-	$ACCEPT_MSG.value = "false"; //initialize [I Accept] button value.
-	var COOKIES = D.cookie.split("; ");
-	for (var x = 0; x < COOKIES.length; x++) {
-		COOKIES[x] = COOKIES[x].split("=");
-		if (COOKIES[x][0] == $ACCEPT_MSG.id) {
-			if (COOKIES[x][1] == "true") { $ACCEPT_MSG.value = "true"; }
-			break; //There can be only one...
-		}
-	}
 
-	if ($ACCEPT_MSG.value == "true")
-		{ $ERD.focus(); }
-	else
-		{ Error_Notice('init', $ERD, MSGS['notice'] + $RESPONSIBILITY.innerHTML); }
+
+	//Enalble disclaimer msg on first load & resets?
+	$ACCEPT_MSG.ENABLED = false;
+
+	Check_if_Disclaimer_Accepted(); //moot if $ACCEPT_MSG.ENABLED = false
+
+	//Set inital focus or show disclaimer
+	if (!$ACCEPT_MSG.ENABLED || $ACCEPT_MSG.value == "true") { $ERD.focus(); }
+	else { Error_Notice('init', $ERD, MSGS['notice'] + $RESPONSIBILITY.innerHTML); }
+
+
 
 	$SLC_VERSION.innerHTML = SLC_VERSION;
 }//end Init() //***************************************************************/
