@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var SLC_VERSION = "v1.21 2018-08-19 4pm ET" //##### </script>
+<script>var VERSION = "v2.00 2018-08-23" //##### </script>
 <!--//======================================================-->
 
 
@@ -48,7 +48,7 @@ p.SLC { margin: .4rem 0; }
 
 .SLC_indents { margin-left: 1.5rem; }
 
-hr.SLC {margin: .4rem 0; }
+hr.SLC {margin: .6rem 0; }
 .SLC_hr2 {margin: .4rem 1rem;; }
 
 a.SLC { outline: 0; text-decoration: none; display: inline-block; background-color: #EEE }
@@ -217,8 +217,7 @@ select.SLC_auto_angles { padding: 0; width: 5.5rem; margin: 0 0 .3rem 0; }
 }
 
 
-#SLC_auto_copy_div { font-size: .9rem; padding-bottom: .4rem; }
-#SLC_auto_copy_div input { width: 1rem; margin: 0 .5rem; }
+#SLC_auto_copy_div { font-size: .9rem; padding: .5rem 0 0 0; display: inline-block; }
 
 table.SLC {
 	display: inline-table;
@@ -238,7 +237,7 @@ table.SLC th { height: 1.8rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
 table.SLC .SLC_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-weight: bold; }
 
-.SLC_wheel_btns { text-align: right; }
+.SLC_wheel_btns { }
 
 .SLC_separator { padding: 0; height: .3rem; }
 
@@ -281,12 +280,13 @@ table.SLC .SLC_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	padding: 0;
 	text-align: center;
 	vertical-align: bottom;
+	
 }
 
 
-#SLC_reset_scale_rotate { margin: 0 2rem 0rem 2rem; }
+#SLC_reset_scale_rotate { margin: 0 1.5rem; }
 
-#SLC_DISPLAY_OPTIONS  { vertical-align: top; border: 0; width: 100%; }
+#SLC_DISPLAY_SETTINGS  { vertical-align: top; border: 0; width: 100%; }
 
 .SLC input.SLC_slider_step { width: 1.5rem; font-size: .8rem; }
 
@@ -300,7 +300,7 @@ table.SLC .SLC_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	font: normal 1.2rem arial;
 }
 
-input[type="range"].SLC {
+input[type=range].SLC {
 	-webkit-appearance: none;
 	outline: 0;
 	border: solid 1px transparent;
@@ -309,11 +309,11 @@ input[type="range"].SLC {
 	vertical-align: middle;
 	width: 5.7rem;
 }
-input[type="range"].SLC:hover { }
+input[type=range].SLC:hover { }
 
 /*FF*/
-input[type="range"].SLC::-moz-range-track { background-color: rgba(255,255,255,.8); height: 3px; }
-input[type="range"].SLC::-moz-range-thumb {
+input[type=range].SLC::-moz-range-track { background-color: rgba(255,255,255,.8); height: 3px; }
+input[type=range].SLC::-moz-range-thumb {
 	width: 16px;
 	height: 20px;
 	background: white;  /**148,180,188,**/
@@ -322,9 +322,9 @@ input[type="range"].SLC::-moz-range-thumb {
 }
 
 /*IE*/
-input[type="range"].SLC::-ms-fill-lower { background-color: rgba(255,255,255,.8); height: 5px; }
-input[type="range"].SLC::-ms-fill-upper { background-color: rgba(255,255,255,.8); height: 5px; }
-input[type="range"].SLC::-ms-thumb {
+input[type=range].SLC::-ms-fill-lower { background-color: rgba(255,255,255,.8); height: 5px; }
+input[type=range].SLC::-ms-fill-upper { background-color: rgba(255,255,255,.8); height: 5px; }
+input[type=range].SLC::-ms-thumb {
 	border-radius: 5px;
 	border: solid 1px #666;
 	background: rgba(255,255,255,.8);  /**148,180,188,**/
@@ -503,7 +503,7 @@ tr td.SLC_PHR_data { text-align: right; padding-right: 2rem; }
 
 
 
-		<button type=button id=SLC_WHEEL_OR_DISPLAY class="SLC SLC_ndo_buttons" value="wheel">Show Display Options</button>
+		<button type=button id=SLC_WHEEL_OR_DISPLAY class="SLC SLC_ndo_buttons" value="wheel">Show Display Settings</button>
 
 		<div id=SLC_WHEEL_SETTINGS_container><!--===========-->
 		<table id=SLC_WHEEL_SETTINGS class="SLC SLC_type_theme">
@@ -517,7 +517,7 @@ tr td.SLC_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			<tr><td colspan=2 class=SLC_wheel_btns>
-					<div id=SLC_auto_copy_div>Auto-Copy<input id=SLC_auto_copy class=SLC type=checkbox></div>
+					<label id=SLC_auto_copy_div>Copy<input id=SLC_auto_copy class=SLC type=checkbox></label>
 					<button type=button id=SLC_rename_wheel   class=SLC>Rename</button>
 					<button type=button id=SLC_load_samples   class=SLC>Load Sample</button> 
 					<button type=button id=SLC_clear_settings class=SLC>Clear</button>
@@ -740,7 +740,7 @@ tr td.SLC_PHR_data { text-align: right; padding-right: 2rem; }
 		
 
 
-		<div id=SLC_DISPLAY_OPTIONS><!-- Display Options ========-->
+		<div id=SLC_DISPLAY_SETTINGS><!-- ==========-->
 			<table class="SLC SLC_DO SLC_DO_theme">
 				<tr>
 					<th colspan=4>Spokes
@@ -912,7 +912,7 @@ tr td.SLC_PHR_data { text-align: right; padding-right: 2rem; }
 		</button><div id=SLC_scale_rotate_options class="SLC SLC_DO_theme">
 			<div class=SLC_rotate_scale_containers><label>Scale:</label>
 				<input type=range id=SLC_SCALE_slider class=SLC min=20 max=2000>
-				<input type=text  id=SLC_SCALE_text class=SLC>
+				<input type=text  id=SLC_SCALE_text class=SLC>%
 				<input type=text  id=SLC_SCALE_step class="SLC SLC_slider_step">
 			</div>
 			<button type=button id=SLC_reset_scale_rotate class=SLC>Reset</button>
@@ -949,15 +949,15 @@ tr td.SLC_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SLC>Auto-Copy</th>
+			<tr><th class=SLC>Copy</th>
 				<td>
 					<p>The values for the current wheel can be copied to a blank wheel (one that has no settings):
 					<ul class=SLC>
 						<li>Select the wheel to copy.
-						<li>Make sure Auto-Copy is checked.
+						<li>Make sure Copy is checked.
 						<li>Select a blank wheel (no "::" after the number) from the Wheel select list.
 					</ul>
-					<p>To prevent Auto-Copy, make sure the option is unckecked.
+					<p>To prevent Copy, make sure the option is unckecked.
 				</tD>
 			</tr>
 
@@ -983,7 +983,8 @@ tr td.SLC_PHR_data { text-align: right; padding-right: 2rem; }
 			
 			<tr><th class=SLC>Flange Holes</th><td>
 				Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.
-				<p>Note that the number of holes for Side 1 must be less than or equal to Side 2. This is due to some unsolved programming hangup that I <strike>can't</strike> have yet to solve. 
+				<p>Note that the number of holes for Side 1 must be less than or equal to Side 2. This is due to some unsolved programming hangup that I <strike>can't</strike> have yet to solve.
+				<p>If your build has fewer spokes on the drive side, which would normally be "Side 2", simply "flip" the wheel.  That is, enter drive side values for "Side 1", and non-drive side for "Side 2".
 			</td></tr>
 			
 			<tr><th class=SLC>PCD</th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
@@ -995,11 +996,13 @@ tr td.SLC_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SLC>OC</th>
-				<td>"Off-Center" - May also be referred to as "OSB", "Offset Spoke bed", "asymetrical", or similar terms.
+			<tr><th class=SLC>OC Rim</th>
+				<td>"Off-Center" Rim.<br>
+					May also be referred to as "OSB", "Offset Spoke bed", "asymetrical", or similar terms.
 					<p>The spoke holes in the rim are "off-center", or "off-set", to one side.
 					<p>Useage: Enter a (-)negative number for the side that the holes are closer to (spokes will be a tiny bit shorter); and enter a (+)positive number for the side that the holes are further from (spoke will be a tiny bit longer).
 					<p>For example, on a rear wheel rim with a 3mm offset, enter -3 for "Side 1" (the left/non-drive side), and 3 for "Side 2" (the right/drive side).
+					<p>Actually, the negative of the value entered in one side will automatically be entered for the other side.
 				</td>
 			</tr>
 			<tr><th class=SLC>Cross</th>
@@ -1099,7 +1102,7 @@ tr td.SLC_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SLC></th><th>Disaplay Options</th></tr>
+			<tr><th class=SLC></th><th>Disaplay Settings</th></tr>
 			<tr>
 				<th class=SLC>General</th>
 				<td>
@@ -1116,12 +1119,13 @@ tr td.SLC_PHR_data { text-align: right; padding-right: 2rem; }
 			</tr>
 			<tr>
 				<th class=SLC>Scale</th>
-				<td>
-					At 100, the wheel will be scaled to fit the display window, regardless of ERD or rim width.<br>
+				<td><p>The wheel window is always 100% of the current wheel size (ERD + Rim size Display Setting).  The scale is a percentage relative to the current wheel size.<br>
+					<p>For Example:
+					<p>
+					At 100, the wheel is scaled to fit the display window.<br>
 					At 200, the wheel is twice the window size, so you're looking at 1/2 the diameter.<br>
-					At 300, the wheel is thrice the window size, so you're looking at 1/3 the diameter.<br>
-					At 400, etc...<br>
-					Changeing the scale re-centers the wheel within the window.
+					At 300, the wheel is thrice the window size, so you're looking at 1/3 the diameter, etc...<br>
+					<p>Changeing the scale re-centers the wheel within the window.
 				</td>
 			</tr>
 			<tr><th class=SLC>Colors</th>
@@ -1177,7 +1181,7 @@ var _NS_ = "SLC_"; //"Namespace" prefix used for <element> id's & class names.
 //Local Storage key names.
 var LS_VALUES_PREFIX   = _NS_ + "WHEEL_";
 var LS_CURRENT_WHEEL   = _NS_ + "CURRENT_WHEEL"; //1, 2, 3, etc...
-var LS_DISPLAY_OPTIONS = _NS_ + 'DISPLAY_OPTIONS'; //Name of display settings saved to localStorage.
+var LS_DISPLAY_OPTIONS = _NS_ + 'DISPLAY_OPTIONS';
 
 var MAX_WHEELS = 10; //##### MAKE USER OPTION??? #####
 
@@ -1339,7 +1343,7 @@ var $TENSION    = [];
 	$TENSION[1] = E(_NS_ + 'TENSION1');
 	$TENSION[2] = E(_NS_ + 'TENSION2');
 
-var $DISPLAY_OPTIONS = E(_NS_ + 'DISPLAY_OPTIONS'); //<div> around display options to enable show/hide
+var $DISPLAY_SETTINGS = E(_NS_ + 'DISPLAY_SETTINGS'); //<div> around display options to enable show/hide
 
 var $OTHER_CALCS = E(_NS_ + 'other_calcs'); //<div> around A Few Other Calcs links
 
@@ -1462,7 +1466,6 @@ var $CLOSE_IMPORT     = E(_NS_ + 'close_import');   //<button>
 
 
 
-
 /*************************************************./
 Consider all raw size & x/y values to be either mm or degrees,
 to coorespond directly to rim, hub, & spoke measurements.
@@ -1470,24 +1473,6 @@ to coorespond directly to rim, hub, & spoke measurements.
 var DEFAULT_VALUES = {
 	'WHEEL_NAME' : "New Wheel",
 	'WHEEL_TYPE' : "standard", //standard, triplet, custom
-
-	'PH_HUB': false,
-	'HUB_AUTO_ANGLES': "half",
-	'PHHA1' : 30,
-	'PHHA2' : 30,
-	'PHHD1' : 10.0, // 9.964533
-	'PHHD2' : 13.1, //13.096244
-
-	'PH_RIM': false,
-	'RIM_AUTO_ANGLES': "half",
-	'PHRA'  : 15,
-	'PHRD'  : 75, //75.3136
-
-	'ROT_OPTS': false,
-	'AUTO_ROT': 'auto', //Currently, affects flanges only.
-	'ROTF1'   : 0, //Flange 1 Rotation in degrees.
-	'ROTF2'   : 0, //Flange 2 Rotation     "     .
-	'ROTR'    : 0, //Rim      Rotation     "     .
 
 	'ERD'  : 577,
 	'NR'   : 24,
@@ -1507,17 +1492,25 @@ var DEFAULT_VALUES = {
 	'SDB'  : 2,		//Spoke Diameter, at bend.
 	'ELBOWS1' : 0,	//0 = flange center, 1 = elbows out, -1 = elbows in
 	'ELBOWS2' : 0,	//
-	'TENSION2': 110
-}
+	'TENSION2': 110,
 
+	'PH_HUB': false,
+	'HUB_AUTO_ANGLES': "half",
+	'PHHA1' : 30,
+	'PHHA2' : 30,
+	'PHHD1' : 10.0, // 9.964533
+	'PHHD2' : 13.1, //13.096244
 
+	'PH_RIM': false,
+	'RIM_AUTO_ANGLES': "half",
+	'PHRA'  : 15,
+	'PHRD'  : 75, //75.3136
 
-
-var DEFAULT_OPTIONS = {
-	'show_hide_advanced': "none", //none or inline-block
-	'show_hide_other'   : "none", //  "			"
-	'show_hide_notes'   : "none", //  "			"
-	'show_hide_scale'   : "none", //  "			"
+	'ROT_OPTS': false,
+	'AUTO_ROT': 'auto', //Currently, affects flanges only.
+	'ROTF1'   : 0, //Flange 1 Rotation in degrees.
+	'ROTF2'   : 0, //Flange 2 Rotation     "     .
+	'ROTR'    : 0, //Rim      Rotation     "     .
 
 	'SPOKE_COLOR1': "#477", //Spoke group colors
 	'SPOKE_COLOR2': "#477", //
@@ -1557,7 +1550,17 @@ var DEFAULT_OPTIONS = {
 	'ROTATE_WHEEL_step': 5,
 	'SCALE_step': 20,
 	'SCALE_text': 100  //Percents.  100% will fit wheel on screen. (ERD + (RIM_LINE_SIZE * 2)).
- };
+}//end DEFAULT_VALUES
+
+
+
+
+var DEFAULT_OPTIONS = {
+	'show_hide_advanced': "none", //none or inline-block
+	'show_hide_other'   : "none", //  "			"
+	'show_hide_notes'   : "none", //  "			"
+	'show_hide_scale'   : "none", //  "			"
+ }
 /*************************************************/
 
 
@@ -1593,8 +1596,9 @@ function Normalize_Event(event) { //*******************************************/
 
 
 
-function Pad10(number) { //****************************************************/
-	if ((number * 1) < 10) { var pad = "&nbsp; "; } else { var pad = ""; }
+function Pad10(number, pad_str) { //*******************************************/
+	if (typeof pad_str == "undefined") { pad_str = "&nbsp; "; }
+	if ((number * 1) < 10) { var pad = pad_str; } else { var pad = ""; }
 	return pad + number;
 }//end Pad10() //**************************************************************/
 
@@ -1632,6 +1636,7 @@ function Save_Settings(what, misc) { //****************************************/
 		if ($setting.type == "checkbox") { settings[id] = $setting.checked; }
 		else 							 { settings[id] = $setting.value;   }		
 	}
+
 
 	//New wheel?
 	var current_wheel = $CURRENT_WHEEL.value;
@@ -1702,8 +1707,11 @@ function Validate_Wheel_Settings(misc, save) { //******************************/
 		var $setting = E(_NS_ + name);
 		if ( !$setting ) { continue }
 		
-		if ($setting.tagName == "INPUT" && $setting.type == "text" && isNaN($setting.value) && $setting.id != $WHEEL_NAME.id)
-			{ $setting.value = ""; }
+		break; //#####
+		//#####All wheel setting text inputs USED to be numbers (erd, pcd, etc...),
+		//#####but now inlcude spoke, rim, & hole colors, and checkboxes.
+		//#####if ($setting.tagName == "INPUT" && $setting.type == "text" && isNaN($setting.value) && $setting.id != $WHEEL_NAME.id)
+			//#####{ $setting.value = ""; }
 	}
 
 	if (save) { Save_Settings("wheel", misc); } //in case any were invalid.
@@ -1731,6 +1739,7 @@ function Load_Samples() { //***************************************************/
 	Setup_Type_and_Build("build");
 	Reset_Scale_Rotate();
 	Setup_Viewbox();
+
 	Save_Settings("wheel", "name");
 }//end Load_Samples() { //*****************************************************/
 
@@ -1746,7 +1755,7 @@ function Clear_Settings() { //*************************************************/
 	}
 
 	//Selects, checkboxes, and a couple others need default values.
-	$WHEEL_NAME.current    = '';
+	$WHEEL_NAME.current    = DEFAULT_VALUES.WHEEL_TYPE;
 	$WHEEL_TYPE.value      = DEFAULT_VALUES.WHEEL_TYPE;
 	$LACE_OPT.value        = DEFAULT_VALUES.LACE_OPT;
 	$HUB_AUTO_ANGLES.value = DEFAULT_VALUES.HUB_AUTO_ANGLES;
@@ -1774,64 +1783,64 @@ function Clear_Settings() { //*************************************************/
 
 
 
-function Load_DEFAULT_OPTIONS_Spokes() { //************************************/
+function Load_DEFAULT_VALUES_Spokes() { //************************************/
 	for (var group = 1; group <=4; group++) {
-		$SPOKE_COLOR[group]    .value   = DEFAULT_OPTIONS['SPOKE_COLOR'     + group];
-		$SPOKE_LINE_SIZE[group].value   = DEFAULT_OPTIONS['SPOKE_LINE_SIZE' + group];
-		$SPOKE_SHOW[group]     .checked = DEFAULT_OPTIONS['SPOKE_SHOW'      + group];
+		$SPOKE_COLOR[group]    .value   = DEFAULT_VALUES['SPOKE_COLOR'     + group];
+		$SPOKE_LINE_SIZE[group].value   = DEFAULT_VALUES['SPOKE_LINE_SIZE' + group];
+		$SPOKE_SHOW[group]     .checked = DEFAULT_VALUES['SPOKE_SHOW'      + group];
 	}
 	
 	$SHOW_SIDE[1].checked = ($SPOKE_SHOW[1].checked || $SPOKE_SHOW[2].checked);
 	$SHOW_SIDE[2].checked = ($SPOKE_SHOW[3].checked || $SPOKE_SHOW[4].checked);
 
-	$AXES_COLOR.value     = DEFAULT_OPTIONS['AXES_COLOR'];
-	$AXES_LINE_SIZE.value = DEFAULT_OPTIONS['AXES_LINE_SIZE'];
-	$AXES_SHOW.checked    = DEFAULT_OPTIONS['AXES_SHOW'];
-}//end Load_DEFAULT_OPTIONS_Spokes() { //**************************************/
+	$AXES_COLOR.value     = DEFAULT_VALUES['AXES_COLOR'];
+	$AXES_LINE_SIZE.value = DEFAULT_VALUES['AXES_LINE_SIZE'];
+	$AXES_SHOW.checked    = DEFAULT_VALUES['AXES_SHOW'];
+}//end Load_DEFAULT_VALUES_Spokes() { //**************************************/
 
 
 
 
-function Load_DEFAULT_OPTIONS_Rim_etc() { //***********************************/
-	$RIM_COLOR.value     = DEFAULT_OPTIONS['RIM_COLOR'];
-	$F1_COLOR.value      = DEFAULT_OPTIONS['F1_COLOR'];
-	$F2_COLOR.value      = DEFAULT_OPTIONS['F2_COLOR'];
-	$RIM_LINE_SIZE.value = DEFAULT_OPTIONS['RIM_LINE_SIZE'];
-	$F1_LINE_SIZE.value  = DEFAULT_OPTIONS['F1_LINE_SIZE'];
-	$F2_LINE_SIZE.value  = DEFAULT_OPTIONS['F2_LINE_SIZE'];
-	$RIM_SHOW.checked    = DEFAULT_OPTIONS['RIM_SHOW'];
-	$F1_SHOW.checked     = DEFAULT_OPTIONS['F1_SHOW'];
-	$F2_SHOW.checked     = DEFAULT_OPTIONS['F2_SHOW'];
+function Load_DEFAULT_VALUES_Rim_etc() { //***********************************/
+	$RIM_COLOR.value     = DEFAULT_VALUES['RIM_COLOR'];
+	$F1_COLOR.value      = DEFAULT_VALUES['F1_COLOR'];
+	$F2_COLOR.value      = DEFAULT_VALUES['F2_COLOR'];
+	$RIM_LINE_SIZE.value = DEFAULT_VALUES['RIM_LINE_SIZE'];
+	$F1_LINE_SIZE.value  = DEFAULT_VALUES['F1_LINE_SIZE'];
+	$F2_LINE_SIZE.value  = DEFAULT_VALUES['F2_LINE_SIZE'];
+	$RIM_SHOW.checked    = DEFAULT_VALUES['RIM_SHOW'];
+	$F1_SHOW.checked     = DEFAULT_VALUES['F1_SHOW'];
+	$F2_SHOW.checked     = DEFAULT_VALUES['F2_SHOW'];
 
-	$HOLES_RIM_COLOR.value  = DEFAULT_OPTIONS['HOLES_RIM_COLOR'];
-	$HOLES_RIM_SIZE.value   = DEFAULT_OPTIONS['HOLES_RIM_SIZE'];
-	$HOLES_RIM_SHOW.checked = DEFAULT_OPTIONS['HOLES_RIM_SHOW'];
+	$HOLES_RIM_COLOR.value  = DEFAULT_VALUES['HOLES_RIM_COLOR'];
+	$HOLES_RIM_SIZE.value   = DEFAULT_VALUES['HOLES_RIM_SIZE'];
+	$HOLES_RIM_SHOW.checked = DEFAULT_VALUES['HOLES_RIM_SHOW'];
 
-	$HOLES_F1_COLOR.value  = DEFAULT_OPTIONS['HOLES_F1_COLOR'];
-	$HOLES_F1_SIZE.value   = DEFAULT_OPTIONS['HOLES_F1_SIZE'];
-	$HOLES_F1_SHOW.checked = DEFAULT_OPTIONS['HOLES_F1_SHOW'];
+	$HOLES_F1_COLOR.value  = DEFAULT_VALUES['HOLES_F1_COLOR'];
+	$HOLES_F1_SIZE.value   = DEFAULT_VALUES['HOLES_F1_SIZE'];
+	$HOLES_F1_SHOW.checked = DEFAULT_VALUES['HOLES_F1_SHOW'];
 
-	$HOLES_F2_COLOR.value  = DEFAULT_OPTIONS['HOLES_F2_COLOR'];
-	$HOLES_F2_SIZE.value   = DEFAULT_OPTIONS['HOLES_F2_SIZE'];
-	$HOLES_F2_SHOW.checked = DEFAULT_OPTIONS['HOLES_F2_SHOW'];
+	$HOLES_F2_COLOR.value  = DEFAULT_VALUES['HOLES_F2_COLOR'];
+	$HOLES_F2_SIZE.value   = DEFAULT_VALUES['HOLES_F2_SIZE'];
+	$HOLES_F2_SHOW.checked = DEFAULT_VALUES['HOLES_F2_SHOW'];
 	
 	$HOLES_SHOW_ALL.checked = ($HOLES_RIM_SHOW.checked || $HOLES_F1_SHOW.checked || $HOLES_F2_SHOW.checked);
-}//end Load_DEFAULT_OPTIONS_Rim_etc() { //*************************************/
+}//end Load_DEFAULT_VALUES_Rim_etc() { //*************************************/
 
 
 
 
-function Load_DEFAULT_OPTIONS_Scale_Rotate() { //*******************************/
-	$ROTATE_WHEEL_step.value = DEFAULT_OPTIONS.ROTATE_WHEEL_step;
-	$ROTATE_WHEEL_text.value = DEFAULT_OPTIONS.ROTATE_WHEEL_text;
+function Load_DEFAULT_VALUES_Scale_Rotate() { //*******************************/
+	$ROTATE_WHEEL_step.value = DEFAULT_VALUES.ROTATE_WHEEL_step;
+	$ROTATE_WHEEL_text.value = DEFAULT_VALUES.ROTATE_WHEEL_text;
 	$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_WHEEL_text.value + ")");
-	$ROTATE_WHEEL_slider.setAttribute('step', DEFAULT_OPTIONS.ROTATE_WHEEL_step);
+	$ROTATE_WHEEL_slider.setAttribute('step', DEFAULT_VALUES.ROTATE_WHEEL_step);
 	$ROTATE_WHEEL_slider.value = $ROTATE_WHEEL_text.value;
-	$SCALE_step.value   = DEFAULT_OPTIONS.SCALE_step;
-	$SCALE_text.value   = DEFAULT_OPTIONS.SCALE_text;
-	$SCALE_slider.setAttribute('step', DEFAULT_OPTIONS.SCALE_step);
-	$SCALE_slider.value = DEFAULT_OPTIONS.SCALE_text;
-}//end Load_DEFAULT_OPTIONS_Scale_Rotate() //***********************************/
+	$SCALE_step.value   = DEFAULT_VALUES.SCALE_step;
+	$SCALE_text.value   = DEFAULT_VALUES.SCALE_text;
+	$SCALE_slider.setAttribute('step', DEFAULT_VALUES.SCALE_step);
+	$SCALE_slider.value = DEFAULT_VALUES.SCALE_text;
+}//end Load_DEFAULT_VALUES_Scale_Rotate() //***********************************/
 
 
 
@@ -2351,7 +2360,7 @@ function Lacing_Modifier(f) { //************************************************
 
 	Anyway, for a consistent display of the wheel (spokes don't keep changing direction),
 	and to determine the matching rim hole for a given flange hole, a modifier is needed,
-	either 1 or -1, depending on the desired triplet type & other two conditions.
+	either 1 or -1, depending on the desired lacing type & other two conditions.
 	But it's not always the same. And sometimes it's different, except when it's not...
 
 	Anyanyway, all 8 possible combinations (3 "bits": count, cross, type) and their resultant modifers are
@@ -2359,7 +2368,7 @@ function Lacing_Modifier(f) { //************************************************
 
 	 NR SX T|          NR: Even or Odd Number of holes in the Rim
 	 -------+--        SX: Even or Odd Spoke Cross
-	 E  E  1|          T : Triplet Type (1 or 2)
+	 E  E  1|          T : Triplet/Lacing Type (1 or 2)
 	 O  E  1| M        M : Resultant Modifier (1 or -1)
 	 E  O  2| 1
 	 O  O  2|
@@ -2374,7 +2383,8 @@ function Lacing_Modifier(f) { //************************************************
 	holes matter. And space.  And time.  I think. Maybe. I guess.  I don't know.  But it works now!  :)
 
 	Finally, in this program, this option is presented as "Lacing Option".  Also, it really only matters
-	on the side with more spokes (ex: the 16 spoke side of an 8:16 triplet). 
+	on the side with more spokes (ex: the 16 spoke side of an 8:16 triplet), because the side with 8
+	spokes is laced radially.
 	/******************************************************/
 
 
@@ -2383,7 +2393,7 @@ function Lacing_Modifier(f) { //************************************************
 	var T1  = ($LACE_OPT.value   == 1); // Triplet/Lacing Type 1?
 
 	if ( (NRE && SXE && T1) || (!NRE && SXE && T1) || (NRE && !SXE && !T1) || (!NRE && !SXE && !T1) )
-		 { return  1 } 
+		 { return  1 }
 	else { return -1 }
 }//end Lacing_Modifier() //******************************************************/
 
@@ -2420,7 +2430,7 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //***************/
 	for (var h_hole = 1; h_hole <= nf; h_hole += 1) {
 		
 		r_hole1 = (h_hole-1 + sx*d*Lacing_Modifier(f)) * r_skip + 1 + f_skip
-		
+	
 		r_hole1 = Round(r_hole1) //Needed for triplets. I don't like it, but can't figure out another way...
 
 		if (r_hole1 > nr) {r_hole1 -= nr;}
@@ -2458,7 +2468,7 @@ function Make_Rim(save) { //***************************************************/
 	$RIM.style['stroke'] = $RIM_COLOR.value;
 	$RIM.style['stroke-width'] = rim_width;
 	
-	if (save) { Save_Settings("display"); }
+	if (save) { Save_Settings("wheel"); }
 }//end Make_Rim() { //*********************************************************/
 
 
@@ -2915,7 +2925,7 @@ function Setup_Viewbox() { //**************************************************/
 	//The + 5 just adds a little space for rim spoke holes. However, rim hole size doesn't otherwise affect view scale.
 	//So, if hole size is changed, scale won't automatically change (like it does if rim size or erd are changed).
 	var view_box_size = (erd + rim*2 + 5);
-											
+
 	//Setup viewbox...
 	var view_W = view_box_size; //Width
 	var view_H = view_box_size; //Height
@@ -2927,7 +2937,7 @@ function Setup_Viewbox() { //**************************************************/
 	$SVG_WHEEL.style.width  = view_box_size + "px";
 	$SVG_WHEEL.style.height = view_box_size + "px";
 
-    //Create xy axis                                           _______
+	//Create xy axis                                           _______
 	//Draws each x & y axis in two parts, starting from 0,    |   |   |
 	//and extending out to the edge of the view box.          |--- ---|
 	//Visually, this creates a static axis from 0.            |___|___|
@@ -2939,7 +2949,7 @@ function Setup_Viewbox() { //**************************************************/
 	var y1    = [       0,        0,       .5,      -.5]; //  |       |    |       |    |       |    |   |   |
 	var x2    = [  max_XY,  -max_XY,        0,        0]; //  |    ---|    |---    |    |       |    |       |
 	var y2    = [       0,        0,   max_XY,  -max_XY]; //  |_______|    |_______|    |___|___|    |_______|
-	
+
 	for (var seg = 0; seg < 4; seg++) {
 		$axis[seg].setAttribute('x1', x1[seg]);
 		$axis[seg].setAttribute('y1', y1[seg]);
@@ -3009,7 +3019,7 @@ function Set_Style_by_Class(classname, style, value, save) { //****************/
 	var objects = D.getElementsByClassName(classname);
 	for (var s = 0; s < objects.length; s++) { objects[s].style[style] = value; }
 
-	if (save) { Save_Settings("display"); }
+	if (save) { Save_Settings("wheel"); }
 
 }//end Set_Style_by_Class() //*************************************************/
 
@@ -3018,7 +3028,7 @@ function Set_Style_by_Class(classname, style, value, save) { //****************/
 
 function Set_Save_Style(element, style, value) { //****************************/
 	element.style[style] = value;
-	Save_Settings("display"); 
+	Save_Settings("wheel");
 }//end Set_Save_Style() //*****************************************************/
 
 
@@ -3070,7 +3080,7 @@ function Set_Wheel_Type_Theme(wheel_type) { //*********************************/
 
 
 
-function Setup_Type_and_Build(init) { //*******************************************/
+function Setup_Type_and_Build(init) { //***************************************/
 	//Adjust/set NR, NF, & SX as needed for each type(mode).
 	var NR = $NR.value*1;
 	var NR_inc = 4; //Standard Increment for NR options list for most wheel types.
@@ -3105,17 +3115,15 @@ function Setup_Type_and_Build(init) { //****************************************
 		//Validate NR in case we're switching between modes with different NR increments.
 		var nr_mod_n = NR % NR_inc;
 		if (nr_mod_n != 0) { NR += (NR_inc - nr_mod_n); } //"round up" if not div/NR_inc.
-
+		
 		Set_NF(NR); //Must come before $SX's are set.
 		
 		Build_SX_Options($WHEEL_TYPE.value, 1, $NF[1].value, $SX[1].value);
 		Build_SX_Options($WHEEL_TYPE.value, 2, $NF[2].value, $SX[2].value);
-
-		if (init != "init") {
-	 		Set_SX();
-			SX_Enable_Disable(1);
-			SX_Enable_Disable(2);
-		}
+		
+		Set_SX();
+		SX_Enable_Disable(1);
+		SX_Enable_Disable(2);
 		
 		//Must come after Set_SX().
 		//In paired hole hubs, SX must be the same, so spokes don't cross over paired holes.
@@ -3156,34 +3164,34 @@ function Setup_Type_and_Build(init) { //****************************************
 	if (saved_settings || init == "build") { Build_Wheel(); return true; }
 
 	return false;
-}//end Setup_Type_and_Build() { //*************************************************/
+}//end Setup_Type_and_Build() { //*********************************************/
 
 
 
 
-function Reset_Scale_Rotate() { //*********************************************/
-	Load_DEFAULT_OPTIONS_Scale_Rotate();
+function Reset_Scale_Rotate(save) { //*****************************************/
+	Load_DEFAULT_VALUES_Scale_Rotate();
 	Set_Scale();
-	Save_Settings("display");
+	if (save) { Save_Settings("wheel"); }
 }//end Reset_Scale_Rotate() //*************************************************/
 
 
 
 
-function Reset_OPTIONS_SPOKES() { //*******************************************/
-	Load_DEFAULT_OPTIONS_Spokes();
+function Reset_OPTIONS_SPOKES(save) { //***************************************/
+	Load_DEFAULT_VALUES_Spokes();
 	Set_Styles_Spokes();
-	Save_Settings("display");
+	if (save) { Save_Settings("wheel"); }
 }//end Reset_OPTIONS_SPOKES() //***********************************************/
 
 
 
 
-function Reset_OPTIONS_RIM_ETC() { //******************************************/
-	Load_DEFAULT_OPTIONS_Rim_etc();
+function Reset_OPTIONS_RIM_ETC(save) { //**************************************/
+	Load_DEFAULT_VALUES_Rim_etc();
 	Set_Styles_Rim_etc();
 	Setup_Viewbox();
-	Save_Settings("display");
+	if (save) { Save_Settings("wheel"); }
 }//end Reset_OPTIONS_RIM_ETC() //**********************************************/
 
 
@@ -3405,15 +3413,15 @@ function Assign_Events() { //**************************************************/
 	$WHEEL_OR_DISPLAY.addEventListener("click", function() {
 		if (this.value == "wheel") {
 			this.value = "display"
-			Show_Hide($DISPLAY_OPTIONS, true);
+			Show_Hide($DISPLAY_SETTINGS, true);
 			Show_Hide($WHEEL_SETTINGS_container,false);
 			$WHEEL_OR_DISPLAY.innerHTML = "Show Wheel Settings";
 		}
 		else {
 			this.value = "wheel"
-			Show_Hide($DISPLAY_OPTIONS, false);
+			Show_Hide($DISPLAY_SETTINGS, false);
 			Show_Hide($WHEEL_SETTINGS_container,true);
-			$WHEEL_OR_DISPLAY.innerHTML = "Show Display Options";
+			$WHEEL_OR_DISPLAY.innerHTML = "Show Display Settings";
 		}
 	});//end $WHEEL_OR_DISPLAY click
 
@@ -3444,6 +3452,7 @@ function Assign_Events() { //**************************************************/
 		} else {
 			Clear_Settings()
 		}
+		Setup_Viewbox();
 	});//end $CURRENT_WHEEL change
 
 	
@@ -3648,8 +3657,8 @@ function Assign_Events() { //**************************************************/
 
 	// Only need to recalc final spoke lengths. OSB & SHD are ignored in display calculations for <line> endpoints.
 	var validate = true;
-	$OSB[1]	  .addEventListener("change", function() { Calc_Spoke_Lengths(validate, this, 0, 1); }); //4th param, 1, allows neg numbers.
-	$OSB[2]	  .addEventListener("change", function() { Calc_Spoke_Lengths(validate, this, 0, 1); });
+	$OSB[1]	  .addEventListener("change", function() { $OSB[2].value = -this.value; Calc_Spoke_Lengths(validate, this, 0, 1); }); //4th param, 1, allows neg numbers.
+	$OSB[2]	  .addEventListener("change", function() { $OSB[1].value = -this.value; Calc_Spoke_Lengths(validate, this, 0, 1); });
 	$SHD	  .addEventListener("change", function() { Calc_Spoke_Lengths(validate, this, 0, 0); });
 
 	$FW 	   .addEventListener("change", function() { if (Validate_Input(this)) { Update_Advanced_Info(save); } });
@@ -3738,7 +3747,7 @@ function Assign_Events() { //**************************************************/
 	$HOLES_RIM_SIZE.addEventListener("change", function() { //$HOLES_RIM_SIZE is diameter
 		if (!Validate_Input(this)) { return false; }
 		Set_Attribute_by_Class(RIM_HOLES, 'r', this.value/2); //set *radius* of holes (this.value/2)
-		Save_Settings("display");
+		Save_Settings("wheel");
 	});
 
 	$HOLES_F1_COLOR.addEventListener("change", function() { Set_Style_by_Class( HUB_HOLES[1], "fill" , this.value, save); });
@@ -3750,7 +3759,7 @@ function Assign_Events() { //**************************************************/
 	$HOLES_F1_SIZE.addEventListener("change", function() { //$HOLES_F1_SIZE is diameter
 		if (!Validate_Input(this)) { return false; }
 		Set_Attribute_by_Class( HUB_HOLES[1], 'r', this.value/2); //set *radius* of holes (this.value/2)
-		Save_Settings("display");
+		Save_Settings("wheel");
 	});
 
 	$HOLES_F2_COLOR.addEventListener("change", function() { Set_Style_by_Class( HUB_HOLES[2], "fill" , this.value, save); });
@@ -3762,7 +3771,7 @@ function Assign_Events() { //**************************************************/
 	$HOLES_F2_SIZE.addEventListener("change", function() { //$HOLES_F2_SIZE is diameter
 		if (!Validate_Input(this)) { return false; }
 		Set_Attribute_by_Class( HUB_HOLES[2], 'r', this.value/2); //set *radius* of holes (this.value/2)
-		Save_Settings("display");
+		Save_Settings("wheel");
 	});
 
 
@@ -3771,7 +3780,7 @@ function Assign_Events() { //**************************************************/
 		if (this.value > 360) { this.value = 360; }
 		$ROTATE_WHEEL_slider.value = this.value;
 		$G_WHEEL.setAttribute('transform', " rotate(" + this.value + ")");
-		Save_Settings("display");
+		Save_Settings("wheel");
 	});
 
 	$ROTATE_WHEEL_step.addEventListener("change", function(){
@@ -3780,10 +3789,10 @@ function Assign_Events() { //**************************************************/
 		if (step < .01) { this.value = .1 ; }
 		if (step > 360) { this.value = 360; }
 		$ROTATE_WHEEL_slider.setAttribute('step', this.value);
-		Save_Settings("display");
+		Save_Settings("wheel");
 	});
 
-	$ROTATE_WHEEL_slider.addEventListener("change", function(){ Save_Settings("display"); });
+	$ROTATE_WHEEL_slider.addEventListener("change", function(){ Save_Settings("wheel"); });
 	$ROTATE_WHEEL_slider.addEventListener("input", function(){
 		$ROTATE_WHEEL_text.value = this.value;
 		$G_WHEEL.setAttribute('transform', " rotate(" + this.value + ")");
@@ -3800,7 +3809,7 @@ function Assign_Events() { //**************************************************/
 		$SCALE_slider.value = this.value;
 
 		Set_Scale();
-		Save_Settings("display");
+		Save_Settings("wheel");
 		this.prior_value = this.value
 	});
 
@@ -3811,16 +3820,16 @@ function Assign_Events() { //**************************************************/
 		if (step <   1) { this.value =   1; }
 		if (step > max) { this.value = max; }
 		$SCALE_slider.setAttribute('step', this.value);
-		Save_Settings("display");
+		Save_Settings("wheel");
 	});
 
-	$SCALE_slider.addEventListener("change", function(){ Save_Settings("display"); });
+	$SCALE_slider.addEventListener("change", function(){ Save_Settings("wheel"); });
 	$SCALE_slider.addEventListener("input", function(){ $SCALE_text.value = this.value; Set_Scale(); });
 
 
-	$RESET_SCALE          .addEventListener("click", function() { Reset_Scale_Rotate();    });
-	$RESET_OPTIONS_SPOKES .addEventListener("click", function() { Reset_OPTIONS_SPOKES();  });
-	$RESET_OPTIONS_RIM_ETC.addEventListener("click", function() { Reset_OPTIONS_RIM_ETC(); });
+	$RESET_SCALE          .addEventListener("click", function() { Reset_Scale_Rotate(true);    });
+	$RESET_OPTIONS_SPOKES .addEventListener("click", function() { Reset_OPTIONS_SPOKES(true);  });
+	$RESET_OPTIONS_RIM_ETC.addEventListener("click", function() { Reset_OPTIONS_RIM_ETC(true); });
 
 
 	$CLOSE_MSG.addEventListener("blur" , function() { Close_Message() });
@@ -3864,13 +3873,13 @@ function Assign_Events() { //**************************************************/
 		
 		localStorage.removeItem(LS_DISPLAY_OPTIONS);
 		
-		$SHOW_HIDE_NOTES   .value         = "none";
-		$SHOW_HIDE_ADVANCED.value         = "none";
-		$SHOW_HIDE_OTHER   .value         = "none";
-		$NOTES          .style["display"] = "none";
-		$ADVANCED_INFO  .style["display"] = "none";
-		$OTHER_CALCS	.style["display"] = "none";
-		$DISPLAY_OPTIONS.style["display"] = "none";
+		$SHOW_HIDE_NOTES   .value          = "none";
+		$SHOW_HIDE_ADVANCED.value          = "none";
+		$SHOW_HIDE_OTHER   .value          = "none";
+		$NOTES           .style["display"] = "none";
+		$ADVANCED_INFO   .style["display"] = "none";
+		$OTHER_CALCS	 .style["display"] = "none";
+		$DISPLAY_SETTINGS.style["display"] = "none";
 		
 		var domain = window.location.hostname;
 		document.cookie = $ACCEPT_MSG.id + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=.' + domain;
@@ -3946,7 +3955,7 @@ function Assign_Events() { //**************************************************/
 		}
 		
 		Setup_Type_and_Build("init");
-		Set_Zoom_Level(100);
+		Set_Scale();
 		IMEX_enable_disable(false, $IMPORT_CONTAINER);
 	});
 }//end Assign_Events() //******************************************************/
@@ -3981,7 +3990,6 @@ function Show_All_Holes_Checked() { //*****************************************/
 
 
 function Init_Display_NR_SX(display_options, imported) { //********************/
-
 	if (imported) { Load_Saved_Settings(display_options, imported); }
 	else          { Load_Saved_Settings(LS_DISPLAY_OPTIONS); }
 
@@ -4025,11 +4033,14 @@ function Init() { //***********************************************************/
 	Assign_Events();
 
 	//This option not saved. Always load page with Wheel Settings visable.
-	$DISPLAY_OPTIONS.style.display = "none";
+	$DISPLAY_SETTINGS.style.display = "none";
 
-	Load_DEFAULT_OPTIONS_Spokes();
-	Load_DEFAULT_OPTIONS_Rim_etc();
-	Load_DEFAULT_OPTIONS_Scale_Rotate();
+	Load_DEFAULT_VALUES_Spokes();
+	Load_DEFAULT_VALUES_Rim_etc();
+	Load_DEFAULT_VALUES_Scale_Rotate();
+
+	$FW .value = DEFAULT_VALUES.FW;
+	$SDB.value = DEFAULT_VALUES.SDB;
 
 	Init_Display_NR_SX(LS_DISPLAY_OPTIONS);
 
@@ -4045,21 +4056,18 @@ function Init() { //***********************************************************/
 
 	$WHEEL_NAME.current = $WHEEL_NAME.value;
 
-
 	//##### Enable disclaimer msg on first load & resets?
 	$ACCEPT_MSG.ENABLED = false; //##### true;
 	//#####Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus if accepted.
 
-	$SLC_VERSION.innerHTML = SLC_VERSION;
-
 	$ERD.focus();
+
+	$SLC_VERSION.innerHTML = VERSION;
 }//end Init() //***************************************************************/
 
 
 
-window.addEventListener("load", function() { Init() } );
 
-//##### Some times I feel like unload, sometimes I don't...
-//##### window.onbeforeunload =  function() { $CONTAINER.style.opacity = '0' }
+window.addEventListener("load", function() { Init() } );
 //*****************************************************************************/
 })();</script>
