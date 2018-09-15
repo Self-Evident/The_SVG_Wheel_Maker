@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var VERSION = "v2.01 2018-08-24" //##### </script>
+<script>var VERSION = "v2.02 2018-08-24 4:19pm" //##### </script>
 <!--//======================================================-->
 
 
@@ -466,10 +466,10 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 
 /** Wheel type themes **/
 .SC2_theme_standard { background-color: rgb(175,198,205); }
+.SC2_theme_triplet  { background-color: rgb(210,223,227); }
 .SC2_theme_phh      { background-color: rgb(200,214,240); }
 .SC2_theme_phr      { background-color: rgb(227,214,254); }
 .SC2_theme_phr_frot { background-color: rgb(245,192,245); }
-.SC2_theme_triplet  { background-color: rgb(210,223,227); }
 .SC2_theme_custom   { background-color: #FAB; }
 </style>
 
@@ -1187,13 +1187,6 @@ var MAX_WHEELS = 10; //##### MAKE USER OPTION??? #####
 
 var SSI = " :: " //Saved Settings Indicator. Used in CURRENT_WHEEL <select> list <option>'s.
 
-var BG_STANDARD = "rgb(175,198,205)";  //Used for bg color of settings when in Standard mode.
-var BG_PHH      = "rgb(200,214,240)";  //	"		"		"		"		   Paird Hole Hub mode. //"rgb(182,200,235)"
-var BG_PHR      = "rgb(227,214,254)";  //	"		"		"		"		   Paird Hole Rim mode. //"rgb(227,162,253)"; //"rgb(255,156,119)";  //"#F74" 
-var BG_PHR_SPL  = "rgb(245,192,245)";  //	"		"		"		"		   Paird Hole Rim mode.
-var BG_TRIPLET  = "rgb(210,223,227)";  //	"		"		"		"		   Triplet mode. //"rgb(222,232,235)"; //"rgb(130,166,176)" //"rgb(210,223,227)";
-var BG_CUSTOM   = "#FAB";              //Long time ago when we was #FAB...     Custom mode.
-
 var PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocus() of the inputs.
 
 
@@ -1775,9 +1768,11 @@ function Clear_Settings() { //*************************************************/
 	$ELBOWS[1].value       = DEFAULT_VALUES.ELBOWS1;
 	$ELBOWS[2].value       = DEFAULT_VALUES.ELBOWS2;
 	$TENSION[2].value      = ''; //[1] is a computed value, and is cleared in Clear_Wheel()
-	
+
 	Setup_Type_and_Build("init");
 	Reset_Scale_Rotate();
+	Reset_OPTIONS_SPOKES();
+	Reset_OPTIONS_RIM_ETC();
 	Setup_Viewbox();
 	Clear_Wheel(true);
 
@@ -1786,7 +1781,6 @@ function Clear_Settings() { //*************************************************/
 	option.innerHTML = Pad10(current_wheel);
 
 	localStorage.removeItem(LS_VALUES_PREFIX + current_wheel);
-	
 }//end Clear_Settings() { //***************************************************/
 
 
@@ -4023,6 +4017,9 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 
 	$SCALE_slider.setAttribute('step', $SCALE_step.value);
 	$SCALE_slider.value = $SCALE_text.value * 1; //Must come after step is set...
+
+	Reset_OPTIONS_SPOKES()
+	Reset_OPTIONS_RIM_ETC()
 }//end Init_Display_NR_SX() //*************************************************/
 
 
