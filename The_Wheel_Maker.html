@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var SLC_VERSION = "v1.08 2018-07-05 1am" //##### </script>
+<script>var SLC_VERSION = "v1.09 2018-07-29" //##### </script>
 <!--//======================================================-->
 
 
@@ -44,8 +44,7 @@ body { overflow-y: scroll; }
 
 /*** The prefix "SLC_" simply means "Spoke Length Calculator" ***/
 
-
-#SLC_notes p { margin-top: .6rem; }
+p.SLC { margin: .4rem 0; }
 
 .SLC_indents { margin-left: 1.5rem; }
 
@@ -55,17 +54,22 @@ a.SLC { outline: 0; text-decoration: none; display: inline-block; background-col
 
 a.SLC:focus, a.SLC:hover { background-color: #ccc; text-decoration: none; }
 
+button.SLC        { border: solid 1px #444; padding: 0 5px 2px 4px ; background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
+button.SLC:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
+button.SLC:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); }
+button.SLC:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 0px 6px 1px 3px; }
+
+
 button.SLC::-moz-focus-inner { border: 0 }
 
 input.SLC:focus, select.SLC:focus, button.SLC:focus { box-shadow: 0 0 3pt 1pt #006060 }
 
 input[disabled].SLC, select.SLC:disabled {
-	color			: #555;
-	background-color: #ddd;
-	border			: solid .5px #999;
-	padding			: 1px 0 1px 0
+	color			: #111;
+	background-color: rgba(255,255,255, .4);
+	border			: solid .5px #7a7a7a;
 }
-select.SLC { padding-left: .3rem; width: 3.5rem; font-size: .9rem}
+select.SLC { padding-left: .3rem; width: 3.3rem; font-size: .9rem}
 select.SLC option { padding-left: .5rem }
 
 
@@ -83,7 +87,7 @@ select.SLC:-moz-focusring {
 	margin: auto;
 	text-align: center;
 	padding: 1rem 0 0 0;
-	visibility: hidden;		/* opacity & visibility changed at end of onload. */
+	visibility: hidden;  /* visibility & opacity changed at end of onload. */
 	opacity: 0;
 	transition: opacity .5s;
 	display: block;
@@ -106,7 +110,7 @@ select.SLC:-moz-focusring {
 	font-family: arial;
 }
 
-.SLC_inexport_btns { font-size: 1rem; padding: .2rem 1rem; }
+.SLC_inexport_btns { font-size: 1rem; padding: .2rem 1rem; border-radius: 6px; }
 
 .SLC_IMEX_DATA { border: solid 1px black; padding: .3rem; margin-top: .5rem; font-family: courier; word-break: break-all;}
 
@@ -122,12 +126,19 @@ select.SLC:-moz-focusring {
 
 #SLC_The_SVG    { width: 630px; display: inline-block; border: 0; }
 
-#SLC_svg_wheel  { border: solid 1px #AAA; border-radius: 8px;}
+#SLC_svg_wheel  { border: solid 1px #AAA; border-radius: 8px; }
 
 #SLC_WHEEL_TYPE { margin: 0 0 .5rem .2rem; padding-left: .1rem; width: 8rem; }
 
 #SLC_LACE_OPT   { margin: .5rem 0 .5rem 0; }
-#SLC_left_side  { display: inline-block; vertical-align: top; position: relative; border: 0; max-width: 16rem; }
+
+#SLC_left_side  {
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+	border: 0;
+	max-width: 16rem;
+}
 
 #SLC_WHEEL_SELECT_OPTS td { text-align: right; padding-right: .5rem; }
 
@@ -135,6 +146,7 @@ select.SLC:-moz-focusring {
 	position: relative;
 	display: inline-block;
 	margin: 2px 0 0 0;
+	padding: 0;
 }
 #SLC_CURRENT_WHEEL {
 	width  : 11.5rem;
@@ -145,12 +157,12 @@ select.SLC:-moz-focusring {
 #SLC_CURRENT_WHEEL option { text-align: left; padding-left: .2rem;}
 #SLC_WHEEL_NAME {
 	position: absolute;
-	top     : 2px;
-	left    : 2.25rem;
+	top     : 1px;
+	left    : 2.15rem;
 	margin  : 0;
 	padding : 0 0 0 .05rem;
-	width   : 9.2rem;
-	height  : 1.1rem;
+	width   : 9.3rem;
+	height  : 1.32em;
 	border     : solid 1px transparent;
 	text-align : left;
 	font-size  : .9rem;
@@ -180,14 +192,14 @@ table.SLC td { padding: 0 0 0 0; border: 0; }
 table.SLC th { height: 2.2rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
 table.SLC .SLC_thv { text-align: left; padding: 0 0 0 3px; width: 6.8rem; font-weight: bold; }
-.SLC input   { width: 3.5rem; text-align: center; font: 1rem courier; }
+.SLC input   { width: 3.3rem; text-align: center; font: 1rem courier; }
 table.SLC .SLC_color { width: 6rem; }
 
 
 
 .SLC_wheel_btns { text-align: right; }
 
-.SLC_load_clear { margin: 0; padding: 0 .2rem; }
+.SLC_load_clear { margin: 0; padding: 0 .2rem; border-radius: 4px; }
 
 .SLC_separator { padding: 0; height: .3rem; }
 
@@ -215,12 +227,13 @@ table.SLC_DO { height: 19rem; }
 
 #SLC_show_hide_notes { margin: 0 0 0 0; }
 
+#SLC_notes p { margin-top: .5rem; }
+
 #SLC_notes  {
 	vertical-align: top;
 	border: solid 0px black;
 	font-family: arial;
 	text-align: left;
-	border-radius: 10px;
 	display: none;
 	padding: 0 0 0 0;
 }
@@ -230,7 +243,7 @@ table.SLC_DO { height: 19rem; }
 #SLC_adv_r1c2 { }
 #SLC_adv_r1c2 { }
 
-#SLC_see_notes { }
+#SLC_see_notes { border-radius: 5px; }
 
 #SLC_notes td { padding: .2rem .2rem .2rem .5rem; border: solid 1px #555; }
 #SLC_notes th { padding: .2rem .5rem .2rem .2rem; border: solid 1px #555; }
@@ -247,16 +260,8 @@ table.SLC_DO { height: 19rem; }
 	padding: 3px .5rem;
 	text-align: center;
 	font: normal 1.2rem arial;
-	border: solid 1px #444;
-	border-radius: 7px;
-	background-color: #F9F9F9;
-	background: linear-gradient(to bottom, #CCC, #EEE, #EEE, #CCC);
+	border-radius: 8px;
 }
-
-.SLC_ndo_buttons:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
-.SLC_ndo_buttons:hover  { background: linear-gradient(to bottom, #bbb, #FFF, #FFF, #bbb); }
-.SLC_ndo_buttons:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 3px 2px 1px 2px; }
-
 
 
 .SLC_reset_options {
@@ -284,25 +289,43 @@ table.SLC .SLC_th3 th{ height: 1.5rem; font-size: 1rem; border: 0; vertical-alig
 
 
 table.SLC td.SLC_SL { height: 2rem; }
-table.SLC td.SLC_SL input { width: 5rem; text-align: center; font-size: 1rem; font-weight: bold; margin: 0; }
+table.SLC td.SLC_SL input { 
+	width: 5rem;
+	text-align: center;
+	font-size: 1rem;
+	font-weight: bold;
+	margin: 0;
+}
+
 table.SLC td.SLC_SLS1 { padding: 0 0 0 1.5rem; height: .8rem; }
 table.SLC td.SLC_SLS2 { padding: 0 1.5rem 0 0; height: .8rem; }
 
 table.SLC tr.SLC_SLH2 { height: 1.5rem; vertical-align: bottom }
+
+
+
+.SLC input[readonly] {
+	border: solid .10rem #077;
+	border-radius: 4px;
+	background-color: rgba(255,255,255, .8);
+}
+
+
 
 #SLC_SL_2_4 { display: none; } /**Set to table-row in Setup_Wheel() if needed.**/
 
 table#SLC_advanced_info.SLC { border-spacing: 2px; display: inline-block; }
 #SLC_advanced_info td { font-size: .9rem; text-align: left; padding-left: .2rem; }
 
-select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
+select.SLC_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 
 #SLC_advanced_info .lesser_settings td 	   { font-size: .8em; padding-left: .5rem; }
-#SLC_advanced_info .lesser_settings td input { font-size: .9em; width: 2rem; }
+#SLC_advanced_info .lesser_settings td input { width: 2rem; font-size: .9rem; }
 
 #SLC_assumes { font-weight: bold }
 
-#SLC_other_calcs { font-family: arial; text-align: left; display: none; width: 15rem; }
+#SLC_other_calcs   { font-family: arial; text-align: left; display: none; }
+#SLC_other_calcs a { min-width: 55%; border-bottom: solid 2px white; }
 
 #SLC_MSG_HEADER {
 	margin			: auto;
@@ -356,15 +379,44 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 
 
 
+<!--#########################################################################-->
+<style>#CONSOLE { vertical-align:top; font-family: Courier New; font-size: .8em; border: solid 1px red; max-height: 55rem ; max-width: 14em; overflow: scroll; word-break: break-all; padding: 0 .1em; color: yellow; background-color: black; position: fixed; top: 0; right: 0; z-index: 999; }</style>
+<div id=CONSOLE></div>
+<script>
+function Log(something, br, esc, nowrap, maxwidth) {
+	var console = document.getElementById('CONSOLE');
+	var height = window.innerHeight + "px";
+	console.style['max-height'] = height;
+	if (typeof something === 'undefined') { console.innerHTML = ""; console.style['display'] = "none"; return; }
+	if (br == true) { br = "<br>" } else { br = "" }
+	if (esc) {
+		var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+		something = (something + "").replace(/[&<>"']/g, function(m) { return map[m]; });
+	}
+	if (nowrap) {document.getElementById('CONSOLE').style.whiteSpace = "nowrap";}
+	if (maxwidth) {document.getElementById('CONSOLE').style['max-width'] = maxwidth;}
+	console.innerHTML += something + br;
+	console.scrollTop = console.scrollHeight;
+	console.style['display'] = "inline-block";
+}//end Log()
+</script>
+<!--#########################################################################-->
+
+
+
+
+
+
+
 
 <div id=SLC_CONTAINER><!--====================================================-->
 
 <div id=SLC_IMPORT_container class=SLC_imex_containers>
 	<p>Copy/Paste your previously saved data to the area below.
 	<p>Then click</p>
-	<button id=SLC_perform_import class=SLC_inexport_btns>Import Data</button>
-	<button id=SLC_close_import   class=SLC_inexport_btns>Return to Wheel</button>
-	<textarea id=SLC_IMPORT_INPUT class=SLC_IMEX_DATA></textarea>
+	<button id=SLC_perform_import class="SLC SLC_inexport_btns">Import Data</button>
+	<button id=SLC_close_import   class="SLC SLC_inexport_btns">Return to Wheel</button>
+	<textarea id=SLC_IMPORT_INPUT class="SLC SLC_IMEX_DATA"></textarea>
 </div>
 
 <div id=SLC_EXPORT_container class=SLC_imex_containers>
@@ -408,6 +460,9 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 		<select id=SLC_WHEEL_TYPE class=SLC>
 			<option value="standard">Standard</option>
 			<option value="triplet" >Triplet</option>
+			<!-- option value="pph"     >Pair Hole Hub</option -->
+			<!-- option value="ppr"     >Pair Hole Rim</option -->
+			<!-- option value="pprh"    >Pair Hole Rim & Hub</option -->
 			<option value="custom"  >Custom</option>
 			<!-- option>Paired Hole Hub</option //Coming soon to a spoke length calculator near you! -->
 		</select>
@@ -536,27 +591,27 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 	<tr class=SLC_separator><td colspan=3></td></tr>
 	<tr>
 		<td>Length Adjust.</td>
-		<td><input id=SLC_SL_ADJ1 type=text readonly tabindex="-1"></td>
-		<td><input id=SLC_SL_ADJ2 type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_SL_ADJ1 class=SLC type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_SL_ADJ2 class=SLC type=text readonly tabindex="-1"></td>
 	</tr>
 	<tr>
 		<td>Spoke Ratio</td>
-		<td><input id=SLC_spoke_ratio1 type=text readonly tabindex="-1"></td>
-		<td><input id=SLC_spoke_ratio2 type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_spoke_ratio1 class=SLC type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_spoke_ratio2 class=SLC type=text readonly tabindex="-1"></td>
 	</tr>
 	<tr>
 		<td>Bracing Angles</td>
-		<td><input id=SLC_brace_angle1 type=text readonly tabindex="-1">&deg;</td>
-		<td><input id=SLC_brace_angle2 type=text readonly tabindex="-1">&deg;</td>
+		<td><input id=SLC_brace_angle1 class=SLC type=text readonly tabindex="-1">&deg;</td>
+		<td><input id=SLC_brace_angle2 class=SLC type=text readonly tabindex="-1">&deg;</td>
 	</tr>
 	<tr>
 		<td>Tension Ratio</td>
-		<td><input id=SLC_tension_ratio1 type=text readonly tabindex="-1">%</td>
-		<td><input id=SLC_tension_ratio2 type=text readonly tabindex="-1">%</td>
+		<td><input id=SLC_tension_ratio1 class=SLC type=text readonly tabindex="-1">%</td>
+		<td><input id=SLC_tension_ratio2 class=SLC type=text readonly tabindex="-1">%</td>
 	</tr>
 	<tr>
 		<td>Tension</td>
-		<td><input id=SLC_TENSION1 type=text readonly tabindex="-1"></td>
+		<td><input id=SLC_TENSION1 class=SLC type=text readonly tabindex="-1"></td>
 		<td><input id=SLC_TENSION2 type=text></td>
 	</tr>
 	<tr class=SLC_separator><td colspan=3></td></tr>
@@ -567,27 +622,25 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 	<br>
 	<button type=button id=SLC_show_hide_other class="SLC SLC_ndo_buttons" value="none">A few other calculators</button>
 	<div id=SLC_other_calcs>
-		Ancesters to The Wheel Builder:<hr class=SLC>
+		Ancesters to The Wheel Builder:<br>
 		<a id=a1 class=SLC href="D-SC.1.html">D-SC 1</a><br>
 		<a id=a2 class=SLC href="D-SC.3.html">D-SC 3</a><br>
 		<br>
 		<hr class=SLC>
-		I have no affiliation with any of the
-		following calculators or websites.
-		These links are provided for
-		convenience and comparison only.
-		<hr class=SLC>
+		And a few other spoke length calculators from around the web:<br>
+		<p class="SLC SLC_desc">(I have no affiliation with the following calculators or websites.
+		Their links are provided for convenience and comparison only.)</p>
 		
-		<a id=a3 class=SLC href="https://www.sheldonbrown.com/rinard/spocalc.htm" target="_blank">Sheldon's SpoCalc</a><br>
-		<a id=a4 id=a class=SLC href="http://www.mrrabbit.net/wheelsbyflemingapplications.php" target="_blank">Mr. Rabbit's SpokeChart v2-0<br><span class=SLC_indents>(link near bottom of page)</span></a><br>
-		<a id=a5 class=SLC href="https://www.bikeschool.com/index.php/resources/spoke-calculator" target="_blank">Bike School</a><br>
-		<a id=a6 class=SLC href="http://www.prowheelbuilder.com/spokelengthcalculator" target="_blank">Pro Wheel Builder</a><br>
-		<a id=a7 class=SLC href="https://leonard.io/edd/" target="_blank">Edd</a><br>
-		<a id=a8 class=SLC href="http://www.sapim.be/spoke-calculator" target="_blank">Sapim</a><br>
-		<a id=a9 class=SLC href="https://spokes-calculator.dtswiss.com/en/" target="_blank">DT Swiss</a><br>
-		<a id=aa class=SLC href="http://www.wheelpro.co.uk/spokecalc/" target="_blank">Wheel Pro</a><br>
-		<a id=ab class=SLC href="https://biketechtools.com/spoke-length-calculator" target="_blank">Bike Tech Tools</a><br>
-		<a id=ac class=SLC href="http://www.kstoerz.com/freespoke/fullcalc" target="_blank">FreeSpoke</a><br>
+		<a class=SLC href="https://www.sheldonbrown.com/rinard/spocalc.htm" target="_blank">Sheldon's SpoCalc</a><br>
+		<a class=SLC href="http://www.mrrabbit.net/wheelsbyflemingapplications.php" target="_blank">Mr. Rabbit's SpokeChart v2-0<br><span class=SLC_indents>(link near bottom of page)</span></a><br>
+		<a class=SLC href="https://www.bikeschool.com/index.php/resources/spoke-calculator" target="_blank">Bike School</a><br>
+		<a class=SLC href="http://www.prowheelbuilder.com/spokelengthcalculator" target="_blank">Pro Wheel Builder</a><br>
+		<a class=SLC href="https://leonard.io/edd/" target="_blank">Edd</a><br>
+		<a class=SLC href="http://www.sapim.be/spoke-calculator" target="_blank">Sapim</a><br>
+		<a class=SLC href="https://spokes-calculator.dtswiss.com/en/" target="_blank">DT Swiss</a><br>
+		<a class=SLC href="http://www.wheelpro.co.uk/spokecalc/" target="_blank">Wheel Pro</a><br>
+		<a class=SLC href="https://biketechtools.com/spoke-length-calculator" target="_blank">Bike Tech Tools</a><br>
+		<a class=SLC href="http://www.kstoerz.com/freespoke/fullcalc" target="_blank">FreeSpoke</a><br>
 	</div>
 
 </div><!--//end SLC_left_side ======================================-->
@@ -645,7 +698,11 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 				</tr>
 				<tr class=SLC_th3><th></th><th>Line</th><th>Line</th><th></th></tr>
 				<tr class=SLC_th1><td>Group</td><td>Color</td><td>Size</td><td>Show?</td></tr>
-				<tr class=SLC_th2><td colspan=4>Side 1</td></tr>
+				<tr class=SLC_th2>
+					<td></td>
+					<td colspan=2>Side 1</td>
+					<td><input id=SLC_SIDE_SHOW1  class=SLC type=checkbox></td>
+				</tr>
 				<tr>
 					<td>1</td>
 					<td><input id=SLC_SPOKE_COLOR1 class="SLC SLC_color" type=text></td>
@@ -659,7 +716,11 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 					<td><input id=SLC_SPOKE_SHOW2  class=SLC type=checkbox></td>
 				</tr>
 				<tr class=SLC_separator><td colspan=4></td></tr>
-				<tr class=SLC_th2><td colspan=4>Side 2</td></tr>
+				<tr class=SLC_th2>
+					<td></td>
+					<td colspan=2>Side 2</td>
+					<td><input id=SLC_SIDE_SHOW2  class=SLC type=checkbox></td>
+				</tr>
 				<tr>
 					<td>3</td>
 					<td><input id=SLC_SPOKE_COLOR3 class="SLC SLC_color" type=text></td>
@@ -753,7 +814,7 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 						<li>Make sure Auto-Copy is checked.
 						<li>Select a blank wheel (no "::" after the number) from the Wheel select list.
 					</ul>
-					<p>To prevent Auto-Copy while when changing to a blank wheel, make sure Auto-Copy is unckecked.
+					<p>To prevent Auto-Copy, make sure  is unckecked.
 				</td>
 			</tr>
 			
@@ -765,7 +826,7 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 			<tr><th class=SLC>ERD</th>
 				<td>The "Effective Rim Diameter".<br>
 				<p>A picture could say a thousand words, but Google says a lot more...
-				<p>Note that when the Display Option "Scale" is set to "auto", the displayed wheel (and all componants) automatically resize based on this value. Subsequently, the displayed diameter will remain the same, but the hub, spokes, etc, will scale accordingly.</td>
+				<p>Note that when the Display Option "Scale" is set to "auto", the displayed wheel (and all componants) automatically resize based on this value. Subsequently, the displayed diameter will remain the same (fill the wheel box), but the hub, spokes, etc, will scale accordingly.</td>
 			</tr>
 			
 			<tr><th class=SLC>Rim Holes</th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
@@ -845,7 +906,7 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 			</tr>
 			<tr><th class=SLC>Colors</th>
 				<td>Colors can be specified using common 
-				<a id=ad class=SLC href="https://www.w3schools.com/Colors/colors_names.asp" target="_blank">html/css color names</a> 
+				<a class=SLC href="https://www.w3schools.com/Colors/colors_names.asp" target="_blank">html/css color names</a> 
 				(black, gray, red, blue, green, skyblue, etc.),
 				or with any currently valid html/css color code format (hex, rgb, cymk, etc.).
 				</td>
@@ -860,12 +921,12 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 			</td></tr>
 			
 			<tr><th class=SLC>Export Data</th><td>
-				<button id=SLC_EXPORT class=SLC>Export Wheels & Display Settings</button>
+				<button id=SLC_EXPORT class="SLC SLC_load_clear">Export Wheels & Display Settings</button>
 			</td></tr>
 			
 			<tr><th class=SLC>Import Data</th><td>
 				<p>Importing previously Exported data will override currently loaded display and wheel options. It may also override current wheels listed in the Wheel select list.  That is, if you restore a previous Export that only had wheels 1,2, &amp; 3, but currently have wheels 1,2,3, &amp; 4 in the list, wheel 4 will remain unchanged.
-				<p><button id=SLC_IMPORT class=SLC>Import Wheels & Display Settings</button>
+				<p><button id=SLC_IMPORT class="SLC SLC_load_clear">Import Wheels & Display Settings</button>
 			</td></tr>
 
 			<tr><th class=SLC>Version</th><td id=SLC_VERSION></td></tr>
@@ -887,12 +948,12 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .8rem; width: 4.1rem; }
 var D = document;
 function E(id) { return document.getElementById(id); }
 
-var NS_ = "SLC_"; //"Namespace" prefix used for <element> id's & class names.
+var _NS_ = "SLC_"; //"Namespace" prefix used for <element> id's & class names.
 
 //Local Storage key names.
-var LS_VALUES_PREFIX   = NS_ + "WHEEL_";
-var LS_CURRENT_WHEEL   = NS_ + "CURRENT_WHEEL"; //1, 2, 3, etc...
-var LS_DISPLAY_OPTIONS = NS_ + 'display_options'; //Name of display settings saved to localStorage.
+var LS_VALUES_PREFIX   = _NS_ + "WHEEL_";
+var LS_CURRENT_WHEEL   = _NS_ + "CURRENT_WHEEL"; //1, 2, 3, etc...
+var LS_DISPLAY_OPTIONS = _NS_ + 'display_options'; //Name of display settings saved to localStorage.
 
 var MAX_WHEELS = 10; //##### MAKE USER OPTION??? #####
 
@@ -908,51 +969,51 @@ var PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocu
 
 //Various messeges
 var MSGS = {};
-MSGS['notice']  = "<div id=SLC_MSG_HEADER>Notice!</div>";
-MSGS['invalid'] = "Invalid input: ";
-MSGS['max_fl']  = "Maximum value for flange holes: ";
-MSGS['nf1_2']   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>If needed, increase Side 2 first.";
-MSGS['nf2_1']   = "Number of flange holes:<br>Side 2 must be greater than or equal to Side 1.<br>If needed, decrease Side 1 first.";
+MSGS.notice  = "<div id=SLC_MSG_HEADER>Notice!</div>";
+MSGS.invalid = "Invalid input: ";
+MSGS.max_fl  = "Maximum value for flange holes: ";
+MSGS.nf1_2   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>If needed, increase Side 2 first.";
+MSGS.nf2_1   = "Number of flange holes:<br>Side 2 must be greater than or equal to Side 1.<br>If needed, decrease Side 1 first.";
 
 
 
 
 //id & class prefixes, etc.
-var SPOKE_ID_PREFIX 	= NS_ + "spoke_";
-var HUB_HOLE_ID_PREFIX	= NS_ + "f";	//Hub/flange hole id ex: SLC_f1_sh1
-var HUB_HOLE_MESOFIX	= "_sh";	//HUB_HOLE_ID_PREFIX + 1 + HUB_HOLE_MESOFIX + 1
-var RIM_HOLE_ID_PREFIX	= NS_ + "rsh"; //SLC_rsh1, SLC_rsh2, etc...
-var RIM_HOLE_CLASS		= NS_ + "rsh";
-var SPOKE_GROUP_PREFIX	= NS_ + "group"; //SLC_group1, ..., SLC_group4
-var SPOKE_BASE_CLASS	= NS_ + "spoke";
-var HUB_HOLE_CLASS		= NS_ + "hsh";
-var AXIS_CLASS			= NS_ + "axis";
-var SPOKE_HOLES			= NS_ + "spoke_holes";
+var SPOKE_ID_PREFIX 	= _NS_ + "spoke_";
+var HUB_HOLE_ID_PREFIX	= _NS_ + "f";	//Hub/flange hole id ex: SLC_f1_sh1
+var HUB_HOLE_MESOFIX	= "_sh";	    //HUB_HOLE_ID_PREFIX + 1 + HUB_HOLE_MESOFIX + 1
+var RIM_HOLE_ID_PREFIX	= _NS_ + "rsh"; //SLC_rsh1, SLC_rsh2, etc...
+var RIM_HOLE_CLASS		= _NS_ + "rsh";
+var SPOKE_GROUP_PREFIX	= _NS_ + "group"; //SLC_group1, ..., SLC_group4
+var SPOKE_BASE_CLASS	= _NS_ + "spoke";
+var HUB_HOLE_CLASS		= _NS_ + "hsh";
+var AXIS_CLASS			= _NS_ + "axis";
+var SPOKE_HOLES			= _NS_ + "spoke_holes";
 
 
 
 
 //Assign all necessary element references here.
-var $RESPONSIBILITY = E(NS_ + 'responsibility');
+var $RESPONSIBILITY = E(_NS_ + 'responsibility');
 
-var $CONTAINER		= E(NS_ + 'CONTAINER');
-var $SETTINGS		= E(NS_ + 'settings');
+var $CONTAINER		= E(_NS_ + 'CONTAINER');
+var $SETTINGS		= E(_NS_ + 'settings');
 
-var $CURRENT_WHEEL  = E(NS_ + 'CURRENT_WHEEL'); //1, 2, 3, etc...
-var $WHEEL_NAME     = E(NS_ + 'WHEEL_NAME');
+var $CURRENT_WHEEL  = E(_NS_ + 'CURRENT_WHEEL'); //1, 2, 3, etc...
+var $WHEEL_NAME     = E(_NS_ + 'WHEEL_NAME');
 
-var $AUTO_COPY      = E(NS_ + 'auto_copy');
-var $RENAME_WHEEL   = E(NS_ + 'rename_wheel');
-var $LOAD_SAMPLES	= E(NS_ + 'load_samples');
-var $CLEAR_SETTINGS	= E(NS_ + 'clear_settings');
+var $AUTO_COPY      = E(_NS_ + 'auto_copy');
+var $RENAME_WHEEL   = E(_NS_ + 'rename_wheel');
+var $LOAD_SAMPLES	= E(_NS_ + 'load_samples');
+var $CLEAR_SETTINGS	= E(_NS_ + 'clear_settings');
 
-var $WHEEL_TYPE		= E(NS_ + 'WHEEL_TYPE');
+var $WHEEL_TYPE		= E(_NS_ + 'WHEEL_TYPE');
 
-var $ERD  = E(NS_ + 'ERD');	// Effective Rim Diameter
-var $NR   = E(NS_ + 'NR');	// Number of holes in the Rim
+var $ERD  = E(_NS_ + 'ERD');	// Effective Rim Diameter
+var $NR   = E(_NS_ + 'NR');	// Number of holes in the Rim
 var $NF	 = [];
-	$NF[1]= E(NS_ + 'NF1');	// Number of holes in Flange 1
-	$NF[2]= E(NS_ + 'NF2');	//    "		   "		"	 2
+	$NF[1]= E(_NS_ + 'NF1');	// Number of holes in Flange 1
+	$NF[2]= E(_NS_ + 'NF2');	//    "		   "		"	 2
 
 
 	//not elements, but requires a few elements defined above...
@@ -963,158 +1024,163 @@ var MAX = {};			 //At these values, it starts to take to long to run.
 
 
 var $PCD    = [];
-	$PCD[1] = E(NS_ + 'PCD1');	// Pitch Circle Diameter 1
-	$PCD[2] = E(NS_ + 'PCD2');	// 	 "	   "		"	 2
+	$PCD[1] = E(_NS_ + 'PCD1');	// Pitch Circle Diameter 1
+	$PCD[2] = E(_NS_ + 'PCD2');	// 	 "	   "		"	 2
 var $FTC    = [];
-	$FTC[1] = E(NS_ + 'FTC1');	// Flange-to-Center 1 distance
-	$FTC[2] = E(NS_ + 'FTC2');	// 	  "			"	2	 "
+	$FTC[1] = E(_NS_ + 'FTC1');	// Flange-to-Center 1 distance
+	$FTC[2] = E(_NS_ + 'FTC2');	// 	  "			"	2	 "
 var $OSB    = [];
-	$OSB[1] = E(NS_ + 'OSB1');	// Offset Spoke Bed 1 (off center rim)
-	$OSB[2] = E(NS_ + 'OSB2');	// 	  "			"	2	 "		"
+	$OSB[1] = E(_NS_ + 'OSB1');	// Offset Spoke Bed 1 (off center rim)
+	$OSB[2] = E(_NS_ + 'OSB2');	// 	  "			"	2	 "		"
 var $SX     = [];
-	$SX[1]  = E(NS_ + 'SX1');	// Spoke Crossing side 1
-	$SX[2]  = E(NS_ + 'SX2');	// Spoke Crossing side 2
-var $SHD    = E(NS_ + 'SHD');	// Spoke Hole Diameter. Affects spoke length calcs only.
+	$SX[1]  = E(_NS_ + 'SX1');	// Spoke Crossing side 1
+	$SX[2]  = E(_NS_ + 'SX2');	// Spoke Crossing side 2
+var $SHD    = E(_NS_ + 'SHD');	// Spoke Hole Diameter. Affects spoke length calcs only.
 
-var $LACE_OPT = E(NS_ + 'LACE_OPT'); // Wheel Type/Lacing Option
+var $LACE_OPT = E(_NS_ + 'LACE_OPT'); // Wheel Type/Lacing Option
 	$LACE_OPT.options[0].value = -1; //Type 2. The option values (1 or -1) are used in the 
 	$LACE_OPT.options[1].value =  1; //Type 1. spoke length calculations. DO NOT CHANGE 
 
 var $SL   = [];					//Spoke Lengths
-	$SL[1]= E(NS_ + 'LENGTH1');	//Flange 1 Group 1 (ie: leading/trailing...)
-	$SL[3]= E(NS_ + 'LENGTH3');	//		 2		 3
+	$SL[1]= E(_NS_ + 'LENGTH1');	//Flange 1 Group 1 (ie: leading/trailing...)
+	$SL[3]= E(_NS_ + 'LENGTH3');	//		 2		 3
 
-	$SL[2]= E(NS_ + 'LENGTH2');	//	  	 1		 2
-	$SL[4]= E(NS_ + 'LENGTH4');	//		 2		 4
+	$SL[2]= E(_NS_ + 'LENGTH2');	//	  	 1		 2
+	$SL[4]= E(_NS_ + 'LENGTH4');	//		 2		 4
 
-var $SL_2_4 = E(NS_ + "SL_2_4"); //<tr> with lengths for "even" numbered spokes. Usually the same and not displayed.
+var $SL_2_4 = E(_NS_ + "SL_2_4"); //<tr> with lengths for "even" numbered spokes. Usually the same and not displayed.
 
-var $SHOW_HIDE_ADVANCED = E(NS_ + 'show_hide_advanced'); //<button> to show/hide advanced build info
-var $ADVANCED_INFO      = E(NS_ + 'advanced_info'); //<div> around advanced info.
-var $SEE_NOTES          = E(NS_ + 'see_notes'); //
+var $SHOW_HIDE_ADVANCED = E(_NS_ + 'show_hide_advanced'); //<button> to show/hide advanced build info
+var $ADVANCED_INFO      = E(_NS_ + 'advanced_info'); //<div> around advanced info.
+var $SEE_NOTES          = E(_NS_ + 'see_notes'); //
 
-var $FW	 = E(NS_ + 'FW');  //Flange Width, at spoke holes.
-var $SDB = E(NS_ + 'SDB'); //Spoke Diameter, at bend.
+var $FW	 = E(_NS_ + 'FW');  //Flange Width, at spoke holes.
+var $SDB = E(_NS_ + 'SDB'); //Spoke Diameter, at bend.
 
 var $ELBOWS	= [];
-	$ELBOWS[1] = E(NS_ + 'ELBOWS1');
-	$ELBOWS[2] = E(NS_ + 'ELBOWS2');
+	$ELBOWS[1] = E(_NS_ + 'ELBOWS1');
+	$ELBOWS[2] = E(_NS_ + 'ELBOWS2');
 
 var $SL_ADJ    = []; //Spoke Lengths adjusted for elbows in or out.
-	$SL_ADJ[1] = E(NS_ + 'SL_ADJ1');
-	$SL_ADJ[2] = E(NS_ + 'SL_ADJ2');
+	$SL_ADJ[1] = E(_NS_ + 'SL_ADJ1');
+	$SL_ADJ[2] = E(_NS_ + 'SL_ADJ2');
 
 var $SPOKE_RATIO    = [];
-	$SPOKE_RATIO[1] = E(NS_ + 'spoke_ratio1');
-	$SPOKE_RATIO[2] = E(NS_ + 'spoke_ratio2');
+	$SPOKE_RATIO[1] = E(_NS_ + 'spoke_ratio1');
+	$SPOKE_RATIO[2] = E(_NS_ + 'spoke_ratio2');
 
 var $BRACE_ANGLE    = [];
-	$BRACE_ANGLE[1] = E(NS_ + 'brace_angle1');
-	$BRACE_ANGLE[2] = E(NS_ + 'brace_angle2');
+	$BRACE_ANGLE[1] = E(_NS_ + 'brace_angle1');
+	$BRACE_ANGLE[2] = E(_NS_ + 'brace_angle2');
 
 var $TENSION_RATIO    = [];
-	$TENSION_RATIO[1] = E(NS_ + 'tension_ratio1');
-	$TENSION_RATIO[2] = E(NS_ + 'tension_ratio2');
+	$TENSION_RATIO[1] = E(_NS_ + 'tension_ratio1');
+	$TENSION_RATIO[2] = E(_NS_ + 'tension_ratio2');
 
 var $TENSION    = [];
-	$TENSION[1] = E(NS_ + 'TENSION1');
-	$TENSION[2] = E(NS_ + 'TENSION2');
+	$TENSION[1] = E(_NS_ + 'TENSION1');
+	$TENSION[2] = E(_NS_ + 'TENSION2');
 
-var $DISPLAY_OPTIONS = E(NS_ + 'display_options'); //<div> around display options to enable show/hide
+var $DISPLAY_OPTIONS = E(_NS_ + 'display_options'); //<div> around display options to enable show/hide
 
-var $OTHER_CALCS = E(NS_ + 'other_calcs'); //<div> around A Few Other Calcs links
+var $OTHER_CALCS = E(_NS_ + 'other_calcs'); //<div> around A Few Other Calcs links
 
-var $SHOW_HIDE_OTHER = E(NS_ + 'show_hide_other'); //<button> to show/hide other calcs links.
-var $SHOW_HIDE_NOTES = E(NS_ + 'show_hide_notes'); //<button> to show/hide Notes.
-var $SHOW_HIDE_DO    = E(NS_ + 'show_hide_DO');    //<button> to show/hide display options.
+var $SHOW_HIDE_OTHER = E(_NS_ + 'show_hide_other'); //<button> to show/hide other calcs links.
+var $SHOW_HIDE_NOTES = E(_NS_ + 'show_hide_notes'); //<button> to show/hide Notes.
+var $SHOW_HIDE_DO    = E(_NS_ + 'show_hide_DO');    //<button> to show/hide display options.
 
-var $SCALE_MODE  = E(NS_ + 'SCALE_MODE');
-var $SCALE_auto  = E(NS_ + 'SCALE_auto');
-var $SCALE_fixed = E(NS_ + 'SCALE_fixed');
+var $SCALE_MODE  = E(_NS_ + 'SCALE_MODE');
+var $SCALE_auto  = E(_NS_ + 'SCALE_auto');
+var $SCALE_fixed = E(_NS_ + 'SCALE_fixed');
 
-var $RESET_SCALE = E(NS_ + 'reset_scale');
-var $RESET_OPTIONS_SPOKES  = E(NS_ + 'reset_options_spokes');   //<button> to reset display options.
-var $RESET_OPTIONS_RIM_ETC = E(NS_ + 'reset_options_rim_etc');  //<button> to reset display options.
+var $RESET_SCALE = E(_NS_ + 'reset_scale');
+var $RESET_OPTIONS_SPOKES  = E(_NS_ + 'reset_options_spokes');   //<button> to reset display options.
+var $RESET_OPTIONS_RIM_ETC = E(_NS_ + 'reset_options_rim_etc');  //<button> to reset display options.
 
 var $SPOKE_COLOR    = [];
-	$SPOKE_COLOR[1] = E(NS_ + 'SPOKE_COLOR1');//Spoke group 1 color
-	$SPOKE_COLOR[2] = E(NS_ + 'SPOKE_COLOR2');//Spoke group 2 color
-	$SPOKE_COLOR[3] = E(NS_ + 'SPOKE_COLOR3');//Spoke group 3 color
-	$SPOKE_COLOR[4] = E(NS_ + 'SPOKE_COLOR4');//Spoke group 4 color
+	$SPOKE_COLOR[1] = E(_NS_ + 'SPOKE_COLOR1');//Spoke group 1 color
+	$SPOKE_COLOR[2] = E(_NS_ + 'SPOKE_COLOR2');//Spoke group 2 color
+	$SPOKE_COLOR[3] = E(_NS_ + 'SPOKE_COLOR3');//Spoke group 3 color
+	$SPOKE_COLOR[4] = E(_NS_ + 'SPOKE_COLOR4');//Spoke group 4 color
 
 var $SPOKE_LINE_SIZE    = []; 
-	$SPOKE_LINE_SIZE[1] = E(NS_ + 'SPOKE_LINE_SIZE1');//Spoke group 1 line width
-	$SPOKE_LINE_SIZE[2] = E(NS_ + 'SPOKE_LINE_SIZE2');//			  2
-	$SPOKE_LINE_SIZE[3] = E(NS_ + 'SPOKE_LINE_SIZE3');//			  3
-	$SPOKE_LINE_SIZE[4] = E(NS_ + 'SPOKE_LINE_SIZE4');//			  4
+	$SPOKE_LINE_SIZE[1] = E(_NS_ + 'SPOKE_LINE_SIZE1');//Spoke group 1 line width
+	$SPOKE_LINE_SIZE[2] = E(_NS_ + 'SPOKE_LINE_SIZE2');//			  2
+	$SPOKE_LINE_SIZE[3] = E(_NS_ + 'SPOKE_LINE_SIZE3');//			  3
+	$SPOKE_LINE_SIZE[4] = E(_NS_ + 'SPOKE_LINE_SIZE4');//			  4
+
+
+var $SIDE_SHOW = [];
+	$SIDE_SHOW[1] = E(_NS_ + 'SIDE_SHOW1');//Show side 1 spokes (groups 1 & 2)
+	$SIDE_SHOW[2] = E(_NS_ + 'SIDE_SHOW2');//Show side 1 spokes (groups 1 & 2)
 
 var $SPOKE_SHOW    = [];
-	$SPOKE_SHOW[1] = E(NS_ + 'SPOKE_SHOW1');// Show spoke group 1
-	$SPOKE_SHOW[2] = E(NS_ + 'SPOKE_SHOW2');// Show spoke group 2
-	$SPOKE_SHOW[3] = E(NS_ + 'SPOKE_SHOW3');// Show spoke group 3
-	$SPOKE_SHOW[4] = E(NS_ + 'SPOKE_SHOW4');// Show spoke group 4
+	$SPOKE_SHOW[1] = E(_NS_ + 'SPOKE_SHOW1');// Show spoke group 1
+	$SPOKE_SHOW[2] = E(_NS_ + 'SPOKE_SHOW2');// Show spoke group 2
+	$SPOKE_SHOW[3] = E(_NS_ + 'SPOKE_SHOW3');// Show spoke group 3
+	$SPOKE_SHOW[4] = E(_NS_ + 'SPOKE_SHOW4');// Show spoke group 4
 
-var $RIM	 = E(NS_ + 'rim'); //<circle>
-var $FLANGE1 = E(NS_ + 'flange1'); //<circle>
-var $FLANGE2 = E(NS_ + 'flange2'); //<circle>
+var $RIM	 = E(_NS_ + 'rim'); //<circle>
+var $FLANGE1 = E(_NS_ + 'flange1'); //<circle>
+var $FLANGE2 = E(_NS_ + 'flange2'); //<circle>
 
-var $RIM_COLOR = E(NS_ + 'RIM_COLOR');
-var $F1_COLOR  = E(NS_ + 'F1_COLOR');
-var $F2_COLOR  = E(NS_ + 'F2_COLOR');
+var $RIM_COLOR = E(_NS_ + 'RIM_COLOR');
+var $F1_COLOR  = E(_NS_ + 'F1_COLOR');
+var $F2_COLOR  = E(_NS_ + 'F2_COLOR');
 
-var $RIM_LINE_SIZE = E(NS_ + 'RIM_LINE_SIZE');//Width of rim.
-var $F1_LINE_SIZE  = E(NS_ + 'F1_LINE_SIZE'); //Line width of flange cirlce.
-var $F2_LINE_SIZE  = E(NS_ + 'F2_LINE_SIZE'); //Line width of flange cirlce.
+var $RIM_LINE_SIZE = E(_NS_ + 'RIM_LINE_SIZE');//Width of rim.
+var $F1_LINE_SIZE  = E(_NS_ + 'F1_LINE_SIZE'); //Line width of flange cirlce.
+var $F2_LINE_SIZE  = E(_NS_ + 'F2_LINE_SIZE'); //Line width of flange cirlce.
 
-var $RIM_SHOW = E(NS_ + 'RIM_SHOW');// Show Rim circle.
-var $F1_SHOW  = E(NS_ + 'F1_SHOW');	// Show Flange 1 circle.
-var $F2_SHOW  = E(NS_ + 'F2_SHOW');	// Show Flange 2 circle.
+var $RIM_SHOW = E(_NS_ + 'RIM_SHOW');// Show Rim circle.
+var $F1_SHOW  = E(_NS_ + 'F1_SHOW');	// Show Flange 1 circle.
+var $F2_SHOW  = E(_NS_ + 'F2_SHOW');	// Show Flange 2 circle.
 
-var $HOLE_SIZE	    = E(NS_ + 'HOLE_SIZE');  //Displayed spoke hole size (all holes)
-var $HOLE_COLOR     = E(NS_ + 'HOLE_COLOR');     //Spoke hole color
-var $HOLES_SHOW	    = E(NS_ + 'HOLES_SHOW');     //Take a guess...
+var $HOLE_SIZE	    = E(_NS_ + 'HOLE_SIZE');  //Displayed spoke hole size (all holes)
+var $HOLE_COLOR     = E(_NS_ + 'HOLE_COLOR');     //Spoke hole color
+var $HOLES_SHOW	    = E(_NS_ + 'HOLES_SHOW');     //Take a guess...
 
-var $AXES_COLOR     = E(NS_ + 'AXES_COLOR');
-var $AXES_LINE_SIZE = E(NS_ + 'AXES_LINE_SIZE');
-var $AXES_SHOW  	= E(NS_ + 'AXES_SHOW');
+var $AXES_COLOR     = E(_NS_ + 'AXES_COLOR');
+var $AXES_LINE_SIZE = E(_NS_ + 'AXES_LINE_SIZE');
+var $AXES_SHOW  	= E(_NS_ + 'AXES_SHOW');
 
-var $SPOKES		   = E(NS_ + 'spokes');   //<g> containing all spokes.
-var $RIM_HOLES	   = E(NS_ + 'rim_holes');//<g> containing rim holes.
-var $FLANGE1_HOLES = E(NS_ + 'holes_f1'); //<g> containing flange 1 holes.
-var $FLANGE2_HOLES = E(NS_ + 'holes_f2'); //<g> containing flange 2 holes.
+var $SPOKES		   = E(_NS_ + 'spokes');   //<g> containing all spokes.
+var $RIM_HOLES	   = E(_NS_ + 'rim_holes');//<g> containing rim holes.
+var $FLANGE1_HOLES = E(_NS_ + 'holes_f1'); //<g> containing flange 1 holes.
+var $FLANGE2_HOLES = E(_NS_ + 'holes_f2'); //<g> containing flange 2 holes.
 
-var $MSG_BOX 	 = E(NS_ + 'msg_box');	 //Container div for msg div & [Close] btn.
-var $CLOSE_MSG	 = E(NS_ + 'close_msg'); //[Close] button for error message box.
-var $MESSAGE_DIV = E(NS_ + 'message');	 //div for actual error message.
-var $ACCEPT_MSG  = E(NS_ + 'ACCEPT_MSG'); //[I Accept] disclaimer button. id is also cookie name.
+var $MSG_BOX 	 = E(_NS_ + 'msg_box');	 //Container div for msg div & [Close] btn.
+var $CLOSE_MSG	 = E(_NS_ + 'close_msg'); //[Close] button for error message box.
+var $MESSAGE_DIV = E(_NS_ + 'message');	 //div for actual error message.
+var $ACCEPT_MSG  = E(_NS_ + 'ACCEPT_MSG'); //[I Accept] disclaimer button. id is also cookie name.
 
 
-var $SVG_WHEEL = E(NS_ + 'svg_wheel'); //Main <svg> element containing wheel & axes..
-var $G_WHEEL   = E(NS_ + 'wheel'); //<g> containing just the wheel elements: spokes, holes, rim, & flanges.
+var $SVG_WHEEL = E(_NS_ + 'svg_wheel'); //Main <svg> element containing wheel & axes..
+var $G_WHEEL   = E(_NS_ + 'wheel'); //<g> containing just the wheel elements: spokes, holes, rim, & flanges.
 
-var $SVG_CONTAINER_DIV = E(NS_ + 'The_SVG');
+var $SVG_CONTAINER_DIV = E(_NS_ + 'The_SVG');
 
-var $NOTES = E(NS_ + 'notes'); //Notes <div>.
-var $NOTES_ADVANCED_BUILD_INFO = E(NS_ + 'advanced_notes');
+var $NOTES = E(_NS_ + 'notes'); //Notes <div>.
+var $NOTES_ADVANCED_BUILD_INFO = E(_NS_ + 'advanced_notes');
 
-var $X_axis = E(NS_ + 'x-axis');
-var $Y_axis = E(NS_ + 'y-axis');
+var $X_axis = E(_NS_ + 'x-axis');
+var $Y_axis = E(_NS_ + 'y-axis');
 
-var $DELETE_ALL_DATA = E(NS_ + 'DELETE_ALL_DATA');
+var $DELETE_ALL_DATA = E(_NS_ + 'DELETE_ALL_DATA');
 
-var $SLC_VERSION      = E(NS_ + 'VERSION');
+var $SLC_VERSION      = E(_NS_ + 'VERSION');
 
-var $EXPORT           = E(NS_ + 'EXPORT'); //<button>
-var $EXPORT_CONTAINER = E(NS_ + 'EXPORT_container');
-var $EXPORT_OUTPUT    = E(NS_ + 'EXPORT_OUTPUT'); //<div> of data
-var $COPY_TO_CLIPBOARD = E(NS_ + 'copy_to_clipboard');//<button>
-var $CLOSE_EXPORT      = E(NS_ + 'close_export');     //<button>
+var $EXPORT           = E(_NS_ + 'EXPORT'); //<button>
+var $EXPORT_CONTAINER = E(_NS_ + 'EXPORT_container');
+var $EXPORT_OUTPUT    = E(_NS_ + 'EXPORT_OUTPUT'); //<div> of data
+var $COPY_TO_CLIPBOARD = E(_NS_ + 'copy_to_clipboard');//<button>
+var $CLOSE_EXPORT      = E(_NS_ + 'close_export');     //<button>
 
-var $IMPORT           = E(NS_ + 'IMPORT');         //<button>
-var $IMPORT_CONTAINER = E(NS_ + 'IMPORT_container');
-var $IMPORT_INPUT     = E(NS_ + 'IMPORT_INPUT'); //<input textarea> of data
-var $PERFORM_IMPORT   = E(NS_ + 'perform_import'); //<button>
-var $CLOSE_IMPORT     = E(NS_ + 'close_import');   //<button>
+var $IMPORT           = E(_NS_ + 'IMPORT');         //<button>
+var $IMPORT_CONTAINER = E(_NS_ + 'IMPORT_container');
+var $IMPORT_INPUT     = E(_NS_ + 'IMPORT_INPUT'); //<input textarea> of data
+var $PERFORM_IMPORT   = E(_NS_ + 'perform_import'); //<button>
+var $CLOSE_IMPORT     = E(_NS_ + 'close_import');   //<button>
 
 
 
@@ -1166,13 +1232,13 @@ var DEFAULT_OPTIONS = {
 	'SPOKE_LINE_SIZE2': 2,
 	'SPOKE_LINE_SIZE3': 2,
 	'SPOKE_LINE_SIZE4': 2,
-	'SPOKE_SHOW1':1,	// true/false or 1/0
-	'SPOKE_SHOW2':1,	//		"		"
-	'SPOKE_SHOW3':1,	//		"		"
-	'SPOKE_SHOW4':1,	//		"		"
-	'RIM_SHOW'   :1,	//		"		"
-	'F1_SHOW'    :1,	//		"		"
-	'F2_SHOW'    :1,	//		"		"
+	'SPOKE_SHOW1': true,
+	'SPOKE_SHOW2': true,
+	'SPOKE_SHOW3': true,
+	'SPOKE_SHOW4': true,
+	'RIM_SHOW'   : true,
+	'F1_SHOW'    : true,
+	'F2_SHOW'    : true,
 	'RIM_LINE_SIZE' :30,
 	'F1_LINE_SIZE'  :1,
 	'F2_LINE_SIZE'  :1,
@@ -1182,9 +1248,9 @@ var DEFAULT_OPTIONS = {
 	'F2_COLOR'  : "#777",
 	'HOLE_COLOR': "#000",
 	'HOLE_SIZE'      : 2.6, //Hole diameter (if HOLE_LINE_SIZE = 0 (stroke-width)).
-	'HOLES_SHOW': 1,
+	'HOLES_SHOW': true,
 	'AXES_COLOR': "#999",
-	'AXES_SHOW' : 1, // true/false or 1/0
+	'AXES_SHOW' : true,
 	'SCALE_MODE': 'fixed',
 	'SCALE_fixed': 670  //viewbox size for "fixed" mode. To fit a common 700c wheel,
  };                     //it should be at least (ERD + (RIM_LINE_SIZE * 2)).
@@ -1254,12 +1320,12 @@ function Save_Settings(what, misc) { //****************************************/
 	var settings = {};
 
 	for (var id in defaults) {
-		$setting = E(NS_ + id);
+		$setting = E(_NS_ + id);
 		
 		//Ignore invalid id's (no cooresponding <element>). Shouldn't be any, but just in case...
 		if (!$setting) { continue }
 		
-		if ($setting.type == "checkbox") { settings[id] = $setting.checked + ""; }
+		if ($setting.type == "checkbox") { settings[id] = $setting.checked; }
 		else 							 { settings[id] = $setting.value;   }		
 	}
 
@@ -1282,6 +1348,7 @@ function Save_Settings(what, misc) { //****************************************/
 	}
 
 	localStorage.setItem(storage_id, JSON.stringify(settings));
+
 }//end Save_Settings() { //****************************************************/
 
 
@@ -1295,15 +1362,14 @@ function Load_Saved_Settings(what, imported) { //******************************/
 	if (settings == null) { return false; }
 
 	for (var id in settings) {
-		var $setting = E(NS_ + id);
+		var $setting = E(_NS_ + id);
 		
 		//Ignore invalid id's (no cooresponding <element>). Shouldn't be any, but just in case...
 		if (!$setting) { continue }
 		var value = settings[id];
 		
-		//.checked is boolean, and strings, even "true", become false if assigned as a string.
-		if ($setting.type == "checkbox") { $setting.checked = (value == "true"); } 
-		else						     { $setting.value   = value;             }
+		if ($setting.type == "checkbox") { $setting.checked = value; }
+		else						     { $setting.value   = value; }
 	}
 
 
@@ -1327,7 +1393,7 @@ function Validate_Wheel_Settings(misc) { //************************************/
 
 	//For now, just make sure they're numbers (those that should be, at leaset).
 	for (var name in DEFAULT_VALUES) {
-		var $setting = E(NS_ + name);
+		var $setting = E(_NS_ + name);
 		if ( !$setting ) { continue }
 		
 		if ($setting.tagName == "INPUT" && $setting.type == "text" && isNaN($setting.value) && $setting.id != $WHEEL_NAME.id)
@@ -1344,32 +1410,14 @@ function Load_Samples() { //***************************************************/
 
 	if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { return; }
 
+	Load_Saved_Settings(DEFAULT_VALUES, true);
+
 	$WHEEL_NAME.value   = "Sample Wheel";
 	$WHEEL_NAME.current = $WHEEL_NAME.value;
+	var current_wheel = $CURRENT_WHEEL.value;
+	var option = $CURRENT_WHEEL.options[current_wheel - 1]; //CURRENT_WHEEL counts from 1, options from 0.
+	option.innerHTML = Pad10(current_wheel) + SSI + $WHEEL_NAME.value;
 
-	$WHEEL_TYPE.value = DEFAULT_VALUES['WHEEL_TYPE'];
-	
-	$ERD   .value = DEFAULT_VALUES['ERD'];
-	$NR	   .value = DEFAULT_VALUES['NR'];
-	$NF[1] .value = DEFAULT_VALUES['NF1'];
-	$NF[2] .value = DEFAULT_VALUES['NF2'];
-	$PCD[1].value = DEFAULT_VALUES['PCD1'];
-	$PCD[2].value = DEFAULT_VALUES['PCD2'];
-	$FTC[1].value = DEFAULT_VALUES['FTC1'];
-	$FTC[2].value = DEFAULT_VALUES['FTC2'];
-	$OSB[1].value = DEFAULT_VALUES['OSB1'];
-	$OSB[2].value = DEFAULT_VALUES['OSB2'];
-	$SX[1] .value = DEFAULT_VALUES['SX1'];
-	$SX[2] .value = DEFAULT_VALUES['SX2'];
-	$SHD   .value = DEFAULT_VALUES['SHD'];
-
-	$LACE_OPT.value = DEFAULT_VALUES['LACE_OPT'];
-	$FW .value = DEFAULT_VALUES['FW'];
-	$SDB.value = DEFAULT_VALUES['SDB'];
-	$ELBOWS[1].value = DEFAULT_VALUES['ELBOWS1']
-	$ELBOWS[2].value = DEFAULT_VALUES['ELBOWS2']
-	$TENSION[2].value = DEFAULT_VALUES['TENSION2']
-	
 	Setup_Wheel_Type();
 
 	Setup_Viewbox();
@@ -1433,6 +1481,10 @@ function Load_DEFAULT_OPTIONS_Spokes() { //************************************/
 		$SPOKE_LINE_SIZE[group].value   = DEFAULT_OPTIONS['SPOKE_LINE_SIZE' + group];
 		$SPOKE_SHOW[group]     .checked = DEFAULT_OPTIONS['SPOKE_SHOW'      + group];
 	}
+	
+	$SIDE_SHOW[1].checked = true;
+	$SIDE_SHOW[2].checked = true;
+
 }//end Load_DEFAULT_OPTIONS_Spokes() { //**************************************/
 
 
@@ -1452,7 +1504,7 @@ function Load_DEFAULT_OPTIONS_Rim_etc() { //***********************************/
 	$AXES_COLOR.value     = DEFAULT_OPTIONS['AXES_COLOR'];
 	$AXES_LINE_SIZE.value = DEFAULT_OPTIONS['AXES_LINE_SIZE'];
 	$AXES_SHOW.checked    = DEFAULT_OPTIONS['AXES_SHOW'];
-
+	
 	$HOLE_COLOR.value     = DEFAULT_OPTIONS['HOLE_COLOR'];
 	$HOLES_SHOW.checked   = DEFAULT_OPTIONS['HOLES_SHOW'];
 
@@ -1660,10 +1712,10 @@ function Update_Advanced_Info(save) { //***************************************/
 	var sl_2   = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_1', 10000)
 	var sl_2io = Calc_Spoke_Length(2, SPOKE_ID_PREFIX + '2_1', 10000, brace_adj * $ELBOWS[2].value)
 
-	$SL_ADJ[1].value = Math.round((sl_1io - sl_1)*100)/100;
-	$SL_ADJ[2].value = Math.round((sl_2io - sl_2)*100)/100;
+	$SL_ADJ[1].value = Math.round((sl_1io - sl_1) * 100) / 100;
+	$SL_ADJ[2].value = Math.round((sl_2io - sl_2) * 100) / 100;
 
-	$TENSION[1].value = Round(parseInt($TENSION[2].value) * $TENSION_RATIO[1].value / 100);
+	$TENSION[1].value = Round($TENSION[2].value * $TENSION_RATIO[1].value / 100);
 
 	if (save) { Save_Settings("wheel"); }
 }//end Update_Advanced_Info() { //*********************************************/
@@ -1731,7 +1783,7 @@ function Create_Spoke_Holes(hole_group, base_id, class1, class2, N, scale, shd, 
 		var full_id = base_id + sh;
 		
 		odd = !odd;	 //##### Not yet really utilized. (class1 == class2)
-		if (odd) { var class_X = class1 } else { var class_X = class2 }
+		if (odd) { var class_X = class1; } else { var class_X = class2; }
 		
 		var classes = SPOKE_HOLES + " " + class_X;
 		
@@ -1918,7 +1970,7 @@ function Lacing_Option(f) { //*************************************************/
 
 
 function Custom_Odd_NF(nf) { //************************************************/
-	//Check if odd flange hole count while in "custom" mode.
+	//Check if odd number of flange holes. Used while in "custom" mode.
 	
 	if ( (($WHEEL_TYPE.value == "custom") && (nf%2 != 0)) ) { return true; }
 	return false;
@@ -1989,7 +2041,7 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors)
 
 	var AF = 360/nf2; //Angle between holes in Flange.
 	var offset_f1_f2 = AF/2; //Offset angle between left & right hub flange holes. The radial side is "0".
-							 
+
 	var rotate = 0; //180 rotates wheel so that "spoke 1" is at 12 o'clock. Helped during dev. Now, not so much.
 
 	//Draw basic rim & flange circles..
@@ -2552,13 +2604,13 @@ function IMEX_enable_disable(enable, $imex_container) {
 	//Undo all that when !enable.
 
 	if (enable) {
-		$CONTAINER.classList.add(NS_ + "imex_mode");
+		$CONTAINER.classList.add(_NS_ + "imex_mode");
 		var display  = "block";
 		var tabindex = "-1";
 		var tf       = true ;
 	}
 	else {
-		$CONTAINER.classList.remove(NS_ + "imex_mode");
+		$CONTAINER.classList.remove(_NS_ + "imex_mode");
 		var display  = "none";
 		var tabindex = "";
 		var tf       = false;
@@ -2573,8 +2625,8 @@ function IMEX_enable_disable(enable, $imex_container) {
 	for (var a = 0; a < anchors.length; a++) { anchors[a].tabIndex = tabindex; }
 
 	//Most <inputs> and <selects> (except for $CURRENT_WHEEL).
-	for (var id in DEFAULT_VALUES)  { E(NS_ + id).disabled = tf; }
-	for (var id in DEFAULT_OPTIONS) { E(NS_ + id).disabled = tf; }
+	for (var id in DEFAULT_VALUES)  { E(_NS_ + id).disabled = tf; }
+	for (var id in DEFAULT_OPTIONS) { E(_NS_ + id).disabled = tf; }
 
 	//The only <select> that's neither a wheel value nor a display option.
 	$CURRENT_WHEEL.disabled = tf;
@@ -2744,7 +2796,7 @@ function Assign_Events() { //**************************************************/
 	$ELBOWS[2] .addEventListener("change", function() { Update_Advanced_Info(save); });
 	$TENSION[2].addEventListener("change", function() {
 		if (!Validate_Input(this)) { return false; }
-		$TENSION[1].value = Round(parseInt(this.value) * $TENSION_RATIO[1].value / 100);
+		$TENSION[1].value = Round(this.value * $TENSION_RATIO[1].value / 100);
 		Save_Settings("wheel");
 	});
 
@@ -2756,6 +2808,20 @@ function Assign_Events() { //**************************************************/
 	$SEE_NOTES         .addEventListener("click", function() { Advanced_Build_Notes_btn();} );
 
 
+	$SIDE_SHOW[1].addEventListener("click", function() {
+		$SPOKE_SHOW[1].checked = this.checked;
+		$SPOKE_SHOW[2].checked = this.checked;
+		Show_Hide_Class( SPOKE_GROUP_PREFIX + 1, this.checked, save);
+		Show_Hide_Class( SPOKE_GROUP_PREFIX + 2, this.checked, save);
+	} );
+
+	$SIDE_SHOW[2].addEventListener("click", function() {
+		$SPOKE_SHOW[3].checked = this.checked;
+		$SPOKE_SHOW[4].checked = this.checked;
+		Show_Hide_Class( SPOKE_GROUP_PREFIX + 3, this.checked, save);
+		Show_Hide_Class( SPOKE_GROUP_PREFIX + 4, this.checked, save);
+	} );
+
 	for (var group = 1; group <= 4; group++) {
 		(function(g) {
 			$SPOKE_COLOR[g]    .addEventListener("change", function() { Set_Style_by_Class( SPOKE_GROUP_PREFIX + g, "stroke", this.value, save); });
@@ -2764,7 +2830,18 @@ function Assign_Events() { //**************************************************/
 					Set_Style_by_Class( SPOKE_GROUP_PREFIX + g, "stroke-width", this.value, save);
 				}
 			});
-			$SPOKE_SHOW[g]     .addEventListener("change", function() { Show_Hide_Class( SPOKE_GROUP_PREFIX + g, this.checked, save); });
+			$SPOKE_SHOW[g]     .addEventListener("change", function() { 
+				Show_Hide_Class( SPOKE_GROUP_PREFIX + g, this.checked, save);
+				var side = Math.round(g/2); //side 1 or 2
+				if (side == 1) { 
+					$SIDE_SHOW[1].checked = false;
+					if ($SPOKE_SHOW[1].checked || $SPOKE_SHOW[2].checked) { $SIDE_SHOW[1].checked = true }
+				}
+				else {
+					$SIDE_SHOW[2].checked = false;
+					if ($SPOKE_SHOW[3].checked || $SPOKE_SHOW[4].checked) { $SIDE_SHOW[2].checked = true }
+				}
+			});
 		})(group);
 	}
 
@@ -2922,7 +2999,7 @@ function Assign_Events() { //**************************************************/
 
 	$PERFORM_IMPORT.addEventListener("click", function() {
 		
-		//##### Add some basic overall validation of imported_data?
+		//##### Add some basic overall validation of imported_data...
 		//{ "wheels":{"1":{...}, ...}, "display_options":{...} }
 		
 		var imported_data = JSON.parse($IMPORT_INPUT.value);
@@ -2972,6 +3049,10 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 	Build_SX_Options("custom", 1, MAX[$NR.id], 0);
 	Build_SX_Options("custom", 2, MAX[$NR.id], 0);
 
+	$SIDE_SHOW[1].checked = false;
+	$SIDE_SHOW[2].checked = false;
+	if ($SPOKE_SHOW[1].checked || $SPOKE_SHOW[2].checked) { $SIDE_SHOW[1].checked = true }
+	if ($SPOKE_SHOW[3].checked || $SPOKE_SHOW[4].checked) { $SIDE_SHOW[2].checked = true }
 }//end Init_Display_NR_SX() //*************************************************/
 
 
@@ -3002,19 +3083,19 @@ function Init() { //***********************************************************/
 
 
 	//##### Enalble disclaimer msg on first load & resets?
-	$ACCEPT_MSG.ENABLED = false; //##### true;
+	//$ACCEPT_MSG.ENABLED = false; //##### true;
+	//Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus if accepted.
+	$ERD.focus();
 
-	Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus if accepted.
 
 	$SLC_VERSION.innerHTML = SLC_VERSION;
-
 }//end Init() //***************************************************************/
 
 
 
 window.addEventListener("load", function() { Init() } );
 
-//##### Some times I like beforeunload, sometimes I don't...
+//##### Some times I feel like unload, sometimes I don't...
 //##### window.onbeforeunload =  function() { $CONTAINER.style.opacity = '0' }
 //*****************************************************************************/
 })();</script>
