@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var VERSION = "v2.08 2018-09-05" //##### </script>
+<script>var VERSION = "v2.09 2018-09-06" //##### </script>
 <!--//======================================================-->
 
 
@@ -356,7 +356,8 @@ input[type=range].SC2::-ms-thumb {
 #SC2_notes th.SC2_th1 { font-size: 1.2rem; text-decoration: none; }
 #SC2_notes th.SC2 { width: 9rem; }
 
-.SC2_list_option_in_text { display: inline-block; width: 8rem;   border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; }
+.SC2_list_option_in_text { display: inline-block; width: 8rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; }
+.SC2_example_input { display: inline-block; width: 3rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; text-align: center; }
 
 table.SC2_DO { margin: 0 0 .2rem 0; }
 
@@ -395,8 +396,9 @@ table#SC2_advanced_info.SC2 { border-spacing: 2px; display: inline-block; }
 
 select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 
-#SC2_advanced_info .lesser_settings td 	   { font-size: .8em; padding-left: .5rem; }
-#SC2_advanced_info .lesser_settings td input { width: 2rem; font-size: .9rem; }
+#SC2_advanced_info .SC2_lesser_settings td, td.SC2_lesser_settings { font-size: .8em; padding-left: .5rem; }
+#SC2_advanced_info .SC2_lesser_settings td input { width: 2rem; font-size: .9rem; }
+
 
 #SC2_assumes { font-weight: bold }
 
@@ -459,7 +461,11 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 tr td.SC2_PHH_data { text-align: right; }
 tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 
+tr.SC2_eso_opts > td { padding-top: .3rem; }
+
 .SC2_DO_theme { background-color: rgb(175,198,205); }
+
+.mono { font-family: mono; }
 
 /** Wheel type themes **/
 .SC2_theme_standard { background-color: rgb(175,198,205); }
@@ -504,7 +510,8 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 
 		<div id=SC2_WHEEL_SETTINGS_container><!--===========-->
 		<table id=SC2_WHEEL_SETTINGS class="SC2 SC2_type_theme">
-			<tr><th colspan=2>Wheel Settings</th></tr>
+			<tr><th colspan=2>Wheel Settings</th>
+			</tr>
 			<tr id=SC2_WHEEL_SELECT_OPTS>
 				<td colspan=2><b>Wheel</b>
 					<div id=SC2_rename_box>
@@ -650,13 +657,12 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			
 			<tbody id=SC2_ESO_options>
 			<tr><td><b>Esoteric Options</b></td></tr>
-			<tr>
+			<tr class=SC2_eso_opts>
 				<td class=SC2_rot_labels>Prima Lacing
-					<input type=checkbox id=SC2_PRIMA_LACING class=SC2><br>
+					<input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)<br>
 				</td>
 			</tr>
-			<tr><td></td></tr>
-			<tr>
+			<tr class=SC2_eso_opts>
 				<td class=SC2_rot_labels>Rim Rotated
 					<input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 				</td>
@@ -684,11 +690,11 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			<tr><td id=SC2_adv_r1c1></td><td id=SC2_adv_r1c2></td><td id=SC2_adv_r1c3></td></tr>
 			<tr class=SC2_separator><td colspan=3 id=SC2_adv_hdr>
 				(This section does not directly affect the "Spoke Lengths" provided above.
-				See <button type=button id=SC2_see_notes class="SC2">Notes etc.</button>
+				See <button type=button id=SC2_see_notes class=SC2>Notes etc.</button>
 				for more information.)
 			</td></tr>
-			<tr class=lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  class="SC2" maxlength=4></td></tr>
-			<tr class=lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input type=text id=SC2_SDB class="SC2" maxlength=4></td></tr>
+			<tr class=SC2_lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  class="SC2" maxlength=4></td></tr>
+			<tr class=SC2_lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input type=text id=SC2_SDB class="SC2" maxlength=4></td></tr>
 		
 			<tr class=SC2_separator><td colspan=3></td></tr>
 			<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
@@ -1069,14 +1075,22 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2><a tabindex=0>Prima Lacing</a></th>
-				<td><p>When changed from unchecked to checked, changes lacing method, and sets sample PHH &amp; PHR values.
-					<p>All values can subsequently be changed as desired.
-					<p>At the rim, "Prima Lacing" spokes match up something like this:<br>
-					(imagine a paired-hole rim)
-					<p>F1_F2_____________F2_F1_____________F1_F2_____________F2_F1_____________ ...etc...
-					<p>Where as normally laced spokes match up like this:<br>
-					(imagine a normal rim)
-					<p>F1_______F2_______F1_______F2_______F1_______F2_______F1_______F2_______ ...etc...
+				<td><p>When checked, this option changes the lacing method as indicated below.
+					<p>This lacing method should only be used with a paired-hole rim.
+					<p>At the rim, "Prima Lacing" spokes match up something like this (in a paired-hole rim):<br>
+					<p><span class=mono>F1_F2_____________F2_F1_____________F1_F2_____________F2_F1_____________</span> ...etc...
+					<p>Whereas normally laced spokes match up like this (in a normal rim):<br>
+					<p><span class=mono>F1_______F2_______F1_______F2_______F1_______F2_______F1_______F2_______</span> ...etc...
+					<p>"F1" &amp; "F2" indicates a spoke from a Flange on "Side 1" or "Side 2". (Or left side/right side, or NDS/DS, etc...)
+					<p>An example of other options that might be used in conjunction with this option:
+					<ul class=SC2>
+						<li>PCD <span class=SC2_example_input>60</span> <span class=SC2_example_input>76</span>
+						<li>Paired-Hole Hub Auto-Angles <span class=SC2_list_option_in_text>3/8 Even</span>
+						<li>Paired-Hole Hub Auto-Rotate <span class=SC2_list_option_in_text>+ 1/2 Hole</span>
+						<li>Paired-Hole Rim PH Distance <span class=SC2_example_input>10</span> to <span class=SC2_example_input>20</span>
+						<li>and the Lace Option set so that paired spokes appear parallel.<br>
+						(or to converge at the hub if PCD's are the same).
+					</ul>
 				</td>
 			</tr>
 
@@ -1099,7 +1113,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			
 			<tr><th class=SC2><a tabindex=0>Elbows Laced</a></th>
 				<td>Specify if the spokes are laced elbows In, Out, or Center.  This affects the bracing angle and tension ratio.  It also affects spoke length a tiny amount. The differences between "Center" and "In" or "Out" are determined by Flange Width and Spoke Diameter at Bend.
-					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by every spoke length calculator.  However, except for specially made hubs and spokes (eg: straight pull), spokes can not actually be laced "center".
+					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by most spoke length calculators.  However, except for specially made hubs and spokes (eg: straight pull), spokes can not actually be laced "center".
 					<p>So, if "Center" is used to approximate a common wheel where the spokes are acually laced alternately in/out/in/out (default), the other Advanced values (Length Adjust, Bracing Angles, etc) are just rough approximations.
 					<p>A lot of other superfluous details are left out, because it gets complicated and doesn't really matter. So, go ride!
 				</td>
@@ -1138,9 +1152,9 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				<td><p>The wheel window is always 100% of the current wheel size (ERD + Rim size Display Setting).  The scale is a percentage relative to the current wheel size.<br>
 					<p>For Example:
 					<p>
-					At 100, the wheel is scaled to fit the display window.<br>
-					At 200, the wheel is twice the window size, so you're looking at 1/2 the diameter.<br>
-					At 300, the wheel is thrice the window size, so you're looking at 1/3 the diameter, etc...<br>
+					At 100, the displayed wheel is scaled to fit the display window.<br>
+					At 200, the displayed wheel's diameter is twice the window size,<br>
+					At 300, the displayed wheel's diameter is thrice the window size, etc...<br>
 					<p>Changeing the scale re-centers the wheel within the window.
 				</td>
 			</tr>
@@ -1242,7 +1256,7 @@ var $CONTAINER		= E(_NS_ + 'CONTAINER');
 var $WHEEL_SETTINGS_container = E(_NS_ + 'WHEEL_SETTINGS_container');
 var $WHEEL_SETTINGS = E(_NS_ + 'WHEEL_SETTINGS');
 
-var $ADVANCED_SETTINGS = E(_NS_ + 'ADVANCED_SETTINGS'); //Wheel <--> Advanced Settings button
+var $SHOW_ADV_SETTINGS = E(_NS_ + 'SHOW_ADV_SETTINGS'); //<button>
 
 var $CURRENT_WHEEL  = E(_NS_ + 'CURRENT_WHEEL'); //1, 2, 3, etc...
 var $WHEEL_NAME     = E(_NS_ + 'WHEEL_NAME');
@@ -1289,6 +1303,7 @@ var $LACE_OPT = E(_NS_ + 'LACE_OPT'); // Wheel Type/Lacing Option
 	$LACE_OPT.options[0].value = -1; //Type 1. spoke length calculations. DO NOT CHANGE 
 	$LACE_OPT.options[1].value =  1; //Type 2. The option values (1 or -1) are used in the 
 
+var $ADVANCED_SETTINGS = E(_NS_ + 'ADVANCED_SETTINGS'); //container <table>
 
 var $PHH_options     = E(_NS_ + 'PHH_options');
 var $HUB_AUTO_ANGLES = E(_NS_ + 'HUB_AUTO_ANGLES');
@@ -1577,19 +1592,20 @@ var DEFAULT_OPTIONS = {
 var PRIMA_LACING = {};
 	PRIMA_LACING.HUB_AUTO_ANGLES = '.375'; // Set PHHA's or PHHD's instead?*
 	PRIMA_LACING.AUTO_ROT = '.5';
-	PRIMA_LACING.PHRD = '9';
+	PRIMA_LACING.PHRD = '10'; //20
 //*re:HUB_AUTO_ANGLES -vs- PHHD's
-//Without one in hand, can't tell if, even for different PCD's for each flange,
-//if the PHHD's are the same for both flanges.
+//Without one in hand, can't tell if the PHHD's are the same for both flanges.
+//If the PHHD's are the same regardless of PCD, then PHHA's will be different for different PCD's, and vice-versa.
 
 
 
 
-var HUB_AUTO_ANGLES_OPTS_COMMON = '<option value="1" selected>Even (Normal Hub)</option> <option value=".875">7/8 Even</option> <option value=".75">3/4 Even</option> <option value=".625">5/8 Even</option> <option value=".5">1/2 Even</option> <option value=".375">3/8 Even</option> <option value=".25">1/4 Even</option> <option value=".125">1/8 Even</option> <option value="0">0</option> <option value="off">Manual</option>'; 
+var HUB_AUTO_ANGLES_OPTS_COMMON = '<option value="1">Even (Normal Hub)</option> <option value=".875">7/8 Even</option> <option value=".75">3/4 Even</option> <option value=".625">5/8 Even</option> <option value=".5">1/2 Even</option> <option value=".375">3/8 Even</option> <option value=".25">1/4 Even</option> <option value=".125">1/8 Even</option> <option value="0">0</option> <option value="off">Manual</option>'; 
 var HUB_AUTO_ANGLES_OPTS_CUSTOM = '<option value="2">2 x Even</option> <option value="1.875">+7/8 Even</option> <option value="1.75">+3/4 Even</option> <option value="1.625">+5/8 Even</option> <option value="1.5">+1/2 Even</option> <option value="1.375">+3/8 Even</option> <option value="1.25">+1/4 Even</option> <option value="1.125">+1/8 Even</option>' + HUB_AUTO_ANGLES_OPTS_COMMON;
 
-var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".875">+7/8 Hole</option> <option value=".75">+3/4 Hole</option> <option value=".625">+5/8 Hole</option> <option value=".5">+1/2 Hole</option> <option value=".375">+3/8 Hole</option> <option value=".25">+1/4 Hole</option> <option value=".125">+1/8 Hole</option> <option value="0" selected>0 (Normal Hub)</option>'; 
+var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".875">+7/8 Hole</option> <option value=".75">+3/4 Hole</option> <option value=".625">+5/8 Hole</option> <option value=".5">+1/2 Hole</option> <option value=".375">+3/8 Hole</option> <option value=".25">+1/4 Hole</option> <option value=".125">+1/8 Hole</option> <option value="0">0 (Normal Hub)</option>'; 
 var AUTO_ROT_OPTS_CUSTOM = '<option value="1.5">+1 1/2 Hole</option> <option value="1.375">+1 3/8 Hole</option> <option value="1.25">+1 1/4 Hole</option> <option value="1.125">+1 1/8 Hole</option> ' + AUTO_ROT_OPTS_COMMON + ' <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option>';
+
 
 
 
@@ -3211,17 +3227,19 @@ function Setup_Type_and_Build(init) { //***************************************/
 		$AUTO_ROT_OPTS.innerHTML = AUTO_ROT_OPTS_CUSTOM;
 	}
 
-
 	Set_Wheel_Type_Theme($WHEEL_TYPE.value);
 
 	Build_NR_Options($WHEEL_TYPE.value, MAX[$NR.id], NR); //Must come before Set_Auto_Angles() below.
 
 	if ($WHEEL_TYPE.value == "phh" || $WHEEL_TYPE.value == "phh_phr" || $WHEEL_TYPE.value == "custom") {
+	
 		//$HUB_AUTO_ANGLES.innerHTML & $AUTO_ROT_OPTS.innerHTML may have changed above.
 		$HUB_AUTO_ANGLES.value = hub_auto_angles; 
 		$AUTO_ROT.value = auto_rot;
+		
 		if ($HUB_AUTO_ANGLES.selectedIndex < 0) { $HUB_AUTO_ANGLES.value = "off"; } //Default to "Manual" to
 		if ($AUTO_ROT.selectedIndex < 0)        { $AUTO_ROT.value = "off";        } //preserve current values.
+	
 		Set_Auto_Angles_Hub();
 		Set_Auto_Angles($RIM_AUTO_ANGLES, $PHRA, $PHRD, $ERD, $NR);
 		Set_Auto_Rot();//Must come after Set_Auto_Angles(Rim...)
@@ -3314,12 +3332,12 @@ function Set_Auto_Rot() { //***************************************************/
 	}
 	else {
 		$AUTO_ROT_LINKED.disabled = true;
-		if ($AUTO_ROT.value == "auto") { $AUTO_ROT.value = "off"; } //Set to "Manual" to preserve existing value.
+		if ($AUTO_ROT.value == "auto") { $AUTO_ROT.value = "off"; } //Set to "Manual" to preserve existing PH value.
 		$PHR_FROT_DIVIDER.innerHTML = '<hr class=SC2_hr2>';
 	}
 
 
-	if ($AUTO_ROT.value == "off")  { 
+	if ($AUTO_ROT.value == "off")  {
 		//Nothing changes when AUTO_ROT is changed to off/manual.
 		var rotf = $ROTF.value;
 	}
@@ -3696,18 +3714,7 @@ function Assign_Events() { //**************************************************/
 	});
 
 
-	$PRIMA_LACING.addEventListener("click", function() {
-		if ($PRIMA_LACING.checked) {
-			$HUB_AUTO_ANGLES.value = PRIMA_LACING.HUB_AUTO_ANGLES;
-			$AUTO_ROT       .value = PRIMA_LACING.AUTO_ROT;
-			$PHRD           .value = PRIMA_LACING.PHRD;
-			Calc_PA_from_PD($PHRA, $PHRD, $ERD);
-			Set_Auto_Angles_Hub();
-			$RIM_AUTO_ANGLES.value = 'off';
-			Set_Auto_Angles_Hub();
-		}
-		Build_Wheel(save);
-	});
+	$PRIMA_LACING.addEventListener("click", function() {Build_Wheel(save)});
 
 
 	// Only need to recalc final spoke lengths. OSB & SHD are ignored in display calculations for <line> endpoints.
@@ -4069,7 +4076,7 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 
 	//Init with all options. Setup_Type_and_Build() will change to COMMON if needed.
 	$HUB_AUTO_ANGLES.innerHTML = HUB_AUTO_ANGLES_OPTS_CUSTOM;
-	$AUTO_ROT.innerHTML = AUTO_ROT_OPTS_CUSTOM;
+	$AUTO_ROT_OPTS.innerHTML = AUTO_ROT_OPTS_CUSTOM;
 
 	Reset_OPTIONS_SPOKES()
 	Reset_OPTIONS_RIM_ETC()
