@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var SLC_VERSION = "v1.15 2018-08-08" //##### </script>
+<script>var SLC_VERSION = "v1.16 2018-08-09 4:30am ET" //##### </script>
 <!--//======================================================-->
 
 
@@ -193,7 +193,7 @@ select.SLC_auto_angles { padding: 0; width: 5.3rem; margin: 0 0 .3rem 0; }
 #SLC_CURRENT_WHEEL option { text-align: left; padding-left: .2rem;}
 #SLC_WHEEL_NAME {
 	position: absolute;
-	top     : 1px;
+	top     : 2px;
 	left    : 2.2rem;
 	margin  : 0;
 	padding : 0 0 0 .05rem;
@@ -427,40 +427,9 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 
 
 #SLC_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 2px; }
+
+#SLC_DELETE_ALL_DATA {  }
 </style>
-
-
-
-
-
-
-
-<!--#########################################################################-->
-<style>#CONSOLE { vertical-align:top; font-family: Courier New; font-size: .8em; border: solid 1px red; max-height: 55rem ; max-width: 54em; overflow: scroll; word-break: break-all; padding: 0 .1em; color: yellow; background-color: black; position: fixed; top: 0; right: 0; z-index: 999; }</style>
-<div id=CONSOLE></div>
-<script>
-function Log(something, br, esc, nowrap, maxwidth) {
-	var console = document.getElementById('CONSOLE');
-	var height = window.innerHeight + "px";
-	console.style['max-height'] = height;
-	if (typeof something === 'undefined') { console.innerHTML = ""; console.style['display'] = "none"; return; }
-	if (br == true) { br = "<br>" } else { br = "" }
-	if (esc) {
-		var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-		something = (something + "").replace(/[&<>"']/g, function(m) { return map[m]; });
-	}
-	if (nowrap) {document.getElementById('CONSOLE').style.whiteSpace = "nowrap";}
-	if (maxwidth) {document.getElementById('CONSOLE').style['max-width'] = maxwidth;}
-	console.innerHTML += something + br;
-	console.scrollTop = console.scrollHeight;
-	console.style['display'] = "inline-block";
-}//end Log()
-Log(); //Hide it until it's used...
-</script>
-<!--#########################################################################-->
-
-
-
 
 
 
@@ -536,19 +505,19 @@ Log(); //Hide it until it's used...
 <tr><td></td><td>Side 1 &nbsp;Side 2</td></tr>
 <tr>
 	<td class=SLC_thv>Flange Holes</td>
-	<td><input id=SLC_NF1 class=SLC type=text maxlength=2> <input id=SLC_NF2 class=SLC type=text maxlength=2></td>
+	<td><input type=text id=SLC_NF1 class=SLC maxlength=2> <input type=text id=SLC_NF2 class=SLC maxlength=2></td>
 </tr>
 <tr>
 	<td class=SLC_thv>PCD</td>
-	<td><input id=SLC_PCD1 class=SLC type=text maxlength=5> <input id=SLC_PCD2 class=SLC type=text maxlength=5></td>
+	<td><input type=text id=SLC_PCD1 class=SLC maxlength=5> <input type=text id=SLC_PCD2 class=SLC maxlength=5></td>
 </tr>
 <tr>
 	<td class=SLC_thv>Flange Offset</td>
-	<td><input id=SLC_FTC1 class=SLC type=text maxlength=5> <input id=SLC_FTC2 class=SLC type=text maxlength=5></td>
+	<td><input type=text id=SLC_FTC1 class=SLC maxlength=5> <input type=text id=SLC_FTC2 class=SLC maxlength=5></td>
 </tr>
 <tr>
 	<td class=SLC_thv>OC Rim</td>
-	<td><input id=SLC_OSB1 class=SLC type=text maxlength=4> <input id=SLC_OSB2 class=SLC type=text maxlength=4></td>
+	<td><input type=text id=SLC_OSB1 class=SLC maxlength=4> <input type=text id=SLC_OSB2 class=SLC maxlength=4></td>
 </tr>
 <tr>
 	<td class=SLC_thv>Cross</td><!-- <option>s added at runtime. -->
@@ -574,10 +543,10 @@ Log(); //Hide it until it's used...
 <tr>
 	<td colspan=2>
 		Paired Holes: &nbsp; 
-		<label class=SLC><input id=SLC_PH_HUB class=SLC type=checkbox>Hub</label> &nbsp;
-		<label class=SLC><input id=SLC_PH_RIM class=SLC type=checkbox>Rim</label><br>
+		<label class=SLC><input type=checkbox id=SLC_PH_HUB class=SLC>Hub</label> &nbsp;
+		<label class=SLC><input type=checkbox id=SLC_PH_RIM class=SLC>Rim</label><br>
 		Rim &amp; Flange Rotations
-		<label class=SLC><input id=SLC_ROT_OPTS class=SLC type=checkbox></label>
+		<label class=SLC><input type=checkbox id=SLC_ROT_OPTS class=SLC></label>
 	</td>
 </tr>
 <tr><td colspan=2><hr class=SLC_hr2></td></tr>
@@ -596,15 +565,15 @@ Log(); //Hide it until it's used...
 <tr>
 	<td>PH Angles</td>
 	<td>
-		<input id=SLC_PHHA1 class="SLC SLC_ph_inputs" type=text maxlength=6><span class=SLC_theta>&deg;</span>
-		<input id=SLC_PHHA2 class="SLC SLC_ph_inputs" type=text maxlength=6><span class=SLC_theta>&deg;</span>
+		<input type=text id=SLC_PHHA1 class="SLC SLC_ph_inputs" maxlength=6><span class=SLC_theta>&deg;</span>
+		<input type=text id=SLC_PHHA2 class="SLC SLC_ph_inputs" maxlength=6><span class=SLC_theta>&deg;</span>
 	</td>
 </tr>
 <tr>
 	<td>PH Distances</td>
 	<td>
-		<input id=SLC_PHHD1 class="SLC SLC_ph_inputs" type=text maxlength=6><span class=SLC_theta></span>
-		<input id=SLC_PHHD2 class="SLC SLC_ph_inputs" type=text maxlength=6><span class=SLC_theta></span>
+		<input type=text id=SLC_PHHD1 class="SLC SLC_ph_inputs" maxlength=6><span class=SLC_theta></span>
+		<input type=text id=SLC_PHHD2 class="SLC SLC_ph_inputs" maxlength=6><span class=SLC_theta></span>
 	</td>
 </tr>
 <tr><td colspan=2><hr class=SLC_hr2></td></tr>
@@ -622,11 +591,11 @@ Log(); //Hide it until it's used...
 </tr>
 <tr>
 	<td>PH Angles</td>
-	<td><input id=SLC_PHRA class="SLC SLC_ph_inputs" type=text maxlength=6><span class=SLC_theta>&deg;</span></td>
+	<td><input type=text id=SLC_PHRA class="SLC SLC_ph_inputs" maxlength=6><span class=SLC_theta>&deg;</span></td>
 </tr>
 <tr>
 	<td>PH Distances</td>
-	<td><input id=SLC_PHRD class="SLC SLC_ph_inputs" type=text maxlength=6><span class=SLC_theta></span></td>
+	<td><input type=text id=SLC_PHRD class="SLC SLC_ph_inputs" maxlength=6><span class=SLC_theta></span></td>
 </tr>
 <tr><td colspan=2><hr class=SLC_hr2></td></tr>
 </tbody>
@@ -643,14 +612,14 @@ Log(); //Hide it until it's used...
 <tr>
 	<td class=SLC_rot_labels>Flange Rotation</td>
 	<td>
-		<input id=SLC_ROTF1 class="SLC SLC_ph_inputs" type=text maxlength=6><span class=SLC_theta>&deg;</span>
-		<input id=SLC_ROTF2 class="SLC SLC_ph_inputs" type=text maxlength=6><span class=SLC_theta>&deg;</span>
+		<input type=text id=SLC_ROTF1 class="SLC SLC_ph_inputs" maxlength=6><span class=SLC_theta>&deg;</span>
+		<input type=text id=SLC_ROTF2 class="SLC SLC_ph_inputs" maxlength=6><span class=SLC_theta>&deg;</span>
 	</td>
 </tr>
 <tr>
 	<td class=SLC_rot_labels>Rim Rotation</td>
 	<td>
-		<input id=SLC_ROTR class="SLC SLC_ph_inputs" type=text maxlength=6><span class=SLC_theta>&deg;</span>
+		<input type=text id=SLC_ROTR class="SLC SLC_ph_inputs" maxlength=6><span class=SLC_theta>&deg;</span>
 	</td>
 </tr>
 <tr><td colspan=2><hr class=SLC_hr2></td></tr>
@@ -668,13 +637,13 @@ Log(); //Hide it until it's used...
 	</tr>
 
 	<tr>
-		<td  class="SLC_SL SLC_SLS1"><input id=SLC_LENGTH1 class=SLC type=text readonly tabindex="-1"></td>
-		<td  class="SLC_SL SLC_SLS2"><input id=SLC_LENGTH3 class=SLC type=text readonly tabindex="-1"></td>
+		<td  class="SLC_SL SLC_SLS1"><input type=text id=SLC_LENGTH1 class=SLC readonly tabindex="-1"></td>
+		<td  class="SLC_SL SLC_SLS2"><input type=text id=SLC_LENGTH3 class=SLC readonly tabindex="-1"></td>
 	</tr>
 
 	<tr id=SLC_SL_2_4>
-		<td  class="SLC_SL SLC_SLS1"><input id=SLC_LENGTH2 class=SLC type=text readonly tabindex="-1"></td>
-		<td  class="SLC_SL SLC_SLS2"><input id=SLC_LENGTH4 class=SLC type=text readonly tabindex="-1"></td>
+		<td  class="SLC_SL SLC_SLS1"><input type=text id=SLC_LENGTH2 class=SLC readonly tabindex="-1"></td>
+		<td  class="SLC_SL SLC_SLS2"><input type=text id=SLC_LENGTH4 class=SLC readonly tabindex="-1"></td>
 	</tr>
 	
 	<tr class=SLC_separator><td colspan=2></td></tr>
@@ -692,8 +661,8 @@ Log(); //Hide it until it's used...
 		See <button type=button id=SLC_see_notes class="SLC">Notes etc.</button>
 		for more information.)
 	</td></tr>
-	<tr class=lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input id=SLC_FW  class="SLC" type=text maxlength=4></td></tr>
-	<tr class=lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input id=SLC_SDB class="SLC" type=text maxlength=4></td></tr>
+	<tr class=lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SLC_FW  class="SLC" maxlength=4></td></tr>
+	<tr class=lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input type=text id=SLC_SDB class="SLC" maxlength=4></td></tr>
 
 	<tr class=SLC_separator><td colspan=3></td></tr>
 	<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
@@ -718,28 +687,28 @@ Log(); //Hide it until it's used...
 	<tr class=SLC_separator><td colspan=3></td></tr>
 	<tr>
 		<td>Length Adjust.</td>
-		<td><input id=SLC_SL_ADJ1 class=SLC type=text readonly tabindex="-1"></td>
-		<td><input id=SLC_SL_ADJ2 class=SLC type=text readonly tabindex="-1"></td>
+		<td><input type=text id=SLC_SL_ADJ1 class=SLC readonly tabindex="-1"></td>
+		<td><input type=text id=SLC_SL_ADJ2 class=SLC readonly tabindex="-1"></td>
 	</tr>
 	<tr>
 		<td>Spoke Ratio</td>
-		<td><input id=SLC_spoke_ratio1 class=SLC type=text readonly tabindex="-1"></td>
-		<td><input id=SLC_spoke_ratio2 class=SLC type=text readonly tabindex="-1"></td>
+		<td><input type=text id=SLC_spoke_ratio1 class=SLC readonly tabindex="-1"></td>
+		<td><input type=text id=SLC_spoke_ratio2 class=SLC readonly tabindex="-1"></td>
 	</tr>
 	<tr>
 		<td>Bracing Angles</td>
-		<td><input id=SLC_brace_angle1 class=SLC type=text readonly tabindex="-1">&deg;</td>
-		<td><input id=SLC_brace_angle2 class=SLC type=text readonly tabindex="-1">&deg;</td>
+		<td><input type=text id=SLC_brace_angle1 class=SLC readonly tabindex="-1">&deg;</td>
+		<td><input type=text id=SLC_brace_angle2 class=SLC readonly tabindex="-1">&deg;</td>
 	</tr>
 	<tr>
 		<td>Tension Ratio</td>
-		<td><input id=SLC_tension_ratio1 class=SLC type=text readonly tabindex="-1">%</td>
-		<td><input id=SLC_tension_ratio2 class=SLC type=text readonly tabindex="-1">%</td>
+		<td><input type=text id=SLC_tension_ratio1 class=SLC readonly tabindex="-1">%</td>
+		<td><input type=text id=SLC_tension_ratio2 class=SLC readonly tabindex="-1">%</td>
 	</tr>
 	<tr>
 		<td>Tension</td>
-		<td><input id=SLC_TENSION1 class=SLC type=text readonly tabindex="-1"></td>
-		<td><input id=SLC_TENSION2 class=SLC type=text ></td>
+		<td><input type=text id=SLC_TENSION1 class=SLC readonly tabindex="-1"></td>
+		<td><input type=text id=SLC_TENSION2 class=SLC ></td>
 	</tr>
 	<tr class=SLC_separator><td colspan=3></td></tr>
 	</tbody>
@@ -788,16 +757,16 @@ Log(); //Hide it until it's used...
 		</g>
 		
 		<g id="SLC_wheel">
-			<circle id="SLC_rim"	r=""/>
-			<circle id="SLC_flange1" class="SLC_pcd" r=""/>
+			<!--Order of <element>s is their "z-index". ie: last one is on top.-->
+			<!--So, list "side 1" items last, so that they're visually on top.-->
+			<circle id="SLC_rim" r=""/>
 			<circle id="SLC_flange2" class="SLC_pcd" r=""/>
-			
-			<g id=SLC_Holes_and_Spokes>
-				<g id="SLC_holes_rim"></g>
-				<g id="SLC_holes_f1"></g>
-				<g id="SLC_holes_f2"></g>
-				<g id="SLC_spokes"></g>
-			</g>
+			<circle id="SLC_flange1" class="SLC_pcd" r=""/>
+			<g id="SLC_holes_rim"></g>
+			<g id="SLC_spokes2"></g>
+			<g id="SLC_holes_f2"></g>
+			<g id="SLC_spokes1"></g>
+			<g id="SLC_holes_f1"></g>
 		</g><!--//end id=SLC_wheel -->
 	</svg>
 
@@ -823,9 +792,10 @@ Log(); //Hide it until it's used...
 					</select>
 					<input type=text  id=SLC_SCALE_auto class=SLC disabled value=TEST>
 					<input type=text  id=SLC_SCALE_fixed class=SLC><br>
-					<input type=range id=SLC_SCALE_slider class=SLC min=20 max=2000>
+					<input type=range id=SLC_SCALE_slider class=SLC min=20 max=2000><!--//######-->
 					<input type=text  id=SLC_SCALE_step class="SLC SLC_slider_step">
 				</div>
+
 				<button type=button id=SLC_reset_rotate_scale class="SLC SLC_reset_button">Reset</button>
 			</div>                                               
 			
@@ -839,44 +809,44 @@ Log(); //Hide it until it's used...
 				<tr class=SLC_th2>
 					<td></td>
 					<td colspan=2>Side 1</td>
-					<td><input id=SLC_SHOW_SIDE1 class=SLC type=checkbox></td>
+					<td><input type=checkbox id=SLC_SHOW_SIDE1 class=SLC></td>
 				</tr>
 				<tr>
 					<td>1</td>
-					<td><input id=SLC_SPOKE_COLOR1 class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_SPOKE_LINE_SIZE1 class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_SPOKE_SHOW1 class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_SPOKE_COLOR1 class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_SPOKE_LINE_SIZE1 class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_SPOKE_SHOW1 class=SLC></td>
 				</tr>
 				<tr>
 					<td>2</td>
-					<td><input id=SLC_SPOKE_COLOR2 class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_SPOKE_LINE_SIZE2 class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_SPOKE_SHOW2  class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_SPOKE_COLOR2 class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_SPOKE_LINE_SIZE2 class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_SPOKE_SHOW2  class=SLC></td>
 				</tr>
 				<tr class=SLC_separator><td colspan=4></td></tr>
 				<tr class=SLC_th2>
 					<td></td>
 					<td colspan=2>Side 2</td>
-					<td><input id=SLC_SHOW_SIDE2 class=SLC type=checkbox></td>
+					<td><input type=checkbox id=SLC_SHOW_SIDE2 class=SLC></td>
 				</tr>
 				<tr>
 					<td>3</td>
-					<td><input id=SLC_SPOKE_COLOR3 class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_SPOKE_LINE_SIZE3 class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_SPOKE_SHOW3 class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_SPOKE_COLOR3 class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_SPOKE_LINE_SIZE3 class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_SPOKE_SHOW3 class=SLC></td>
 				</tr>
 				<tr>
 					<td>4</td>
-					<td><input id=SLC_SPOKE_COLOR4 class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_SPOKE_LINE_SIZE4 class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_SPOKE_SHOW4 class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_SPOKE_COLOR4 class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_SPOKE_LINE_SIZE4 class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_SPOKE_SHOW4 class=SLC></td>
 				</tr>
 				<tr class=SLC_separator><td colspan=4><hr class=SLC></td></tr>
 				<tr>
 					<td>Axes</td>
-					<td><input id=SLC_AXES_COLOR class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_AXES_LINE_SIZE  class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_AXES_SHOW  class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_AXES_COLOR class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_AXES_LINE_SIZE  class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_AXES_SHOW  class=SLC></td>
 				</tr>
 				<tr class=SLC_separator><td colspan=4></td></tr>
 			</table>
@@ -892,46 +862,46 @@ Log(); //Hide it until it's used...
 				<tr class=SLC_th1><td></td><td>Color</td><td>Size</td><td>Show?</td></tr>
 				<tr>
 					<td>Rim</td>
-					<td><input id=SLC_RIM_COLOR class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_RIM_LINE_SIZE class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_RIM_SHOW  class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_RIM_COLOR class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_RIM_LINE_SIZE class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_RIM_SHOW  class=SLC></td>
 				</tr>
 				<tr>
 					<td>F1</td>
-					<td><input id=SLC_F1_COLOR class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_F1_LINE_SIZE class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_F1_SHOW  class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_F1_COLOR class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_F1_LINE_SIZE class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_F1_SHOW  class=SLC></td>
 				</tr>
 				<tr>
 					<td>F2</td>
-					<td><input id=SLC_F2_COLOR class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_F2_LINE_SIZE class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_F2_SHOW  class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_F2_COLOR class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_F2_LINE_SIZE class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_F2_SHOW  class=SLC></td>
 				</tr>
 
 				<tr class=SLC_separator><td colspan=4></td></tr>
 				<tr class=SLC_th2>
 					<td></td>
 					<td colspan=2>Spoke Holes</td>
-					<td><!-- //#####  input id=SLC_XXXXX_HOLES_XXXXX_SHOW_ALL_ class=SLC type=checkbox disabled --></td>
+					<td><!-- //##### input type=checkbox id=SLC_XXXXX_HOLES_SHOW_ALL class=SLC disabled --></td>
 				</tr>
 				<tr>
 					<td>Rim</td>
-					<td><input id=SLC_HOLES_RIM_COLOR class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_HOLES_RIM_SIZE class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_HOLES_RIM_SHOW class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_HOLES_RIM_COLOR class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_HOLES_RIM_SIZE class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_HOLES_RIM_SHOW class=SLC></td>
 				</tr>
 				<tr>
 					<td>F1</td>
-					<td><input id=SLC_HOLES_F1_COLOR class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_HOLES_F1_SIZE class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_HOLES_F1_SHOW class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_HOLES_F1_COLOR class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_HOLES_F1_SIZE class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_HOLES_F1_SHOW class=SLC></td>
 				</tr>
 				<tr>
 					<td>F2</td>
-					<td><input id=SLC_HOLES_F2_COLOR class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_HOLES_F2_SIZE class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_HOLES_F2_SHOW class=SLC type=checkbox></td>
+					<td><input type=text id=SLC_HOLES_F2_COLOR class="SLC SLC_color"></td>
+					<td><input type=text id=SLC_HOLES_F2_SIZE class="SLC SLC_do_size_input"></td>
+					<td><input type=checkbox id=SLC_HOLES_F2_SHOW class=SLC></td>
 				</tr>
 				<tr class=SLC_separator><td colspan=4></td></tr>
 			</table>
@@ -1079,7 +1049,7 @@ Log(); //Hide it until it's used...
 				<td>Enter a spoke tension value under Side 2 to see the cooresponding tension value for Side 1 spokes, based on the Tension Ratio.
 				<p>The spoke tensions between Side 1 and Side 2 of a wheel are interdependent. 
 					That is, you can't change the tension on one side without affecting the other.*
-					<p>So, generally, one side (such as the drive side of a rear wheel) is set to an appropriate tension level, and the other side is what it is, based on hub & rim geometry.
+					<p>So, generally, one side (such as the drive side of a rear wheel) is set to an appropriate tension level, and the other side is what it is, based on hub &amp; rim geometry.
 					<p>*Actually, adjusting the tension of <i>any</i> spoke also affects the tension of <i>every other</i> spoke a little bit.
 				</td>
 			</tr>
@@ -1105,19 +1075,21 @@ Log(); //Hide it until it's used...
 			<tr><th class=SLC></th><th>ETC</th></tr>
 			<tr><th class=SLC>Saved Settings</th><td>
 				<p>In general, all information generated and used by this program internally, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage.
-				<p>To clear all wheel data & display options stored by this web browser on this device, click the following button:<br>
+				<p>To clear all wheel data &amp; display options stored by this web browser on this device, click the following button:<br>
 				<button type=button id=SLC_DELETE_ALL_DATA class=SLC>DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
 				<p>Your browser's cache is not affected by this option, and may retain some information.
 				<p>Additionally, any wheels saved via Export Data is naturally unaffected by this option.
 			</td></tr>
 			
 			<tr><th class=SLC>Export Data</th><td>
-				<button id=SLC_EXPORT class=SLC>Export Wheels & Display Settings</button>
+				<button id=SLC_EXPORT class=SLC>Export Wheels &amp; Display Settings</button>
 			</td></tr>
 			
 			<tr><th class=SLC>Import Data</th><td>
-				<p>Importing previously Exported data will override currently loaded display and wheel options. It may also override current wheels listed in the Wheel select list.  That is, if you restore a previous Export that only had wheels 1,2, &amp; 3, but currently have wheels 1,2,3, &amp; 4 in the list, wheel 4 will remain unchanged.
-				<p><button id=SLC_IMPORT class=SLC>Import Wheels & Display Settings</button>
+				<p>Importing previously Exported data will override currently loaded display options. It may also override some or all wheels currently listed in the Wheel select list.  
+				
+				For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
+				<p><button id=SLC_IMPORT class=SLC>Import Wheels &amp; Display Settings</button>
 			</td></tr>
 
 			<tr><th class=SLC>Version</th><td id=SLC_VERSION></td></tr>
@@ -1379,7 +1351,9 @@ var $AXES_COLOR     = E(_NS_ + 'AXES_COLOR');
 var $AXES_LINE_SIZE = E(_NS_ + 'AXES_LINE_SIZE');
 var $AXES_SHOW  	= E(_NS_ + 'AXES_SHOW');
 
-var $SPOKES		   = E(_NS_ + 'spokes');   //<g> containing all spokes.
+var $SPOKES        = [];
+	$SPOKES[1]     = E(_NS_ + 'spokes1');   //<g> containing all f1
+	$SPOKES[2]     = E(_NS_ + 'spokes2');   //<g> containing all f2.
 var $HOLES_RIM	   = E(_NS_ + 'holes_rim');//<g> containing rim holes.
 var $FLANGE1_HOLES = E(_NS_ + 'holes_f1'); //<g> containing flange 1 holes.
 var $FLANGE2_HOLES = E(_NS_ + 'holes_f2'); //<g> containing flange 2 holes.
@@ -1419,21 +1393,6 @@ var $IMPORT_INPUT     = E(_NS_ + 'IMPORT_INPUT'); //<input textarea> of data
 var $PERFORM_IMPORT   = E(_NS_ + 'perform_import'); //<button>
 var $CLOSE_IMPORT     = E(_NS_ + 'close_import');   //<button>
 //end assignment of element references.
-
-
-//Not yet actually used for anything. But, it's on the todo list...
-var HOLE_DATA = {}
-    HOLE_DATA[RIM_HOLES]     = {};
-	HOLE_DATA[RIM_HOLES].cx  = [];
-	HOLE_DATA[RIM_HOLES].cy  = [];
-	
-	HOLE_DATA[HUB_HOLES[1]]     = {};
-	HOLE_DATA[HUB_HOLES[1]].cx  = [];
-	HOLE_DATA[HUB_HOLES[1]].cy  = [];
-
-	HOLE_DATA[HUB_HOLES[2]]     = {};
-	HOLE_DATA[HUB_HOLES[2]].cx  = [];
-	HOLE_DATA[HUB_HOLES[2]].cy  = [];
 
 
 
@@ -1629,13 +1588,6 @@ function Save_Settings(what, misc) { //****************************************/
 	}
 
 	localStorage.setItem(storage_id, JSON.stringify(settings));
-
-
-	//##### ######################################
-	//var undo_stack = localStorage.getItem(_NS_ + 'undo_stack');
-	//Log(undo_stack,1);
-
-
 }//end Save_Settings() { //****************************************************/
 
 
@@ -1862,9 +1814,7 @@ function Scroll_Blur(event){ //************************************************/
 
 	var rotate_wheel_slider = (event.target == $ROTATE_WHEEL_slider);
 	var scale_slider        = (event.target == $SCALE_slider);
-	if ((rotate_wheel_slider || scale_slider) && (key == AU || key == AD || key == PU || key == PD)) {
-		return;
-	}
+	if ((rotate_wheel_slider || scale_slider) && (key == AU || key == AD || key == PU || key == PD)) { return; }
 
 	//ESC "cancels" current renaming of wheel & reverts back to current name.
 	if ((event.target.id == $WHEEL_NAME.id) && (key == ESC)) { $WHEEL_NAME.value = $WHEEL_NAME.current; }
@@ -2050,12 +2000,9 @@ function Build_NR_Options(wheel_type, max, new_value) { //*********************/
 	var skip = 4; //"standard"
 	if (wheel_type == "triplet") { skip = 3 } else 
 	if (wheel_type == "custom" ) { skip = 1 }
-	
-	
+
 	var options = "";
-	for (var x = max; x >= 0; x -= skip) {
-		options += "<option value="+x+">"+x+"</option>\n"
-	}
+	for (var x = max; x >= 0; x -= skip) { options += "<option value="+x+">"+x+"</option>\n" }
 
 	$NR.innerHTML = options;
 	$NR.value = new_value;
@@ -2254,9 +2201,6 @@ function Create_Spoke_Holes($hole_group, base_id, N, scale, shd, side, offset) {
 		cx = Math.sin( (a_current/180) * Math.PI) * scale;
 		cy = Math.cos( (a_current/180) * Math.PI) * scale;
 		
-		HOLE_DATA[base_id].cx[sh] = cx; //##### Not yet used for anthing.
-		HOLE_DATA[base_id].cy[sh] = cy; //##### 
-		
 		holes += '<circle id=' + full_id + ' class="' + base_id + '" r="' + (shd/2) + '" cx="' + cx +'" cy="' + cy + '" />' + "\n";
 		
 		a_current += (A + ph_angle); //Spoke hole 1 is first hole at or after 0 degrees.
@@ -2312,7 +2256,7 @@ function Add_Spoke(group, flange, flange_hole, rim_hole, color) { //***********/
 	var style = ' style="stroke:' + color + '"';
 
 	var spoke = '<line id="' + spoke_id + '" class="' + classes+ '" ' + coords + style + '/>' + "\n";
-	$SPOKES.innerHTML += spoke;
+	$SPOKES[flange].innerHTML += spoke;
 
 }//end Add_Spoke() //**********************************************************/
 
@@ -2498,9 +2442,8 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 
 	Generate_Spoke_Hole_Info_Click_Events();
 
-	//Drawing side 2 first puts side one spokes visually "on top".
-	Create_Spoke_Groups(3, 4, nr, nf2, sx2, 2, spoke_colors); //Side 2
 	Create_Spoke_Groups(1, 2, nr, nf1, sx1, 1, spoke_colors); //Side 1
+	Create_Spoke_Groups(3, 4, nr, nf2, sx2, 2, spoke_colors); //Side 2
 
 	Set_Styles_Spokes();
 	Set_Styles_Rim_etc()
@@ -2568,7 +2511,8 @@ function Clear_Wheel(all) { //*************************************************/
 	}
 
 	$HOLES_RIM.innerHTML = "";
-	$SPOKES   .innerHTML = "";
+	$SPOKES[1].innerHTML = "";
+	$SPOKES[2].innerHTML = "";
 	$SL[1].value = ''; //side 1, odd spokes
 	$SL[2].value = ''; //side 1, even spokes
 	$SL[3].value = ''; //side 2, odd spokes
@@ -2610,10 +2554,6 @@ function Build_Wheel(save) { //************************************************/
 	if ( (($NF[1].value < 2) || ($SL[1].value == $SL[2].value)) && ($SL[3].value == $SL[4].value))
 		 { $SL_2_4.style['display'] = "none";      } //Yes   Well, the first two are, at least.
 	else { $SL_2_4.style['display'] = "table-row"; } //No
-
-	//##### #########################
-	//##### Log(Spoke_Length_Calculator(1) + " : " + Spoke_Length_Calculator(2), 1);
-
 }//end Build_Wheel() //********************************************************/
 
 
@@ -2852,11 +2792,9 @@ function Validate_Input($input, integer, allow_neg) { //***********************/
 	var error = false;
 
 	$input.value = $input.value.trim();
-
-	if ($input.value != "") {
-		if (integer) { $input.value = parseInt($input.value); }
-		else 		 { $input.value = parseFloat($input.value); }
-	}
+	if ($input.value == "") { $input.value = 0; }
+	if (integer) { $input.value = parseInt($input.value); }
+	else 		 { $input.value = parseFloat($input.value); }
 
 	if (isNaN(parseFloat($input.value)))    { error = true; } else 
 	if (!allow_neg && ($input.value*1 < 0)) { error = true; } //Currently, only OC can be negative.
@@ -2886,7 +2824,7 @@ function Setup_Viewbox() { //**************************************************/
 	if ($SCALE_MODE.value == 'fixed') { view_box_size = parseInt($SCALE_fixed.value); }
 	else {
 		if ($ERD.value == 0) { ; }
-		else                 { view_box_size = $SCALE_auto.value; }
+		else                 { view_box_size = parseInt($SCALE_auto.value); }
 	}
 
 	view_box_size = Round(view_box_size);
@@ -2899,27 +2837,24 @@ function Setup_Viewbox() { //**************************************************/
 
 	$SVG_WHEEL.setAttribute('viewBox', H_offset + " " + V_offset + " " + view_W + " " + view_H);
 
-	//Set xy axis...
+    //Create xy axis                                           _______
+	//Draws each x & y axis in two parts, starting from 0,    |   |   |
+	//and extending out to the edge of the view box.          |--- ---|
+	//Visually, this creates a static axis from 0.            |___|___|
+	//Otherwise, starting from edges, the dashes jump during zooming.
 	var max_XY = view_box_size/2;
-	$X_axis1.setAttribute('x1',.5);
-	$X_axis1.setAttribute('y1', 0);
-	$X_axis1.setAttribute('x2', max_XY);
-	$X_axis1.setAttribute('y2', 0);
-
-	$X_axis2.setAttribute('x1',-.5);
-	$X_axis2.setAttribute('y1', 0);
-	$X_axis2.setAttribute('x2',-max_XY);
-	$X_axis2.setAttribute('y2', 0);
-
-	$Y_axis1.setAttribute('x1', 0);
-	$Y_axis1.setAttribute('y1',.5);
-	$Y_axis1.setAttribute('x2', 0);
-	$Y_axis1.setAttribute('y2', max_XY);
-
-	$Y_axis2.setAttribute('x1', 0);
-	$Y_axis2.setAttribute('y1',-.5);
-	$Y_axis2.setAttribute('x2', 0);
-	$Y_axis2.setAttribute('y2',-max_XY);
+	var $axis = [$X_axis1, $X_axis2, $Y_axis1, $Y_axis2];
+	var x1    = [      .5,      -.5,        0,        0]; //   _______      _______      _______      _______
+	var y1    = [       0,        0,       .5,      -.5]; //  |       |    |       |    |       |    |   |   |
+	var x2    = [  max_XY,  -max_XY,        0,        0]; //  |    ---|    |---    |    |       |    |       |
+	var y2    = [       0,        0,   max_XY,  -max_XY]; //  |_______|    |_______|    |___|___|    |_______|
+	
+	for (var seg = 0; seg < 4; seg++) {
+		$axis[seg].setAttribute('x1', x1[seg]);
+		$axis[seg].setAttribute('y1', y1[seg]);
+		$axis[seg].setAttribute('x2', x2[seg]);
+		$axis[seg].setAttribute('y2', y2[seg]);
+	}
 
 	return view_box_size;
 }//end Setup_Viewbox() { //****************************************************/
@@ -3697,7 +3632,10 @@ function Assign_Events() { //**************************************************/
 
 	$SCALE_fixed.addEventListener("change", function() {
 		if (!Validate_Input(this)) { return false; }
-		if (this.value > 2000) { this.value = 2000; } //##### abstract out the 2000 ?  Value also in <input max=2000> #####
+		var scale = this.value * 1;
+		var step  = $SCALE_step.value * 1; 
+		if (scale < step) { this.value = step; } else 
+		if (scale > 2000) { this.value = 2000; }
 		$SCALE_slider.value = this.value;
 
 		Setup_Viewbox();
@@ -3707,7 +3645,7 @@ function Assign_Events() { //**************************************************/
 
 	$SCALE_step.addEventListener("change", function(){
 		Validate_Input(this);
-		if (this.value > 2000) { this.value = 2000; } //##### abstract out the 2000 ?  Value also in <input max=2000> #####
+		if (this.value > 2000) { this.value = 2000; }
 		$SCALE_slider.setAttribute('step', this.value);
 		Save_Settings("display");
 	});
@@ -3925,6 +3863,7 @@ function Init() { //***********************************************************/
 	//#####Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus if accepted.
 
 	$SLC_VERSION.innerHTML = SLC_VERSION;
+
 	$ERD.focus();
 }//end Init() //***************************************************************/
 
