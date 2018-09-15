@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var VERSION = "v2.05 2018-08-31" //##### </script>
+<script>var VERSION = "v2.06 2018-09-01" //##### </script>
 <!--//======================================================-->
 
 
@@ -166,7 +166,7 @@ select.SC2:-moz-focusring {
 
 .SC2_theta { display: inline-block; width: .5rem; }
 
-.SC2_ph_inputs { margin: 0 0 0 0; width: 2.8rem; }
+table.SC2 tr td input.SC2_ph_inputs { margin: 0 0 0 0; width: 3.5rem; }
 
 select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .3rem 0; }
 
@@ -468,7 +468,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 .SC2_theme_triplet  { background-color: rgb(210,223,227); }
 .SC2_theme_phh      { background-color: rgb(200,214,240); }
 .SC2_theme_phr      { background-color: rgb(227,214,254); }
-.SC2_theme_phh_phr { background-color: rgb(245,192,245); }
+.SC2_theme_phh_phr  { background-color: rgb(245,192,245); }
 .SC2_theme_custom   { background-color: #FAB; }
 </style>
 
@@ -536,7 +536,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 
 			<tr><td class=SC2_thv>ERD</td><td><input id=SC2_ERD class=SC2 type=text maxlength=5></td></tr>
 			<tr><td class=SC2_thv>Rim Holes</td>
-				<td><select id=SC2_NR class=SC2><!-- <option>s added at runtime. --></select></td>
+				<td><select id=SC2_NR class=SC2><!-- Populated onload --></select></td>
 			</tr>
 			<tr><td></td><td>Side 1 &nbsp;Side 2</td></tr>
 			<tr>
@@ -556,7 +556,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				<td><input type=text id=SC2_OSB1 class=SC2 maxlength=4> <input type=text id=SC2_OSB2 class=SC2 maxlength=4></td>
 			</tr>
 			<tr>
-				<td class=SC2_thv>Cross</td><!-- <option>s added at runtime. -->
+				<td class=SC2_thv>Cross</td>  <!-- <option>s Populated onload -->
 				<td><select id=SC2_SX1 class=SC2></select> <select id=SC2_SX2 class=SC2></select></td>
 			</tr>
 			<tr>
@@ -576,103 +576,86 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 
 
 		<table id=SC2_ADVANCED_SETTINGS class="SC2 SC2_type_theme">
-			<tr class=SC2_separator><td colspan=2></td></tr>
+			<tr class=SC2_separator><td></td></tr>
 			<tbody id=SC2_PHH_options>
-			<tr><td colspan=2><b>Paired-Hole Hub<b></td></tr>
+			<tr><td><b>Paired-Hole Hub</b></td></tr>
 			<tr>
-				<td colspan=2>Auto-Angles
+				<td>Auto-Angles
 					<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles">
-						<option value="1"   >Even (Normal Hub)</option>
-						<option value=".875">7/8 Even</option>
-						<option value=".75" >3/4 Even</option>
-						<option value=".625">5/8 Even</option>
-						<option value=".5"  >1/2 Even</option>
-						<option value=".375">3/8 Even</option>
-						<option value=".25" >1/4 Even</option>
-						<option value=".125">1/8 Even</option>
-						<option value="0"   >0</option>
-						<option value="off" >Manual</option>
+						<!-- <option>s added at runtime. -->
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td colspan=2 class=SC2_PHH_data>PH Angles
+				<td class=SC2_PHH_data>PH Angles
 					&#9484;<input type=text id=SC2_PHHA1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 					<input type=text id=SC2_PHHA2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
 					PH Distances
-					&#9492;<input type=text id=SC2_PHHD1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta></span>
-					<input type=text id=SC2_PHHD2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta></span>
+					&#9492;<input type=text id=SC2_PHHD1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
+					<input type=text id=SC2_PHHD2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
 				</td>
 			</tr>
 
-			<tr class=SC2_separator><td colspan=2></td></tr>
-			<tr><td colspan=2>Hub Flange Rotations</td></tr>
+			<tr class=SC2_separator><td></td></tr>
+			<tr><td>Hub Flange Rotations</td></tr>
 			<tr>
-				<td colspan=2>Auto-Rotate
+				<td>Auto-Rotate
 					<select id=SC2_AUTO_ROT class="SC2 SC2_auto_angles">
-						<option value="1"   >1 Hole</option>
-						<option value=".875">7/8 Hole</option>
-						<option value=".75" >3/4 Hole</option>
-						<option value=".625">5/8 Hole</option>
-						<option value=".5"  >1/2 Hole</option>
-						<option value=".375">3/8 Hole</option>
-						<option value=".25" >1/4 Hole</option>
-						<option value=".125">1/8 Hole</option>
-						<option value="0"   >0 (Normal Hub)</option>
+						<!-- Populated onload -->
 						<option value="auto" id=SC2_auto_rot_linked>Linked to PH Rim</option>
 						<option value="off">Manual</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
-				<td class=SC2_rot_labels colspan=2>Flanges Rotated 
+				<td class=SC2_rot_labels>Flanges Rotated 
 					<input type=text id=SC2_ROTF class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 				</td>
 			</tr>
-			<tr><td id=SC2_phr_frot_divider colspan=2><hr class=SC2_hr2></td></tr>
+			<tr><td id=SC2_phr_frot_divider><hr class=SC2_hr2></td></tr>
 			</tbody>
 			
 
 			<tbody id=SC2_PHR_options>
-			<tr><td colspan=2><b>Paired-Hole Rim<b></td></tr>
+			<tr><td><b>Paired-Hole Rim</b></td></tr>
 			<tr>
-				<td colspan=2>Auto-Angles
+				<td>Auto-Angles
 					<select id=SC2_RIM_AUTO_ANGLES class="SC2 SC2_auto_angles">
+						<option value="2">2 x Even</option>
+						<option value="1.875">+7/8 Even</option>
+						<option value="1.75" >+3/4 Even</option>
+						<option value="1.625">+5/8 Even</option>
+						<option value="1.5"  >+1/2 Even</option>
+						<option value="1.375">+3/8 Even</option>
+						<option value="1.25" >+1/4 Even</option>
+						<option value="1.125">+1/8 Even</option>
 						<option value="1"   >Even (Normal Rim)</option>
-						<option value=".875">7/8 Even</option>
-						<option value=".75" >3/4 Even</option>
-						<option value=".625">5/8 Even</option>
-						<option value=".5"  >1/2 Even</option>
-						<option value=".375">3/8 Even</option>
-						<option value=".25" >1/4 Even</option>
-						<option value=".125">1/8 Even</option>
+						<option value=".875">-1/8 Even</option>
+						<option value=".75" >-1/4 Even</option>
+						<option value=".625">-3/8 Even</option>
+						<option value=".5"  >-1/2 Even</option>
+						<option value=".375">-5/8 Even</option>
+						<option value=".25" >-3/4 Even</option>
+						<option value=".125">-7/8 Even</option>
 						<option value="0">0</option>
-						<option value="-.125">-1/8 Even</option>
-						<option value="-.25" >-1/4 Even</option>
-						<option value="-.375">-3/8 Even</option>
-						<option value="-.5"  >-1/2 Even</option>
-						<option value="-.625">-5/8 Even</option>
-						<option value="-.75" >-3/4 Even</option>
-						<option value="-.875">-7/8 Even</option>
-						<option value="-1"   >-Even</option>
 						<option value="off">Manual</option>
 					</select>
 				</td>
 			</tr>
 
 			<tr>
-				<td colspan=2 class=SC2_PHR_data>PH Angles
+				<td class=SC2_PHR_data>PH Angles
 				&#9484;<input type=text id=SC2_PHRA class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
 				PH Distances
 				&#9492;<input type=text id=SC2_PHRD class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&nbsp;</span></td>
 			</tr>
-			<tr><td colspan=2><hr class=SC2_hr2></td></tr>
+			<tr><td><hr class=SC2_hr2></td></tr>
 			<tr>
-				<td class=SC2_rot_labels colspan=2>Rim Rotated
+				<td class=SC2_rot_labels>Rim Rotated
 					<input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 				</td>
 			</tr>
-			<tr class=SC2_separator><td colspan=2></td></tr>
+			<tr class=SC2_separator><td></td></tr>
 			</tbody>
 		</table><!--//end Advanced Settings -->
 
@@ -946,7 +929,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 	<button type=button id=SC2_show_hide_notes class="SC2 SC2_ndo_buttons" value=none>Notes etc.</button>
 	<div class=SC2_containers><!-- Notes button & table -->
 		<table id=SC2_notes>
-			<tr><th class=SC2>Disclaimer</th>
+			<tr><th class=SC2><a tabindex=0>Disclaimer</a></th>
 				<td>
 					<div id=SC2_responsibility>
 						<p id=SC2_assumes class=SC2>In all cases, the user assumes full responsibility for the use of any spoke length, image, or other output of this program.
@@ -959,13 +942,13 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SC2>Misc</th>
+			<tr><th class=SC2><a tabindex=0>Misc</a></th>
 				<td><p>All wheels with saved settings are marked with two colons (" :: ") after the wheel number in the Wheel select list.
 					<p>Wheels names can be blank.  You can click [Rename] and delete the name, except for the " :: " indicator.
 				</td>
 			</tr>
 			
-			<tr><th class=SC2>Copy</th>
+			<tr><th class=SC2><a tabindex=0>Copy</a></th>
 				<td>
 					<p>Values for the current wheel can be copied to a blank wheel (one that has no settings):
 					<ul class=SC2>
@@ -983,36 +966,36 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</th>
 			</tr>
 
-			<tr><th class=SC2>Type</th>
+			<tr><th class=SC2><a tabindex=0>Type</a></th>
 				<td>Determines the base type of wheel: Standard, Triplet, Paired-Hole Hub, Paired-Hole Rim, Paired Hole Hub, Paired-Hole Rim with Paired Hole Hub &amp; Flange Rotation, Custom.
 					<p>Each "Type" has various restrictions on hole count, spoke cross, Lace Type, etc, depending on the nature of the type.  This does not guarantee that the generated wheel will be realistic or practical. 
 					<p>Custom removes most restrictions on the various wheel values.  Subsequently, there's a greater possibilty to enter values that generate an impractical, or even impossible, wheel.  Generally, it will be obvious. Hopefully...
 				</td>
-			<tr><th class=SC2>ERD</th>
+			<tr><th class=SC2><a tabindex=0>ERD</a></th>
 				<td>The "<b>E</b>ffective <b>R</b>im <b>D</b>iameter".<br>
-					<p>A picture could say a thousand words, but <a class=SC2 href='https://www.google.com/search?q=effective+rim+diameter&tbm=isch'>so does Google...<a/>
+					<p>A picture could say a thousand words, but <a class=SC2 href='https://www.google.com/search?q=effective+rim+diameter&tbm=isch'>so does Google...</a>
 					<p>Note that the display Scale (bottom of wheel image) is based on the ERD (Wheel Settings) &amp; Rim size (Display Settings). For example, if Scale is set to 100, changing the ERD will not change the overall size of the image on screen, as the wheel will automatically scale to fit the wheel window. 
 				</td>
 			</tr>
 			
-			<tr><th class=SC2>Rim Holes</th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
+			<tr><th class=SC2><a tabindex=0>Rim Holes</a></th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
 			
-			<tr><th class=SC2>Flange Holes</th><td>
+			<tr><th class=SC2><a tabindex=0>Flange Holes</a></th><td>
 				Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.
 				<p>Note that the number of holes for Side 1 must be less than or equal to Side 2. This is due to some unsolved programming hangup that I <strike>can't</strike> have yet to solve.
 				<p>If your build has fewer spokes on the drive side, which would normally be "Side 2", simply "flip" the wheel.  That is, enter drive side values for "Side 1", and non-drive side for "Side 2".
 			</td></tr>
 			
-			<tr><th class=SC2>PCD</th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
+			<tr><th class=SC2><a tabindex=0>PCD</a></th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
  
-			<tr><th class=SC2>Flange to Ctr (Center)</th>
+			<tr><th class=SC2><a tabindex=0>Flange to Ctr (Center)</a></th>
 				<td>Or "Center to Flange".  The distance the flange is offset from the hub center.
 					<p>Since it's highly impractical to actually measure anything from the hub center (since it's never marked), to obtain these values, measure from the outer face of the locknut to the center of the flange, and then subtract that value from 1/2 the OLD ("Over Locknut Distance", the hub's width).
 					<p>For example, common rear road hubs have an OLD of 130mm.  Half of that is 65mm.  So, if the distance from the left (or Side 1) locknut face to the left flange center is 27.5mm, then the Side 1 Flange Offset is (65 - 27.5), or 37.5mm .
 				</td>
 			</tr>
 			
-			<tr><th class=SC2>OC Rim</th>
+			<tr><th class=SC2><a tabindex=0>OC Rim</a></th>
 				<td>"Off-Center" Rim.<br>
 					May also be referred to as "OSB", "Offset Spoke bed", "asymetrical", or similar terms.
 					<p>The spoke holes in the rim are "off-center", or "off-set", to one side.
@@ -1021,16 +1004,16 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 					<p>Actually, the negative of the value entered in one side will automatically be entered for the other side.
 				</td>
 			</tr>
-			<tr><th class=SC2>Cross</th>
+			<tr><th class=SC2><a tabindex=0>Cross</a></th>
 				<td>"Spoke Cross" value.  Number of spokes each spoke crosses on the same side of wheel.
 					<p>In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.  Additionally, the cross must be zero if the number of holes in the flange is odd (not even).
 					<p>In Custom mode, if the number of flange holes is odd, cross can be non-zero, but all spokes on that side will be laced the same direction.  Spokes on the opposite flange will be laced in the opposite direction if they are also odd, otherwise they will be laced normally.
 				</td>
 			</tr>
-			<tr><th class=SC2>SHD</th><td>"Spoke Hole Diameter". Like Flange Offset &amp; OC, this value only affects final spoke length, and not the wheel as displayed.</td></tr>
-			<tr><th class=SC2>Lace Option</th><td>Asymetrical lacings, such as triplets and skip-hole, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
+			<tr><th class=SC2><a tabindex=0>SHD</a></th><td>"Spoke Hole Diameter". Like Flange Offset &amp; OC, this value only affects final spoke length, and not the wheel as displayed.</td></tr>
+			<tr><th class=SC2><a tabindex=0>Lace Option</a></th><td>Asymetrical lacings, such as triplets and skip-hole, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
 			
-			<tr><th class=SC2>Paired Holes</th>
+			<tr><th class=SC2><a tabindex=0>Paired Holes</a></th>
 				<td>
 					<p>Paired Hole (PH) options available in PH  &amp; Custom Wheel Types.
 					<p>A PH Angle is formed by lines passing thru the center of paired spoke holes and extending to the axial center of the hub. For example: the angle between two radial spokes.
@@ -1046,7 +1029,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2>Hub Auto-Angles</th>
+			<tr><th class=SC2><a tabindex=0>Hub Auto-Angles</a></th>
 				<td><p>Determines if angles between paired-holes (PH) are automatically calculated, or user provided.				
 					<p><ul class=SC2>
 						<li><span class=SC2_list_option_in_text2>Even (Normal)</span> Normal angles (non-PH hub), with evenly spaced holes around the flange.
@@ -1056,7 +1039,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2>Hub Flange Rotations</th>
+			<tr><th class=SC2><a tabindex=0>Hub Flange Rotations</a></th>
 				<td><p>In addition to, and seperate from, paired-holes on each flange, the flanges can be "rotated" relative to each other.  (Not physically rotated of course, but the holes drilled in positions as though the flanges had been rotated.) "Even (Normal)" means a normal hub, such that the holes in each flange are evenly spaced between them. "1/2 Hole" aligns the holes of each flange.
 					<p><ul class=SC2>
 						<li><span class=SC2_list_option_in_text3>...</span> Various rotation amounts relative to "Normal".
@@ -1068,7 +1051,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2>Rim Auto-Angles</th>
+			<tr><th class=SC2><a tabindex=0>Rim Auto-Angles</a></th>
 				<td><p>Determines if angles between paired-holes (PH) are automatically calculated, or user provided.				
 					<p><ul class=SC2>
 						<li><span class=SC2_list_option_in_text3>Even (Normal)</span> Normal angles (non-PH rim), with evenly spaced holes around the rim.
@@ -1083,7 +1066,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				<th><p>Advanced Build Info</th>
 			</tr>
 			
-			<tr><th class=SC2>General Info</th>
+			<tr><th class=SC2><a tabindex=0>General Info</a></th>
 				<td>
 					<p>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.
 					<p>Basically, this section does not directly affect the "Spoke Lengths" provided above. Instead, it
@@ -1093,10 +1076,10 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2>Flange Width</th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
-			<tr><th class=SC2>Spoke Diameter at the Bend</th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			<tr><th class=SC2><a tabindex=0>Flange Width</a></th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			<tr><th class=SC2><a tabindex=0>Spoke Diameter at the Bend</a></th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
 			
-			<tr><th class=SC2>Elbows Laced</th>
+			<tr><th class=SC2><a tabindex=0>Elbows Laced</a></th>
 				<td>Specify if the spokes are laced elbows In, Out, or Center.  This affects the bracing angle and tension ratio.  It also affects spoke length a tiny amount. The differences between "Center" and "In" or "Out" are determined by Flange Width and Spoke Diameter at Bend.
 					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by every spoke length calculator.  However, except for specially made hubs and spokes (eg: straight pull), spokes can not actually be laced "center".
 					<p>So, if "Center" is used to approximate a common wheel where the spokes are acually laced alternately in/out/in/out (default), the other Advanced values (Length Adjust, Bracing Angles, etc) are just rough approximations.
@@ -1104,11 +1087,11 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SC2>Length Adjust.</th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td></tr>
-			<tr><th class=SC2>Spoke Ratio</th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td></tr>
-			<tr><th class=SC2>Bracing Angles</th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td></tr>
-			<tr><th class=SC2>Tension Ratio</th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td></tr>
-			<tr><th class=SC2>Tension</th>
+			<tr><th class=SC2><a tabindex=0>Length Adjust.</a></th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td></tr>
+			<tr><th class=SC2><a tabindex=0>Spoke Ratio</a></th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td></tr>
+			<tr><th class=SC2><a tabindex=0>Bracing Angles</a></th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td></tr>
+			<tr><th class=SC2><a tabindex=0>Tension Ratio</a></th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td></tr>
+			<tr><th class=SC2><a tabindex=0>Tension</a></th>
 				<td>Enter a spoke tension value under Side 2 to see the cooresponding tension value for Side 1 spokes, based on the Tension Ratio.
 				<p>The spoke tensions between Side 1 and Side 2 of a wheel are interdependent. 
 					That is, you can't change the tension on one side without affecting the other.*
@@ -1119,13 +1102,13 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			
 			<tr><th class=SC2></th><th>Disaplay Settings</th></tr>
 			<tr>
-				<th class=SC2>General</th>
+				<th class=SC2><a tabindex=0>General</a></th>
 				<td>
 					Display Options affect the wheel as displayed only, and have no effect on spoke length calculations.
 				</td>
 			</tr>
 			<tr>
-				<th class=SC2>Rim Size</th>
+				<th class=SC2><a tabindex=0>Rim Size</a></th>
 				<td>
 					Rim Size affects the displayed scale, and- as indicated above, has no effect on spoke length calculations.
 					<p>When set to 5 or less, the "center" of the "rim" will be the ERD, and traces thru the rim spoke holes.
@@ -1133,7 +1116,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			<tr>
-				<th class=SC2>Scale</th>
+				<th class=SC2><a tabindex=0>Scale</a></th>
 				<td><p>The wheel window is always 100% of the current wheel size (ERD + Rim size Display Setting).  The scale is a percentage relative to the current wheel size.<br>
 					<p>For Example:
 					<p>
@@ -1143,7 +1126,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 					<p>Changeing the scale re-centers the wheel within the window.
 				</td>
 			</tr>
-			<tr><th class=SC2>Colors</th>
+			<tr><th class=SC2><a tabindex=0>Colors</a></th>
 				<td>Colors can be specified using common 
 				<a class=SC2 href="https://www.w3schools.com/Colors/colors_names.asp" target="_blank">html/css color names</a> 
 				(black, gray, red, blue, green, skyblue, etc.),
@@ -1151,7 +1134,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			<tr><th class=SC2></th><th>ETC</th></tr>
-			<tr><th class=SC2>Saved Settings</th><td>
+			<tr><th class=SC2><a tabindex=0>Saved Settings</a></th><td>
 				<p>In general, all information generated and used by this program internally, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage.
 				<p>To clear all wheel data &amp; display options stored by this web browser on this device, click the following button:<br>
 				<button type=button id=SC2_DELETE_ALL_DATA class=SC2>DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
@@ -1159,18 +1142,18 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				<p>Additionally, any wheels saved via Export Data is naturally unaffected by this option.
 			</td></tr>
 			
-			<tr><th class=SC2>Export Data</th><td>
+			<tr><th class=SC2><a tabindex=0>Export Data</a></th><td>
 				<button id=SC2_EXPORT class=SC2>Export Wheels &amp; Display Settings</button>
 			</td></tr>
 			
-			<tr><th class=SC2>Import Data</th><td>
+			<tr><th class=SC2><a tabindex=0>Import Data</a></th><td>
 				<p>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.  
 				
 				For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
 				<p><button id=SC2_IMPORT class=SC2>Import Wheels &amp; Display Settings</button>
 			</td></tr>
 
-			<tr><th class=SC2>Version</th><td id=SC2_VERSION></td></tr>
+			<tr><th class=SC2><a tabindex=0>Version</a></th><td id=SC2_VERSION></td></tr>
 			<tr><th class=SC2></th><td></td></tr>
 		</table>
 	</div><!--//end Notes button & table  =============-->
@@ -1202,7 +1185,7 @@ var MAX_WHEELS = 10; //##### MAKE USER OPTION??? #####
 
 var SSI = " :: " //Saved Settings Indicator. Used in CURRENT_WHEEL <select> list <option>'s.
 
-var PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocus() of the inputs.
+var $PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocus() of the inputs.
 
 
 
@@ -1567,6 +1550,20 @@ var DEFAULT_OPTIONS = {
 
 
 
+var HUB_AUTO_ANGLES_OPTS_CUSTOM = '<option value="2">2 x Even</option> <option value="1.875">+7/8 Even</option> <option value="1.75">+3/4 Even</option> <option value="1.625">+5/8 Even</option> <option value="1.5">+1/2 Even</option> <option value="1.375">+3/8 Even</option> <option value="1.25">+1/4 Even</option> <option value="1.125">+1/8 Even</option>';
+var HUB_AUTO_ANGLES_OPTS_COMMON = '<option value="1">Even (Normal Hub)</option> <option value=".875">-1/8 Even</option> <option value=".75">-1/4 Even</option> <option value=".625">-3/8 Even</option> <option value=".5">-1/2 Even</option> <option value=".375">-5/8 Even</option> <option value=".25">-3/4 Even</option> <option value=".125">-7/8 Even</option> <option value="0">0</option> <option value="off">Manual</option>';
+
+var AUTO_ROT_OPTS_CUSTOM1 = '<option value="1">+1 Hole</option> <option value=".875">+7/8 Hole</option> <option value=".75">+3/4 Hole</option> <option value=".625">+5/8 Hole</option>';
+var AUTO_ROT_OPTS_COMMON1 = '<option value=".5">+1/2 Hole</option> <option value=".375">+3/8 Hole</option> <option value=".25">+1/4 Hole</option> <option value=".125">+1/8 Hole</option> <option value="0">0 (Normal Hub)</option> <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option> ';
+var AUTO_ROT_OPTS_CUSTOM2 = '<option value="-.625">-5/8 Hole</option> <option value="-.75">-3/4 Hole</option> <option value="-.875">-7/8 Hole</option> <option value="-1">-Hole</option>';
+var AUTO_ROT_OPTS_COMMON2 = '<option value="auto" id=SC2_auto_rot_linked>Linked to PH Rim</option> <option value="off">Manual</option>';
+var AUTO_ROT_OPTS_COMMON  = AUTO_ROT_OPTS_COMMON1 + AUTO_ROT_OPTS_COMMON2;
+var AUTO_ROT_OPTS_CUSTOM  = AUTO_ROT_OPTS_CUSTOM1 + AUTO_ROT_OPTS_COMMON1 + AUTO_ROT_OPTS_CUSTOM2 + AUTO_ROT_OPTS_COMMON2;
+
+
+
+
+
 function Parse_Settings(string) { //*******************************************/
 	//Currently, only used to parse returned saved settings from localStorage.
 	//If the parse fails, return null, as localStorage does if a localStorage item doesn't exit.
@@ -1719,10 +1716,11 @@ function Validate_Wheel_Settings(misc, save) { //******************************/
 	for (var name in DEFAULT_VALUES) {
 		var $setting = E(_NS_ + name);
 		if ( !$setting ) { continue }
-		
-		break; //#####
+
 		//#####All wheel setting text inputs USED to be numbers (erd, pcd, etc...),
-		//#####but now inlcude spoke, rim, & hole colors, and checkboxes.
+		//#####but now inlcude spoke, rim, & hole colors.
+		//#####if ($setting.type == "text" && isNaN($setting.value) && $setting.id != $WHEEL_NAME.id) { $setting.value = ""; }
+		if ($setting.tagName == "SELECT" && $setting.selectedIndex < 0) { $setting.selectedIndex = 0; }
 	}
 
 	if (save) { Save_Settings("wheel", misc); } //in case any were invalid.
@@ -2391,8 +2389,8 @@ function Lacing_Modifier(f) { //************************************************
 	either 1 or -1, depending on the desired lacing type & other two conditions.
 	But it's not always the same. And sometimes it's different, except when it's not...
 
-	Anyanyway, all 8 possible combinations (3 "bits": count, cross, type) and their resultant modifers are
-	summerized in the table below. 
+	Anyanyway, all 8 possible combinations (3 "bits": count, cross, type) and their resultant
+	modifers are summerized in the table below. 
 
 	 NR SX T|          NR: Even or Odd Number of holes in the Rim
 	 -------+--        SX: Even or Odd Spoke Cross
@@ -2410,11 +2408,12 @@ function Lacing_Modifier(f) { //************************************************
 	don't care about the voodoo involved in determining matching spoke holes in space.  But here,
 	holes matter. And space.  And time.  I think. Maybe. I guess.  I don't know.  But it works now!  :)
 
-	Finally, in this program, this option is presented as "Lacing Option".  Also, it really only matters
-	on the side with more spokes (ex: the 16 spoke side of an 8:16 triplet), because the side with 8
-	spokes is laced radially.
+	Finally, in this program, this option is presented as "Lacing Option".  Also, in triplets, it
+	really only matters	on the side with more spokes (ex: the 16 spoke side of an 8:16 triplet), 
+	because the side with 8	spokes is laced radially. For paired-hole wheels, it can affect spoke
+	cross above the paried holes.  And lastly, for normal wheels, it doesn't really matter at all, 
+	as it just produces a mirror image lace pattern.  
 	/******************************************************/
-
 
 	var NRE = ($NR.value    % 2  == 0); // Even number of rim holes?
 	var SXE = ($SX[f].value % 2  == 0); // Even Spoke cross?
@@ -2520,8 +2519,8 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 	var offset_phha1 = 0; //standard or triplets
 	var offset_phha2 = 0;
 	if (phh || custom) {
-		var offset_phha1 = (AF1 - parseFloat($PHHA[1].value))/2;
-		var offset_phha2 = (AF2 - parseFloat($PHHA[2].value))/2;
+		offset_phha1 = (AF1 - parseFloat($PHHA[1].value))/2;
+		offset_phha2 = (AF2 - parseFloat($PHHA[2].value))/2;
 		frot1 = parseFloat($ROTF.value) / 2;
 		frot2 = frot2 - frot1;
 	}
@@ -2530,13 +2529,13 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 	var rrot = 0;
 	var offset_phra = 0; //standard or triplets
 	if ( (nr > 0) && (phr || phh_phr || custom) ) {
-		var offset_phra = (AR - parseFloat($PHRA.value))/2;
+		offset_phra = (AR - parseFloat($PHRA.value))/2;
 		rrot  = parseFloat($ROTR.value);
 		if (isNaN(rrot)) { $ROTR.value = rrot = 0; Save_Settings("wheel"); }
 	}
 
 	//Draw basic flange circles...
-	$FLANGE1.setAttribute('r', pcd1/2); //erd & pcd's are "d"iameters, but SVG <circle>'s require radii...
+	$FLANGE1.setAttribute('r', pcd1/2); //erd & pcd's are diameters, but SVG <circle>'s require radii...
 	$FLANGE2.setAttribute('r', pcd2/2); //
 
 	Create_Spoke_Holes( $HOLES_RIM    , RIM_HOLES   , nr , erd/2 , shdr , 0, offset_phra + rrot);
@@ -2665,9 +2664,8 @@ function Error_Notice($input, msg, init) {//************************************
 
 	if ((typeof msg) == 'undefined') { msg = "" }
 
-	if (typeof $input == "object") {
-		if (!init && ($input.tagName == "INPUT")) { msg = MSGS['invalid'] + ' "' + $input.value + '"<br>' + msg; }
-		PRIOR_FOCUS = $input.id;
+	if ((typeof $input == "object") && ($input.tagName == "INPUT") && (init != "init")) {
+		msg = MSGS['invalid'] + ' "' + $input.value + '"<br>' + msg;
 	}
 
 	$MESSAGE_DIV.innerHTML = msg;
@@ -2697,8 +2695,7 @@ function Error_Notice($input, msg, init) {//************************************
 function Close_Message() { //**************************************************/
 	$MSG_BOX.style['visibility'] = "hidden";
 	$MESSAGE_DIV.innerHTML = "";
-	if (E(PRIOR_FOCUS).tagName == "INPUT") { E(PRIOR_FOCUS).select() }
-	E(PRIOR_FOCUS).focus();
+	if ($PRIOR_FOCUS) { $PRIOR_FOCUS.focus(); }
 	$MSG_BOX.style['text-align'] = ""; //Restore values to style sheet from those 
 	$MSG_BOX.style['top']        = ""; //used for the init msg/disclaimer.
 	$MSG_BOX.style['left']       = "";
@@ -2814,7 +2811,7 @@ function Validate_NF(f) { //***************************************************/
 		error = true;
 	}
 
-	//##### Figure out how to make this not needed (how flange-rim holes are matched up).
+	//##### Figure out how to make this not needed (improve how flange-rim holes are matched up).
 	if ( $NF[1].value*1 > $NF[2].value*1) { //Things mess up...
 		if (f==1) { var msg = MSGS['nf1_2']; }
 		else 	  { var msg = MSGS['nf2_1']; }
@@ -3107,6 +3104,8 @@ function Setup_Type_and_Build(init) { //***************************************/
 	var NR_inc = 4; //Standard increment for NR options for most wheel types.
 
 	$LACE_OPT.disabled = false; //For all except phh...
+	var hub_auto_angles = $HUB_AUTO_ANGLES.value;
+	var auto_rot = $AUTO_ROT.value;
 
 	if ($WHEEL_TYPE.value == "standard") {
 		Show_Hide_PH_Hub_Rim_Options(false, false);
@@ -3156,6 +3155,9 @@ function Setup_Type_and_Build(init) { //***************************************/
 			Set_phh_Lace_Opt();
 			$SX[2].disabled = true;
 		}
+		
+		$HUB_AUTO_ANGLES.innerHTML = HUB_AUTO_ANGLES_OPTS_COMMON;
+		$AUTO_ROT.innerHTML = AUTO_ROT_OPTS_COMMON;
 	}
 	else { //custom...
 		var f = 1;
@@ -3171,10 +3173,18 @@ function Setup_Type_and_Build(init) { //***************************************/
 		Show_Hide_PH_Hub_Rim_Options(true, true);
 		
 		Set_Wheel_Type_Theme($WHEEL_TYPE.value);
+
+		$HUB_AUTO_ANGLES.innerHTML = HUB_AUTO_ANGLES_OPTS_CUSTOM + HUB_AUTO_ANGLES_OPTS_COMMON;
+		$AUTO_ROT.innerHTML = AUTO_ROT_OPTS_CUSTOM;
 	}
 
 	Build_NR_Options($WHEEL_TYPE.value, MAX[$NR.id], NR);
 
+	$HUB_AUTO_ANGLES.value = hub_auto_angles; 
+	if ($HUB_AUTO_ANGLES.selectedIndex < 0) { $HUB_AUTO_ANGLES.value = "1"; } //Default to "Normal".
+	$AUTO_ROT.value = auto_rot;
+	if ($AUTO_ROT.selectedIndex < 0) { $AUTO_ROT.value = "0"; } //Default to "Normal".
+	
 	Set_Auto_Angles_Hub();
 	Set_Auto_Angles($RIM_AUTO_ANGLES, $PHRA, $PHRD, $ERD, $NR);
 	Set_Auto_Rot();//Must come after Set_Auto_Angles(Rim...)
@@ -3240,7 +3250,7 @@ function Set_Auto_Angles_Hub() { //********************************************/
 	Set_Auto_Angles($HUB_AUTO_ANGLES, $PHHA[1], $PHHD[1], $PCD[1], $NF[1]);
 	Set_Auto_Angles($HUB_AUTO_ANGLES, $PHHA[2], $PHHD[2], $PCD[2], $NF[2]);
 
-	//Set_Auto_Angles() may enable $PHHx.
+	//Set_Auto_Angles() may enable $PHHx[2].
 	if ($WHEEL_TYPE.value != "custom") {
 		$PHHD[2].disabled = true ;
 		$PHHA[2].disabled = true ;
@@ -3376,6 +3386,7 @@ function Assign_Events() { //**************************************************/
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
 			if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
+			$PRIOR_FOCUS = this;
 			this.prior_value = this.value; //also set in Build_Wheel() and in Calc_Spoke_Lengths().
 		});
 	}
@@ -3963,6 +3974,10 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 	Build_SX_Options("custom", 1, MAX[$NR.id], 0);
 	Build_SX_Options("custom", 2, MAX[$NR.id], 0);
 
+	//Init with all options. Setup_Type_and_Build() will change to COMMON only if needed.
+	$HUB_AUTO_ANGLES.innerHTML = HUB_AUTO_ANGLES_OPTS_CUSTOM + HUB_AUTO_ANGLES_OPTS_COMMON;
+	$AUTO_ROT.innerHTML = AUTO_ROT_OPTS_CUSTOM;
+
 	Reset_OPTIONS_SPOKES()
 	Reset_OPTIONS_RIM_ETC()
 }//end Init_Display_NR_SX() //*************************************************/
@@ -4005,6 +4020,8 @@ function Init() { //***********************************************************/
 	//#####Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus if accepted.
 
 	$ERD.focus();
+
+	$PRIOR_FOCUS = D.activeElement;
 
 	$SC2_VERSION.innerHTML = VERSION;
 }//end Init() //***************************************************************/
