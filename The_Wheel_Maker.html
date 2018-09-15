@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var SLC_VERSION = "v1.14 2018-08-08" //##### </script>
+<script>var SLC_VERSION = "v1.15 2018-08-08" //##### </script>
 <!--//======================================================-->
 
 
@@ -55,13 +55,20 @@ a.SLC { outline: 0; text-decoration: none; display: inline-block; background-col
 
 a.SLC:focus, a.SLC:hover { background-color: #ccc; text-decoration: none; }
 
-button.SLC        { border: solid 1px #444; padding: 0 5px 2px 4px ; background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
+button.SLC        { 
+	border: solid 1px #444;
+	padding: 0px 5px 1px 4px;
+	background:
+	linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC);
+	border-radius: 4px;
+}
 button.SLC:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
 button.SLC:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); }
 button.SLC:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 0px 6px 1px 3px; }
 
-
 button.SLC::-moz-focus-inner { border: 0 }
+
+.SLC_reset_button { font-size: .8rem; float: right; margin: 0 0 .2rem -2rem; }
 
 input.SLC:focus, select.SLC:focus, button.SLC:focus { box-shadow: 0 0 3pt 1pt #006060 }
 input[type=text].SLC   { width: 3.3rem; text-align: center; font: 1rem courier; }
@@ -71,7 +78,7 @@ input[type=checkbox]:hover { box-shadow: 0 0 0pt 1pt black; }
 select.SLC:hover { border-color: black; }
 
 input[readonly].SLC {
-	border: solid .10rem #077;
+	border: solid .05rem #077;
 	border-radius: 4px;
 	background-color: rgba(255,255,255, .8);
 }
@@ -81,7 +88,16 @@ input[disabled].SLC, select.SLC:disabled {
 	background-color: rgba(255,255,255, .4);
 	border: solid 1px #7a7a7a;
 }
-select.SLC { padding: 0 0 0 .3rem; width: 3.3rem; font-size: .9rem; height: 1.3rem; border: solid 1px #7a7a7a; }
+
+select.SLC {
+	display: inline-block;
+	vertical-align: middle;
+	padding: 0 0 0 .3rem;
+	width: 3.3rem;
+	font-size: .9rem;
+	height: 1.3rem;
+	border: solid 1px #7a7a7a;
+}
 select.SLC option { padding-left: .5rem }
 
 
@@ -215,17 +231,22 @@ table.SLC .SLC_thv { text-align: right; padding: 0 0 0 3px; width: 6.8rem; font-
 
 .SLC_wheel_btns { text-align: right; }
 
-.SLC_load_clear { margin: 0; padding: 0 .2rem; border-radius: 4px; }
-
 .SLC_separator { padding: 0; height: .3rem; }
 
 .SLC_containers { display: inline-block; vertical-align: top; margin: 0 .5rem; }
+
+.SLC_rotate_scale_containers {
+	display: inline-block;
+	margin: 0 1rem 0 1rem;
+	padding: 0;
+	text-align: left;
+}
 
 #SLC_display_options  { display: none; vertical-align: top; border: 0; } 
 
 #SLC_SCALE_MODE  { padding: 0 .3em 0 .2rem; width: 5rem; }
 
-#SLC_scale_options {
+#SLC_roate_scale_options {
 	margin: 0 0 .25rem 0;
 	padding: .2rem; 0;
 	font-family: arial;
@@ -237,6 +258,40 @@ table.SLC .SLC_thv { text-align: right; padding: 0 0 0 3px; width: 6.8rem; font-
 	background-color: rgb(175,198,205);  /** #ccc; **/
 	vertical-align: top;
 }
+
+#SLC_ROTATE_WHEEL_slider { width: 8.5rem; }
+
+input[type="range"].SLC {
+	-webkit-appearance: none;
+	outline: 0;
+	border: solid 1px transparent;
+	margin: .2rem 0 0 0;
+	display: inline-block;
+	vertical-align: middle;
+}
+input[type="range"].SLC:hover { }
+
+/*FF*/
+input[type="range"].SLC::-moz-range-track { background-color: rgba(255,255,255,.8); height: 3px; }
+input[type="range"].SLC::-moz-range-thumb {
+	width: 8px;
+	height: 18px;
+	background: rgba(255,255,255,.8);  /**148,180,188,**/
+	border: solid 1px #666;
+	border-radius: 4px;
+}
+
+/*IE*/
+input[type="range"].SLC::-ms-fill-lower { background-color: rgba(255,255,255,.8); height: 5px; }
+input[type="range"].SLC::-ms-fill-upper { background-color: rgba(255,255,255,.8); height: 5px; }
+input[type="range"].SLC::-ms-thumb {
+	border-radius: 4px; 
+	border: solid 1px #666;
+	background: rgba(255,255,255,.8);  /**148,180,188,**/
+	height: 18px;
+	width: 8px;
+}
+.SLC input.SLC_slider_step { width: 1.5rem; font-size: .8rem; }
 
 #SLC_show_hide_notes { margin: 0 0 0 0; }
 
@@ -284,14 +339,6 @@ table.SLC_DO input.SLC_color { width: 6rem; }
 	font: normal 1.2rem arial;
 	border-radius: 8px;
 }
-
-.SLC_reset_options {
-	font-size: .8rem;
-	padding: 0 .2rem;
-	float: right;
-	margin: 0 0 .2rem -2rem;
-}
-
 
 #SLC_rim  { fill: none; stroke: #999; }
 .SLC_svg  { display: inline-block; margin: auto; border: 0; }
@@ -380,8 +427,6 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 
 
 #SLC_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 2px; }
-
-#SLC_DELETE_ALL_DATA {  }
 </style>
 
 
@@ -461,9 +506,9 @@ Log(); //Hide it until it's used...
 
 <tr><td colspan=2 class=SLC_wheel_btns>
 		<div id=SLC_auto_copy_div>Auto-Copy<input id=SLC_auto_copy class=SLC type=checkbox></div>
-		<button type=button id=SLC_rename_wheel   class="SLC SLC_load_clear">Rename</button>
-		<button type=button id=SLC_load_samples   class="SLC SLC_load_clear">Load Sample</button> 
-		<button type=button id=SLC_clear_settings class="SLC SLC_load_clear">Clear</button>
+		<button type=button id=SLC_rename_wheel   class=SLC>Rename</button>
+		<button type=button id=SLC_load_samples   class=SLC>Load Sample</button> 
+		<button type=button id=SLC_clear_settings class=SLC>Clear</button>
 </td></tr>
 
 <tr>
@@ -474,6 +519,7 @@ Log(); //Hide it until it's used...
 			<option value="phh"     >Paired Hole Hub</option>
 			<option value="phr"     >Paired Hole Rim</option>
 			<option value="phr_spl" >Paired Hole Rim with Special Hub</option>
+			<!-- //##### option value="pprh"    >Paired Hole Rim & Hub</option #####-->
 			<option value="custom"  >Custom</option>
 		</select>
 	</td>
@@ -734,8 +780,11 @@ Log(); //Hide it until it's used...
 	<svg id="SLC_svg_wheel" class="SLC_svg" width="100%" height="100%">
 		<title>Wheel</title>
 		<g id="SLC_axes">
-			<line id="SLC_x-axis" class="SLC_axis"/>
-			<line id="SLC_y-axis" class="SLC_axis"/>
+			<!--Draw 4 axis from center to edge, so dashed line is fixed from that point.-->
+			<line id="SLC_x-axis1" class="SLC_axis"/>
+			<line id="SLC_y-axis1" class="SLC_axis"/>
+			<line id="SLC_x-axis2" class="SLC_axis"/>
+			<line id="SLC_y-axis2" class="SLC_axis"/>
 		</g>
 		
 		<g id="SLC_wheel">
@@ -759,22 +808,31 @@ Log(); //Hide it until it's used...
 		<button type=button id=SLC_show_hide_DO class="SLC SLC_ndo_buttons" value=none>Display Options</button>
 		
 		<div id=SLC_display_options>
-			
-			<div id=SLC_scale_options class=SLC>
-				Scale:
-				<select id=SLC_SCALE_MODE class=SLC>
-					<option value="auto">auto</option>
-					<option value="fixed">fixed</option>
-				</select>
-				<input id=SLC_SCALE_auto class=SLC type=text disabled value=TEST>
-				<input id=SLC_SCALE_fixed class=SLC type=text>
-				<button type=button id=SLC_reset_scale class="SLC">Reset</button>
-			</div>
+			<div id=SLC_roate_scale_options class=SLC>
+				<div class=SLC_rotate_scale_containers>
+					Rotate Wheel:
+					<input type=text  id=SLC_ROTATE_WHEEL_text   class=SLC>&deg;<br>
+					<input type=range id=SLC_ROTATE_WHEEL_slider class=SLC min=0 max=360>
+					<input type=text  id=SLC_ROTATE_WHEEL_step   class="SLC SLC_slider_step">
+				</div>
+				<div class=SLC_rotate_scale_containers>
+					Scale:
+					<select id=SLC_SCALE_MODE class=SLC>
+						<option value=auto>auto</option>
+						<option value=fixed>fixed</option>
+					</select>
+					<input type=text  id=SLC_SCALE_auto class=SLC disabled value=TEST>
+					<input type=text  id=SLC_SCALE_fixed class=SLC><br>
+					<input type=range id=SLC_SCALE_slider class=SLC min=20 max=2000>
+					<input type=text  id=SLC_SCALE_step class="SLC SLC_slider_step">
+				</div>
+				<button type=button id=SLC_reset_rotate_scale class="SLC SLC_reset_button">Reset</button>
+			</div>                                               
 			
 			<table class="SLC SLC_DO">
 				<tr>
 					<th colspan=4>Spokes
-						<button type=button id=SLC_reset_options_spokes class="SLC SLC_reset_options">Reset</button>
+						<button type=button id=SLC_reset_options_spokes class="SLC SLC_reset_button">Reset</button>
 					</th>
 				</tr>
 				<tr class=SLC_th1><td>Group</td><td>Color</td><td>Size</td><td>Show?</td></tr>
@@ -827,7 +885,7 @@ Log(); //Hide it until it's used...
 				<tr>
 					<th colspan=4>
 						Rim &amp; Flanges
-						<button type=button id=SLC_reset_options_rim_etc class="SLC SLC_reset_options">Reset</button>
+						<button type=button id=SLC_reset_options_rim_etc class="SLC SLC_reset_button">Reset</button>
 					</th>
 				</tr>
 				<tr class=SLC_separator><td colspan=4></td></tr>
@@ -855,6 +913,7 @@ Log(); //Hide it until it's used...
 				<tr class=SLC_th2>
 					<td></td>
 					<td colspan=2>Spoke Holes</td>
+					<td><!-- //#####  input id=SLC_XXXXX_HOLES_XXXXX_SHOW_ALL_ class=SLC type=checkbox disabled --></td>
 				</tr>
 				<tr>
 					<td>Rim</td>
@@ -1047,18 +1106,18 @@ Log(); //Hide it until it's used...
 			<tr><th class=SLC>Saved Settings</th><td>
 				<p>In general, all information generated and used by this program internally, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage.
 				<p>To clear all wheel data & display options stored by this web browser on this device, click the following button:<br>
-				<button type=button id=SLC_DELETE_ALL_DATA class="SLC SLC_load_clear">DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
+				<button type=button id=SLC_DELETE_ALL_DATA class=SLC>DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
 				<p>Your browser's cache is not affected by this option, and may retain some information.
 				<p>Additionally, any wheels saved via Export Data is naturally unaffected by this option.
 			</td></tr>
 			
 			<tr><th class=SLC>Export Data</th><td>
-				<button id=SLC_EXPORT class="SLC SLC_load_clear">Export Wheels & Display Settings</button>
+				<button id=SLC_EXPORT class=SLC>Export Wheels & Display Settings</button>
 			</td></tr>
 			
 			<tr><th class=SLC>Import Data</th><td>
 				<p>Importing previously Exported data will override currently loaded display and wheel options. It may also override current wheels listed in the Wheel select list.  That is, if you restore a previous Export that only had wheels 1,2, &amp; 3, but currently have wheels 1,2,3, &amp; 4 in the list, wheel 4 will remain unchanged.
-				<p><button id=SLC_IMPORT class="SLC SLC_load_clear">Import Wheels & Display Settings</button>
+				<p><button id=SLC_IMPORT class=SLC>Import Wheels & Display Settings</button>
 			</td></tr>
 
 			<tr><th class=SLC>Version</th><td id=SLC_VERSION></td></tr>
@@ -1249,14 +1308,18 @@ var $SHOW_HIDE_OTHER = E(_NS_ + 'show_hide_other'); //<button> to show/hide othe
 var $SHOW_HIDE_NOTES = E(_NS_ + 'show_hide_notes'); //<button> to show/hide Notes.
 var $SHOW_HIDE_DO    = E(_NS_ + 'show_hide_DO');    //<button> to show/hide display options.
 
+var $ROTATE_WHEEL_text   = E(_NS_ + 'ROTATE_WHEEL_text');
+var $ROTATE_WHEEL_step   = E(_NS_ + 'ROTATE_WHEEL_step');
+var $ROTATE_WHEEL_slider = E(_NS_ + 'ROTATE_WHEEL_slider');
+
+var $SCALE_MODE   = E(_NS_ + 'SCALE_MODE');
+var $SCALE_auto   = E(_NS_ + 'SCALE_auto');
+var $SCALE_fixed  = E(_NS_ + 'SCALE_fixed');
+var $SCALE_step   = E(_NS_ + 'SCALE_step');
+var $SCALE_slider = E(_NS_ + 'SCALE_slider');
 
 
-
-var $SCALE_MODE  = E(_NS_ + 'SCALE_MODE');
-var $SCALE_auto  = E(_NS_ + 'SCALE_auto');
-var $SCALE_fixed = E(_NS_ + 'SCALE_fixed');
-
-var $RESET_SCALE = E(_NS_ + 'reset_scale');
+var $RESET_SCALE = E(_NS_ + 'reset_rotate_scale');
 var $RESET_OPTIONS_SPOKES  = E(_NS_ + 'reset_options_spokes');   //<button> to reset display options.
 var $RESET_OPTIONS_RIM_ETC = E(_NS_ + 'reset_options_rim_etc');  //<button> to reset display options.
 
@@ -1327,7 +1390,7 @@ var $MESSAGE_DIV = E(_NS_ + 'message');	 //div for actual error message.
 var $ACCEPT_MSG  = E(_NS_ + 'ACCEPT_MSG'); //[I Accept] disclaimer button. id is also cookie name.
 
 
-var $SVG_WHEEL = E(_NS_ + 'svg_wheel'); //Main <svg> element containing wheel & axes..
+var $SVG_WHEEL = E(_NS_ + 'svg_wheel'); //Main <svg> element containing wheel & axes.
 var $G_WHEEL   = E(_NS_ + 'wheel'); //<g> containing just the wheel elements: spokes, holes, rim, & flanges.
 
 var $SVG_CONTAINER_DIV = E(_NS_ + 'The_SVG');
@@ -1335,8 +1398,10 @@ var $SVG_CONTAINER_DIV = E(_NS_ + 'The_SVG');
 var $NOTES = E(_NS_ + 'notes'); //Notes <div>.
 var $NOTES_ADVANCED_BUILD_INFO = E(_NS_ + 'advanced_notes');
 
-var $X_axis = E(_NS_ + 'x-axis');
-var $Y_axis = E(_NS_ + 'y-axis');
+var $X_axis1 = E(_NS_ + 'x-axis1');
+var $Y_axis1 = E(_NS_ + 'y-axis1');
+var $X_axis2 = E(_NS_ + 'x-axis2');
+var $Y_axis2 = E(_NS_ + 'y-axis2');
 
 var $DELETE_ALL_DATA = E(_NS_ + 'DELETE_ALL_DATA');
 
@@ -1356,7 +1421,7 @@ var $CLOSE_IMPORT     = E(_NS_ + 'close_import');   //<button>
 //end assignment of element references.
 
 
-//##### ##############################
+//Not yet actually used for anything. But, it's on the todo list...
 var HOLE_DATA = {}
     HOLE_DATA[RIM_HOLES]     = {};
 	HOLE_DATA[RIM_HOLES].cx  = [];
@@ -1463,10 +1528,12 @@ var DEFAULT_OPTIONS = {
 	'AXES_COLOR': "#999",
 	'AXES_SHOW' : true,
 
-
-	'SCALE_MODE': 'fixed',
+	'ROTATE_WHEEL_text': 0,
+	'ROTATE_WHEEL_step': 5,
+	'SCALE_MODE' : 'fixed',
+	'SCALE_step': 20,
 	'SCALE_fixed': 670  //viewbox size for "fixed" mode. To fit a common 700c wheel,
- };                     //it should be at least (ERD + (RIM_LINE_SIZE * 2)).
+ };                      //it should be at least (ERD + (RIM_LINE_SIZE * 2)).
 /*************************************************/
 
 
@@ -1562,6 +1629,13 @@ function Save_Settings(what, misc) { //****************************************/
 	}
 
 	localStorage.setItem(storage_id, JSON.stringify(settings));
+
+
+	//##### ######################################
+	//var undo_stack = localStorage.getItem(_NS_ + 'undo_stack');
+	//Log(undo_stack,1);
+
+
 }//end Save_Settings() { //****************************************************/
 
 
@@ -1749,6 +1823,12 @@ function Load_DEFAULT_OPTIONS_Rim_etc() { //***********************************/
 
 function Load_DEFAULT_OPTIONS() { //*******************************************/
 
+	$ROTATE_WHEEL_step.value = DEFAULT_OPTIONS.ROTATE_WHEEL_step;
+	$ROTATE_WHEEL_text.value = DEFAULT_OPTIONS.ROTATE_WHEEL_text;
+	$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_WHEEL_text.value + ")");
+	$ROTATE_WHEEL_slider.setAttribute('step', DEFAULT_OPTIONS.ROTATE_WHEEL_step);
+	$ROTATE_WHEEL_slider.value = $ROTATE_WHEEL_text.value;
+
 	Set_Scale_Mode(true);
 	
 	Load_DEFAULT_OPTIONS_Spokes();
@@ -1776,21 +1856,28 @@ function Scroll_Blur(event){ //************************************************/
 	//Permit "clearing" focus, and some keyboard navigation while in <input>'s.
 
 	Normalize_Event(event);
+	var key = event.key_code;
 	
 	var ESC = 27, AU = 38, AD = 40, PU = 33, PD = 34;
 
+	var rotate_wheel_slider = (event.target == $ROTATE_WHEEL_slider);
+	var scale_slider        = (event.target == $SCALE_slider);
+	if ((rotate_wheel_slider || scale_slider) && (key == AU || key == AD || key == PU || key == PD)) {
+		return;
+	}
+
 	//ESC "cancels" current renaming of wheel & reverts back to current name.
-	if ((event.target.id == $WHEEL_NAME.id) && (event.key_code == ESC)) { $WHEEL_NAME.value = $WHEEL_NAME.current; }
+	if ((event.target.id == $WHEEL_NAME.id) && (key == ESC)) { $WHEEL_NAME.value = $WHEEL_NAME.current; }
 
 	//remove focus from input/select to allow keyboard arrows/pageup/pagedown/etc page scrolling.
-	if (event.key_code == ESC) { D.activeElement.blur(); return; }
+	if (key == ESC) { D.activeElement.blur(); return; }
 
 	if (event.target.tagName == "INPUT") {
 		//Arrow down scrolls the page up, towards the bottom of the page, and vice-versa.
-		if      (event.key_code == AU) { window.scrollBy(0, -38); }
-		else if (event.key_code == AD) { window.scrollBy(0,  38); }
-		else if (event.key_code == PU) { window.scrollBy(0,-400); }
-		else if (event.key_code == PD) { window.scrollBy(0, 400); }
+		if      (key == AU) { window.scrollBy(0, -38); }
+		else if (key == AD) { window.scrollBy(0,  38); }
+		else if (key == PU) { window.scrollBy(0,-400); }
+		else if (key == PD) { window.scrollBy(0, 400); }
 	}
 }//end Scroll_Blur() //********************************************************/
 
@@ -2167,8 +2254,8 @@ function Create_Spoke_Holes($hole_group, base_id, N, scale, shd, side, offset) {
 		cx = Math.sin( (a_current/180) * Math.PI) * scale;
 		cy = Math.cos( (a_current/180) * Math.PI) * scale;
 		
-		HOLE_DATA[base_id].cx[sh] = cx;
-		HOLE_DATA[base_id].cy[sh] = cy;
+		HOLE_DATA[base_id].cx[sh] = cx; //##### Not yet used for anthing.
+		HOLE_DATA[base_id].cy[sh] = cy; //##### 
 		
 		holes += '<circle id=' + full_id + ' class="' + base_id + '" r="' + (shd/2) + '" cx="' + cx +'" cy="' + cy + '" />' + "\n";
 		
@@ -2339,8 +2426,9 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //***************/
 
 
 function Make_Rim(save) { //***************************************************/
-	//Adjust displayed rim radius so that with "wide" rims (size > 4), 
-	//spoke ends stay near the inner radius, not in the middle of the "rim"
+	//Adjust displayed rim radius so that with "wide" rims (stroke-width > 4), 
+	//spoke ends stay near the inner radius, not in the middle of the "rim".
+	//This produces a slightly more realistic looking rim/wheel.
 	//     ---------------------------              ---------------------------
     // This                             instead of     *         *         *
 	//     ---*---------*---------*---              ---|---------|---------|---
@@ -2363,7 +2451,7 @@ function Make_Rim(save) { //***************************************************/
 function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2, spoke_colors) { /****/
 	//shd, as used here, and in Create_Spoke_Holes(), only affects
 	//the displayed spoke hole size, and not spoke length calcs.
-	var rotate = 0; //180 rotates wheel so that "spoke 1" is at 12 o'clock. Helped during dev.
+
 	var AR  = 360/nr;  //Angle between holes in Rim.
 	var AF1 = 360/nf1; //Angle between holes in Flange 1.
 	var AF2 = 360/nf2; //Angle between holes in Flange 2.
@@ -2416,8 +2504,6 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 
 	Set_Styles_Spokes();
 	Set_Styles_Rim_etc()
-
-	$G_WHEEL.setAttribute('transform', " rotate(" + rotate + ")");
 }//end Setup_Wheel() /*********************************************************/
 
 
@@ -2524,6 +2610,10 @@ function Build_Wheel(save) { //************************************************/
 	if ( (($NF[1].value < 2) || ($SL[1].value == $SL[2].value)) && ($SL[3].value == $SL[4].value))
 		 { $SL_2_4.style['display'] = "none";      } //Yes   Well, the first two are, at least.
 	else { $SL_2_4.style['display'] = "table-row"; } //No
+
+	//##### #########################
+	//##### Log(Spoke_Length_Calculator(1) + " : " + Spoke_Length_Calculator(2), 1);
+
 }//end Build_Wheel() //********************************************************/
 
 
@@ -2800,8 +2890,7 @@ function Setup_Viewbox() { //**************************************************/
 	}
 
 	view_box_size = Round(view_box_size);
-	
-	
+
 	//Setup viewbox...
 	var view_W = view_box_size; //Width
 	var view_H = view_box_size; //Height
@@ -2812,15 +2901,25 @@ function Setup_Viewbox() { //**************************************************/
 
 	//Set xy axis...
 	var max_XY = view_box_size/2;
-	$X_axis.setAttribute('x1', -max_XY);
-	$X_axis.setAttribute('y1', 0);
-	$X_axis.setAttribute('x2',  max_XY);
-	$X_axis.setAttribute('y2', 0);
+	$X_axis1.setAttribute('x1',.5);
+	$X_axis1.setAttribute('y1', 0);
+	$X_axis1.setAttribute('x2', max_XY);
+	$X_axis1.setAttribute('y2', 0);
 
-	$Y_axis.setAttribute('x1', 0);
-	$Y_axis.setAttribute('y1', -max_XY);
-	$Y_axis.setAttribute('x2', 0);
-	$Y_axis.setAttribute('y2',  max_XY);
+	$X_axis2.setAttribute('x1',-.5);
+	$X_axis2.setAttribute('y1', 0);
+	$X_axis2.setAttribute('x2',-max_XY);
+	$X_axis2.setAttribute('y2', 0);
+
+	$Y_axis1.setAttribute('x1', 0);
+	$Y_axis1.setAttribute('y1',.5);
+	$Y_axis1.setAttribute('x2', 0);
+	$Y_axis1.setAttribute('y2', max_XY);
+
+	$Y_axis2.setAttribute('x1', 0);
+	$Y_axis2.setAttribute('y1',-.5);
+	$Y_axis2.setAttribute('x2', 0);
+	$Y_axis2.setAttribute('y2',-max_XY);
 
 	return view_box_size;
 }//end Setup_Viewbox() { //****************************************************/
@@ -2928,38 +3027,31 @@ function Show_Hide_PH_ROT_Options(phh, phr, rot) { //**************************/
 
 
 function Setup_Type_and_Build(init) { //*******************************************/
-	//Adjust/set NR, NF, & SX as needed for each type(mode) -  (standard/triplet/custom/etc...).
-
-	var standard = ($WHEEL_TYPE.value == "standard");
-	var triplet  = ($WHEEL_TYPE.value == "triplet");
-	var phh      = ($WHEEL_TYPE.value == "phh");
-	var phr      = ($WHEEL_TYPE.value == "phr");
-	var phr_spl  = ($WHEEL_TYPE.value == "phr_spl");
-	var custom   = ($WHEEL_TYPE.value == "custom");
+	//Adjust/set NR, NF, & SX as needed for each type(mode).
 
 	var NR_inc = 4; //Sandard Increment for NR options list.
 
 	$LACE_OPT.disabled = false; //For all except phh...
 
-	if (standard) {
+	if ($WHEEL_TYPE.value == "standard") {
 		Show_Hide_PH_ROT_Options(false, false, false);
 		$SETTINGS.style['background-color'] = BG_STANDARD;
 	} else
-	if (triplet) {
+	if ($WHEEL_TYPE.value == "triplet") {
 		var NR_inc = 3;  //NR must be divisible by 3
 		Show_Hide_PH_ROT_Options(false, false, false);
 		$SETTINGS.style['background-color'] = BG_TRIPLET;
 	} else
-	if (phh) { //Set_phh_Lace_Opt() AFTER $SX[] in if (!custom) below.
+	if ($WHEEL_TYPE.value == "phh") { //Set_phh_Lace_Opt() AFTER $SX[] in if (!custom) below.
 		$LACE_OPT.disabled = true;
 		Show_Hide_PH_ROT_Options(true, false, false);
 		$SETTINGS.style['background-color'] = BG_PHH;
 	} else
-	if (phr) {
+	if ($WHEEL_TYPE.value == "phr") {
 		Show_Hide_PH_ROT_Options(false, true, false);
 		$SETTINGS.style['background-color'] = BG_PHR;
 	} else
-	if (phr_spl) {
+	if ($WHEEL_TYPE.value == "phr_spl") {
 		Show_Hide_PH_ROT_Options(false, true, true);
 		$SETTINGS.style['background-color'] = BG_PHR_SPL;
 	}
@@ -2972,7 +3064,7 @@ function Setup_Type_and_Build(init) { //****************************************
 
 	Build_NR_Options($WHEEL_TYPE.value, MAX[$NR.id], NR);
 	
-	if (!custom) {
+	if ($WHEEL_TYPE.value != "custom") {
 		Set_NF(); //must come before $SX's are set.
 		
 		Build_SX_Options($WHEEL_TYPE.value, 1, $NF[1].value, $SX[1].value);
@@ -2984,8 +3076,8 @@ function Setup_Type_and_Build(init) { //****************************************
 			SX_Enable_Disable(2);
 		}
 		
-		if (phh) { //Must come after Set_SX().
-			if (phh) { Set_phh_Lace_Opt(); } 
+		if ($WHEEL_TYPE.value == "phh") { //Must come after Set_SX().
+			Set_phh_Lace_Opt();
 			$SX[2].disabled = true;
 		}
 		
@@ -3017,6 +3109,7 @@ function Setup_Type_and_Build(init) { //****************************************
 
 	var saved_settings = localStorage.getItem(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
 	if (saved_settings || init == "build") { Build_Wheel(); return true; }
+	$SL_2_4.style['display'] = "none";
 	return false;
 }//end Setup_Type_and_Build() { //*************************************************/
 
@@ -3025,8 +3118,10 @@ function Setup_Type_and_Build(init) { //****************************************
 
 function Set_Scale_Mode(_default) { //*****************************************/
 	if (_default) {
-		$SCALE_MODE .value = DEFAULT_OPTIONS['SCALE_MODE'];
-		$SCALE_fixed.value = DEFAULT_OPTIONS['SCALE_fixed'];
+		$SCALE_MODE .value  = DEFAULT_OPTIONS['SCALE_MODE'];
+		$SCALE_fixed.value  = DEFAULT_OPTIONS['SCALE_fixed'];
+		$SCALE_step.value   = DEFAULT_OPTIONS['SCALE_step'];
+		$SCALE_slider.value = $SCALE_fixed.value;
 	}
 	if ($SCALE_MODE.value == "auto") {
 		$SCALE_fixed.disabled = true;
@@ -3043,11 +3138,16 @@ function Set_Scale_Mode(_default) { //*****************************************/
 
 
 
-function Reset_Scale() { //****************************************************/
+function Reset_Rotate_Scale() { //*********************************************/
+	$ROTATE_WHEEL_step.value = DEFAULT_OPTIONS.ROTATE_WHEEL_step;
+	$ROTATE_WHEEL_text.value = DEFAULT_OPTIONS.ROTATE_WHEEL_text;
+	$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_WHEEL_text.value + ")");
+	$ROTATE_WHEEL_slider.setAttribute('step', DEFAULT_OPTIONS.ROTATE_WHEEL_step);
+	$ROTATE_WHEEL_slider.value = $ROTATE_WHEEL_text.value;
 	Set_Scale_Mode(true);
 	Setup_Viewbox();
 	Save_Settings("display");
-}//end Reset_Scale() //********************************************************/
+}//end Reset_Rotate_Scale() //*************************************************/
 
 
 
@@ -3223,7 +3323,7 @@ function Assign_Events() { //**************************************************/
 
 
 	//Save current value (as .prior_value) onfocus for <input type=text>s in case of error in new value.
-	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF[1], $ROTF[2], $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $TENSION[2], $SCALE_fixed, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE ];
+	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF[1], $ROTF[2], $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $TENSION[2], $SCALE_fixed, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_WHEEL_text];
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
 			if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
@@ -3296,10 +3396,10 @@ function Assign_Events() { //**************************************************/
 		Save_Settings("wheel", 'name');
 	});
 
-	$RENAME_WHEEL.onclick = function() {
+	$RENAME_WHEEL.addEventListener("click", function() {
 		$WHEEL_NAME.style['visibility'] = "visible";
 		$WHEEL_NAME.focus();
-	}
+	});
 
 	
 	$LOAD_SAMPLES  .addEventListener("click", function() { Load_Samples()   });
@@ -3566,6 +3666,29 @@ function Assign_Events() { //**************************************************/
 	});
 
 
+	$ROTATE_WHEEL_text.addEventListener("change", function(){
+		Validate_Input(this);
+		if (this.value > 360) { this.value = 360; }
+		$ROTATE_WHEEL_slider.value = this.value;
+		$G_WHEEL.setAttribute('transform', " rotate(" + this.value + ")");
+		Save_Settings("display");
+	});
+
+	$ROTATE_WHEEL_step.addEventListener("change", function(){
+		Validate_Input(this);
+		if (this.value > 360) { this.value = 360; }
+		$ROTATE_WHEEL_slider.setAttribute('step', this.value);
+		Save_Settings("display");
+	});
+
+	$ROTATE_WHEEL_slider.addEventListener("input", function(){
+		$ROTATE_WHEEL_text.value = this.value;
+		$G_WHEEL.setAttribute('transform', " rotate(" + this.value + ")");
+		Save_Settings("display");
+	});
+
+
+
 	$SCALE_MODE.addEventListener("change", function() {
 		Save_Settings("display");
 		Set_Scale_Mode();
@@ -3574,13 +3697,32 @@ function Assign_Events() { //**************************************************/
 
 	$SCALE_fixed.addEventListener("change", function() {
 		if (!Validate_Input(this)) { return false; }
+		if (this.value > 2000) { this.value = 2000; } //##### abstract out the 2000 ?  Value also in <input max=2000> #####
+		$SCALE_slider.value = this.value;
+
 		Setup_Viewbox();
 		Save_Settings("display");
 		this.prior_value = this.value
 	});
 
+	$SCALE_step.addEventListener("change", function(){
+		Validate_Input(this);
+		if (this.value > 2000) { this.value = 2000; } //##### abstract out the 2000 ?  Value also in <input max=2000> #####
+		$SCALE_slider.setAttribute('step', this.value);
+		Save_Settings("display");
+	});
 
-	$RESET_SCALE          .addEventListener("click", function() { Reset_Scale();           });
+	$SCALE_slider.addEventListener("input", function(){
+		if ($SCALE_MODE.value == "auto") { $SCALE_MODE.value = "fixed"; Set_Scale_Mode(); }
+		$SCALE_fixed.value = this.value;
+		Setup_Viewbox();
+		Save_Settings("display");
+	});
+
+
+
+
+	$RESET_SCALE          .addEventListener("click", function() { Reset_Rotate_Scale();    });
 	$RESET_OPTIONS_SPOKES .addEventListener("click", function() { Reset_OPTIONS_SPOKES();  });
 	$RESET_OPTIONS_RIM_ETC.addEventListener("click", function() { Reset_OPTIONS_RIM_ETC(); });
 
@@ -3607,7 +3749,7 @@ function Assign_Events() { //**************************************************/
 	$DELETE_ALL_DATA.addEventListener('click', function() {
 		//except browser cache, of course...
 		
-		var msg = "This will delete all wheel and display settings\n stored by this web browser on this device.\n\nAre you sure?"
+		var msg = "This will delete all wheel and display settings\n stored in localStorate and cookies by this web browser on this device.\n\nAre you sure?"
 		var DELETE_ALL = confirm(msg);
 		if (!DELETE_ALL) { return; }
 		
@@ -3619,8 +3761,8 @@ function Assign_Events() { //**************************************************/
 		Clear_Settings();
 		
 		localStorage.removeItem(LS_CURRENT_WHEEL); //Must come after Build_Select_Wheel_List();
-		
-		Reset_Scale();
+
+		Reset_Rotate_Scale();
 		Reset_OPTIONS_SPOKES();
 		Reset_OPTIONS_RIM_ETC();
 		
@@ -3689,6 +3831,7 @@ function Assign_Events() { //**************************************************/
 
 
 	$PERFORM_IMPORT.addEventListener("click", function() {
+		
 		//##### Add some basic overall validation of imported_data...
 		//{ "wheels":{"1":{...}, ...}, "display_options":{...} }
 		
@@ -3706,7 +3849,7 @@ function Assign_Events() { //**************************************************/
 		}
 		
 		Setup_Type_and_Build("init");
-		
+		Setup_Viewbox(); 		
 		IMEX_enable_disable(false, $IMPORT_CONTAINER);
 	});
 }//end Assign_Events() //******************************************************/
@@ -3742,6 +3885,13 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 	$SHOW_SIDE[2].checked = false;
 	if ($SPOKE_SHOW[1].checked || $SPOKE_SHOW[2].checked) { $SHOW_SIDE[1].checked = true }
 	if ($SPOKE_SHOW[3].checked || $SPOKE_SHOW[4].checked) { $SHOW_SIDE[2].checked = true }
+	
+	$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_WHEEL_text.value + ")");
+	$ROTATE_WHEEL_slider.setAttribute('step', $ROTATE_WHEEL_step.value);
+	$ROTATE_WHEEL_slider.value = $ROTATE_WHEEL_text.value;
+
+	$SCALE_slider.value =  $SCALE_fixed.value;
+	$SCALE_slider.setAttribute('step', $SCALE_step.value);
 }//end Init_Display_NR_SX() //*************************************************/
 
 
@@ -3775,7 +3925,6 @@ function Init() { //***********************************************************/
 	//#####Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus if accepted.
 
 	$SLC_VERSION.innerHTML = SLC_VERSION;
-
 	$ERD.focus();
 }//end Init() //***************************************************************/
 
