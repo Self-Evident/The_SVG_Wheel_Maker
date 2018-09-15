@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var VERSION = "v2.07 2018-09-02" //##### </script>
+<script>var VERSION = "v2.08 2018-09-05" //##### </script>
 <!--//======================================================-->
 
 
@@ -618,22 +618,22 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				<td>Auto-Angles
 					<select id=SC2_RIM_AUTO_ANGLES class="SC2 SC2_auto_angles">
 						<option value="2">2 x Even</option>
-						<!-- option value="1.875">+7/8 Even</option-->
 						<option value="1.75" >+3/4 Even</option>
-						<!-- option value="1.625">+5/8 Even</option-->
 						<option value="1.5"  >+1/2 Even</option>
-						<!-- option value="1.375">+3/8 Even</option-->
 						<option value="1.25" >+1/4 Even</option>
-						<!-- option value="1.125">+1/8 Even</option-->
-						<option value="1"   >Even (Normal Rim)</option>
-						<!-- option value=".875">-1/8 Even</option-->
-						<option value=".75" >-1/4 Even</option>
-						<!-- option value=".625">-3/8 Even</option-->
-						<option value=".5"  >-1/2 Even</option>
-						<!-- option value=".375">-5/8 Even</option-->
-						<option value=".25" >-3/4 Even</option>
-						<!-- option value=".125">-7/8 Even</option-->
+						<option value="1" selected>Even (Normal Rim)</option>
+						<option value=".75" >3/4 Even</option>
+						<option value=".5"  >1/2 Even</option>
+						<option value=".25" >1/4 Even</option>
 						<option value="0">0</option>
+						<option value="-.25" >-1/4 Even</option>
+						<option value="-.5"  >-1/2 Even</option>
+						<option value="-.75" >-3/4 Even</option>
+						<option value="-1"   >-Even</option>
+						<option value="-1.25">-1 1/4 Even</option>
+						<option value="-1.5" >-1 1/2 Even</option>
+						<option value="-1.75">-1 3/4 Even</option>
+						<option value="-2">2 x Even</option>
 						<option value="off">Manual</option>
 					</select>
 				</td>
@@ -646,13 +646,22 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				&#9492;<input type=text id=SC2_PHRD class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&nbsp;</span></td>
 			</tr>
 			<tr><td><hr class=SC2_hr2></td></tr>
+			</tbody>
+			
+			<tbody id=SC2_ESO_options>
+			<tr><td><b>Esoteric Options</b></td></tr>
+			<tr>
+				<td class=SC2_rot_labels>Prima Lacing
+					<input type=checkbox id=SC2_PRIMA_LACING class=SC2><br>
+				</td>
+			</tr>
+			<tr><td></td></tr>
 			<tr>
 				<td class=SC2_rot_labels>Rim Rotated
 					<input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 				</td>
 			</tr>
 			<tr class=SC2_separator><td></td></tr>
-			</tbody>
 		</table><!--//end Advanced Settings -->
 
 
@@ -932,7 +941,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 					</div>
 					<div>
 						<p class=SC2>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
-						<p class=SC2>That is, just because the program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than the other modes.  And while it will may often be obvious when values produce an unrealistic wheel, again, there are no guarantees.
+						<p class=SC2>That is, just because the program many generate a theoretical wheel on screen from a given set of values, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than the other modes.  And while it may often be obvious when values produce an unrealistic wheel, again, there are no guarantees.
 						<p class=SC2>For additional information, please refer to geometry. And physics.
 					</div>
 				</td>
@@ -964,6 +973,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 
 			<tr><th class=SC2><a tabindex=0>Type</a></th>
 				<td>Determines the base type of wheel: Standard, Triplet, Paired-Hole Hub, Paired-Hole Rim, Paired Hole Hub, Paired-Hole Rim with Paired Hole Hub &amp; Flange Rotation, Custom.
+					<p>When changing types, some wheel values - such as Rim Holes, Flange Holes, and Spoke Cross - may automatically be adjusted to fit the contraints of the new Type. For example, if the current wheel is set to "Triplet" with 21 Rim Holes, and then Type is changed to "Standard", Rim Holes will be adjusted to 24, along with cooresponding changes to Flange Holes.
 					<p>Each "Type" has various restrictions on hole count, spoke cross, Lace Type, etc, depending on the nature of the type.  This does not guarantee that the generated wheel will be realistic or practical. 
 					<p>Custom removes most restrictions on the various wheel values.  Subsequently, there's a greater possibilty to enter values that generate an impractical, or even impossible, wheel.  Generally, it will be obvious. Hopefully...
 				</td>
@@ -1006,7 +1016,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 					<p>In Custom mode, if the number of flange holes is odd, cross can be non-zero, but all spokes on that side will be laced the same direction.  Spokes on the opposite flange will be laced in the opposite direction if they are also odd, otherwise they will be laced normally.
 				</td>
 			</tr>
-			<tr><th class=SC2><a tabindex=0>SHD</a></th><td>"Spoke Hole Diameter". Like Flange Offset &amp; OC, this value only affects final spoke length, and not the wheel as displayed.</td></tr>
+			<tr><th class=SC2><a tabindex=0>SHD</a></th><td>"Spoke Hole Diameter". Like Flange Offset &amp; OC, this value only affects final spoke length, and not the wheel as displayed.  To change the displayed hole size, see [Display Setttings]</td></tr>
 			<tr><th class=SC2><a tabindex=0>Lace Option</a></th><td>Asymetrical lacings, such as triplets and skip-hole, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
 			
 			<tr><th class=SC2><a tabindex=0>Paired Holes</a></th>
@@ -1055,6 +1065,18 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 						<li><span class=SC2_list_option_in_text>0</span> (ex: Shimano 540's)
 						<li><span class=SC2_list_option_in_text>Manual</span>
 					</ul>
+				</td>
+			</tr>
+
+			<tr><th class=SC2><a tabindex=0>Prima Lacing</a></th>
+				<td><p>When changed from unchecked to checked, changes lacing method, and sets sample PHH &amp; PHR values.
+					<p>All values can subsequently be changed as desired.
+					<p>At the rim, "Prima Lacing" spokes match up something like this:<br>
+					(imagine a paired-hole rim)
+					<p>F1_F2_____________F2_F1_____________F1_F2_____________F2_F1_____________ ...etc...
+					<p>Where as normally laced spokes match up like this:<br>
+					(imagine a normal rim)
+					<p>F1_______F2_______F1_______F2_______F1_______F2_______F1_______F2_______ ...etc...
 				</td>
 			</tr>
 
@@ -1220,6 +1242,8 @@ var $CONTAINER		= E(_NS_ + 'CONTAINER');
 var $WHEEL_SETTINGS_container = E(_NS_ + 'WHEEL_SETTINGS_container');
 var $WHEEL_SETTINGS = E(_NS_ + 'WHEEL_SETTINGS');
 
+var $ADVANCED_SETTINGS = E(_NS_ + 'ADVANCED_SETTINGS'); //Wheel <--> Advanced Settings button
+
 var $CURRENT_WHEEL  = E(_NS_ + 'CURRENT_WHEEL'); //1, 2, 3, etc...
 var $WHEEL_NAME     = E(_NS_ + 'WHEEL_NAME');
 
@@ -1230,7 +1254,41 @@ var $CLEAR_SETTINGS	= E(_NS_ + 'clear_settings');
 
 var $WHEEL_TYPE		= E(_NS_ + 'WHEEL_TYPE');
 
-var $ADVANCED_SETTINGS = E(_NS_ + 'ADVANCED_SETTINGS');
+var $ERD  = E(_NS_ + 'ERD'); // Effective Rim Diameter
+var $NR   = E(_NS_ + 'NR');	 // Number of holes in the Rim
+var $NF	  = [];
+	$NF[1]= E(_NS_ + 'NF1'); // Number of holes in Flange 1
+	$NF[2]= E(_NS_ + 'NF2'); //    "        "       "     2
+
+	//Not elements, but requires a few elements defined above...
+var MAX = {};			 //At these values, it starts to take to long to run. (Well, it did on my old machine...)
+	MAX[$NR.id]    = 96; //MAX NR needs to be divisible by 3 AND by 4,  for Build_NR() to work for both standard & triplet modes.
+	MAX[$NF[1].id] = 96;
+	MAX[$NF[2].id] = 96;
+
+var $PCD    = [];
+	$PCD[1] = E(_NS_ + 'PCD1');	// Pitch Circle Diameter 1
+	$PCD[2] = E(_NS_ + 'PCD2');	// 	 "	   "		"	 2
+var $OLD    = E(_NS_ + 'OLD');  //"Over Locknut Distance" = (FTC + FTL) * 2
+var $FTC    = [];
+	$FTC[1] = E(_NS_ + 'FTC1');	// Flange-to-Center 1 distance
+	$FTC[2] = E(_NS_ + 'FTC2');	// 	  "			"	2	 "
+var $FTL    = [];
+	$FTL[1] = E(_NS_ + 'FTL1');	// Flange-to-Locknut 1 distance
+	$FTL[2] = E(_NS_ + 'FTL2');	// 	  "			"	2	 "
+var $OSB    = [];
+	$OSB[1] = E(_NS_ + 'OSB1');	// Offset Spoke Bed 1 (off center rim)
+	$OSB[2] = E(_NS_ + 'OSB2');	// 	  "			"	2	 "		"
+var $SX     = [];
+	$SX[1]  = E(_NS_ + 'SX1');	// Spoke Crossing side 1
+	$SX[2]  = E(_NS_ + 'SX2');	// Spoke Crossing side 2
+
+var $SHD    = E(_NS_ + 'SHD');	// Spoke Hole Diameter. Affects spoke length calcs only.
+
+var $LACE_OPT = E(_NS_ + 'LACE_OPT'); // Wheel Type/Lacing Option
+	$LACE_OPT.options[0].value = -1; //Type 1. spoke length calculations. DO NOT CHANGE 
+	$LACE_OPT.options[1].value =  1; //Type 2. The option values (1 or -1) are used in the 
+
 
 var $PHH_options     = E(_NS_ + 'PHH_options');
 var $HUB_AUTO_ANGLES = E(_NS_ + 'HUB_AUTO_ANGLES');
@@ -1256,43 +1314,11 @@ var $PHRD = E(_NS_ + 'PHRD'); //Paired-Holes Rim Distance (center to center)
 
 var $ROTR    = E(_NS_ + 'ROTR'); //Angle of Rim Rotation. Additional angle between hole 1 of flange and hole 1 of rim. Normal is 0.
 
-var $ERD  = E(_NS_ + 'ERD'); // Effective Rim Diameter
-var $NR   = E(_NS_ + 'NR');	 // Number of holes in the Rim
-var $NF	  = [];
-	$NF[1]= E(_NS_ + 'NF1'); // Number of holes in Flange 1
-	$NF[2]= E(_NS_ + 'NF2'); //    "        "       "     2
+var $ESO_options = E(_NS_ + 'ESO_options');
 
-	//not elements, but requires a few elements defined above...
-var MAX = {};			 //At these values, it starts to take to long to run. (Well, it did on my old machine...)
-	MAX[$NR.id]    = 96; //MAX NR needs to be divisible by 3 AND by 4,  for Build_NR() to work for both standard & triplet modes.
-	MAX[$NF[1].id] = 96;
-	MAX[$NF[2].id] = 96;
-
-var $PCD    = [];
-	$PCD[1] = E(_NS_ + 'PCD1');	// Pitch Circle Diameter 1
-	$PCD[2] = E(_NS_ + 'PCD2');	// 	 "	   "		"	 2
-var $OLD    = E(_NS_ + 'OLD');  //"Over Locknut Distance" = (FTC + FTL) * 2
-var $FTC    = [];
-	$FTC[1] = E(_NS_ + 'FTC1');	// Flange-to-Center 1 distance
-	$FTC[2] = E(_NS_ + 'FTC2');	// 	  "			"	2	 "
-var $FTL    = [];
-	$FTL[1] = E(_NS_ + 'FTL1');	// Flange-to-Locknut 1 distance
-	$FTL[2] = E(_NS_ + 'FTL2');	// 	  "			"	2	 "
-var $OSB    = [];
-	$OSB[1] = E(_NS_ + 'OSB1');	// Offset Spoke Bed 1 (off center rim)
-	$OSB[2] = E(_NS_ + 'OSB2');	// 	  "			"	2	 "		"
-var $SX     = [];
-	$SX[1]  = E(_NS_ + 'SX1');	// Spoke Crossing side 1
-	$SX[2]  = E(_NS_ + 'SX2');	// Spoke Crossing side 2
-var $SHD    = E(_NS_ + 'SHD');	// Spoke Hole Diameter. Affects spoke length calcs only.
-
-var $LACE_OPT = E(_NS_ + 'LACE_OPT'); // Wheel Type/Lacing Option
-	$LACE_OPT.options[0].value = -1; //Type 1. spoke length calculations. DO NOT CHANGE 
-	$LACE_OPT.options[1].value =  1; //Type 2. The option values (1 or -1) are used in the 
-
+var $PRIMA_LACING = E(_NS_ + 'PRIMA_LACING');
 
 var $SPOKE_LENGTHS = E(_NS_ + 'SPOKE_LENGTHS'); //Container
-
 var $SL   = [];	              //Spoke Lengths
 	$SL[1]= E(_NS_ + 'SL1');  //Flange 1
 	$SL[2]= E(_NS_ + 'SL2');  //   "   2
@@ -1302,8 +1328,8 @@ var $SHOW_HIDE_ADVANCED = E(_NS_ + 'show_hide_advanced'); //<button> to show/hid
 var $ADVANCED_INFO      = E(_NS_ + 'advanced_info'); //<div> around advanced info.
 var $SEE_NOTES          = E(_NS_ + 'see_notes'); //
 
-var $FW	 = E(_NS_ + 'FW');  //Flange Width, at spoke holes.
-var $SDB = E(_NS_ + 'SDB'); //Spoke Diameter, at bend.
+var $FW	 = E(_NS_ + 'FW');  //Flange Width at spoke holes.
+var $SDB = E(_NS_ + 'SDB'); //Spoke Diameter at Bend.
 
 var $ELBOWS	= [];
 	$ELBOWS[1] = E(_NS_ + 'ELBOWS1');
@@ -1480,19 +1506,18 @@ var DEFAULT_VALUES = {
 	'ELBOWS2' : 0,	//
 	'TENSION2': 110,
 
-	'HUB_AUTO_ANGLES': "1", //Make sure "value" actually == an <option> "value"! ex: "1" != "1.0"
+	'HUB_AUTO_ANGLES': "1", //Make sure "value" actually === an <option> "value"! ex: "1" !== "1.0"
 	'PHHA1' : 30,
 	'PHHA2' : 30,
-	'PHHD1' : 10.0, // 9.964533
-	'PHHD2' : 13.1, //13.096244
 
-	'RIM_AUTO_ANGLES': "1",  //Make sure "value" actually == an <option> "value"! ex: ".5" != ".50"
-	'PHRA'  : 15,
-	'PHRD'  : 75.3, //75.3136
-
-	'AUTO_ROT': 'auto', //Affects hub flanges only.
+	'AUTO_ROT': '0', //Affects hub flanges only.
 	'ROTF'    : 0, //Flange 1 rotation in degrees.
-	'ROTR'    : 0, //Rim      rotation in degrees.
+
+	'RIM_AUTO_ANGLES': "1",  //Make sure "value" actually === an <option> "value"! ex: ".5" !== ".50"
+	'PHRA'  : 15,
+
+	'ROTR'    : 0, //Rim      rotation in degrees. This is really useless, but fun!
+	'PRIMA_LACING': false,
 
 	'SPOKE_COLOR1': "#477", //Spoke group colors
 	'SPOKE_COLOR2': "#477", //
@@ -1548,10 +1573,23 @@ var DEFAULT_OPTIONS = {
 
 
 
-var HUB_AUTO_ANGLES_OPTS_COMMON = '<option value="1">Even (Normal Hub)</option> <option value=".875">7/8 Even</option> <option value=".75">3/4 Even</option> <option value=".625">5/8 Even</option> <option value=".5">1/2 Even</option> <option value=".375">3/8 Even</option> <option value=".25">1/4 Even</option> <option value=".125">1/8 Even</option> <option value="0">0</option> <option value="off">Manual</option>'; 
-var HUB_AUTO_ANGLES_OPTS_CUSTOM = '<option value="2">2 x Even</option> <option value="1.875">+7/8 Even</option> <option value="1.75">+3/4 Even</option> <option value="1.625">+5/8 Even</option> <option value="1.5">+1/2 Even</option> <option value="1.375">+3/8 Even</option> <option value="1.25">+1/4 Even</option> <option value="1.125">+1/8 Even</option>' + HUB_AUTO_ANGLES_OPTS_COMMON; 
-var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".875">+7/8 Hole</option> <option value=".75">+3/4 Hole</option> <option value=".625">+5/8 Hole</option> <option value=".5">+1/2 Hole</option> <option value=".375">+3/8 Hole</option> <option value=".25">+1/4 Hole</option> <option value=".125">+1/8 Hole</option> <option value="0">0 (Normal Hub)</option>'; 
-var AUTO_ROT_OPTS_CUSTOM = AUTO_ROT_OPTS_COMMON + ' <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option> <option value="-.625">-5/8 Hole</option> <option value="-.75">-3/4 Hole</option> <option value="-.875">-7/8 Hole</option> <option value="-1">-1 Hole</option>' ;
+//Prima Lacing default/example values...
+var PRIMA_LACING = {};
+	PRIMA_LACING.HUB_AUTO_ANGLES = '.375'; // Set PHHA's or PHHD's instead?*
+	PRIMA_LACING.AUTO_ROT = '.5';
+	PRIMA_LACING.PHRD = '9';
+//*re:HUB_AUTO_ANGLES -vs- PHHD's
+//Without one in hand, can't tell if, even for different PCD's for each flange,
+//if the PHHD's are the same for both flanges.
+
+
+
+
+var HUB_AUTO_ANGLES_OPTS_COMMON = '<option value="1" selected>Even (Normal Hub)</option> <option value=".875">7/8 Even</option> <option value=".75">3/4 Even</option> <option value=".625">5/8 Even</option> <option value=".5">1/2 Even</option> <option value=".375">3/8 Even</option> <option value=".25">1/4 Even</option> <option value=".125">1/8 Even</option> <option value="0">0</option> <option value="off">Manual</option>'; 
+var HUB_AUTO_ANGLES_OPTS_CUSTOM = '<option value="2">2 x Even</option> <option value="1.875">+7/8 Even</option> <option value="1.75">+3/4 Even</option> <option value="1.625">+5/8 Even</option> <option value="1.5">+1/2 Even</option> <option value="1.375">+3/8 Even</option> <option value="1.25">+1/4 Even</option> <option value="1.125">+1/8 Even</option>' + HUB_AUTO_ANGLES_OPTS_COMMON;
+
+var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".875">+7/8 Hole</option> <option value=".75">+3/4 Hole</option> <option value=".625">+5/8 Hole</option> <option value=".5">+1/2 Hole</option> <option value=".375">+3/8 Hole</option> <option value=".25">+1/4 Hole</option> <option value=".125">+1/8 Hole</option> <option value="0" selected>0 (Normal Hub)</option>'; 
+var AUTO_ROT_OPTS_CUSTOM = '<option value="1.5">+1 1/2 Hole</option> <option value="1.375">+1 3/8 Hole</option> <option value="1.25">+1 1/4 Hole</option> <option value="1.125">+1 1/8 Hole</option> ' + AUTO_ROT_OPTS_COMMON + ' <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option>';
 
 
 
@@ -2445,21 +2483,26 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f) { //***********************/
 	//Flange 1 hole 1 aligns to rim hole 1.  Flange 2 hole 1 aligns to rim hole 2 (generally, if NF1 <= NF2)...
 	if (f == 2) { var f_skip = r_skip/2 } else { var f_skip = 0 }
 
+	var prima_lacing = ($PRIMA_LACING.checked && $WHEEL_TYPE.value == 'custom');
+
 	for (var h_hole = 1; h_hole <= nf; h_hole += 1) {
 		
 		r_hole = (h_hole-1 + sx*d*Lacing_Modifier(f)) * r_skip + 1 + f_skip
 		r_hole = Round(r_hole) //Needed for triplets. I don't like it, but can't figure out another way...
 
+		if (prima_lacing) { //swap holes...
+			if (f == 1 && d == -1) { r_hole ++ } else
+			if (f == 2 && d == -1) { r_hole -- }
+		}
+		
 		if (r_hole > nr) {r_hole -= nr;}
 		if (r_hole <  1) {r_hole += nr;}
-
-		Add_Spoke(gn, f, h_hole, r_hole); 
+		Add_Spoke(gn, f, h_hole, r_hole);
 		
 		if (gn == g2) { gn = g1 } else { gn = g2 }
 		
-		if (!Custom_Odd_NF(nf)) {
-			d = -d; //toggle direction, aka leading/trailing spokes.
-		}
+		//toggle direction, aka leading/trailing spokes.
+		if (!Custom_Odd_NF(nf)) { d = -d; }
 		//else { all spokes on side with odd spoke count laced same direction.}
 	}
 }//end Create_Spoke_Groups() //************************************************/
@@ -2478,8 +2521,8 @@ function Make_Rim(save) { //***************************************************/
 	//        |         |         |                    |         |         |
 	if ($ERD.value == 0) { return false; }
 	var rim_width = $RIM_LINE_SIZE.value;
-	var recess = 2.5; //Amount spoke is "recessed" into rim, similar to a real wheel.
-	if (rim_width < 5) { var rim_radius = $ERD.value/2; }
+	var recess = 4; //Amount spoke is "recessed" into rim, similar to a real wheel.
+	if (rim_width < (recess*2)) { var rim_radius = $ERD.value/2; }
 	else               { var rim_radius = $ERD.value/2 + rim_width/2 - recess; }
 	$RIM.setAttribute('r', rim_radius);
 	$RIM.style['stroke'] = $RIM_COLOR.value;
@@ -2506,7 +2549,7 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 	var phh_phr = ($WHEEL_TYPE.value == "phh_phr");
 	var custom  = ($WHEEL_TYPE.value == "custom");
 
-	//Paired-Hole Hub & Flange Rotation specific stuff
+	//Paired-Hole Hub & Flange Rotation setup...
 	var offset_phha1 = 0; //standard or triplets
 	var offset_phha2 = 0;
 	if (phh || custom) {
@@ -2516,12 +2559,16 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 		frot2 = frot2 - frot1;
 	}
 
-	//Paired-Hole Rim & Rim Rotation specific stuff
-	var rrot = 0;
+	//Paired-Hole Rim & Rim Rotation setup...
 	var offset_phra = 0; //standard or triplets
 	if ( (nr > 0) && (phr || phh_phr || custom) ) {
 		offset_phra = (AR - parseFloat($PHRA.value))/2;
-		rrot  = parseFloat($ROTR.value);
+	}
+
+	//Rim Rotation setup...
+	var rrot = 0;
+	if (custom) {
+		rrot = parseFloat($ROTR.value);
 		if (isNaN(rrot)) { $ROTR.value = rrot = 0; Save_Settings("wheel"); }
 	}
 
@@ -2824,21 +2871,15 @@ function Validate_NF(f) { //***************************************************/
 
 
 
-function Validate_PH_Angle($pha, $nr_or_nf) { //*******************************/
-	//Angles larger than 1/2 of the angles for evenly spaced holes just mirrors effects up to that point,
-	//but crosses the spokes in paired holes. Which is bad.
+function Validate_PH_Angle($pha, $nr_or_nf, min, max, allow_neg) { //**********/
+	//min & max are relative to angle of even spaced holes.
 
-	//Allow max angle for rim paired-holes to be twice the "even" angle, which is similar to 0 degrees,
-	//but paired in the opposite direction, with diffent patterns.
-	if ($pha == $PHRA) { var h_or_r = 2; } else { var h_or_r = 1; }
-
-	if (Validate_Input($pha)) {
+	if (Validate_Input($pha, false, allow_neg)) {
 		var angle = parseFloat($pha.value);
-		if ($WHEEL_TYPE.value == "custom") { if (angle > 180) { $pha.value = 180; } }
-		else {
-			var max   = 360 / parseFloat($nr_or_nf.value) * h_or_r;
-			if (angle > max) { $pha.value = max; }
-		}
+		var min_angle = 360 / parseFloat($nr_or_nf.value) * min;
+		var max_angle = 360 / parseFloat($nr_or_nf.value) * max;
+		if (angle < min_angle) { $pha.value = min_angle; } else
+		if (angle > max_angle) { $pha.value = max_angle; }
 		return true;
 	}
 	return false;
@@ -2847,21 +2888,22 @@ function Validate_PH_Angle($pha, $nr_or_nf) { //*******************************/
 
 
 
-function Validate_PH_Distance($phd, $nr_or_nf, $pcd_or_erd) { //***************/
-	//Angles larger than 1/2 of the angles for evenly spaced holes just mirrors effects up to that point,
-	//but crosses the spokes in paired holes. Which is bad.
+function Validate_PH_Distance($phd, $nr_or_nf, $pcd_or_erd, allow_neg) { //****/
+	//Distances that produce angles larger than 1/2 of the angles for evenly spaced holes
+	//just mirrors effects up to that point, but in phh's, also crosses the spokes of paired holes in PHH. Which is bad.
 
 	var pcd_or_erd = parseFloat($pcd_or_erd.value);
 
-	if (Validate_Input($phd)) {
-		if ($WHEEL_TYPE.value == "custom") {
-			if (parseFloat($phd.value) > pcd_or_erd) { $phd.value = pcd_or_erd; }
-		}
+	//Validate_Input(phd, integer, allow neg)
+	if (Validate_Input($phd, false, allow_neg)) {
+		if (pcd_or_erd < 0) { var neg = -1; } else { var neg = 1; }
+		
+		if ($WHEEL_TYPE.value == "custom") { if (parseFloat($phd.value) > pcd_or_erd) { $phd.value = pcd_or_erd; }}
 		else {
-			var distance    = parseFloat($phd.value);
-			var even_radians = 2 * Math.PI / parseFloat($nr_or_nf.value);;
+			var distance      = parseFloat($phd.value);
+			var even_radians  = 2 * Math.PI / parseFloat($nr_or_nf.value);;
 			var evenly_spaced = Math.sin(even_radians/2) * pcd_or_erd;
-			if (distance > evenly_spaced) { $phd.value = evenly_spaced; }
+			if (Math.abs(distance) > evenly_spaced) { $phd.value = evenly_spaced * neg; }
 		}
 		return true;
 	}
@@ -2880,7 +2922,7 @@ function Validate_Input($input, integer, allow_neg) { //***********************/
 	else 		 { $input.value = parseFloat($input.value); }
 
 	if (isNaN(parseFloat($input.value)))    { error = true; } else 
-	if (!allow_neg && ($input.value*1 < 0)) { error = true; } //Currently, only OC can be negative.
+	if (!allow_neg && ($input.value*1 < 0)) { error = true; }
 
 	if (error) {
 		if (isNaN(parseFloat($input.prior_value))) { $input.prior_value = 0; }
@@ -3062,7 +3104,7 @@ function Set_phh_Lace_Opt() { //***********************************************/
 
 
 
-function Show_Hide_PH_Hub_Rim_Options(phh, phr) { //***************************/
+function Show_Hide_PH_Hub_Rim_Options(phh, phr, eso) { //**********************/
 
 	if (phh || phr) {
 		Show_Hide($ADVANCED_SETTINGS, true);
@@ -3071,6 +3113,7 @@ function Show_Hide_PH_Hub_Rim_Options(phh, phr) { //***************************/
 	}
 	else { Show_Hide($ADVANCED_SETTINGS, false); }
 
+	Show_Hide($ESO_options, eso); //only in custom mode
 
 }//end Show_Hide_PH_Hub_Rim_Options() //***************************************/
 
@@ -3101,26 +3144,26 @@ function Setup_Type_and_Build(init) { //***************************************/
 	$LACE_OPT.disabled = false; //For all except phh...
 
 	if ($WHEEL_TYPE.value == "standard") {
-		Show_Hide_PH_Hub_Rim_Options(false, false);
+		Show_Hide_PH_Hub_Rim_Options(false, false, false);
 	} else
 	if ($WHEEL_TYPE.value == "triplet") {
 		var NR_inc = 3;  //NR must be divisible by 3
-		Show_Hide_PH_Hub_Rim_Options(false, false);
+		Show_Hide_PH_Hub_Rim_Options(false, false, false);
 	} else
 	if ($WHEEL_TYPE.value == "phh") { //Set_phh_Lace_Opt() AFTER $SX[] in  if (!custom)  below.
 		$LACE_OPT.disabled = true;
-		Show_Hide_PH_Hub_Rim_Options(true, false);
+		Show_Hide_PH_Hub_Rim_Options(true, false, false);
 	} else
 	if ($WHEEL_TYPE.value == "phr") {
-		Show_Hide_PH_Hub_Rim_Options(false, true);
+		Show_Hide_PH_Hub_Rim_Options(false, true, false);
 	} else
 	if ($WHEEL_TYPE.value == "phh_phr") {
 		$LACE_OPT.disabled = true;
-		Show_Hide_PH_Hub_Rim_Options(true, true);
+		Show_Hide_PH_Hub_Rim_Options(true, true, false);
 	}
 
 
-	//Must come before $HUB_AUTO_ANGLES.innerHTML & $AUTO_ROT_OPTS.innerHTML are changed.
+	//Preserve existing values before <option>s options are changed below (via innerHTML).
 	var hub_auto_angles = $HUB_AUTO_ANGLES.value;
 	var auto_rot = $AUTO_ROT.value;
 
@@ -3162,23 +3205,23 @@ function Setup_Type_and_Build(init) { //***************************************/
 		$NF[f].disabled = false;
 		$SX[f].disabled = false;
 		
-		Show_Hide_PH_Hub_Rim_Options(true, true);
+		Show_Hide_PH_Hub_Rim_Options(true, true, true);
 		
 		$HUB_AUTO_ANGLES.innerHTML = HUB_AUTO_ANGLES_OPTS_CUSTOM;
 		$AUTO_ROT_OPTS.innerHTML = AUTO_ROT_OPTS_CUSTOM;
 	}
+
 
 	Set_Wheel_Type_Theme($WHEEL_TYPE.value);
 
 	Build_NR_Options($WHEEL_TYPE.value, MAX[$NR.id], NR); //Must come before Set_Auto_Angles() below.
 
 	if ($WHEEL_TYPE.value == "phh" || $WHEEL_TYPE.value == "phh_phr" || $WHEEL_TYPE.value == "custom") {
-		//$HUB_AUTO_ANGLES.innerHTML & $AUTO_ROT_OPTS.innerHTML are changed above.
+		//$HUB_AUTO_ANGLES.innerHTML & $AUTO_ROT_OPTS.innerHTML may have changed above.
 		$HUB_AUTO_ANGLES.value = hub_auto_angles; 
-		if ($HUB_AUTO_ANGLES.selectedIndex < 0) { $HUB_AUTO_ANGLES.value = "1"; } //Default to "Normal".
 		$AUTO_ROT.value = auto_rot;
-		if ($AUTO_ROT.selectedIndex < 0) { $AUTO_ROT.value = "0"; } //Default to "Normal".
-	
+		if ($HUB_AUTO_ANGLES.selectedIndex < 0) { $HUB_AUTO_ANGLES.value = "off"; } //Default to "Manual" to
+		if ($AUTO_ROT.selectedIndex < 0)        { $AUTO_ROT.value = "off";        } //preserve current values.
 		Set_Auto_Angles_Hub();
 		Set_Auto_Angles($RIM_AUTO_ANGLES, $PHRA, $PHRD, $ERD, $NR);
 		Set_Auto_Rot();//Must come after Set_Auto_Angles(Rim...)
@@ -3240,9 +3283,6 @@ function Set_Auto_Angles($auto_angles, $pha, $phd, $pcd_or_erd, $nf_or_nr) {
 
 
 function Set_Auto_Angles_Hub() { //********************************************/
-	Set_Auto_Angles($HUB_AUTO_ANGLES, $PHHA[1], $PHHD[1], $PCD[1], $NF[1]);
-	Set_Auto_Angles($HUB_AUTO_ANGLES, $PHHA[2], $PHHD[2], $PCD[2], $NF[2]);
-
 	if ($WHEEL_TYPE.value == "custom") {
 		$PHHA[2].disabled = false;
 		$PHHD[2].disabled = false;
@@ -3251,8 +3291,11 @@ function Set_Auto_Angles_Hub() { //********************************************/
 		$PHHA[2].disabled = true ;
 		$PHHD[2].disabled = true ;
 		$PHHA[2].value = $PHHA[1].value;
-		$PHHD[2].value = $PHHD[1].value;
+		Calc_PD_from_PA($PHHD[2], $PHHA[2], $PCD[2]);
 	}
+
+	Set_Auto_Angles($HUB_AUTO_ANGLES, $PHHA[1], $PHHD[1], $PCD[1], $NF[1]);
+	Set_Auto_Angles($HUB_AUTO_ANGLES, $PHHA[2], $PHHD[2], $PCD[2], $NF[2]);
 }//end Set_Auto_Angles_Hub() //************************************************/
 
 
@@ -3271,7 +3314,7 @@ function Set_Auto_Rot() { //***************************************************/
 	}
 	else {
 		$AUTO_ROT_LINKED.disabled = true;
-		if ($AUTO_ROT.value == "auto") { $AUTO_ROT.value = 0; } //Set to "Normal"
+		if ($AUTO_ROT.value == "auto") { $AUTO_ROT.value = "off"; } //Set to "Manual" to preserve existing value.
 		$PHR_FROT_DIVIDER.innerHTML = '<hr class=SC2_hr2>';
 	}
 
@@ -3281,14 +3324,18 @@ function Set_Auto_Rot() { //***************************************************/
 		var rotf = $ROTF.value;
 	}
 	else if ($AUTO_ROT.value == "auto") {
+		Validate_Input($PHRA, false, true);
 		if (NR < 1) { var rotf = 0; }
 		else        { var rotf = (360/NR - $PHRA.value); }
 		$PHR_FROT_DIVIDER.innerHTML = '&#x1f517;';
-	} else {
+	}
+	else { //0, .25, .50, .75, 1.0, ...etc
 		if (NR > 0) { var n_holes = NR;           }
 		else        { var n_holes = $NF[2].value; }
-		var rotf = (360/n_holes) * 2 * $AUTO_ROT.value;
-	} //0, .25, .50, .75, 1.0
+		
+		if (n_holes > 0) { var rotf = (360/n_holes) * 2 * $AUTO_ROT.value; }
+		else             { var rotf = DEFAULT_VALUES.ROTF; }
+	} 
 
 	$ROTF.value =  rotf;
 }//end Set_Auto_Rot() //*******************************************************/
@@ -3509,7 +3556,13 @@ function Assign_Events() { //**************************************************/
 	var save = true; //Just for clarity below, as some functions have an option to save settings.
 
 
-	$ERD.addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); Setup_Viewbox(); } });
+	$ERD.addEventListener("change", function() {
+		if (Validate_Input(this)) {
+			Calc_PD_from_PA($PHRD, $PHRA, this);
+			Build_Wheel(save);
+			Setup_Viewbox(); }
+		}
+	);
 
 	$NR.addEventListener("change", function() {
 		if (Validate_NR()) {
@@ -3539,8 +3592,8 @@ function Assign_Events() { //**************************************************/
 		}
 	});
 
-	$PCD[1].addEventListener("change", function() { Validate_Input(this); Build_Wheel(save); Calc_PD_from_PA($PHHD[1], $PHHA[1], $PCD[1]); });
-	$PCD[2].addEventListener("change", function() { Validate_Input(this); Build_Wheel(save); Calc_PD_from_PA($PHHD[2], $PHHA[2], $PCD[2]); });
+	$PCD[1].addEventListener("change", function() { Validate_Input(this); Calc_PD_from_PA($PHHD[1], $PHHA[1], this); Build_Wheel(save); });
+	$PCD[2].addEventListener("change", function() { Validate_Input(this); Calc_PD_from_PA($PHHD[2], $PHHA[2], this); Build_Wheel(save); });
 	$FTC[1].addEventListener("change", function() { Validate_Input(this); Build_Wheel(save); });
 	$FTC[2].addEventListener("change", function() { Validate_Input(this); Build_Wheel(save); });
 
@@ -3562,7 +3615,7 @@ function Assign_Events() { //**************************************************/
 	});
 
 	$PHHA[1].addEventListener("change", function() {
-		Validate_PH_Angle(this, $NF[1]);
+		Validate_PH_Angle(this, $NF[1], 0, 2*1);
 		Calc_PD_from_PA($PHHD[1], this, $PCD[1]);
 		if ($WHEEL_TYPE.value != "custom") {
 			$PHHA[2].value = this.value;	
@@ -3573,7 +3626,8 @@ function Assign_Events() { //**************************************************/
 	});
 
 	$PHHA[2].addEventListener("change", function() {
-		Validate_PH_Angle(this, $NF[2]);
+		//Only available in custom mode.
+		Validate_PH_Angle(this, $NF[2], 0, 2*1);
 		Calc_PD_from_PA($PHHD[2], this, $PCD[2]);
 		$HUB_AUTO_ANGLES.value = 'off';
 		Build_Wheel(true);
@@ -3605,7 +3659,7 @@ function Assign_Events() { //**************************************************/
 	});
 
 	$ROTF.addEventListener("change", function() {
-		Validate_Input(this, false, true); //(this, integer, allow neg)
+		Validate_PH_Angle(this, $NR, -.5*2, 1.5*2, true); //true allows -neg angles.
 		Set_Auto_option_from_Angle(this.value, $AUTO_ROT, 2);
 		Set_Auto_Rot(); //Must come after Set_Auto_option_from_Angle().
 		Build_Wheel(true);
@@ -3620,7 +3674,7 @@ function Assign_Events() { //**************************************************/
 	});
 
 	$PHRA.addEventListener("change", function() {
-		Validate_PH_Angle(this, $NR);
+		Validate_PH_Angle(this, $NR, -2*2, 2*2, true); //true allows -neg angles.
 		Calc_PD_from_PA($PHRD, $PHRA, $ERD);
 		Set_Auto_option_from_Angle(this.value, $RIM_AUTO_ANGLES, 1);
 		Set_Auto_Rot(); //Must come after Set_Auto_option_from_Angle().
@@ -3628,7 +3682,7 @@ function Assign_Events() { //**************************************************/
 	});
 
 	$PHRD.addEventListener("change", function() {
-		Validate_PH_Distance(this, $NR, $ERD);
+		Validate_PH_Distance(this, $NR, $ERD, true);//true allows -neg distances.
 		Calc_PA_from_PD($PHRA, $PHRD, $ERD);
 		Set_Auto_option_from_Angle($PHRA.value, $RIM_AUTO_ANGLES, 1);
 		Set_Auto_Rot(); //Must come after Set_Auto_option_from_Angle().
@@ -3637,8 +3691,22 @@ function Assign_Events() { //**************************************************/
 
 
 	$ROTR.addEventListener("change", function() {
-		Validate_Input(this, false, true); //(this, integer, all neg)
+		Validate_PH_Angle(this, $NR, -$NR.value, $NR.value, true); //true allows -neg angles.
 		Build_Wheel(true);
+	});
+
+
+	$PRIMA_LACING.addEventListener("click", function() {
+		if ($PRIMA_LACING.checked) {
+			$HUB_AUTO_ANGLES.value = PRIMA_LACING.HUB_AUTO_ANGLES;
+			$AUTO_ROT       .value = PRIMA_LACING.AUTO_ROT;
+			$PHRD           .value = PRIMA_LACING.PHRD;
+			Calc_PA_from_PD($PHRA, $PHRD, $ERD);
+			Set_Auto_Angles_Hub();
+			$RIM_AUTO_ANGLES.value = 'off';
+			Set_Auto_Angles_Hub();
+		}
+		Build_Wheel(save);
 	});
 
 
@@ -3810,8 +3878,8 @@ function Assign_Events() { //**************************************************/
 		Save_Settings("wheel");
 	});
 
-	$SCALE_slider.addEventListener("change", function(){ Save_Settings("wheel"); });
-	$SCALE_slider.addEventListener("input", function(){ $SCALE_text.value = this.value; Set_Scale(); });
+	$SCALE_slider.addEventListener("change", function() { Save_Settings("wheel"); });
+	$SCALE_slider.addEventListener("input" , function() { $SCALE_text.value = this.value; Set_Scale(); });
 
 
 	$RESET_SCALE          .addEventListener("click", function() { Reset_Scale_Rotate(true);    });
@@ -4001,7 +4069,7 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 
 	//Init with all options. Setup_Type_and_Build() will change to COMMON if needed.
 	$HUB_AUTO_ANGLES.innerHTML = HUB_AUTO_ANGLES_OPTS_CUSTOM;
-	$AUTO_ROT_OPTS.innerHTML = AUTO_ROT_OPTS_CUSTOM;
+	$AUTO_ROT.innerHTML = AUTO_ROT_OPTS_CUSTOM;
 
 	Reset_OPTIONS_SPOKES()
 	Reset_OPTIONS_RIM_ETC()
