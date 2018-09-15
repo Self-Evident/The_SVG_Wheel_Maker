@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var VERSION = "v2.02 2018-08-24 4:19pm" //##### </script>
+<script>var VERSION = "v2.03 2018-08-27" //##### </script>
 <!--//======================================================-->
 
 
@@ -51,7 +51,7 @@ p.SC2 { margin: .4rem 0; }
 hr.SC2 {margin: .6rem 0; }
 .SC2_hr2 {margin: .4rem 1rem;; }
 
-a.SC2 { outline: 0; text-decoration: none; display: inline-block; background-color: #EEE }
+a.SC2 { outline: 0; text-decoration: none; display: inline-block; background-color: #EEE; border: solid 1px white; }
 
 a.SC2:focus, a.SC2:hover { background-color: #ccc; text-decoration: none; }
 
@@ -107,7 +107,7 @@ select.SC2 {
 	padding: 0 0 0 .3rem;
 	width: 3.3rem;
 	font-size: .9rem;
-	height: 1.3rem;
+	height: 1.4rem;
 	border: solid 1px #7a7a7a;
 }
 select.SC2 option { padding-left: .5rem }
@@ -163,7 +163,6 @@ select.SC2:-moz-focusring {
 
 
 #SC2_WHEEL_TYPE { margin: 0 0 .3rem .2rem; padding-left: .1rem; width: 11rem; }
-#SC2_CUSTOM_opts {}
 
 .SC2_theta { display: inline-block; width: .5rem; }
 
@@ -171,7 +170,9 @@ select.SC2:-moz-focusring {
 
 select.SC2_auto_angles { padding: 0; width: 5.5rem; margin: 0 0 .3rem 0; }
 
-.SC2_rot_labels { font-size: .92rem; text-align: right; }
+#SC2_AUTO_ROT { width: 8.2rem; }
+
+.SC2_rot_labels { font-size: .92rem; text-align: center; }
 
 #SC2_LACE_OPT   { margin: .5rem 0 .5rem 0; }
 
@@ -184,7 +185,7 @@ select.SC2_auto_angles { padding: 0; width: 5.5rem; margin: 0 0 .3rem 0; }
 	margin: 0 0 1rem 0;
 }
 
-#SC2_right_side { width: 670px; display: inline-block; padding: 0; border: 0; text-align: left; }
+#SC2_right_side { width: 647px; display: inline-block; padding: 0; border: 0; text-align: left; }
 
 #SC2_WHEEL_SELECT_OPTS td { text-align: right; padding-right: .5rem; }
 
@@ -262,7 +263,7 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 
 #SC2_scale_rotate_options {
 	display: inline-block;
-	margin: 0 0 .2rem 0;
+	margin: 0 0 .1rem 0;   /* bottom margin should match SC2_ndo_buttons' */
 	padding: .2rem .3rem .3rem 1rem;
 	font-family: arial;
 	text-align: left;
@@ -469,7 +470,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 .SC2_theme_triplet  { background-color: rgb(210,223,227); }
 .SC2_theme_phh      { background-color: rgb(200,214,240); }
 .SC2_theme_phr      { background-color: rgb(227,214,254); }
-.SC2_theme_phr_frot { background-color: rgb(245,192,245); }
+.SC2_theme_phh_phr { background-color: rgb(245,192,245); }
 .SC2_theme_custom   { background-color: #FAB; }
 </style>
 
@@ -529,7 +530,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 						<option value="triplet" >Triplet</option>
 						<option value="phh"     >Paired Hole Hub (PHH)</option>
 						<option value="phr"     >Paired Hole Rim (PHR)</option>
-						<option value="phr_frot">PHR  &amp; Flange Rotation</option>
+						<option value="phh_phr" >PHH &amp; PHR &amp; Flange Rotation</option>
 						<option value="custom"  >Custom</option>
 					</select>
 				</td>
@@ -573,8 +574,13 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 					</select>
 				</td>
 			</tr>
-			
+		</table><!--//end Wheel Settings -->
+
+
+
+		<table class="SC2 SC2_type_theme">
 			<tbody id=SC2_CUSTOM_opts>
+			<tr><th colspan=2>Advanced Settings</th></tr>
 			<tr>
 				<td colspan=2>
 					Paired Holes: &nbsp; 
@@ -588,18 +594,20 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			</tbody>
 
 			<tbody id=SC2_PHH_options>
+			<tr><td colspan=2><b>Paired-Hole Hub<b></td></tr>
 			<tr>
-				<td colspan=2><b>Hub</b> Auto-Angles
+				<td colspan=2>Auto-Angles
 					<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles">
-						<option value="even">Even</option>
-						<option value="half">1/2 Even</option>
+						<option value="1.0">Even</option>
+						<option value=".75">3/4 Even</option>
+						<option value=".50">1/2 Even</option>
+						<option value=".25">1/4 Even</option>
 						<option value="off">Manual</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td colspan=2 class=SC2_PHH_data>PH Angles
-
 					&#9484;<input type=text id=SC2_PHHA1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 					<input type=text id=SC2_PHHA2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
 					PH Distances
@@ -611,12 +619,14 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			</tbody>
 			
 			<tbody id=SC2_PHR_options>
+			<tr><td colspan=2><b>Paired-Hole Rim<b></td></tr>
 			<tr>
-				<td colspan=2><b>Rim</b> Auto-Angles
+				<td colspan=2>Auto-Angles
 					<select id=SC2_RIM_AUTO_ANGLES class="SC2 SC2_auto_angles">
-						<option value="even">Even</option>
-						<option value="half">1/2 Even</option>
-						<option value="1/4">1/4 Even</option>
+						<option value="1.0">Even</option>
+						<option value=".75">3/4 Even</option>
+						<option value=".50">1/2 Even</option>
+						<option value=".25">1/4 Even</option>
 						<option value="0">0</option>
 						<option value="off">Manual</option>
 					</select>
@@ -628,38 +638,38 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				PH Distances
 				&#9492;<input type=text id=SC2_PHRD class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&nbsp;</span></td>
 			</tr>
-			<tr><td colspan=2><hr class=SC2_hr2></td></tr>
+			<tr><td id=SC2_phr_frot_divider colspan=2><hr class=SC2_hr2></td></tr>
 			</tbody>
 			
 			<tbody id=SC2_ROT_options>
+			<tr><td colspan=2><b>Rotations<b></td></tr>
 			<tr>
-				<td colspan=2><b>Flange</b> Rotations
+				<td colspan=2>Auto-Flange
 					<select id=SC2_AUTO_ROT class="SC2 SC2_auto_angles">
-						<option value="even">1 Hole</option>
-						<option value="3/4">3/4 Hole</option>
-						<option value="half">1/2 Hole</option>
-						<option value="1/4">1/4 Hole</option>
-						<option value="0">None</option>
-						<option value="auto">Auto w/ Rim PH</option>
+						<option value="1.0">1 Hole</option>
+						<option value=".75">3/4 Hole</option>
+						<option value=".50">1/2 Hole</option>
+						<option value=".25">1/4 Hole</option>
+						<option value="0">Normal</option>
+						<option value="auto">Linked to PH Rim</option>
 						<option value="off">Manual</option>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td class=SC2_rot_labels colspan=2>Flange Rotation 
-					<input type=text id=SC2_ROTF1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
-					<input type=text id=SC2_ROTF2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+					<input type=text id=SC2_ROTF class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 				</td>
 			</tr>
 			<tr>
-				<td class=SC2_rot_labels>Rim Rotation</td>
-				<td>
+				<td class=SC2_rot_labels colspan=2><br>Rim Rotation
 					<input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 				</td>
 			</tr>
 			<tr><td colspan=2><hr class=SC2_hr2></td></tr>
 			</tbody>
-		</table><!--//end Wheel Settings -->
+		</table><!--//end Advanced Settings -->
+
 
 
 		<table id=SC2_SPOKE_LENGTHS class="SC2 SC2_type_theme">
@@ -672,6 +682,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 		</table>
+
 
 
 		<button type=button id=SC2_show_hide_advanced class="SC2 SC2_ndo_buttons" value=none>Advanced Build Info</button>
@@ -951,7 +962,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			
 			<tr><th class=SC2>Copy</th>
 				<td>
-					<p>The values for the current wheel can be copied to a blank wheel (one that has no settings):
+					<p>Values for the current wheel can be copied to a blank wheel (one that has no settings):
 					<ul class=SC2>
 						<li>Select the wheel to copy.
 						<li>Make sure Copy is checked.
@@ -974,8 +985,9 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 				</td>
 			<tr><th class=SC2>ERD</th>
 				<td>The "<b>E</b>ffective <b>R</b>im <b>D</b>iameter".<br>
-					<p>A picture could say a thousand words, but Google says a lot more...
-					<p>Note that the display Scale (bottom of wheel image) is based on the ERD (Wheel Settings) &amp; Rim size (Display Options). For example, if Scale is set to 100, changing the ERD will not change the size of the image on screen, as the wheel will automatically scale to fit the wheel window.
+					<p>A picture could say a thousand words, but <a class=SC2 href='https://www.google.com/search?q=effective+rim+diameter&tbm=isch'>Google says a lot more.<a/>
+					<p>Or check out one of the "A Few Other Calculators" linked above for ERD info.
+					<p>Note that the display Scale (bottom of wheel image) is based on the ERD (Wheel Settings) &amp; Rim size (Display Settings). For example, if Scale is set to 100, changing the ERD will not change the overall size of the image on screen, as the wheel will automatically scale to fit the wheel window.
 				</td>
 			</tr>
 			
@@ -1016,8 +1028,10 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			
 			<tr><th class=SC2>Paired Holes</th>
 				<td>
-					<p>Available only with Paired-Hole  &amp; Custom Wheel Types.
-					<ul class=SC2>
+					<p>Paired Hole (PH) options available in PH  &amp; Custom Wheel Types.
+					<p>A PH Angle is formed by lines passing thru the center of paired spoke holes and extending to the axial center of the hub. For example: the angle between two radial spokes.
+					<p>A PH Distance is the straight-line distance between the center of paired spoke holes (not along the arc of the rim).  In geometry, this distance is called a chord.
+					<p><ul class=SC2>
 						<li>In <span class=SC2_list_option_in_text3>Paired-Hole Hub</span> mode, hole angles and spoke cross for Side 2 are automatically set to the same value as Side 1.
 						<li>In <span class=SC2_list_option_in_text3>Custom</span> mode, and Paired Holes Hub selected, hole angles and spoke cross for Side 1 and Side 2 are each user selectable and independent of one another.
 							<ul class=SC2>
@@ -1029,7 +1043,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 
 			<tr><th class=SC2>Hub Auto-Angles</th>
 				<td><p>Determines if angles between paired-holes (PH) are automatically calculated, or user provided.				
-					<ul class=SC2>
+					<p><ul class=SC2>
 						<li><span class=SC2_list_option_in_text2>Even</span> Normal (non-PH hub) angles, with evenly spaced holes around the flange.
 						<li><span class=SC2_list_option_in_text2>1/2 Even</span> One half of the normal, or "Even", angles.
 						<li><span class=SC2_list_option_in_text2>Manual</span> Angles, or distances, are user provided.
@@ -1040,7 +1054,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 
 			<tr><th class=SC2>Rim Auto-Angles</th>
 				<td><p>Determines if angles between paired-holes (PH) are automatically calculated, or user provided.				
-					<ul class=SC2>
+					<p><ul class=SC2>
 						<li><span class=SC2_list_option_in_text2>Even</span> Normal (non-PH rim) angles, with evenly spaced holes around the rim.
 						<li><span class=SC2_list_option_in_text2>1/2 Even</span>
 						<li><span class=SC2_list_option_in_text2>1/4 Even</span>
@@ -1051,16 +1065,17 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2>Flange Rotations</th>
-				<td><p>In addition to, and seperate from, paired-holes on each flange, the flanges can be "rotated" relative to each other.
-					<ul class=SC2>
+				<td><p>In addition to, and seperate from, paired-holes on each flange, the flanges can be "rotated" relative to each other.  "Normal", in this setting, is a normal hub, such that the holes in each flange are evenly spaced between them. "1/2 Hole" aligns the holes of each flange.
+					<p><ul class=SC2>
 						<li><span class=SC2_list_option_in_text3>  1 Hole</span>
 						<li><span class=SC2_list_option_in_text3>3/4 Hole</span>
 						<li><span class=SC2_list_option_in_text3>1/2 Hole</span>
 						<li><span class=SC2_list_option_in_text3>1/4 Hole</span>
-						<li><span class=SC2_list_option_in_text3>None</span> Normal.
-						<li><span class=SC2_list_option_in_text3>Auto w/ Rim PH</span>  The calculated rotations are based on any rim PH angles, and should produce a wheel with only one spoke length per side.
+						<li><span class=SC2_list_option_in_text3>Normal</span>
+						<li><span class=SC2_list_option_in_text3>Auto w/ Rim PH</span>  The calculated rotations are based on any rim PH angles, and should produce a wheel with only one spoke length per side,*
 						<li><span class=SC2_list_option_in_text3>Manual</span>
 					</ul>
+					<p> *With normal rim to hub spoke hole ratios. Ex: 24 hole rim, and a 24 hole hub with each flange with 12 holes.
 				</td>
 			</tr>
 
@@ -1149,7 +1164,7 @@ tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
 			</td></tr>
 			
 			<tr><th class=SC2>Import Data</th><td>
-				<p>Importing previously Exported data will override currently loaded display options. It may also override some or all wheels currently listed in the Wheel select list.  
+				<p>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.  
 				
 				For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
 				<p><button id=SC2_IMPORT class=SC2>Import Wheels &amp; Display Settings</button>
@@ -1255,13 +1270,13 @@ var $RIM_AUTO_ANGLES = E(_NS_ + 'RIM_AUTO_ANGLES');
 var $PHRA = E(_NS_ + 'PHRA'); //Paired-Holes Rim Angle
 var $PHRD = E(_NS_ + 'PHRD'); //Paired-Holes Rim Distance (center to center)
 
+var $PHR_FROT_DIVIDER = E(_NS_ + 'phr_frot_divider');
+
 var $ROT_options = E(_NS_ + 'ROT_options'); ////These are independent of paired-hole values.
 var $ROTR    = E(_NS_ + 'ROTR'); //Angle of Rim Rotation. Additional angle between hole 1 of flange and hole 1 of rim. Normal is 0.
 
 var $AUTO_ROT = E(_NS_ + 'AUTO_ROT'); //Auto adjust $ROTF's to ((even rim holes angle) - (paired rim hole angle)) / 2
-var $ROTF    = [];                //Angle of Flange Rotation (seperate from paired-hole values).
-	$ROTF[1] = E(_NS_ + 'ROTF1'); //That is, addtional angle between hole 1 of flange and hole 1 of rim. Normal is 0.
-	$ROTF[2] = E(_NS_ + 'ROTF2');
+var $ROTF     = E(_NS_ + 'ROTF'); //Angle of Flanges Rotation (seperate from paired-hole values) relative to each other.
 
 var $ERD  = E(_NS_ + 'ERD');	// Effective Rim Diameter
 var $NR   = E(_NS_ + 'NR');	// Number of holes in the Rim
@@ -1500,9 +1515,8 @@ var DEFAULT_VALUES = {
 	'PHRD'  : 75, //75.3136
 
 	'ROT_OPTS': false,
-	'AUTO_ROT': 'auto', //Currently, affects flanges only.
-	'ROTF1'   : 0, //Flange 1 Rotation in degrees.
-	'ROTF2'   : 0, //Flange 2 Rotation     "     .
+	'AUTO_ROT': 'auto', //Affects flanges only.
+	'ROTF'   : 0, //Flange 1 Rotation in degrees.
 	'ROTR'    : 0, //Rim      Rotation     "     .
 
 	'SPOKE_COLOR1': "#477", //Spoke group colors
@@ -1700,7 +1714,7 @@ function Validate_Wheel_Settings(misc, save) { //******************************/
 	    ($WHEEL_TYPE.value != "triplet") && 
 		($WHEEL_TYPE.value != "phh") && 
 		($WHEEL_TYPE.value != "phr") && 
-		($WHEEL_TYPE.value != "phr_frot"))  { $WHEEL_TYPE.value = "standard"; }
+		($WHEEL_TYPE.value != "phh_phr"))  { $WHEEL_TYPE.value = "standard"; }
 
 	if ($LACE_OPT.value != "-1") { $LACE_OPT.value = 1; }
 
@@ -1848,13 +1862,20 @@ function Load_DEFAULT_VALUES_Scale_Rotate() { //*******************************/
 
 
 
-function Round(number,places) {
+function Round(number, places) { //********************************************/
 	if (isNaN(places)) { places = 0; }
 	else               { places = Math.floor(places); }
-	//Use exponetial notation to avoid the 1.005 issue... try it: alert(1.005*10)  or,  alert(Math.round(1.005*100)/100)
-	//SVG coord's may be of form: 1.1234567890123456e-14, so this function won't work with such numbers.
-	return  Number( Math.round( number + 'e' + places ) + 'e-' + places );
-}//end Round()
+	if (places > 13) { places = 13 } //Avoid scientific notation.  ex:  1.0e-14.  Javascript uses s.n. after 13 digits.
+
+	number = parseFloat(number);
+	number = number.toFixed(30);//Avoid numbers in s.n.
+
+	//Now use exponetial notation to avoid the 1.005 issue... try it: alert(1.005*10)  or,  alert(Math.round(1.005*100)/100)
+	//Some numbers may be of form: 1.1234567890123456e-14, and this function won't work with such numbers. Yet...
+	var rounded = Number( Math.round( number + 'e' + places ) + 'e-' + places );
+	if (isNaN(rounded)) { rounded = 0; }
+	return  rounded;
+}//end Round() //**************************************************************/
 
 
 
@@ -2133,15 +2154,6 @@ function Calc_PA_from_PD($pa, $pd, $pcd_or_erd) { //***************************/
 
 
 
-function In_PHH_Mode() { //****************************************************/
-		var phh    = ($WHEEL_TYPE.value == "phh");
-		var custom = ($WHEEL_TYPE.value == "custom");
-		return  (phh || (custom && $PH_HUB.checked));
-}//end In_PHH_Mode() //********************************************************/
-
-
-
-
 function Calc_Spoke_Length(flange, spoke, round_to, elbows) { //************/
 	//Calculate actual spoke length in 3-d space, including flange-to-center measurement..
 	//elbows = +/- offset from flange centerline to spoke centerline (elbows out/in)
@@ -2178,6 +2190,9 @@ function Calc_Spoke_Length(flange, spoke, round_to, elbows) { //************/
 function Calc_Spoke_Lengths(validate, changed, integer, allow_neg) { //********/
 	//Calc spoke lengths for both sides. Used by Build_Wheel() & onchange of OSB & SHD.
 
+	//If no rim and no flangees, can't build any spokes, as they'd be 0 length...
+	if (($NR.value*1 < 1) || ($ERD.value == 0 && $PCD[1].value == 0 && $PCD[2].value == 0)) { return false; }
+
 	if (validate) {
 		if (!Validate_Input(changed, integer, allow_neg)) { return false }
 		changed.prior_value = changed.value; //Also set in onfocus events and in Build_Wheel().
@@ -2206,12 +2221,16 @@ function Output_Spoke_Lengths(side) { //***************************************/
 	var spokes_1_2_diff = (nf > 1 && SPOKE_LENGTHS[side][1] != SPOKE_LENGTHS[side][2]); //at least two diff spoke sizes.
 	var spokes_1_3_diff = (nf > 2 && SPOKE_LENGTHS[side][1] != SPOKE_LENGTHS[side][3]); //at least three diff spoke sizes.
 
-	$SL[side].innerHTML = SPOKE_LENGTHS[side][1]; //SPOKE_LENGTH[flange][hole] (counting from 1)
+	//If no rim or flange holes, no spoke...
+	if (typeof SPOKE_LENGTHS[side][1] != 'undefined') {
+		$SL[side].innerHTML = SPOKE_LENGTHS[side][1]; //SPOKE_LENGTH[flange][hole] (counting from 1)
+	}
 
 	//Output spoke lengths...
 	//More than one spoke length per side? (Only checks first three spokes per side.)
 	if (spokes_1_3_diff) { //Three or more diff lengths, so show 'em all.
 		for (var spoke = 2; spoke <= nf; spoke++) { $SL[side].innerHTML += "<br>" + SPOKE_LENGTHS[side][spoke]; }
+		
 	}
 	else if (spokes_1_2_diff) { //Only two diff lengths.
 		$SL[side].innerHTML += "<br>" + SPOKE_LENGTHS[side][2];
@@ -2258,20 +2277,21 @@ function Create_Spoke_Holes($hole_group, base_id, N, scale, shd, side, offset) {
 
 	var A = 360/N; //angle between holes
 	var a_current = offset;	//angle to current hole from 0
+
 	var cx, cy;		//coordinates for hole
 	var odd = true;	//for alternating classes
 	var holes = "";
 
 	//Paired-Hole Rim & Hub specific stuff
-	var phh      = ($WHEEL_TYPE.value == "phh");
+	var phh      = ($WHEEL_TYPE.value == "phh" || $WHEEL_TYPE.value == "phh_phr");
 	var phr      = ($WHEEL_TYPE.value == "phr");
-	var phr_frot = ($WHEEL_TYPE.value == "phr_frot");
+	var phh_phr  = ($WHEEL_TYPE.value == "phh_phr");
 	var custom   = ($WHEEL_TYPE.value == "custom");
 	var ph_angle = 0; //Used for ph hubs & ph rims.
 	if (phh || (custom && $PH_HUB.checked)) {
 		if ($hole_group != $HOLES_RIM) { var ph_angle = (parseFloat($PHHA[side].value) - A); }
 	}
-	if (phr || phr_frot || (custom && $PH_RIM.checked)) {
+	if (phr || phh_phr || (custom && $PH_RIM.checked)) {
 		if ($hole_group == $HOLES_RIM) { var ph_angle = (parseFloat($PHRA.value) - A); }
 	}
 
@@ -2320,19 +2340,31 @@ function Generate_Spoke_Hole_Info_Click_Events() { //**************************/
 
 
 
-function Add_Spoke(group, flange, flange_hole, rim_hole) { //******************/
+function Add_Spoke(group, flange, hub_hole, rim_hole) { //*********************/
 
 	if (typeof $SPOKE_COLOR[group].value == "undefined") { $SPOKE_COLOR[group].value = "black" }
 
-	var flange_hole_id = HUB_HOLES[flange] + flange_hole;
+	var hub_hole_id = HUB_HOLES[flange] + hub_hole;
 	var rim_hole_id	= RIM_HOLES + rim_hole;
 
-	var x1 = E(flange_hole_id).getAttribute('cx');
-	var y1 = E(flange_hole_id).getAttribute('cy');
+	//Shouldn't happen, but it did once, so just in case...
+	if (E(hub_hole_id) == null || E(rim_hole_id) == null) {
+		var msg  = "No Rim or Flange hole. Can't add spoke.<br>";
+			msg += "Rim Holes: " + $NR.value + "" + "<br>";
+			msg += "Flange 1 Holes: " + $NF[1].value + "" + "<br>";
+			msg += "Flange 2 Holes: " + $NF[2].value + "" + "<br>";
+		    msg += "rim_hole_id: " + rim_hole_id + "<br>";
+			msg += "hub_hole_id: " + hub_hole_id + "";
+		Error_Notice('', msg);
+		return false;
+	}
+
+	var x1 = E(hub_hole_id).getAttribute('cx');
+	var y1 = E(hub_hole_id).getAttribute('cy');
 	var x2 = E(rim_hole_id).getAttribute('cx');
 	var y2 = E(rim_hole_id).getAttribute('cy');
 
-	var spoke_id = SPOKE_ID_PREFIX + flange + "_" + flange_hole;
+	var spoke_id = SPOKE_ID_PREFIX + flange + "_" + hub_hole;
 	var classes = SPOKE_BASE_CLASS + ' ' + SPOKE_GROUP_PREFIX + group; //ex: 'SC2_spoke SC2_group1'
 	var coords = ' x1="' + x1 +  '" y1="' + y1 +  '" x2="' + x2 +  '" y2="' + y2 +  '" ';
 	var style = ' style="stroke:' + $SPOKE_COLOR[group].value + '"';
@@ -2431,15 +2463,13 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f) { //***********************/
 	if (f == 2) { var f_skip = r_skip/2 } else { var f_skip = 0 }
 
 	for (var h_hole = 1; h_hole <= nf; h_hole += 1) {
-		
 		r_hole = (h_hole-1 + sx*d*Lacing_Modifier(f)) * r_skip + 1 + f_skip
-		
 		r_hole = Round(r_hole) //Needed for triplets. I don't like it, but can't figure out another way...
-		
+
 		if (r_hole > nr) {r_hole -= nr;}
 		if (r_hole <  1) {r_hole += nr;}
-		
-		Add_Spoke(gn,  f,  h_hole,  r_hole);
+
+		Add_Spoke(gn, f, h_hole, r_hole); 
 		
 		if (gn == g2) { gn = g1 } else { gn = g2 }
 		
@@ -2484,12 +2514,13 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 	var AR  = 360/nr;  //Angle between holes in Rim.
 	var AF1 = 360/nf1; //Angle between holes in Flange 1.
 	var AF2 = 360/nf2; //Angle between holes in Flange 2.
-	var offset_f1_f2 = AF2/2; //Offset angle between left & right hub flange holes. The radial side is "0".
+	var frot1 = 0;     //Only used with ph hubs.
+	var frot2 = AF2/2; //Normal angle between left & right hub flange holes.
 
-	var phh      = ($WHEEL_TYPE.value == "phh");
-	var phr      = ($WHEEL_TYPE.value == "phr");
-	var phr_frot = ($WHEEL_TYPE.value == "phr_frot");
-	var custom   = ($WHEEL_TYPE.value == "custom");
+	var phh     = ($WHEEL_TYPE.value == "phh" || $WHEEL_TYPE.value == "phh_phr");
+	var phr     = ($WHEEL_TYPE.value == "phr");
+	var phh_phr = ($WHEEL_TYPE.value == "phh_phr");
+	var custom  = ($WHEEL_TYPE.value == "custom");
 
 	//Paired-Hole Hub specific stuff
 	var offset_phha1 = 0; //standard or triplets
@@ -2501,32 +2532,32 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 
 	//Paired-Hole Rim specific stuff
 	var offset_phra = 0; //standard or triplets
-	if (phr || phr_frot || (custom && $PH_RIM.checked)) {
+	if ( (nr > 0) && (phr || phh_phr || (custom && $PH_RIM.checked)) ) {
 		var offset_phra = (AR - parseFloat($PHRA.value))/2;
 	}
 
-	//Rim-Hub Flange Rotation Options
-	var offset_rrot  = 0; //rim
-	var offset_frot1 = 0; //flange1
-	var offset_frot2 = 0; //flange1
-	if (phr_frot || (custom && $ROT_OPTS.checked)) {
-		offset_rrot = parseFloat($ROTR.value);
-		offset_frot1 = parseFloat($ROTF[1].value);
-		offset_frot2 = parseFloat($ROTF[2].value);
+	//Rim & Hub Flange Rotation Options
+	var rrot = 0; //rim
+	if (phh_phr || (custom && $ROT_OPTS.checked)) {
+		rrot  = parseFloat($ROTR.value);
+		frot1 = parseFloat($ROTF.value) / 2;
+		frot2 = frot2 - frot1;
 	}
 
 	//Draw basic flange circles...
 	$FLANGE1.setAttribute('r', pcd1/2); //erd & pcd's are "d"iameters, but SVG <circle>'s require radii...
 	$FLANGE2.setAttribute('r', pcd2/2); //
 
-	Create_Spoke_Holes( $HOLES_RIM    , RIM_HOLES   , nr , erd/2 , shdr , 0, offset_phra + offset_rrot);
-	Create_Spoke_Holes( $FLANGE1_HOLES, HUB_HOLES[1], nf1, pcd1/2, shdf1, 1, (offset_phha1 + offset_frot1));
-	Create_Spoke_Holes( $FLANGE2_HOLES, HUB_HOLES[2], nf2, pcd2/2, shdf2, 2, (offset_phha2 + offset_frot2 + offset_f1_f2));
+	Create_Spoke_Holes( $HOLES_RIM    , RIM_HOLES   , nr , erd/2 , shdr , 0, offset_phra + rrot);
+	Create_Spoke_Holes( $FLANGE1_HOLES, HUB_HOLES[1], nf1, pcd1/2, shdf1, 1, (offset_phha1 + frot1));
+	Create_Spoke_Holes( $FLANGE2_HOLES, HUB_HOLES[2], nf2, pcd2/2, shdf2, 2, (offset_phha2 + frot2));
 
 	Generate_Spoke_Hole_Info_Click_Events();
 
-	Create_Spoke_Groups(1, 2, nr, nf1, sx1, 1); //Side 1
-	Create_Spoke_Groups(3, 4, nr, nf2, sx2, 2); //Side 2
+	if (nr > 0) {
+		if (nf1 > 0) { Create_Spoke_Groups(1, 2, nr, nf1, sx1, 1); } //Side 1
+		if (nf2 > 0) { Create_Spoke_Groups(3, 4, nr, nf2, sx2, 2); } //Side 2
+	}
 
 	Set_Styles_Spokes();
 	Set_Styles_Rim_etc(); //Also calls Make_Rim()...
@@ -2691,10 +2722,6 @@ function Set_SX() { //*********************************************************/
 
 	if ($WHEEL_TYPE.value == "custom") { return; }
 
-	var standard = ($WHEEL_TYPE.value == "standard");
-	var phh      = ($WHEEL_TYPE.value == "phh");
-	var triplet  = ($WHEEL_TYPE.value == "triplet");
-
 	if ($NF[2].value*1 <  4) { $SX[2].value = 0 } else
 	if ($NF[2].value*1 < 10) { $SX[2].value = 1 } else
 	if ($NF[2].value*1 < 16) { $SX[2].value = 2 } else
@@ -2703,8 +2730,8 @@ function Set_SX() { //*********************************************************/
 	if ($NF[2].value*1 < 36) { $SX[2].value = 5 } else
 							 { $SX[2].value = 6 }
 	
-	if (triplet) { $SX[1].value = 0; }
-	else         { $SX[1].value = $SX[2].value; }
+	if ($WHEEL_TYPE.value == "triplet") { $SX[1].value = 0; }
+	else                                { $SX[1].value = $SX[2].value; }
 }//end Set_SX() { //***********************************************************/
 
 
@@ -3045,17 +3072,17 @@ function Set_phh_Lace_Opt() { //***********************************************/
 	//For absurdly low spoke count wheels (<12), this may be unneccessary, but deal with that in custom mode.
 	if ($WHEEL_TYPE.value != "custom") { $SX[2].value = $SX[1].value; }
 	var sx_even  = ($SX[1].value  % 2) == 0;
-	if (sx_even) { $LACE_OPT.value = -1; }
-	else         { $LACE_OPT.value = 1;  }
+	if (sx_even) { $LACE_OPT.value = -1; } //Lace Option 2
+	else         { $LACE_OPT.value =  1; } //Lace Option 1
 }//end Set_phh_Lace_Opt() //***************************************************/
 
 
 
 
 function Show_Hide_PH_ROT_Options(phh, phr, rot) { //**************************/
-		Show_Hide($PHH_options, phh);
-		Show_Hide($PHR_options, phr);
-		Show_Hide($ROT_options, rot);
+	Show_Hide($PHH_options, phh);
+	Show_Hide($PHR_options, phr);
+	Show_Hide($ROT_options, rot);
 }//end Show_Hide_PH_ROT_Options() //*******************************************/
 
 
@@ -3068,7 +3095,7 @@ function Set_Wheel_Type_Theme(wheel_type) { //*********************************/
 		items[i].classList.remove(_NS_ + "theme_triplet");
 		items[i].classList.remove(_NS_ + "theme_phh");
 		items[i].classList.remove(_NS_ + "theme_phr");
-		items[i].classList.remove(_NS_ + "theme_phr_frot");
+		items[i].classList.remove(_NS_ + "theme_phh_phr");
 		items[i].classList.remove(_NS_ + "theme_custom");
 		items[i].classList.add(_NS_ + "theme_" + wheel_type);
 	}
@@ -3102,8 +3129,9 @@ function Setup_Type_and_Build(init) { //***************************************/
 		Show_Hide_PH_ROT_Options(false, true, false);
 		Set_Wheel_Type_Theme($WHEEL_TYPE.value);
 	} else
-	if ($WHEEL_TYPE.value == "phr_frot") {
-		Show_Hide_PH_ROT_Options(false, true, true);
+	if ($WHEEL_TYPE.value == "phh_phr") {
+		$LACE_OPT.disabled = true;
+		Show_Hide_PH_ROT_Options(true, true, true);
 		Set_Wheel_Type_Theme($WHEEL_TYPE.value);
 	}
 
@@ -3127,7 +3155,7 @@ function Setup_Type_and_Build(init) { //***************************************/
 		
 		//Must come after Set_SX().
 		//In paired hole hubs, SX must be the same, so spokes don't cross over paired holes.
-		if ($WHEEL_TYPE.value == "phh") {
+		if ($WHEEL_TYPE.value == "phh" || $WHEEL_TYPE.value == "phh_phr") {
 			Set_phh_Lace_Opt();
 			$SX[2].disabled = true;
 		}
@@ -3156,9 +3184,9 @@ function Setup_Type_and_Build(init) { //***************************************/
 
 	Build_NR_Options($WHEEL_TYPE.value, MAX[$NR.id], NR);
 
-	Set_Auto_Rot();
 	Set_Auto_Angles_Hub();
 	Set_Auto_Angles($RIM_AUTO_ANGLES, $PHRA, $PHRD, $ERD, $NR);
+	Set_Auto_Rot();//Must come after Set_Auto_Angles(Rim...)
 
 	var saved_settings = localStorage.getItem(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
 	if (saved_settings || init == "build") { Build_Wheel(); return true; }
@@ -3206,30 +3234,9 @@ function Set_Auto_Angles($auto_angles, $pha, $phd, $pcd_or_erd, $nf_or_nr) {
 	$phd.disabled = true;
 	$pha.disabled = true;
 
-	if (auto_angles == 'even') {
-		if (spoke_holes > 0) { $pha.value = 360 / $nf_or_nr.value; }
-		else                 { $pha.value = 0 }
-	} else
-	if (auto_angles == 'half') {
-		if (spoke_holes > 0) { $pha.value = 360 / $nf_or_nr.value / 2; }
-		else                 { $pha.value = 0 }
-	} else
-	if (auto_angles == '1/4') {
-		if (spoke_holes > 0) { $pha.value = 360 / $nf_or_nr.value / 4; }
-		else                 { $pha.value = 0 }
-	} else
-	if (auto_angles == '0') {
-		$pha.value = 0;
-	} else
-	if (auto_angles == 'off' ) {
-		$pha.disabled = false;
-		$phd.disabled = false;
-	} else {
-		// Should never happen, but I'm human...
-		var msg  = 'Set_Auto_Angles()<br>"' + auto_angles + '" is invalid';
-		Error_Notice('', msg);
-		return false;
-	}
+	if (auto_angles == 'off' ) { $pha.disabled = false; $phd.disabled = false; } else 
+	if (spoke_holes > 0) { $pha.value = (360 / $nf_or_nr.value) * auto_angles; }
+	else { $pha.value = 0 }
 
 	Calc_PD_from_PA($pha, $phd, $pcd_or_erd);
 }//end Set_Auto_Angles() //****************************************************/
@@ -3239,7 +3246,9 @@ function Set_Auto_Angles($auto_angles, $pha, $phd, $pcd_or_erd, $nf_or_nr) {
 
 function Set_Auto_Angles_Hub() { //********************************************/
 	Set_Auto_Angles($HUB_AUTO_ANGLES, $PHHA[1], $PHHD[1], $PCD[1], $NF[1]);
-	if (($WHEEL_TYPE.value == "custom")) {
+	
+	//If in custom mode & Auto-Angles set to [Manual ] ("off")...
+	if (($WHEEL_TYPE.value == "custom") && ($HUB_AUTO_ANGLES.value == "off")) {
 		Set_Auto_Angles($HUB_AUTO_ANGLES, $PHHA[2], $PHHD[2], $PCD[2], $NF[2]);
 	}
 	else {
@@ -3254,63 +3263,28 @@ function Set_Auto_Angles_Hub() { //********************************************/
 
 
 function Set_Auto_Rot() { //***************************************************/
-	var phr_frot = $WHEEL_TYPE.value == "phr_frot";
+
+	var phh_phr = $WHEEL_TYPE.value == "phh_phr";
 	var custom   = $WHEEL_TYPE.value == "custom";
 	var NR  = $NR.value*1;
-	var NF1 = $NF[1].value*1;
-	var NF2 = $NF[2].value*1;
+	var rotf = $ROTF.value; //"off", aka "Manual".
+	$PHR_FROT_DIVIDER.innerHTML = '<hr class=SC2_hr2>';
 
+	$ROTF.disabled = true;
 
-	if ((phr_frot || custom) && ($AUTO_ROT.value == "auto")) { //Linked to Rim PH angle ($PHRA).
-		if (NR < 1) { var rotf = 0; }
-		else        { var rotf = (360/NR - $PHRA.value) / 2; }
-		$ROTF[1].value =  rotf;
-		$ROTF[2].value = -rotf;
-		$ROTF[1].disabled = true;
-		$ROTF[2].disabled = true;
+	if ((phh_phr || custom) && ($AUTO_ROT.value == "off"))  { $ROTF.disabled = false; } else 
+	if ((phh_phr || custom) && ($AUTO_ROT.value == "auto")) {
+		if (NR < 1) { rotf = 0; }
+		else        { rotf = (360/NR - $PHRA.value); }
+		$PHR_FROT_DIVIDER.innerHTML = '&#x1f517;';
 	} else
-	if ((phr_frot || custom) && ($AUTO_ROT.value == "1/4")) {
-		if (NR < 1) { var rotf = 0; }
-		else        { var rotf = (360/NR) / 4; }
-		$ROTF[1].value =  rotf;
-		$ROTF[2].value = -rotf;
-		$ROTF[1].disabled = true;
-		$ROTF[2].disabled = true;
-	} else
-	if ((phr_frot || custom) && ($AUTO_ROT.value == "half")) {
-		if (NR < 1) { var rotf = 0; }
-		else        { var rotf = (360/NR) / 2; }
-		$ROTF[1].value =  rotf;
-		$ROTF[2].value = -rotf;
-		$ROTF[1].disabled = true;
-		$ROTF[2].disabled = true;
-	} else
-	if ((phr_frot || custom) && ($AUTO_ROT.value == "3/4")) {
-		if (NR < 1) { var rotf = 0; }
-		else        { var rotf = (360/NR) * 3/4; }
-		$ROTF[1].value =  rotf;
-		$ROTF[2].value = -rotf;
-		$ROTF[1].disabled = true;
-		$ROTF[2].disabled = true;
-	} else
-	if ((phr_frot || custom) && ($AUTO_ROT.value == "even")) {
-		if (NR < 1) { var rotf = 0; }
-		else        { var rotf = (360/NR); }
-		$ROTF[1].value =  rotf;
-		$ROTF[2].value = -rotf;
-		$ROTF[1].disabled = true;
-		$ROTF[2].disabled = true;
-	} else
-	if ((phr_frot || custom) && ($AUTO_ROT.value == "0")) { //"normal" or none...
-		$ROTF[1].value = 0;
-		$ROTF[2].value = 0;
-		$ROTF[1].disabled = true;
-		$ROTF[2].disabled = true;
-	} else
-	{
-		$ROTF[1].disabled = false;
-		$ROTF[2].disabled = false;
-	}
+	if (phh_phr || custom) {
+		if (NR > 0) { var n_holes = $NR.value;    }
+		else        { var n_holes = $NF[2].value; }
+		rotf = (360/n_holes) * 2 * $AUTO_ROT.value;
+	} //0, .25, .50, .75, 1.0
+
+	$ROTF.value =  rotf;
 }//end Set_Auto_Rot() //*******************************************************/
 
 
@@ -3401,7 +3375,7 @@ function Assign_Events() { //**************************************************/
 
 
 	//Save current value (as .prior_value) onfocus for <input type=text>s in case of error in new value.
-	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF[1], $ROTF[2], $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $TENSION[2], $SCALE_text, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_WHEEL_text];
+	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $TENSION[2], $SCALE_text, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_WHEEL_text];
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
 			if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
@@ -3561,7 +3535,7 @@ function Assign_Events() { //**************************************************/
 
 	$RIM_AUTO_ANGLES.addEventListener("change", function() {
 		Set_Auto_Angles($RIM_AUTO_ANGLES, $PHRA, $PHRD, $ERD, $NR);
-		Set_Auto_Rot();
+		Set_Auto_Rot();//Must come after Set_Auto_Angles(Rim...)
 		Build_Wheel(true);
 	});
 
@@ -3592,12 +3566,7 @@ function Assign_Events() { //**************************************************/
 		Build_Wheel(true);
 	});
 
-	$ROTF[1].addEventListener("change", function() {
-		Validate_Input(this, false, true); //(this, integer, all neg)
-		Build_Wheel(true);
-	});
-
-	$ROTF[2].addEventListener("change", function() {
+	$ROTF.addEventListener("change", function() {
 		Validate_Input(this, false, true); //(this, integer, all neg)
 		Build_Wheel(true);
 	});
@@ -3605,7 +3574,6 @@ function Assign_Events() { //**************************************************/
 	$AUTO_ROT.addEventListener("change", function() {
 		Set_Auto_Rot();
 		Build_Wheel(true);
-		
 	});
 
 
@@ -3613,7 +3581,7 @@ function Assign_Events() { //**************************************************/
 
 	$NR.addEventListener("change", function() {
 		if (Validate_NR()) {
-			var phh    = ($WHEEL_TYPE.value == "phh");
+			var phh    = ($WHEEL_TYPE.value == "phh" || $WHEEL_TYPE.value == "phh_phr");
 			var custom = ($WHEEL_TYPE.value == "custom");
 			if (phh || (custom && $PH_HUB.checked)) { Set_phh_Lace_Opt(); }
 			Set_Auto_Angles_Hub();
@@ -3645,7 +3613,7 @@ function Assign_Events() { //**************************************************/
 	$FTC[2].addEventListener("change", function() { Validate_Input(this); Build_Wheel(save); });
 
 	$SX[1].addEventListener("change", function() {
-		var phh    = ($WHEEL_TYPE.value == "phh");
+		var phh    = ($WHEEL_TYPE.value == "phh" || $WHEEL_TYPE.value == "phh_phr");
 		var custom = ($WHEEL_TYPE.value == "custom");
 		if (phh || (custom && $PH_HUB.checked)) { Set_phh_Lace_Opt(); }
 		Build_Wheel(save);
