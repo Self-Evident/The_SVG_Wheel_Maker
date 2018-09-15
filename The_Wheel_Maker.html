@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var VERSION = "v2.11 2018-09-07" //##### </script>
+<script>var VERSION = "v2.12 2018-09-10" //##### </script>
 <!--//======================================================-->
 
 
@@ -48,7 +48,7 @@ p.SC2 { margin: .4rem 0; }
 
 .SC2_indents { margin-left: 1.5rem; }
 
-hr.SC2 {margin: .6rem 0; }
+hr.SC2 {margin: .5rem 0; }
 .SC2_hr2 {margin: .4rem 1rem;; }
 
 a.SC2 { outline: 0; text-decoration: none; display: inline-block; background-color: #EEE; border: solid 1px white; }
@@ -164,7 +164,11 @@ select.SC2:-moz-focusring {
 
 #SC2_WHEEL_TYPE { margin: 0 0 .3rem .2rem; padding-left: .1rem; width: 11rem; }
 
+#SC1_flange_to_opts { text-align: right }
+
 #SC2_show_FL_to_LN { width: .9rem; padding: 0 1px 0 0; line-height: .9rem; }
+
+#SC2_FL_to_LN { background-color: rgba(255,255,255,.4); }
 
 .SC2_theta { display: inline-block; width: .5rem; }
 
@@ -218,7 +222,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .3rem 0; }
 }
 
 
-#SC2_auto_copy_div { font-size: .9rem; padding: .5rem 0 0 0; display: inline-block; }
+#SC2_auto_copy_div { font-size: .9rem; padding: .2rem 0 0 0; display: inline-block; margin: 0 .8rem .3rem 0; }
 
 table.SC2 {
 	display: inline-table;
@@ -238,7 +242,8 @@ table.SC2 th { height: 1.8rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
 table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-weight: bold; }
 
-.SC2_wheel_btns { }
+.SC2_wheel_btns { text-align: center; }
+.SC2_wheel_btns button { display: inline-block; margin: 0; }
 
 .SC2_separator { padding: 0; height: .3rem; }
 
@@ -422,7 +427,7 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 
 #SC2_assumes { font-weight: bold }
 
-#SC2_other_calcs   { font-family: arial; text-align: left; display: none; margin: 0; }
+#SC2_other_calcs   { font-family: arial; text-align: left; margin: 0; }
 #SC2_other_calcs a { min-width: 55%; border-bottom: solid 2px white; }
 
 #SC2_MSG_HEADER {
@@ -540,10 +545,11 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 				</td>
 			</tr>
 			<tr><td colspan=2 class=SC2_wheel_btns>
-					<label id=SC2_auto_copy_div>Copy<input id=SC2_auto_copy class=SC2 type=checkbox></label>
-					<button type=button id=SC2_rename_wheel   class=SC2>Rename</button>
-					<button type=button id=SC2_load_samples   class=SC2>Load Sample</button> 
-					<button type=button id=SC2_clear_settings class=SC2>Clear</button>
+					<label id=SC2_auto_copy_div>Auto Copy <input id=SC2_auto_copy class=SC2 type=checkbox></label>
+					<button type=button id=SC2_rename_wheel      class=SC2>Rename</button><br>
+					<button type=button id=SC2_load_samples      class=SC2>Load Sample</button> 
+					<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
+					<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
 			</td></tr>
 			<tr>
 				<td colspan=2><hr class=SC2><b>Type</b>
@@ -572,9 +578,9 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 				<td><input type=text id=SC2_PCD1 class=SC2 maxlength=5> <input type=text id=SC2_PCD2 class=SC2 maxlength=5></td>
 			</tr>
 
-			<tr style="text-align: right">
+			<tr id=SC1_flange_to_opts>
 				<td colspan=2>
-					<button type=button id=SC2_show_FL_to_LN class=SC2>+</button>
+					<button type=button id=SC2_show_FL_to_LN class=SC2 value=none>+</button>
 					<b>Flange-to-Ctr</b>&#9484;<input type=text id=SC2_FTC1 class=SC2 maxlength=5> <input type=text id=SC2_FTC2 class=SC2 maxlength=5>&nbsp;
 					<div id=SC2_FL_to_LN>Flange-to-LN&#9492;<input type=text id=SC2_FTL1 class=SC2 maxlength=5> <input type=text id=SC2_FTL2 class=SC2 maxlength=5>&nbsp;<br>
 					OLD&nbsp; &nbsp; &nbsp; &#9492;<input type=text id=SC2_OLD class=SC2 maxlength=5>&#9496; &nbsp; &nbsp;&nbsp;</div>
@@ -941,7 +947,7 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 			</svg>
 		</div>
 	
-		<button type=button id=SC2_show_hide_scale class="SC2 SC2_ndo_buttons" value=none>&gt;
+		<button type=button id=SC2_show_hide_scale class="SC2 SC2_ndo_buttons" value=none>+
 		</button><div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
 			<div class=SC2_rotate_scale_containers><label>Scale:</label>
 				<input type=range id=SC2_SCALE_slider class=SC2 min=20 max=2000>
@@ -1004,7 +1010,7 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 				<td>Determines the base type of wheel: Standard, Triplet, Paired-Hole Rim, Paired Hole Hub, Paired-Hole Rim with Paired Hole Hub, Custom.
 					<p>When changing types, some wheel values - such as Rim Holes, Flange Holes, and Spoke Cross - may automatically be adjusted to fit the contraints of the new Type. For example, if the current wheel is set to "Triplet" with 21 Rim Holes, and then Type is changed to "Standard", Rim Holes will be adjusted to 24, along with cooresponding changes to Flange Holes.
 					<p>Each "Type" has various restrictions on hole count, spoke cross, Lace Type, etc, depending on the nature of the type.  This does not guarantee that the generated wheel will be realistic or practical. 
-					<p>Custom removes most restrictions on the various wheel values.  Subsequently, there's a greater possibilty to enter values that generate an impractical, or even impossible, wheel.  Hopefully it will be obvious. Hopefully...
+					<p>Custom removes most restrictions on the various wheel values.  Subsequently, there's a greater possibilty to enter values that generate an impractical, or even impossible, wheel.  Generally, it will be obvious. Hopefully...
 				</td>
 			<tr><th class=SC2><a tabindex=0>ERD</a></th>
 				<td>The "<b>E</b>ffective <b>R</b>im <b>D</b>iameter".<br>
@@ -1128,7 +1134,7 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 						<li>Paired-Hole Hub Auto-Angles <span class=SC2_list_option_in_text>3/8 Even</span>
 						<li>Paired-Hole Hub Auto-Rotate <span class=SC2_list_option_in_text>+ 1/2 Hole</span>
 						<li>Paired-Hole Rim PH Distance <span class=SC2_example_input>10</span> to <span class=SC2_example_input>20</span>
-						<li>and the Lace Option set so that paired spokes appear parallel.<br>
+						<li>and the Lace Option set so that paired spokes appear somewhat parallel.<br>
 						(or to converge at the hub if PCD's are the same).
 					</ul>
 				</td>
@@ -1249,6 +1255,7 @@ var SPOKE_LENGTHS    = [];
 var _NS_ = "SC2_"; //"Namespace" prefix used for <element> id's & class names.
 
 //Local Storage key names.
+var LS_UNDO            = _NS_ + "UNDO";
 var LS_VALUES_PREFIX   = _NS_ + "WHEEL_";
 var LS_CURRENT_WHEEL   = _NS_ + "CURRENT_WHEEL"; //1, 2, 3, etc...
 var LS_DISPLAY_OPTIONS = _NS_ + 'DISPLAY_OPTIONS';
@@ -1258,7 +1265,6 @@ var MAX_WHEELS = 10; //##### MAKE USER OPTION??? #####
 var SSI = " :: " //Saved Settings Indicator. Used in CURRENT_WHEEL <select> list <option>'s.
 
 var $PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocus() of the inputs.
-
 
 
 //Various messeges
@@ -1306,6 +1312,7 @@ var $AUTO_COPY      = E(_NS_ + 'auto_copy');
 var $RENAME_WHEEL   = E(_NS_ + 'rename_wheel');
 var $LOAD_SAMPLES	= E(_NS_ + 'load_samples');
 var $CLEAR_SETTINGS	= E(_NS_ + 'clear_settings');
+var $UNDO_SAMPLE_CLEAR = E(_NS_ + 'undo_sample_clear');
 
 var $WHEEL_TYPE		= E(_NS_ + 'WHEEL_TYPE');
 
@@ -1660,7 +1667,6 @@ var AUTO_ROT_OPTS_CUSTOM = '<option value="1.5">+1 1/2 Hole</option> <option val
 
 
 function Parse_Settings(string) { //*******************************************/
-	//Currently, only used to parse returned saved settings from localStorage.
 	//If the parse fails, return null, as localStorage does if a localStorage item doesn't exit.
 	//ie: return null on any non object/failure/error.
 	try {
@@ -1698,25 +1704,22 @@ function Pad10(number, pad_str) { //*******************************************/
 
 
 
-function Save_Settings(what, misc) { //****************************************/
-	//Save properties of what, but only the properties that exist in defaults.
+function Disable_Load_Clear_Undo(load, clear, undo) { //****************/
+	$LOAD_SAMPLES.disabled = load;
+	$CLEAR_SETTINGS.disabled = clear;
+	
+	if (typeof undo == "boolean") { $UNDO_SAMPLE_CLEAR.disabled = undo; }
+	else {
+		if (localStorage.getItem(LS_UNDO) == null)
+			 { $UNDO_SAMPLE_CLEAR.disabled = true; }
+		else { $UNDO_SAMPLE_CLEAR.disabled = false; }
+	}
+}//end Disable_Load_Clear_Undo() //*************************************/
 
-	if (what == "wheel") {
-		var storage_id = LS_VALUES_PREFIX + $CURRENT_WHEEL.value;
-		var defaults   =  DEFAULT_VALUES;
-	}
-	else if (what == "display") {
-		var storage_id = LS_DISPLAY_OPTIONS;
-		var defaults   = DEFAULT_OPTIONS;
-	}
-	else { //Should never happen, but it just did.  Because I'm not entirely perfect. So...
-		var msg  = 'Save_Settings(what)<br>what = "';
-			msg += what + '" is invalid<br>Called from:<br>';
-			msg += Save_Settings.caller.name;
-		Error_Notice('', msg);
-		return false;
-	}
 
+
+
+function Load_Clear_or_Get_Settings(defaults, action) { //***************************/
 	var $setting = "";
 	var settings = {};
 
@@ -1726,9 +1729,53 @@ function Save_Settings(what, misc) { //****************************************/
 		//Ignore invalid id's (no cooresponding <element>). Shouldn't be any, but just in case...
 		if (!$setting) { continue }
 		
-		if ($setting.type == "checkbox") { settings[id] = $setting.checked; }
-		else 							 { settings[id] = $setting.value;   }		
+		if (action == "load") {
+			if ($setting.type == "checkbox") { $setting.checked = defaults[id]; }
+			else                             { $setting.value   = defaults[id]; }
+		}
+		else if (action == "clear") {
+			if ($setting.type == "checkbox") { $setting.checked = false; }
+			else                             { $setting.value = ''; }
+		}
+		else { //get and return for Save_Settings()...
+			if ($setting.type == "checkbox") { settings[id] = $setting.checked; }
+			else 							 { settings[id] = $setting.value;   }
+		}
 	}
+
+	return settings;
+}//end Load_Clear_or_Get_Settings() //***********************************************/
+
+
+
+
+function Save_Settings(what, misc, keep_undo) { //*****************************/
+	//Save properties of what, but only the properties that exist in defaults.
+
+	if (what == "wheel") {
+		var storage_id = LS_VALUES_PREFIX + $CURRENT_WHEEL.value;
+		var defaults   =  DEFAULT_VALUES;
+		Disable_Load_Clear_Undo(false, false, true);
+		if (!keep_undo) { localStorage.removeItem(LS_UNDO); }
+	}
+	else if (what == "display") {
+		var storage_id = LS_DISPLAY_OPTIONS;
+		var defaults   = DEFAULT_OPTIONS;
+	}
+	else if (what == "undo") {
+		var storage_id = LS_UNDO;
+		var defaults = DEFAULT_VALUES;
+	}
+	else { //Should never happen, but I'm not entirely perfect...
+		var msg  = 'Save_Settings(what)<br>what = "';
+			msg += what + '" is invalid<br>Called from:<br>';
+			msg += Save_Settings.caller.name;
+		Error_Notice('', msg);
+		return false;
+	}
+
+
+	var settings = Load_Clear_or_Get_Settings(defaults, "get"); //get curruent settings
 
 
 	//New wheel?
@@ -1742,10 +1789,9 @@ function Save_Settings(what, misc) { //****************************************/
 		else if (copy)            { $WHEEL_NAME.value = "Copy of " + $WHEEL_NAME.value; }
 		//New wheel created by changing a value other than WHEEL_NAME...
 		else if (misc !== "name") { $WHEEL_NAME.value = DEFAULT_VALUES.WHEEL_NAME; }
-		//else  { the user set a wheel name to start the wheel, so leave it. }
+		//else                    { the user set a wheel name to start the wheel, so leave it. }
 		
 		var option = $CURRENT_WHEEL.options[current_wheel - 1]; //CURRENT_WHEEL counts from 1, options from 0.
-		
 		option.innerHTML = Pad10(current_wheel) + SSI + $WHEEL_NAME.value;
 		settings.WHEEL_NAME = $WHEEL_NAME.value;
 	}
@@ -1756,23 +1802,15 @@ function Save_Settings(what, misc) { //****************************************/
 
 
 
-function Load_Saved_Settings(what, imported) { //******************************/
+function Load_Settings(what, imported) { //***********************************/
 
 	if (imported) { var settings = what; } //Or loading default, aka "Sample", wheel settings.
 	else          { var settings = Parse_Settings(localStorage.getItem(what)); }
 
 	if (settings == null) { return false; }
 
-	for (var id in settings) {
-		var $setting = E(_NS_ + id);
-		
-		//Ignore invalid id's (no cooresponding <element>). Shouldn't be any, but just in case...
-		if (!$setting) { continue }
-		var value = settings[id];
 
-		if ($setting.type == "checkbox") { $setting.checked = value; }
-		else                             { $setting.value   = value; }
-	}
+	Load_Clear_or_Get_Settings(settings, 'load');
 
 
 	if ($CURRENT_WHEEL.value && what == (LS_VALUES_PREFIX + $CURRENT_WHEEL.value)) {
@@ -1795,13 +1833,13 @@ function Load_Saved_Settings(what, imported) { //******************************/
 	}
 
 	return true;
-}//end Load_Saved_Settings() { //**********************************************/
+}//end Load_Settings() { //***************************************************/
 
 
 
 
 function Validate_Wheel_Settings(misc, save) { //******************************/
-	//For now, just a very basic sanitation of loaded values.
+	//Currently, just a very basic sanitation of loaded values.
 
 	if (($WHEEL_TYPE.value != "custom") && 
 	    ($WHEEL_TYPE.value != "triplet") && 
@@ -1830,13 +1868,18 @@ function Validate_Wheel_Settings(misc, save) { //******************************/
 
 function Load_Samples() { //***************************************************/
 
+	//Don't save undo for a blank wheel.
+	var current_wheel_settings = localStorage.getItem(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
+	if (current_wheel_settings) {
+		var settings = Load_Clear_or_Get_Settings(DEFAULT_VALUES, "get");
+		Save_Settings("undo");
+	}
+
 	if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { return; }
 
-	Build_NR_Options("custom", MAX[$NR.id], 0);
-	Build_SX_Options("custom", 1, MAX[$NR.id], 0);
-	Build_SX_Options("custom", 2, MAX[$NR.id], 0);
+	Init_NR_SX();
 
-	Load_Saved_Settings(DEFAULT_VALUES, true);
+	Load_Settings(DEFAULT_VALUES, true);
 
 	$WHEEL_NAME.value   = "Sample Wheel";
 	$WHEEL_NAME.current = $WHEEL_NAME.value;
@@ -1848,7 +1891,10 @@ function Load_Samples() { //***************************************************/
 	Setup_Type_and_Build("build");
 	Setup_Viewbox();
 
-	Save_Settings("wheel", "name");
+	Save_Settings("wheel", "name", true); //true == don't delete saved undo settings from localStorage.
+
+	//Must come after Save_Settings("wheel",...)
+	Disable_Load_Clear_Undo(true, false, (current_wheel_settings == null));
 }//end Load_Samples() { //*****************************************************/
 
 
@@ -1856,11 +1902,7 @@ function Load_Samples() { //***************************************************/
 
 function Clear_Settings() { //*************************************************/
 
-	for (id in DEFAULT_VALUES) {
-		$input = E(_NS_ + id);
-		if ($input.type == "checkbox") { $input.checked = false; }
-		else                           { $input.value = ''; }
-	}
+	Load_Clear_or_Get_Settings(DEFAULT_VALUES, "clear");
 
 	//Selects, checkboxes, and a few others need default values.
 	$WHEEL_NAME.current    = DEFAULT_VALUES.WHEEL_TYPE;
@@ -1877,11 +1919,11 @@ function Clear_Settings() { //*************************************************/
 	$FTL[1].value = ''; //Computed values
 	$FTL[2].value = '';
 
-	Setup_Type_and_Build("init");
+	Setup_and_Build("init");
+
 	Reset_Scale_Rotate();
 	Reset_OPTIONS_SPOKES();
 	Reset_OPTIONS_RIM_ETC();
-	Setup_Viewbox();
 	Clear_Wheel(true);
 
 	var current_wheel = $CURRENT_WHEEL.value;
@@ -2196,6 +2238,15 @@ function Build_SX_Options(wheel_type, f, max, value) { //**********************/
 	$SX[f].innerHTML = options;
 	$SX[f].value = value;
 }//end Build_SX_Options() { //*************************************************/
+
+
+
+
+function Init_NR_SX() { //*****************************************************/
+	Build_NR_Options("custom", MAX[$NR.id], 0);
+	Build_SX_Options("custom", 1, MAX[$NR.id], 0);
+	Build_SX_Options("custom", 2, MAX[$NR.id], 0);
+}//end Init_NR_SX() //*********************************************************/
 
 
 
@@ -3209,6 +3260,15 @@ function Set_Wheel_Type_Theme(wheel_type) { //*********************************/
 
 
 
+function Setup_and_Build(init) { //********************************************/
+	$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_WHEEL_text.value + ")");
+	Setup_Type_and_Build(init);
+	Setup_Viewbox();
+}//end Setup_and_Build() { //**************************************************/
+
+
+
+
 function Setup_Type_and_Build(init) { //***************************************/
 	//Adjust/set NR, NF, & SX as needed for each type(mode).
 	var NR = $NR.value*1;
@@ -3308,6 +3368,23 @@ function Setup_Type_and_Build(init) { //***************************************/
 
 	return false;
 }//end Setup_Type_and_Build() { //*********************************************/
+
+
+
+
+function Init_Show_Hide_Options(reset) { //************************************/
+	//First reset button values
+	if (reset) { Load_Clear_or_Get_Settings(DEFAULT_OPTIONS, "load"); }
+
+	$FL_to_LN        .style.display = $SHOW_FL_to_LN.value;
+	$ADVANCED_INFO   .style.display = $SHOW_HIDE_ADVANCED.value;
+	$OTHER_CALCS	 .style.display = $SHOW_HIDE_OTHER.value;
+	$NOTES           .style.display = $SHOW_HIDE_NOTES.value;
+	$SCALE_ROATE_OPTIONS.style.display = $SHOW_HIDE_SCALE.value;
+
+	Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", SCALE_ROTATE_OPEN);
+	Set_Show_Button_Text($SHOW_FL_to_LN, "+", "-");
+}//end Init_Show_Hide_Options() //********************************************/
 
 
 
@@ -3617,7 +3694,6 @@ function Assign_Events() { //**************************************************/
 
 
 	$CURRENT_WHEEL.addEventListener("change", function() {
-		
 		var prior_wheel = localStorage.getItem(LS_CURRENT_WHEEL) * 1; //1, 2, 3, etc...
 		if (isNaN(prior_wheel)) { prior_wheel = 1; }
 		if (prior_wheel < 1)    { prior_wheel = 1; }
@@ -3631,16 +3707,15 @@ function Assign_Events() { //**************************************************/
 		
 		if(current_wheel_found) {
 			//Temp <select> lists until any saved settings loaded. NR & SX will then be rebuilt in Setup_Type_and_Build().
-			Build_NR_Options("custom", MAX[$NR.id], 0);
-			Build_SX_Options("custom", 1, MAX[$NR.id], 0);
-			Build_SX_Options("custom", 2, MAX[$NR.id], 0);
-			Load_Saved_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
+			Init_NR_SX();
+			Load_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
 			Validate_Wheel_Settings('', true);
 			Setup_Type_and_Build();
 		} else if (($AUTO_COPY.checked) && prior_wheel_found) { //copy prior wheel to new wheel
 			Save_Settings("wheel", 'copy');//saves current settings to new 
 		} else {
-			Clear_Settings()
+			Clear_Settings();
+			Disable_Load_Clear_Undo(false, true);
 		}
 		
 		$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_WHEEL_text.value + ")");
@@ -3687,13 +3762,30 @@ function Assign_Events() { //**************************************************/
 	});
 
 	
-	$LOAD_SAMPLES  .addEventListener("click", function() { Load_Samples()   });
-	$CLEAR_SETTINGS.addEventListener("click", function() { Clear_Settings() });
+	$LOAD_SAMPLES  .addEventListener("click", function() { Load_Samples() });
+	$CLEAR_SETTINGS.addEventListener("click", function() {
+		//Only save undo if wheel has settings to undo (in localStorage).
+		var saved_settings = localStorage.getItem(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
+		if (saved_settings) { Save_Settings("undo"); }
+		Disable_Load_Clear_Undo(false, true, false); //Must come after Save_Settings()
+		Clear_Settings();
+	});
 
 	$WHEEL_TYPE.addEventListener("change", function() {
 		//Don't save if no current settings and only changed type.
 		if (Setup_Type_and_Build()) { Save_Settings("wheel"); }
 		this.prior_value = this.value;
+	});
+
+
+	$UNDO_SAMPLE_CLEAR.addEventListener("click", function(){
+		Disable_Load_Clear_Undo(false, false, true);
+		if (localStorage.getItem(LS_UNDO) == null) { return }
+		Init_NR_SX();
+		Load_Settings(LS_UNDO);
+		Save_Settings("wheel");
+		Setup_and_Build();
+		localStorage.removeItem(LS_UNDO);
 	});
 
 
@@ -4058,27 +4150,26 @@ function Assign_Events() { //**************************************************/
 		var DELETE_ALL = confirm(msg);
 		if (!DELETE_ALL) { return; }
 		
+		localStorage.removeItem(LS_UNDO);
+		
 		for (var wheel = 1; wheel <= MAX_WHEELS; wheel++) {
 			localStorage.removeItem(LS_VALUES_PREFIX + wheel);
 		}
 		
 		Build_Select_Wheel_List();
 		Clear_Settings();
+		Disable_Load_Clear_Undo(false, true, true);
 		
 		localStorage.removeItem(LS_CURRENT_WHEEL); //Must come after Build_Select_Wheel_List();
-
+		
 		Reset_Scale_Rotate();
 		Reset_OPTIONS_SPOKES();
 		Reset_OPTIONS_RIM_ETC();
 		
 		localStorage.removeItem(LS_DISPLAY_OPTIONS);
 		
-		$SHOW_HIDE_NOTES   .value          = "none";
-		$SHOW_HIDE_ADVANCED.value          = "none";
-		$SHOW_HIDE_OTHER   .value          = "none";
-		$NOTES           .style["display"] = "none";
-		$ADVANCED_INFO   .style["display"] = "none";
-		$OTHER_CALCS	 .style["display"] = "none";
+		Init_Show_Hide_Options(true);
+		
 		$DISPLAY_SETTINGS.style["display"] = "none";
 		
 		var domain = window.location.hostname;
@@ -4148,15 +4239,15 @@ function Assign_Events() { //**************************************************/
 		var saved_settings_found = false;
 		for (var wheel in imported_data.wheels) {
 			$CURRENT_WHEEL.value = wheel;
-			saved_settings_found = Load_Saved_Settings(imported_data.wheels[wheel], true);
+			saved_settings_found = Load_Settings(imported_data.wheels[wheel], true);
 			$WHEEL_NAME.value   = $WHEEL_NAME.value.trim();
 			$WHEEL_NAME.current = $WHEEL_NAME.value;
 			Validate_Wheel_Settings('imported', true); //Also saves settings...
 		}
-		
-		$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_WHEEL_text.value + ")");
-		Setup_Type_and_Build("init");
-		Setup_Viewbox();
+
+		localStorage.setItem(LS_CURRENT_WHEEL, wheel);
+
+		Setup_and_Build("init");
 		IMEX_enable_disable(false, $IMPORT_CONTAINER);
 	});
 }//end Assign_Events() //******************************************************/
@@ -4165,17 +4256,10 @@ function Assign_Events() { //**************************************************/
 
 
 function Init_Display_NR_SX(display_options, imported) { //********************/
-	if (imported) { Load_Saved_Settings(display_options, imported); }
-	else          { Load_Saved_Settings(LS_DISPLAY_OPTIONS); }
+	if (imported) { Load_Settings(display_options, imported); }
+	else          { Load_Settings(LS_DISPLAY_OPTIONS); }
 
-	$ADVANCED_INFO      .style.display = $SHOW_HIDE_ADVANCED.value;
-	$OTHER_CALCS        .style.display = $SHOW_HIDE_OTHER.value;
-	$SCALE_ROATE_OPTIONS.style.display = $SHOW_HIDE_SCALE.value;
-	$NOTES              .style.display = $SHOW_HIDE_NOTES.value;
-	$FL_to_LN           .style.display = $SHOW_FL_to_LN.value;
-	Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", SCALE_ROTATE_OPEN);
-	Set_Show_Button_Text($SHOW_FL_to_LN, "+", "-");
-
+	Init_Show_Hide_Options();
 
 	if (imported) { Save_Settings("display"); }
 	else {
@@ -4185,9 +4269,7 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 	}
 
 	//Temp <select> lists until any saved settings loaded. NR & SX will then be rebuilt in Setup_Type_and_Build().
-	Build_NR_Options("custom", MAX[$NR.id], 0);
-	Build_SX_Options("custom", 1, MAX[$NR.id], 0);
-	Build_SX_Options("custom", 2, MAX[$NR.id], 0);
+	Init_NR_SX();
 
 	//Init with all options. Setup_Type_and_Build() will change to COMMON if needed.
 	$HUB_AUTO_ANGLES.innerHTML = HUB_AUTO_ANGLES_OPTS_CUSTOM;
@@ -4195,6 +4277,9 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 
 	Reset_OPTIONS_SPOKES()
 	Reset_OPTIONS_RIM_ETC()
+
+	if (localStorage.getItem(LS_UNDO) == null) { $UNDO_SAMPLE_CLEAR.disabled = true; }
+	else                                       { $UNDO_SAMPLE_CLEAR.disabled = false; }
 }//end Init_Display_NR_SX() //*************************************************/
 
 
@@ -4218,15 +4303,11 @@ function Init() { //***********************************************************/
 
 	Build_Select_Wheel_List();
 
-	var saved_settings_found = Load_Saved_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
+	var saved_settings_found = Load_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
 
 	if (saved_settings_found) { Validate_Wheel_Settings(); }
 
-	$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_WHEEL_text.value + ")");
-
-	Setup_Type_and_Build("init");
-
-	Setup_Viewbox();
+	Setup_and_Build("init");
 
 	$WHEEL_NAME.current = $WHEEL_NAME.value;
 
