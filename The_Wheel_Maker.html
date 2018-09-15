@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var SLC_VERSION = "v1.11 2018-08-02" //##### </script>
+<script>var SLC_VERSION = "v1.12 2018-08-03" //##### </script>
 <!--//======================================================-->
 
 
@@ -67,6 +67,8 @@ input[type=text].SLC   { width: 3.3rem; text-align: center; font: 1rem courier; 
 
 input[type=checkbox]:hover { box-shadow: 0 0 0pt 1pt black; }
 
+select.SLC:hover { border-color: black; }
+
 input[readonly].SLC {
 	border: solid .10rem #077;
 	border-radius: 4px;
@@ -81,7 +83,6 @@ input[disabled].SLC, select.SLC:disabled {
 select.SLC { padding: 0 0 0 .3rem; width: 3.3rem; font-size: .9rem; height: 1.3rem; border: solid 1px #7a7a7a; }
 select.SLC option { padding-left: .5rem }
 
-select.SLC:hover { border-color: black; }
 
 /* Removes that annoying dotted onfocus outline of FF selects */
 select.SLC:-moz-focusring {
@@ -139,7 +140,7 @@ select.SLC:-moz-focusring {
 #SLC_svg_wheel  { border: solid 1px #AAA; border-radius: 8px; }
 
 #SLC_WHEEL_TYPE { margin: 0 0 .5rem .2rem; padding-left: .1rem; width: 8rem; }
-#SLC_ph_container {}
+#SLC_PH_custom_opts {}
 
 .SLC_theta { display: inline-block; width: .5rem; }
 
@@ -175,7 +176,7 @@ select.SLC:-moz-focusring {
 #SLC_WHEEL_NAME {
 	position: absolute;
 	top     : 1px;
-	left    : 2.15rem;
+	left    : 2.2rem;
 	margin  : 0;
 	padding : 0 0 0 .05rem;
 	width   : 9.3rem;
@@ -183,8 +184,8 @@ select.SLC:-moz-focusring {
 	border     : solid 1px transparent;
 	text-align : left;
 	font-size  : .9rem;
-	font-family: arial;  /** set to same as CURRENT_WHEEL. **/
-	visibility : hidden; /** visible during rename only **/
+	font-family: arial;  /** Set to same as CURRENT_WHEEL. **/
+	visibility : hidden; /** Visible during rename only. **/
 }
 
 
@@ -268,6 +269,7 @@ table.SLC_DO { height: 19rem; }
 
 .SLC_list_option_in_text  { display: inline-block; width: 5rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; }
 .SLC_list_option_in_text2 { display: inline-block; width: 3rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; }
+.SLC_list_option_in_text3 { display: inline-block; width: 8rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; }
 
 .SLC_ndo_buttons {
 	display: block;
@@ -470,28 +472,24 @@ Log(); //Hide it until it's used...
 		<select id=SLC_WHEEL_TYPE class=SLC>
 			<option value="standard">Standard</option>
 			<option value="triplet" >Triplet</option>
-			<!-- //##### option value="phh"     >Paired Hole Hub</option -->
-			<!-- //##### option value="ppr"     >Paired Hole Rim</option -->
-			<!-- //##### option value="pprh"    >Paired Hole Rim & Hub</option -->
+			<option value="phh"     >Paired Hole Hub</option>
+			<!-- //##### option value="ppr"     >Paired Hole Rim</option       #####-->
+			<!-- //##### option value="pprh"    >Paired Hole Rim & Hub</option #####-->
 			<option value="custom"  >Custom</option>
 		</select>
 	</td>
 </tr>
 
-
-
-
-
-
-<tbody id=SLC_ph_container>
-<tr>
+<tr id=SLC_PH_custom_opts>
 	<td colspan=2>
 		Paired Holes: &nbsp; <label class=SLC><input id=SLC_PH_HUB class=SLC type=checkbox>Hub</label> &nbsp;
-		<!--//##### prototype - no other code yet. Maybe someday...########################################-->
-		<label class=SLC style="color:#999"><input id=SLC_PH_RIM class=SLC type=checkbox disabled>Rim</label>
+		<!--//##### prototype - not yet. Maybe someday...###################################################-->
+		<label class=SLC style="display:none"><input id=SLC_PH_RIM class=SLC type=checkbox disabled>Rim</label>
 	</td>
 </tr>
-<tr class=SLC_phh_options>
+
+<tbody id=SLC_PHH_options>
+<tr>
 	<td colspan=2>Hub Auto-Angles
 		<select id=SLC_HUB_AUTO_ANGLES class=SLC>
 			<option value="half">1/2 Even</option>
@@ -500,22 +498,24 @@ Log(); //Hide it until it's used...
 		</select>
 	</td>
 </tr>
-<tr class=SLC_phh_options>
+<tr>
 	<td>PHH Angles</td>
 	<td>
 		<input id=SLC_PHHA1 class="SLC SLC_phha" type=text maxlength=5         ><span class=SLC_theta>&deg;</span>
 		<input id=SLC_PHHA2 class="SLC SLC_phha" type=text maxlength=5 disabled><span class=SLC_theta>&deg;</span>
 	</td>
 </tr>
-<tr class=SLC_phh_options style="display: none">
+<tr>
 	<td>PHH Distances</td>
 	<td>
 		<input id=SLC_PHHD1 class="SLC SLC_phha" type=text maxlength=5         ><span class=SLC_theta></span>
 		<input id=SLC_PHHD2 class="SLC SLC_phha" type=text maxlength=5 disabled><span class=SLC_theta></span>
 	</td>
 </tr>
-</tbody>
 <tr><td colspan=2><hr class=SLC></td></tr>
+</tbody>
+
+
 
 
 
@@ -656,7 +656,7 @@ Log(); //Hide it until it's used...
 	<br>
 	<button type=button id=SLC_show_hide_other class="SLC SLC_ndo_buttons" value="none">A few other calculators</button>
 	<div id=SLC_other_calcs>
-		Ancesters to The Wheel Builder:<br>
+		Ancesters to The Wheel Maker:<br>
 		<a id=a1 class=SLC href="D-SC.1.html">D-SC 1</a><br>
 		<a id=a2 class=SLC href="D-SC.3.html">D-SC 3</a><br>
 		<br>
@@ -833,7 +833,7 @@ Log(); //Hide it until it's used...
 					</div>
 					<div>
 						<p class=SLC>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
-						<p class=SLC>That is, just because the program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than Standard &amp; Triplet modes.  And while it will may often be obvious when values produce an unrealistic wheel, again, there are no guarantees.
+						<p class=SLC>That is, just because the program many generate a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than the other modes.  And while it will may often be obvious when values produce an unrealistic wheel, again, there are no guarantees.
 						<p class=SLC>For additional information, please refer to geometry. And physics.
 					</div>
 				</td>
@@ -841,7 +841,7 @@ Log(); //Hide it until it's used...
 			
 			<tr><th class=SLC>Misc</th>
 				<td><p>All wheels with saved settings are marked with two colons (" :: ") after the the wheel number in the Wheel select list.
-					<p>Wheels don't have to be named.  That is, you can click [Rename] and delete the name, except for the " :: " indicator.
+					<p>Wheels names can be blank.  You can click [Rename] and delete the name, except for the " :: " indicator.
 				</td>
 			</tr>
 			
@@ -865,10 +865,14 @@ Log(); //Hide it until it's used...
 
 			<tr><th class=SLC>Paird Holes</th>
 				<td>
-					<p>Available only with Standard &amp; Custom Wheel Types.
-					<p>With <span class=SLC_list_option_in_text>Standard</span> wheels, and Paired Holes Hub selected, hole angles and spoke cross for Side 2 are automatically set to the same value as Side 1.
-					<p>With <span class=SLC_list_option_in_text>Triplet</span> wheels, Paired Hole options are not available.
-					<p>With <span class=SLC_list_option_in_text>Custom</span> wheels, and Paired Holes Hub selected, hole angles and spoke cross for Side 1 and Side 2 are user selectable and independent of one another.
+					<p>Available only with Paired-Hole  &amp; Custom Wheel Types.
+					<ul class=SLC>
+						<li>In <span class=SLC_list_option_in_text3>Paired-Hole Hub</span> mode, hole angles and spoke cross for Side 2 are automatically set to the same value as Side 1.
+						<li>In <span class=SLC_list_option_in_text3>Custom</span> mode, and Paired Holes Hub selected, hole angles and spoke cross for Side 1 and Side 2 are each user selectable and independent of one another.
+							<ul class=SLC>
+								<li>Be careful in custom mode to always set the Lace Option so that the spokes in paired holes pull away from each other. The spokes in paired holes should <i>not</i> cross each other!
+							</ul>
+					</ul>
 				</td>
 			</tr>
 
@@ -876,9 +880,10 @@ Log(); //Hide it until it's used...
 				<td><p>Determines if potiential angles between paired-holes are automatically calculated &amp; displayed in PHH Angles fields (<u>P</u>aired <u>H</u>ole <u>H</u>ub) with changes to the number of Flange Holes.
 				
 					<ul class=SLC>
-						<li><span class=SLC_list_option_in_text>Even</span> The calculated values are the "normal" non-paired-hole angles for the specified hole counts, with even spacing of the holes around the flange.
+						<li><span class=SLC_list_option_in_text>Even</span> The calculated values are the normal angles for the specified hole counts, with evenly spaced holes around the flange.
 						<li><span class=SLC_list_option_in_text>1/2 Even</span> The calculated values are one half of the the "normal" angles for the specified hole counts.
 						<li><span class=SLC_list_option_in_text>Off</span> Angles are user provided, and are not automatically calculated.
+						<li>Setting the paired-hole angle will automatically set the cooresponding paired-hole distance, and vice-versa.
 					</ul>
 				</td>
 			</tr>
@@ -901,7 +906,7 @@ Log(); //Hide it until it's used...
 			
 			<tr><th class=SLC>Flange Offset</th><td> The distance the flange is offset from the hub center.  Also referred to as "Flange to Center", or "Center to Flange", etc.  It is used in the spoke length calculation, but does't affect the displayed image of the wheel.
 				<p>Since it's highly impractical to actually measure anything from the hub center (since it's never marked), to obtain these values, measure from the locknut to the flange, and then subtract that value from 1/2 the hub length (the "OLD", or "over locknut distance").
-				<p>For example, common road hubs have an "OLD" of 130mm.  Half of that is 65mm.  So, if the distance from the left (or Side 1) locknut to the left flange center is 27.5mm, then the Side 1 Flange Offset is (65 - 27.5), or 37.5mm .
+				<p>For example, common rear road hubs have an "OLD" of 130mm.  Half of that is 65mm.  So, if the distance from the left (or Side 1) locknut to the left flange center is 27.5mm, then the Side 1 Flange Offset is (65 - 27.5), or 37.5mm .
 			</td></tr>
 			
 			<tr><th class=SLC>OC</th>
@@ -1027,7 +1032,7 @@ var SSI = " :: " //Saved Settings Indicator. Used in CURRENT_WHEEL <select> list
 
 var BG_STANDARD = "rgb(175,198,205)";  //Used for bg color of SETTINGS when in Standard mode.
 //#####var BG_STANDARD = "rgb(222,232,235)";  //Used for bg color of SETTINGS when in Standard mode.
-//#####var BG_PHH      = "rgb(182,200,235)";  //Used for bg color of SETTINGS when in Paird Hole Hub mode.
+var BG_PHH      = "rgb(182,200,235)";  //Used for bg color of SETTINGS when in Paird Hole Hub mode.
 var BG_TRIPLET  = "rgb(130,166,176)";  //	"		"		"		"		   Triplet mode.
 var BG_CUSTOM   = "#FAB";              //Long time ago when we was #FAB...     Custom mode.
 
@@ -1060,7 +1065,6 @@ var SPOKE_HOLES			= _NS_ + "spoke_holes";
 
 
 
-
 //Assign all necessary element references here.
 var $RESPONSIBILITY = E(_NS_ + 'responsibility');
 
@@ -1077,16 +1081,18 @@ var $CLEAR_SETTINGS	= E(_NS_ + 'clear_settings');
 
 var $WHEEL_TYPE		= E(_NS_ + 'WHEEL_TYPE');
 
-var $ph_container = E(_NS_ + 'ph_container'); //<div> around PHHA
-var PHH_OPTIONS   = _NS_ + 'phh_options'; //class
-var $PH_HUB       = E(_NS_ + 'PH_HUB'); //Was using a checkbox...
+var $PH_custom_opts = E(_NS_ + 'PH_custom_opts'); //container for PH_HUB & PH_RIM
+var $PH_HUB         = E(_NS_ + 'PH_HUB');
+var $PH_RIM         = E(_NS_ + 'PH_RIM');
+
+var $PHH_options     = E(_NS_ + 'PHH_options');
 var $HUB_AUTO_ANGLES = E(_NS_ + 'HUB_AUTO_ANGLES');
-var $PHHA = [];
-	$PHHA[1]      = E(_NS_ + 'PHHA1'); //Paired-Holes Angle Flange 1
-	$PHHA[2]      = E(_NS_ + 'PHHA2'); //Paired-Holes Angle Flange 2
-var $PHHD = [];
-	$PHHD[1]      = E(_NS_ + 'PHHD1'); //Paired-Holes Distance Flange 1 (center to center)
-	$PHHD[2]      = E(_NS_ + 'PHHD2'); //Paired-Holes Distance Flange 2 (center to center)
+var $PHHA    = [];
+	$PHHA[1] = E(_NS_ + 'PHHA1'); //Paired-Holes Angle Flange 1
+	$PHHA[2] = E(_NS_ + 'PHHA2'); //Paired-Holes Angle Flange 2
+var $PHHD    = [];
+	$PHHD[1] = E(_NS_ + 'PHHD1'); //Paired-Holes Distance Flange 1 (center to center)
+	$PHHD[2] = E(_NS_ + 'PHHD2'); //Paired-Holes Distance Flange 2 (center to center)
 
 var $ERD  = E(_NS_ + 'ERD');	// Effective Rim Diameter
 var $NR   = E(_NS_ + 'NR');	// Number of holes in the Rim
@@ -1474,7 +1480,9 @@ function Validate_Wheel_Settings(misc, save) { //******************************/
 	//Currently only checks <input type=text> values.
 	//##### Need method to also validate <select>s & checkboxes? #####
 
-	if (($WHEEL_TYPE.value != "custom") && ($WHEEL_TYPE.value != "triplet") && ($WHEEL_TYPE.value != "phh")) { $WHEEL_TYPE.value = "standard"; }
+	if (($WHEEL_TYPE.value != "custom") && ($WHEEL_TYPE.value != "triplet") && ($WHEEL_TYPE.value != "phh"))
+		{ $WHEEL_TYPE.value = "standard"; }
+
 	if ($LACE_OPT.value != "-1") { $LACE_OPT.value = 1; }
 
 	//For now, just make sure they're numbers (those that should be, at leaset).
@@ -1863,7 +1871,7 @@ function Build_SX_Options(wheel_type, f, max, value) { //**********************/
 	Where θ is the angle formed by two lines originating at the center of the PCD,
 	and exending thru the paired-holes.
 
-        X  axial center of hub & PCD
+        X  axial center of hub
        /θ\
       / | \
      /  |  \  hypotenuse = PCD/2
@@ -1872,33 +1880,40 @@ function Build_SX_Options(wheel_type, f, max, value) { //**********************/
   O-----+-----O  Paired Holes  (Actual paired-holes are much closer together,)
   |     | d/2 |                (relatively speaking.                         )
   |<----d---->| 
-/*******************************************************************************/
+/******************************************************************************/
 
 
 
-
-function Calc_PH_Distance(side) { //*******************************************/
-	//Calculate the center-to-center distance between paired-holes.
-	//Uses PCD and user provied Paired-Hole angle (θ) ($PHHA).
-	var radians = $PHHA[1].value * Math.PI / 180;
-	var distance = Math.sin(radians/2) * $PCD[side].value;
-	$PHHD[side].value = Round(distance,2);
+function Calc_PD_from_PA($pa, $pd, $pcd_or_erd) { //***************************/
+	//Calculate the c-t-c distance between paired-holes, from the angle bwtween them.
+	//Also uses flange or rim diameter (PCD or ERD).
+	var radians = $pa.value * Math.PI / 180;
+	var distance = Math.sin(radians/2) * $pcd_or_erd.value;
+	$pd.value = Round(distance,2);
 	return distance;
-}//end Calc_PH_Distance() //***************************************************/
+}//end Calc_PD_from_PA() //****************************************************/
 
 
 
-
-function Calc_PH_Angle_from_PH_Distance(side) { //*****************************/
-	//Calculate the angle ($PHHA) between paired-holes.
-	//Uses PCD and a user provided Paired-Hole distance ($PHHD).
+function Calc_PA_from_PD($pa, $pd, $pcd_or_erd) { //***************************/
+	//Calculate the angle between paired-holes, from the distance between them (c-t-c).
+	//Also uses flange or rim diameter (PCD or ERD).
 	//sin(θ/2) = (d/2) / (PCD/2)
 	//      θ  = 2 * asin(d/PCD)
-	var radians = 2 * Math.asin($PHHD[side].value / $PCD[side].value);
+	var radians = 2 * Math.asin($pd.value / $pcd_or_erd.value);
 	var degrees = radians * (180 / Math.PI);
-	$PHHA[side].value = Round(degrees,2);
+	$pa.value = Round(degrees,2);
 	return degrees;
-}//end Calc_PH_Angle_from_PH_Distance(side) //*********************************/
+}//end Calc_PA_from_PD(side) //************************************************/
+
+
+
+
+function In_PHH_Mode() { //****************************************************/
+		var phh    = ($WHEEL_TYPE.value == "phh");
+		var custom = ($WHEEL_TYPE.value == "custom");
+		return  (phh || (custom && $PH_HUB.checked));
+}//end In_PHH_Mode() //********************************************************/
 
 
 
@@ -2000,20 +2015,20 @@ function Create_Spoke_Holes($hole_group, base_id, class1, class2, N, scale, shd,
 
 	var holes = "";
 
-	var phh      = $PH_HUB.checked;
-	var standard = ($WHEEL_TYPE.value == "standard");
-	var custom   = ($WHEEL_TYPE.value == "custom");
-	var phha     = 0; //Paired-hole hub angle
-	if (phh && (standard || custom)) {
-		if ($hole_group != $RIM_HOLES) {
-			var phha = (parseFloat($PHHA[side].value) - A);
+	//Paired-Hole Hub specific stuff
+	var phh    = ($WHEEL_TYPE.value == "phh");
+	var custom = ($WHEEL_TYPE.value == "custom");
+	var ph_angle = 0; //Will be used for either ph hubs or ph rims.
+	if (phh || (custom && $PH_HUB.checked)) {
+		if ($hole_group != $RIM_HOLES) { //##### 
+			var ph_angle = (parseFloat($PHHA[side].value) - A);
 		}
 	}
 
 	for (var sh = 1; sh <= N; sh++) {
 		var full_id = base_id + sh;
 		
-		odd = !odd;	 //##### Not yet really utilized. (class1 always == class2)
+		odd = !odd;	 //##### Not yet utilized. (class1 always == class2)
 		if (odd) { var class_X = class1; } else { var class_X = class2; }
 		
 		var classes = SPOKE_HOLES + " " + class_X;
@@ -2023,8 +2038,8 @@ function Create_Spoke_Holes($hole_group, base_id, class1, class2, N, scale, shd,
 		
 		holes += '<circle id=' + full_id + ' class="' + classes + '" r="' + (shd/2) + '" cx="' + cx +'" cy="' + cy + '" />' + "\n";
 		
-		a += (A + phha); //Spoke hole 1 is first hole at or after 0 degrees/(6 o'clock), ccw.
-		phha *= -1;      //For alternating spoke directions...
+		a += (A + ph_angle); //Spoke hole 1 is first hole at or after 0 degrees/(6 o'clock), ccw.
+		ph_angle *= -1;      //For alternating spoke directions...
 	}
 
 	$hole_group.innerHTML = $hole_group.innerHTML + holes;
@@ -2186,23 +2201,22 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors)
 	//shd, as used here, and in Create_Spoke_Holes(), only affects
 	//the displayed spoke hole size, and not spoke length calcs.
 
+	var rotate = 0; //180 rotates wheel so that "spoke 1" is at 12 o'clock. Helped during dev. Now, not so much.
 	var AF1 = 360/nf1; //Angle between holes in Flange 1.
 	var AF2 = 360/nf2; //Angle between holes in Flange 2.
 	var offset_f1_f2 = AF2/2; //Offset angle between left & right hub flange holes. The radial side is "0".
 
-	var phh      = $PH_HUB.checked;
-	var standard = ($WHEEL_TYPE.value == "standard");
-	var custom   = ($WHEEL_TYPE.value == "custom");
-	if (phh && (standard || custom)) {
+	//Paired-Hole Hub specific stuff
+	var phh    = ($WHEEL_TYPE.value == "phh");
+	var custom = ($WHEEL_TYPE.value == "custom");
+	if (phh || (custom && $PH_HUB.checked)) {
 		var phha_offset1 = (AF1 - parseFloat($PHHA[1].value))/2;
 		var phha_offset2 = (AF2 - parseFloat($PHHA[2].value))/2;
 	}
-	else { //triplets
+	else { //standard or triplets
 		var phha_offset1 = 0;
 		var phha_offset2 = 0;
 	}
-
-	var rotate = 0; //180 rotates wheel so that "spoke 1" is at 12 o'clock. Helped during dev. Now, not so much.
 
 	//Draw basic rim & flange circles..
 	var rim_radius = erd/2 + $RIM_LINE_SIZE.value/2 - .5;
@@ -2324,7 +2338,7 @@ function Build_Wheel(save) { //************************************************/
 	else { $SL_2_4.style['display'] = "table-row"; } //No
 
 	//##### #########################
-	//##### Log(Spoke_Length_Calculator(1) + " : " + Spoke_Length_Calculator(2), 1);//#####
+	//##### Log(Spoke_Length_Calculator(1) + " : " + Spoke_Length_Calculator(2), 1);
 
 }//end Build_Wheel() //********************************************************/
 
@@ -2390,6 +2404,10 @@ function Set_SX() { //*********************************************************/
 
 	if ($WHEEL_TYPE.value == "custom") { return; }
 
+	var standard = ($WHEEL_TYPE.value == "standard");
+	var phh      = ($WHEEL_TYPE.value == "phh");
+	var triplet  = ($WHEEL_TYPE.value == "triplet");
+
 	if ($NF[2].value*1 <  4) { $SX[2].value = 0 } else
 	if ($NF[2].value*1 < 10) { $SX[2].value = 1 } else
 	if ($NF[2].value*1 < 16) { $SX[2].value = 2 } else
@@ -2398,11 +2416,8 @@ function Set_SX() { //*********************************************************/
 	if ($NF[2].value*1 < 36) { $SX[2].value = 5 } else
 							 { $SX[2].value = 6 }
 	
-	if ($WHEEL_TYPE.value == "standard") {
-		$SX[1].value = $SX[2].value;
-		if ($PH_HUB) { Set_phh_Lace_Opt(); }
-	}
-	else if ($WHEEL_TYPE.value == "triplet")  { $SX[1].value = 0; }
+	if (standard || phh) { $SX[1].value = $SX[2].value; }
+	else if (triplet)    { $SX[1].value = 0; }
 }//end Set_SX() { //***********************************************************/
 
 
@@ -2471,9 +2486,8 @@ function Validate_NR() { //****************************************************/
 	//If NF is odd, cross can only be 0. (Except in "custom" mode.)
 	SX_Enable_Disable(1);
 
-	if (($WHEEL_TYPE.value == 'standard') && $PH_HUB.checked)
-		 { $SX[2].disabled = true; }
-	else { SX_Enable_Disable(2)  ; }
+	if ($WHEEL_TYPE.value == 'phh') { $SX[2].disabled = true; }
+	else                            { SX_Enable_Disable(2); }
 
 	if ($NR.value*1 > 0) { return true } //Build_Wheel() on return
 
@@ -2709,46 +2723,39 @@ function Setup_Wheel_Type(init) { //*******************************************/
 
 	var standard = ($WHEEL_TYPE.value == "standard");
 	var triplet  = ($WHEEL_TYPE.value == "triplet");
+	var phh      = ($WHEEL_TYPE.value == "phh");
 	var custom   = ($WHEEL_TYPE.value == "custom");
 
-
-	if (standard) {  //NR can only be dividible by 4.
+	if (standard || phh) {  //NR can only be dividible by 4.
 		var nr_mod4 = nr_new % 4;
 		if (nr_mod4 != 0) { nr_new += (4 - nr_mod4); } //"round up" if not div/4.
-		
-		Show_Hide_Class(PHH_OPTIONS, $PH_HUB.checked);
+		Show_Hide($PHH_options, false);
 		$SETTINGS.style['background-color'] = BG_STANDARD;
 	}
-
-
-
+	
 
 	if (triplet) { //NR must be divisible by 3
 		var nr_mod3 = nr_new % 3;
 		if (nr_mod3 != 0) { nr_new += (3 - nr_mod3); } //"round up" if not div/3.
-		
-		Show_Hide_Class(PHH_OPTIONS, false);
+		Show_Hide($PHH_options, false);
 		$SETTINGS.style['background-color'] = BG_TRIPLET;
 	}
 
+
+	if (phh) {
+		Set_phh_Lace_Opt();
+		$LACE_OPT.disabled = true;
+		Show_Hide($PHH_options, true);
+		$SETTINGS.style['background-color'] = BG_PHH;
+	}
+	else { $LACE_OPT.disabled = false; }
+
+
 	Build_NR_Options($WHEEL_TYPE.value, MAX[$NR.id], nr_new);
-
-	if (standard || custom) { $ph_container.style.visibility = ""; }
-	else                    { $ph_container.style.visibility = "hidden"; }
-
-
-	$LACE_OPT.disabled = false;
+	
 
 	if (!custom) {
-		Set_NF(nr_new); //must come before $PHHA & $SX are set.
-		
-		if ($PH_HUB.checked) { 
-			Validate_PHHA(1); //In case we just changed from custom mode...
-			$PHHA[2].value = $PHHA[1].value;
-			$PHHA[2].disabled = true;
-			$PHHD[2].disabled = true;
-			if (!triplet) { $LACE_OPT.disabled = true; }
-		}
+		Set_NF(nr_new); //must come before $SX's are set.
 		
 		Build_SX_Options($WHEEL_TYPE.value, 1, $NF[1].value, $SX[1].value);
 		Build_SX_Options($WHEEL_TYPE.value, 2, $NF[2].value, $SX[2].value);
@@ -2760,9 +2767,11 @@ function Setup_Wheel_Type(init) { //*******************************************/
 			SX_Enable_Disable(2);
 		}
 		
-		if ($PH_HUB.checked && standard) { $SX[2].disabled = true; }
+		if (phh) { $SX[2].disabled = true; }
 		
 		Enable_Set_Hub_Auto_Angles();
+		
+		$PH_custom_opts.style.display = "none"; 
 		
 		return true; //Build_Wheel() on return
 	}
@@ -2784,10 +2793,12 @@ function Setup_Wheel_Type(init) { //*******************************************/
 
 	Enable_Set_Hub_Auto_Angles();
 	
-	Show_Hide_Class(PHH_OPTIONS, $PH_HUB.checked);
+	$PH_custom_opts.style.display = "";
+	Show_Hide($PHH_options, $PH_HUB.checked);
+	
 	$SETTINGS.style['background-color'] = BG_CUSTOM;
 	
-	return false; //No need to Build_Wheel(), as no wheel values have changed.
+	return true;
 
 }//end Setup_Wheel_Type() { //*************************************************/
 
@@ -2801,7 +2812,7 @@ function Set_Scale_Mode(_default) { //*****************************************/
 	}
 	if ($SCALE_MODE.value == "auto") {
 		$SCALE_fixed.disabled = true;
-		$SCALE_auto.style['display'] = "";
+		$SCALE_auto .style['display'] = "";
 		$SCALE_fixed.style['display'] = "none";
 	}
 	else /***                fixed*/ {
@@ -2871,10 +2882,15 @@ function Enable_Set_Hub_Auto_Angles() {
 	
 	Set_Auto_Angles(1);
 	if (custom) { Set_Auto_Angles(2); }
-	else        { $PHHA[2].value = $PHHA[1].value; }
+	else {
+		$PHHD[2].disabled = true ;
+		$PHHA[2].disabled = true ;
+		$PHHA[2].value = $PHHA[1].value;
+		$PHHD[2].value = $PHHD[1].value;
+	}
 	
-	Calc_PH_Distance(1);
-	Calc_PH_Distance(2);
+	Calc_PD_from_PA($PHHA[1], $PHHD[1], $PCD[1]);
+	Calc_PD_from_PA($PHHA[2], $PHHD[2], $PCD[2]);
 }//end Enable_Set_Hub_Auto_Angles()
 
 
@@ -3056,27 +3072,13 @@ function Assign_Events() { //**************************************************/
 	var save = true; //Just for clarity below, as some functions have an option to save settings.
 
 	$PH_HUB.addEventListener("click", function() {
-		var standard = ($WHEEL_TYPE.value == "standard");
-		var custom   = ($WHEEL_TYPE.value == "custom");
-		
-		if ($PH_HUB.checked) { Enable_Set_Hub_Auto_Angles(); }
-		
-		if ($PH_HUB.checked && standard) {
-			Set_phh_Lace_Opt();
-			$SX[2].disabled = true;
-			$LACE_OPT.disabled = true;
-			}
-		else {
-			$SX[2].disabled = false;
-			$LACE_OPT.disabled = false;
-		}
-		Show_Hide_Class(PHH_OPTIONS, this.checked);
+		//Only available in custom modes.
+		Show_Hide($PHH_options, this.checked);
 		Build_Wheel(save);
 	});
 
 
 	$HUB_AUTO_ANGLES.addEventListener("change", function() {
-		var custom = ($WHEEL_TYPE.value == "custom");
 		Enable_Set_Hub_Auto_Angles();
 		Build_Wheel(true);
 	});
@@ -3086,83 +3088,74 @@ function Assign_Events() { //**************************************************/
 		if (Validate_PHHA(1)) {
 			if ($WHEEL_TYPE.value != "custom") {
 				$PHHA[2].value = $PHHA[1].value;	
-				Calc_PH_Distance(2)
+				Calc_PD_from_PA($PHHA[2], $PHHD[2], $PCD[2]);
 			}
 			Build_Wheel(save);
 		}
-		Calc_PH_Distance(1);
+		Calc_PD_from_PA($PHHA[1], $PHHD[1], $PCD[1]);
 	});
 
 	$PHHA[2].addEventListener("change", function() {
 		if (Validate_PHHA(2)) { Build_Wheel(save); }
-		Calc_PH_Distance(2);
+		Calc_PD_from_PA($PHHA[2], $PHHD[2], $PCD[2]);
 	});
 
 	$PHHD[1].addEventListener("change", function() {
 		if (Validate_Input(this)) {
 			if ($WHEEL_TYPE.value != "custom") {
 				$PHHD[2].value = $PHHD[1].value;	
-				Calc_PH_Angle_from_PH_Distance(2)
+				Calc_PA_from_PD($PHHA[2], $PHHD[2], $PCD[1]);
 			}
 			Build_Wheel(save);
 		}
-		Calc_PH_Angle_from_PH_Distance(1)
+		
+		Calc_PA_from_PD($PHHA[1], $PHHD[1], $PCD[1]);
 	});
 
 	$PHHD[2].addEventListener("change", function() {
 		if (Validate_Input(this)) { Build_Wheel(save); }
-		Calc_PH_Angle_from_PH_Distance(2);
+		Calc_PA_from_PD($PHHA[2], $PHHD[2], $PCD[2]);
 	});
 
 	$ERD.addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); Setup_Viewbox(); } });
 
 	$NR.addEventListener("change", function() {
 		if (Validate_NR()) {
+			var phh    = ($WHEEL_TYPE.value == "phh");
 			var custom = ($WHEEL_TYPE.value == "custom");
+			if (phh || (custom && $PH_HUB.checked)) { Set_phh_Lace_Opt(); }
 			Enable_Set_Hub_Auto_Angles();
 			Build_Wheel(true);
 		}
 	});
 
-	$NF[1]   .addEventListener("change", function() {
+	$NF[1].addEventListener("change", function() {
+		//$NF's are only available in custom mode...
 		if (Validate_NF(1)) {
-			if (!$PH_HUB.checked) {
-				//If custom angles not enabled, set default
-				$PHHA[1].value = 360 / parseFloat(this.value);
-			}
-			
-			var custom = ($WHEEL_TYPE.value == "custom");
 			Enable_Set_Hub_Auto_Angles();
 			Build_Wheel(true);
 		}
 	});
 
-	$NF[2]   .addEventListener("change", function() {
-		//By default, $NF[2] is only available in custom mode...
+	$NF[2].addEventListener("change", function() {
+		//$NF's are only available in custom mode...
 		if (Validate_NF(2)) {
-			if (!$PH_HUB.checked) {
-				//If custom angles not enabled, set default
-				$PHHA[2].value = 360 / parseFloat(this.value);
-			}
-			
-			var custom = ($WHEEL_TYPE.value == "custom");
 			Enable_Set_Hub_Auto_Angles();
 			Build_Wheel(true);
 		}
 	});
 
-	$PCD[1]  .addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); } Calc_PH_Distance(1); });
-	$PCD[2]  .addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); } Calc_PH_Distance(2); });
-	$FTC[1]  .addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); } });
-	$FTC[2]  .addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); } });
+	$PCD[1].addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); } Calc_PD_from_PA($PHHA[1], $PHHD[1], $PCD[1]); });
+	$PCD[2].addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); } Calc_PD_from_PA($PHHA[2], $PHHD[2], $PCD[2]); });
+	$FTC[1].addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); } });
+	$FTC[2].addEventListener("change", function() { if (Validate_Input(this)) { Build_Wheel(save); } });
 
-	$SX[1]   .addEventListener("change", function() {
-		if ($PH_HUB.checked && ($WHEEL_TYPE.value != "custom")) {
-			Set_phh_Lace_Opt();
-		}
+	$SX[1].addEventListener("change", function() {
+		var phh    = ($WHEEL_TYPE.value == "phh");
+		var custom = ($WHEEL_TYPE.value == "custom");
+		if (phh || (custom && $PH_HUB.checked)) { Set_phh_Lace_Opt(); }
 		Build_Wheel(save);
 	});
-
 	$SX[2]   .addEventListener("change", function() { Build_Wheel(save); });
 	$LACE_OPT.addEventListener("change", function() { Build_Wheel(save); });
 
@@ -3414,10 +3407,6 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 
 	Set_Scale_Mode();
 
-	var triplet = ($WHEEL_TYPE.value == "triplet");
-	if (triplet) { Show_Hide_Class(PHH_OPTIONS, false); }
-	else         { Show_Hide_Class(PHH_OPTIONS, $PH_HUB.checked); }
-
 	$ADVANCED_INFO  .style["display"] = $SHOW_HIDE_ADVANCED.value;
 	$OTHER_CALCS	.style["display"] = $SHOW_HIDE_OTHER.value;
 	$DISPLAY_OPTIONS.style["display"] = $SHOW_HIDE_DO.value;
@@ -3474,13 +3463,15 @@ function Init() { //***********************************************************/
 	//#####Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus if accepted.
 
 	$SLC_VERSION.innerHTML = SLC_VERSION;
+
+	$ERD.focus();
 }//end Init() //***************************************************************/
 
 
 
 window.addEventListener("load", function() { Init() } );
 
-//##### Some times I like beforeunload, sometimes I don't...
+//##### Some times I feel like unload, sometimes I don't...
 //##### window.onbeforeunload =  function() { $CONTAINER.style.opacity = '0' }
 //*****************************************************************************/
 })();</script>
