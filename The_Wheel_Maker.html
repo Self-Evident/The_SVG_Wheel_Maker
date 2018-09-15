@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var VERSION = "v2.09 2018-09-06" //##### </script>
+<script>var VERSION = "v2.10 2018-09-06 8pm" //##### </script>
 <!--//======================================================-->
 
 
@@ -267,10 +267,17 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	text-align: left;
 	border			: solid 1px #444;
 	border-collapse	: separate;
-	border-radius	: 8px;
-	border-spacing	: 3px;
+	border-radius : 8px;
+	border-left              : 0; /* So it blends in with  */
+	border-bottom-left-radius: 0; /* it's show/hide button */
+	border-top-left-radius   : 0; /* to it's left.         */
 	vertical-align: middle;
 	width: 621px;
+	height: 2rem;
+	/*** So it blends in with the wheel container above it.  Can't decide if I prefer it.
+	border-top-right-radius: 0;  
+	border-top: 0;
+	/****/
 }
 
 .SC2_rotate_scale_containers {
@@ -289,6 +296,13 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 
 .SC2 input.SC2_slider_step { width: 1.5rem; font-size: .8rem; }
 
+
+#SC2_show_hide_scale.SC2_scale_rotate_open {
+	border-right: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
 #SC2_show_hide_scale {
 	height: 2rem;
 	width: 24px;
@@ -296,7 +310,11 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	padding: 0;
 	margin: 0 0 2px 0;
 	vertical-align: middle;
-	font: normal 1.2rem arial;
+	font: normal 1rem arial;
+	/******************************
+	border-top-left-radius: 0;    *  So it blends in with
+	border-top-right-radius: 0;   *  the wheel container above it,
+	border-top: 0;                */ but I can't decide if I prefer it.
 }
 
 input[type=range].SC2 {
@@ -1244,6 +1262,7 @@ var HUB_HOLES           = [];
 	HUB_HOLES[2]        = _NS_ + "f2" + HUB_HOLE_MESOFIX; //Hub/flange hole id ex: SC2_f1_sh1
 var RIM_HOLES			= _NS_ + "rsh"; //class; id prefix: SC2_rsh1, SC2_rsh2, etc...
 var AXIS_CLASS			= _NS_ + "axis";
+var SCALE_ROTATE_OPEN   = _NS_ + "scale_rotate_open"
 
 
 
@@ -3380,6 +3399,39 @@ function Set_Auto_option_from_Angle(angle, $auto_list, x2) { //****************/
 
 
 
+
+function Set_Show_Scale_Button_Text() { //*************************************/
+	if ($SHOW_HIDE_SCALE.value == "none") {
+		$SHOW_HIDE_SCALE.classList.remove(SCALE_ROTATE_OPEN);
+		$SHOW_HIDE_SCALE.innerHTML = "+"; //&raquo; >>
+	}
+	else {
+		$SHOW_HIDE_SCALE.classList.add(SCALE_ROTATE_OPEN);
+		$SHOW_HIDE_SCALE.innerHTML = "&#215;";
+	}
+}//end Set_Show_Scale_Button_Text() //*****************************************/
+
+
+
+
+function Show_Side_Checked(side) { //******************************************/
+	if (side == 1) { var g1 = 1, g2 = 2; } //g just means 'group'
+	else           { var g1 = 3, g2 = 4; } // There are two spoke groups be side, leading & trailing. 
+	$SHOW_SIDE[side].checked = false;
+	if ($SPOKE_SHOW[g1].checked || $SPOKE_SHOW[g2].checked) { $SHOW_SIDE[side].checked = true }
+}//end Show_Side_Checked() //**************************************************/
+
+
+
+
+function Show_All_Holes_Checked() { //*****************************************/
+	$HOLES_SHOW_ALL.checked = false;
+	if ($HOLES_RIM_SHOW.checked || $HOLES_F1_SHOW.checked || $HOLES_F2_SHOW.checked) { $HOLES_SHOW_ALL.checked = true }
+}//end Show_All_Holes_Checked() //*********************************************/
+
+
+
+
 function IMEX_enable_disable(enable, $imex_container) {
 	//When (enable == true),  show import/export window, and "disable" & "dim out" The Wheel Maker.
 	//  ie: disable inputs & <a>'s so that only import/export buttons (etc) take focus.
@@ -4022,32 +4074,6 @@ function Assign_Events() { //**************************************************/
 		IMEX_enable_disable(false, $IMPORT_CONTAINER);
 	});
 }//end Assign_Events() //******************************************************/
-
-
-
-
-function Set_Show_Scale_Button_Text() { //*************************************/
-	if ($SHOW_HIDE_SCALE.value == "none") { $SHOW_HIDE_SCALE.innerHTML = "&raquo;"; }
-	else                                  { $SHOW_HIDE_SCALE.innerHTML = "&#215;"; }
-}//end Set_Show_Scale_Button_Text() //*****************************************/
-
-
-
-
-function Show_Side_Checked(side) { //******************************************/
-	if (side == 1) { var g1 = 1, g2 = 2; } //g just means 'group'
-	else           { var g1 = 3, g2 = 4; } // There are two spoke groups be side, leading & trailing. 
-	$SHOW_SIDE[side].checked = false;
-	if ($SPOKE_SHOW[g1].checked || $SPOKE_SHOW[g2].checked) { $SHOW_SIDE[side].checked = true }
-}//end Show_Side_Checked() //**************************************************/
-
-
-
-
-function Show_All_Holes_Checked() { //*****************************************/
-	$HOLES_SHOW_ALL.checked = false;
-	if ($HOLES_RIM_SHOW.checked || $HOLES_F1_SHOW.checked || $HOLES_F2_SHOW.checked) { $HOLES_SHOW_ALL.checked = true }
-}//end Show_All_Holes_Checked() //*********************************************/
 
 
 
