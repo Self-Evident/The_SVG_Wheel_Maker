@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var SLC_VERSION = "v1.13 2018-08-06" //##### </script>
+<script>var SLC_VERSION = "v1.14 2018-08-08" //##### </script>
 <!--//======================================================-->
 
 
@@ -101,8 +101,6 @@ select.SLC:-moz-focusring {
 	text-align: center;
 	padding: 1rem 0 0 0;
 	visibility: hidden;  /* visibility & opacity changed at end of onload. */
-	opacity: 0;
-	/* //##### transition: opacity .5s; #############*/
 	display: block;
 }
 
@@ -269,7 +267,7 @@ table.SLC .SLC_thv { text-align: right; padding: 0 0 0 3px; width: 6.8rem; font-
 .SLC_list_option_in_text2 { display: inline-block; width: 3rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; }
 .SLC_list_option_in_text3 { display: inline-block; width: 8rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; }
 
-table.SLC_DO { height: 17rem; }
+table.SLC_DO { height: 18rem; }
 
 table.SLC_DO input.SLC_do_size_input { width: 2.5rem; }
 table.SLC_DO input.SLC_do_color_input { width: 5rem; }
@@ -384,8 +382,6 @@ select.SLC_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 #SLC_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 2px; }
 
 #SLC_DELETE_ALL_DATA {  }
-
-table.SLC tr td { border: solid 0px red } /**//##### TESTING TESTING TESTING 1...2...3... TESTING ######**/
 </style>
 
 
@@ -478,7 +474,6 @@ Log(); //Hide it until it's used...
 			<option value="phh"     >Paired Hole Hub</option>
 			<option value="phr"     >Paired Hole Rim</option>
 			<option value="phr_spl" >Paired Hole Rim with Special Hub</option>
-			<!-- //##### option value="pprh"    >Paired Hole Rim & Hub</option #####-->
 			<option value="custom"  >Custom</option>
 		</select>
 	</td>
@@ -749,7 +744,7 @@ Log(); //Hide it until it's used...
 			<circle id="SLC_flange2" class="SLC_pcd" r=""/>
 			
 			<g id=SLC_Holes_and_Spokes>
-				<g id="SLC_rim_holes"></g>
+				<g id="SLC_holes_rim"></g>
 				<g id="SLC_holes_f1"></g>
 				<g id="SLC_holes_f2"></g>
 				<g id="SLC_spokes"></g>
@@ -818,16 +813,24 @@ Log(); //Hide it until it's used...
 					<td><input id=SLC_SPOKE_LINE_SIZE4 class="SLC SLC_do_size_input" type=text></td>
 					<td><input id=SLC_SPOKE_SHOW4 class=SLC type=checkbox></td>
 				</tr>
-				<tr class=SLC_separator><td colspan=4>&nbsp;</td></tr>
+				<tr class=SLC_separator><td colspan=4><hr class=SLC></td></tr>
+				<tr>
+					<td>Axes</td>
+					<td><input id=SLC_AXES_COLOR class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_AXES_LINE_SIZE  class="SLC SLC_do_size_input" type=text></td>
+					<td><input id=SLC_AXES_SHOW  class=SLC type=checkbox></td>
+				</tr>
+				<tr class=SLC_separator><td colspan=4></td></tr>
 			</table>
 			
 			<table class="SLC SLC_DO">
 				<tr>
 					<th colspan=4>
-						Rim, Flange &amp; Axes
+						Rim &amp; Flanges
 						<button type=button id=SLC_reset_options_rim_etc class="SLC SLC_reset_options">Reset</button>
 					</th>
 				</tr>
+				<tr class=SLC_separator><td colspan=4></td></tr>
 				<tr class=SLC_th1><td></td><td>Color</td><td>Size</td><td>Show?</td></tr>
 				<tr>
 					<td>Rim</td>
@@ -847,19 +850,29 @@ Log(); //Hide it until it's used...
 					<td><input id=SLC_F2_LINE_SIZE class="SLC SLC_do_size_input" type=text></td>
 					<td><input id=SLC_F2_SHOW  class=SLC type=checkbox></td>
 				</tr>
-				<tr>
-					<td>Spoke Holes</td>
-					<td><input id=SLC_HOLE_COLOR class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_HOLE_SIZE class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_HOLES_SHOW class=SLC type=checkbox></td>
+
+				<tr class=SLC_separator><td colspan=4></td></tr>
+				<tr class=SLC_th2>
+					<td></td>
+					<td colspan=2>Spoke Holes</td>
 				</tr>
-				<tr><td colspan=4 class=SLC_desc>(Hole size affects displayed size only.)</td></tr>
-				<tr class=SLC_separator><td colspan=4>&nbsp;</td></tr>
 				<tr>
-					<td>Axes</td>
-					<td><input id=SLC_AXES_COLOR class="SLC SLC_color" type=text></td>
-					<td><input id=SLC_AXES_LINE_SIZE  class="SLC SLC_do_size_input" type=text></td>
-					<td><input id=SLC_AXES_SHOW  class=SLC type=checkbox></td>
+					<td>Rim</td>
+					<td><input id=SLC_HOLES_RIM_COLOR class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_HOLES_RIM_SIZE class="SLC SLC_do_size_input" type=text></td>
+					<td><input id=SLC_HOLES_RIM_SHOW class=SLC type=checkbox></td>
+				</tr>
+				<tr>
+					<td>F1</td>
+					<td><input id=SLC_HOLES_F1_COLOR class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_HOLES_F1_SIZE class="SLC SLC_do_size_input" type=text></td>
+					<td><input id=SLC_HOLES_F1_SHOW class=SLC type=checkbox></td>
+				</tr>
+				<tr>
+					<td>F2</td>
+					<td><input id=SLC_HOLES_F2_COLOR class="SLC SLC_color" type=text></td>
+					<td><input id=SLC_HOLES_F2_SIZE class="SLC SLC_do_size_input" type=text></td>
+					<td><input id=SLC_HOLES_F2_SHOW class=SLC type=checkbox></td>
 				</tr>
 				<tr class=SLC_separator><td colspan=4></td></tr>
 			</table>
@@ -1096,21 +1109,22 @@ MSGS.invalid = "Invalid input: ";
 MSGS.max_fl  = "Maximum value for flange holes: ";
 MSGS.nf1_2   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>If needed, increase Side 2 first.";
 MSGS.nf2_1   = "Number of flange holes:<br>Side 2 must be greater than or equal to Side 1.<br>If needed, decrease Side 1 first.";
+MSGS.data1   = "(Angle from spoke hole thru hub's axial center.)";
 
 
 
 
 //id & class prefixes, etc.
 var SPOKE_ID_PREFIX 	= _NS_ + "spoke_";
-var HUB_HOLE_ID_PREFIX	= _NS_ + "f";	//Hub/flange hole id ex: SLC_f1_sh1
-var HUB_HOLE_MESOFIX	= "_sh";	    //HUB_HOLE_ID_PREFIX + 1 + HUB_HOLE_MESOFIX + 1
-var RIM_HOLE_ID_PREFIX	= _NS_ + "rsh"; //SLC_rsh1, SLC_rsh2, etc...
-var RIM_HOLE_CLASS		= _NS_ + "rsh";
-var SPOKE_GROUP_PREFIX	= _NS_ + "group"; //SLC_group1, ..., SLC_group4
 var SPOKE_BASE_CLASS	= _NS_ + "spoke";
-var HUB_HOLE_CLASS		= _NS_ + "hsh";
+var SPOKE_GROUP_PREFIX	= _NS_ + "group"; //SLC_group1, ..., SLC_group4
+var HUB_HOLE_MESOFIX	= "_sh";	    //hole id = HUB_HOLES + f1 + HUB_HOLE_MESOFIX + 1
+var HUB_HOLES           = [];
+    HUB_HOLES[1]        = _NS_ + "f1" + HUB_HOLE_MESOFIX; //Hub/flange hole id ex: SLC_f1_sh1
+	HUB_HOLES[2]        = _NS_ + "f2" + HUB_HOLE_MESOFIX; //Hub/flange hole id ex: SLC_f1_sh1
+var RIM_HOLES			= _NS_ + "rsh"; //class; id prefix: SLC_rsh1, SLC_rsh2, etc...
 var AXIS_CLASS			= _NS_ + "axis";
-var SPOKE_HOLES			= _NS_ + "spoke_holes";
+
 
 
 
@@ -1184,8 +1198,8 @@ var $SX     = [];
 var $SHD    = E(_NS_ + 'SHD');	// Spoke Hole Diameter. Affects spoke length calcs only.
 
 var $LACE_OPT = E(_NS_ + 'LACE_OPT'); // Wheel Type/Lacing Option
-	$LACE_OPT.options[0].value = -1; //Type 2. The option values (1 or -1) are used in the 
-	$LACE_OPT.options[1].value =  1; //Type 1. spoke length calculations. DO NOT CHANGE 
+	$LACE_OPT.options[0].value = -1; //Type 1. spoke length calculations. DO NOT CHANGE 
+	$LACE_OPT.options[1].value =  1; //Type 2. The option values (1 or -1) are used in the 
 
 var $SL   = [];					//Spoke Lengths
 	$SL[1]= E(_NS_ + 'LENGTH1');	//Flange 1 Group 1 (ie: leading/trailing...)
@@ -1235,6 +1249,9 @@ var $SHOW_HIDE_OTHER = E(_NS_ + 'show_hide_other'); //<button> to show/hide othe
 var $SHOW_HIDE_NOTES = E(_NS_ + 'show_hide_notes'); //<button> to show/hide Notes.
 var $SHOW_HIDE_DO    = E(_NS_ + 'show_hide_DO');    //<button> to show/hide display options.
 
+
+
+
 var $SCALE_MODE  = E(_NS_ + 'SCALE_MODE');
 var $SCALE_auto  = E(_NS_ + 'SCALE_auto');
 var $SCALE_fixed = E(_NS_ + 'SCALE_fixed');
@@ -1278,20 +1295,29 @@ var $RIM_LINE_SIZE = E(_NS_ + 'RIM_LINE_SIZE');//Width of rim.
 var $F1_LINE_SIZE  = E(_NS_ + 'F1_LINE_SIZE'); //Line width of flange cirlce.
 var $F2_LINE_SIZE  = E(_NS_ + 'F2_LINE_SIZE'); //Line width of flange cirlce.
 
-var $RIM_SHOW = E(_NS_ + 'RIM_SHOW');// Show Rim circle.
-var $F1_SHOW  = E(_NS_ + 'F1_SHOW');	// Show Flange 1 circle.
-var $F2_SHOW  = E(_NS_ + 'F2_SHOW');	// Show Flange 2 circle.
+var $RIM_SHOW = E(_NS_ + 'RIM_SHOW'); // Show Rim circle.
+var $F1_SHOW  = E(_NS_ + 'F1_SHOW');  // Show Flange 1 circle.
+var $F2_SHOW  = E(_NS_ + 'F2_SHOW');  // Show Flange 2 circle.
 
-var $HOLE_SIZE	    = E(_NS_ + 'HOLE_SIZE');  //Displayed spoke hole size (all holes)
-var $HOLE_COLOR     = E(_NS_ + 'HOLE_COLOR');     //Spoke hole color
-var $HOLES_SHOW	    = E(_NS_ + 'HOLES_SHOW');     //Take a guess...
+var $HOLES_RIM_COLOR = E(_NS_ + 'HOLES_RIM_COLOR'); //Spoke hole color
+var $HOLES_RIM_SIZE	 = E(_NS_ + 'HOLES_RIM_SIZE');  //Displayed spoke hole size (all holes)
+var $HOLES_RIM_SHOW	 = E(_NS_ + 'HOLES_RIM_SHOW');  //Take a guess...
+
+var $HOLES_F1_COLOR = E(_NS_ + 'HOLES_F1_COLOR'); //Spoke hole color
+var $HOLES_F2_COLOR = E(_NS_ + 'HOLES_F2_COLOR'); //Spoke hole color
+
+var $HOLES_F1_SIZE  = E(_NS_ + 'HOLES_F1_SIZE');  //Displayed spoke hole size (all holes)
+var $HOLES_F2_SIZE  = E(_NS_ + 'HOLES_F2_SIZE');  //Displayed spoke hole size (all holes)
+
+var $HOLES_F1_SHOW  = E(_NS_ + 'HOLES_F1_SHOW');  //Take a guess...
+var $HOLES_F2_SHOW  = E(_NS_ + 'HOLES_F2_SHOW');  //Take a guess...
 
 var $AXES_COLOR     = E(_NS_ + 'AXES_COLOR');
 var $AXES_LINE_SIZE = E(_NS_ + 'AXES_LINE_SIZE');
 var $AXES_SHOW  	= E(_NS_ + 'AXES_SHOW');
 
 var $SPOKES		   = E(_NS_ + 'spokes');   //<g> containing all spokes.
-var $RIM_HOLES	   = E(_NS_ + 'rim_holes');//<g> containing rim holes.
+var $HOLES_RIM	   = E(_NS_ + 'holes_rim');//<g> containing rim holes.
 var $FLANGE1_HOLES = E(_NS_ + 'holes_f1'); //<g> containing flange 1 holes.
 var $FLANGE2_HOLES = E(_NS_ + 'holes_f2'); //<g> containing flange 2 holes.
 
@@ -1327,18 +1353,29 @@ var $IMPORT_CONTAINER = E(_NS_ + 'IMPORT_container');
 var $IMPORT_INPUT     = E(_NS_ + 'IMPORT_INPUT'); //<input textarea> of data
 var $PERFORM_IMPORT   = E(_NS_ + 'perform_import'); //<button>
 var $CLOSE_IMPORT     = E(_NS_ + 'close_import');   //<button>
-
-
-
 //end assignment of element references.
+
+
+//##### ##############################
+var HOLE_DATA = {}
+    HOLE_DATA[RIM_HOLES]     = {};
+	HOLE_DATA[RIM_HOLES].cx  = [];
+	HOLE_DATA[RIM_HOLES].cy  = [];
+	
+	HOLE_DATA[HUB_HOLES[1]]     = {};
+	HOLE_DATA[HUB_HOLES[1]].cx  = [];
+	HOLE_DATA[HUB_HOLES[1]].cy  = [];
+
+	HOLE_DATA[HUB_HOLES[2]]     = {};
+	HOLE_DATA[HUB_HOLES[2]].cx  = [];
+	HOLE_DATA[HUB_HOLES[2]].cy  = [];
+
 
 
 
 /*************************************************./
-//Consider all raw size & x/y values to be mm,
-//to coorespond directly to rim, hub, & spoke measurements.
-
-
+Consider all raw size & x/y values to be either mm or degrees,
+to coorespond directly to rim, hub, & spoke measurements.
 /*************************************************/
 var DEFAULT_VALUES = {
 	'WHEEL_NAME' : "New Wheel",
@@ -1357,7 +1394,7 @@ var DEFAULT_VALUES = {
 	'PHRD'  : 75, //75.3136
 
 	'ROT_OPTS': false,
-	'ROTR'    : 0, //Rim Rotation
+	'ROTR'    : 0, //Rim Rotation in degrees
 	'AUTO_ROT': 'on', //Currently, affects flanges only.
 	'ROTF1'   : 0, //Flange 1 Rotation
 	'ROTF2'   : 0, //Flange 2 Rotation
@@ -1386,12 +1423,12 @@ var DEFAULT_VALUES = {
 
 
 
-
 var DEFAULT_OPTIONS = {
 	'show_hide_advanced':"none", //none or inline-block
 	'show_hide_other': "none", 	 //  "			"
 	'show_hide_notes': "none", 	 //  "			"
 	'show_hide_DO'   : "none", 	 //  "			"
+
 	'SPOKE_COLOR1': "#477", //Spoke group colors
 	'SPOKE_COLOR2': "#477", //
 	'SPOKE_COLOR3': "#355", //
@@ -1414,11 +1451,19 @@ var DEFAULT_OPTIONS = {
 	'RIM_COLOR' : "#BBB",
 	'F1_COLOR'  : "#AAA",
 	'F2_COLOR'  : "#777",
-	'HOLE_COLOR': "#000",
-	'HOLE_SIZE'      : 2.6, //Hole diameter (if HOLE_LINE_SIZE = 0 (stroke-width)).
-	'HOLES_SHOW': true,
+	'HOLES_RIM_COLOR': "black",
+	'HOLES_RIM_SIZE' : 4, //Displyed hole diameter (if hole line size = 0 (stroke-width)).
+	'HOLES_RIM_SHOW' : true,
+	'HOLES_F1_COLOR': "#066",
+	'HOLES_F1_SIZE' : 4, //Displyed hole diameter (if hole line size = 0 (stroke-width)).
+	'HOLES_F1_SHOW' : true,
+	'HOLES_F2_COLOR': "#044",
+	'HOLES_F2_SIZE' : 4, //Displyed hole diameter (if hole line size = 0 (stroke-width)).
+	'HOLES_F2_SHOW' : true,
 	'AXES_COLOR': "#999",
 	'AXES_SHOW' : true,
+
+
 	'SCALE_MODE': 'fixed',
 	'SCALE_fixed': 670  //viewbox size for "fixed" mode. To fit a common 700c wheel,
  };                     //it should be at least (ERD + (RIM_LINE_SIZE * 2)).
@@ -1517,13 +1562,6 @@ function Save_Settings(what, misc) { //****************************************/
 	}
 
 	localStorage.setItem(storage_id, JSON.stringify(settings));
-
-
-	//##### ######################################
-	//var undo_stack = localStorage.getItem(_NS_ + 'undo_stack');
-	//Log(undo_stack,1);
-
-
 }//end Save_Settings() { //****************************************************/
 
 
@@ -1560,7 +1598,6 @@ function Load_Saved_Settings(what, imported) { //******************************/
 function Validate_Wheel_Settings(misc, save) { //******************************/
 	//For now, just a very basic sanitation of loaded values.
 	//Currently only checks <input type=text> values.
-	//##### Need method to also validate <select>s & checkboxes? #####
 
 	if (($WHEEL_TYPE.value != "custom") && ($WHEEL_TYPE.value != "triplet") && ($WHEEL_TYPE.value != "phh") && ($WHEEL_TYPE.value != "phr") && ($WHEEL_TYPE.value != "phr_spl"))
 		{ $WHEEL_TYPE.value = "standard"; }
@@ -1675,6 +1712,9 @@ function Load_DEFAULT_OPTIONS_Spokes() { //************************************/
 	$SHOW_SIDE[1].checked = true;
 	$SHOW_SIDE[2].checked = true;
 
+	$AXES_COLOR.value     = DEFAULT_OPTIONS['AXES_COLOR'];
+	$AXES_LINE_SIZE.value = DEFAULT_OPTIONS['AXES_LINE_SIZE'];
+	$AXES_SHOW.checked    = DEFAULT_OPTIONS['AXES_SHOW'];
 }//end Load_DEFAULT_OPTIONS_Spokes() { //**************************************/
 
 
@@ -1691,14 +1731,17 @@ function Load_DEFAULT_OPTIONS_Rim_etc() { //***********************************/
 	$F1_SHOW.checked     = DEFAULT_OPTIONS['F1_SHOW'];
 	$F2_SHOW.checked     = DEFAULT_OPTIONS['F2_SHOW'];
 
-	$AXES_COLOR.value     = DEFAULT_OPTIONS['AXES_COLOR'];
-	$AXES_LINE_SIZE.value = DEFAULT_OPTIONS['AXES_LINE_SIZE'];
-	$AXES_SHOW.checked    = DEFAULT_OPTIONS['AXES_SHOW'];
-	
-	$HOLE_COLOR.value     = DEFAULT_OPTIONS['HOLE_COLOR'];
-	$HOLES_SHOW.checked   = DEFAULT_OPTIONS['HOLES_SHOW'];
+	$HOLES_RIM_COLOR.value  = DEFAULT_OPTIONS['HOLES_RIM_COLOR'];
+	$HOLES_RIM_SIZE.value   = DEFAULT_OPTIONS['HOLES_RIM_SIZE'];
+	$HOLES_RIM_SHOW.checked = DEFAULT_OPTIONS['HOLES_RIM_SHOW'];
 
-	$HOLE_SIZE.value       = DEFAULT_OPTIONS['HOLE_SIZE'];
+	$HOLES_F1_COLOR.value  = DEFAULT_OPTIONS['HOLES_F1_COLOR'];
+	$HOLES_F1_SIZE.value   = DEFAULT_OPTIONS['HOLES_F1_SIZE'];
+	$HOLES_F1_SHOW.checked = DEFAULT_OPTIONS['HOLES_F1_SHOW'];
+
+	$HOLES_F2_COLOR.value  = DEFAULT_OPTIONS['HOLES_F2_COLOR'];
+	$HOLES_F2_SIZE.value   = DEFAULT_OPTIONS['HOLES_F2_SIZE'];
+	$HOLES_F2_SHOW.checked = DEFAULT_OPTIONS['HOLES_F2_SHOW'];
 }//end Load_DEFAULT_OPTIONS_Rim_etc() { //*************************************/
 
 
@@ -1942,9 +1985,7 @@ function Build_SX_Options(wheel_type, f, max, value) { //**********************/
 
 	if (wheel_type != "custom") { max = Math.floor(max/4); }
 
-	for (var x = max; x >= 0; x--) { 
-		options += "<option value="+x+">"+x+"</option>\n"
-	}
+	for (var x = max; x >= 0; x--) { options += "<option value="+x+">"+x+"</option>\n"; }
 
 	if (max == 0)    { value = 0       } else
 	if (value > max) { value = max - 1 }
@@ -2068,7 +2109,7 @@ function Calc_Spoke_Lengths(validate, changed, integer, allow_neg) { //********/
 
 function Spoke_Length_Calculator(f) { //***************************************/
 	//Tradtional method for basic wheel lacings. Not currently used except for dev.
-	//Not valid for paired hole, (some?) skip hole, and  maybe other configurations.
+	//Not valid for paired hole, (some?) skip hole, and maybe other configurations.
 
 	var ftc = $FTC[f].value*1; //Final spoke length requires Flange to Center
 	var osb = $OSB[f].value*1; //and OSB...
@@ -2095,7 +2136,7 @@ function Spoke_Length_Calculator(f) { //***************************************/
 
 
 
-function Create_Spoke_Holes($hole_group, base_id, class1, class2, N, scale, shd, side, offset) { //***/
+function Create_Spoke_Holes($hole_group, base_id, N, scale, shd, side, offset) { //***/
 	//Create & position N spoke holes in <g id=group>, with radius of shd/2 (shd="spoke hole diameter")
 	if (typeof offset == "undefined") { offset = 0 }
 
@@ -2112,28 +2153,27 @@ function Create_Spoke_Holes($hole_group, base_id, class1, class2, N, scale, shd,
 	var custom  = ($WHEEL_TYPE.value == "custom");
 	var ph_angle = 0; //Will be used for either ph hubs or ph rims.
 	if (phh || (custom && $PH_HUB.checked)) {
-		if ($hole_group != $RIM_HOLES) { var ph_angle = (parseFloat($PHHA[side].value) - A); }
+		if ($hole_group != $HOLES_RIM) { var ph_angle = (parseFloat($PHHA[side].value) - A); }
 	}
 	if (phr || phr_spl || (custom && $PH_RIM.checked)) {
-		if ($hole_group == $RIM_HOLES) { var ph_angle = (parseFloat($PHRA.value) - A); }
+		if ($hole_group == $HOLES_RIM) { var ph_angle = (parseFloat($PHRA.value) - A); }
 	}
 
-
 	for (var sh = 1; sh <= N; sh++) {
+		
 		var full_id = base_id + sh;
-		
-		odd = !odd;	 //##### Not yet utilized. (class1 always == class2)
-		if (odd) { var class_X = class1; } else { var class_X = class2; }
-		
-		var classes = SPOKE_HOLES + " " + class_X;
+		var classes = base_id;
 		
 		cx = Math.sin( (a_current/180) * Math.PI) * scale;
 		cy = Math.cos( (a_current/180) * Math.PI) * scale;
 		
-		holes += '<circle id=' + full_id + ' class="' + classes + '" r="' + (shd/2) + '" cx="' + cx +'" cy="' + cy + '" />' + "\n";
+		HOLE_DATA[base_id].cx[sh] = cx;
+		HOLE_DATA[base_id].cy[sh] = cy;
 		
-		a_current += (A + ph_angle); //Spoke hole 1 is first hole at or after 0 degrees/(6 o'clock), ccw.
-		ph_angle *= -1;      //For alternating spoke directions...
+		holes += '<circle id=' + full_id + ' class="' + base_id + '" r="' + (shd/2) + '" cx="' + cx +'" cy="' + cy + '" />' + "\n";
+		
+		a_current += (A + ph_angle); //Spoke hole 1 is first hole at or after 0 degrees.
+		ph_angle *= -1;  //For alternating spoke directions...
 	}
 
 	$hole_group.innerHTML = $hole_group.innerHTML + holes;
@@ -2142,8 +2182,10 @@ function Create_Spoke_Holes($hole_group, base_id, class1, class2, N, scale, shd,
 
 
 
-function Generate_Spoke_Hole_Info_Click_Events() { //***************************/
-	var spoke_holes = D.getElementsByClassName(_NS_ + 'spoke_holes');
+function Generate_Spoke_Hole_Info_Click_Events() { //**************************/
+	var hole_classes = "." + RIM_HOLES + ", ." + HUB_HOLES[1] + ", ." + HUB_HOLES[2];
+	var spoke_holes = D.querySelectorAll(hole_classes);
+	
 	for (item = 0; item < spoke_holes.length; item++) {
 		var id = spoke_holes[item].id;
 		//To produce natural coordinates (x increases to the right, y increases up), y is set to -y below.
@@ -2154,13 +2196,13 @@ function Generate_Spoke_Hole_Info_Click_Events() { //***************************
 		var r =   Math.round(Math.sqrt(x*x + y*y) * 1000000000000 ) / 1000000000000;
 		var radians = Math.asin( y / r );
 		var degrees = Round(radians * 180.0 / Math.PI, 3);
-		var attribute_list = "id = " + id + "<br>x = " + Round(x,2) + "<br>y = " + Round(y,2) + "<br>angle = " + degrees;
-		
+		var attribute_list = "id = " + id + "<br>x = " + Round(x,2) + "<br>y = " + Round(y,2) + "<br>angle = " + degrees + "&deg;";
+		attribute_list += "<br>" + MSGS.data1;
 		(function(spoke_hole, attribute_list) { 
 			spoke_hole.onclick = function() { Error_Notice(false, attribute_list) }
 		})(spoke_holes[item], attribute_list);
 	}
-}//end Generate_Spoke_Hole_Info_Click_Events() //*******************************/
+}//end Generate_Spoke_Hole_Info_Click_Events() //******************************/
 
 
 
@@ -2169,8 +2211,8 @@ function Add_Spoke(group, flange, flange_hole, rim_hole, color) { //***********/
 
 	if (typeof color == "undefined") { color = "black" }
 
-	var flange_hole_id = HUB_HOLE_ID_PREFIX + flange + HUB_HOLE_MESOFIX + flange_hole;
-	var rim_hole_id	= RIM_HOLE_ID_PREFIX + rim_hole;
+	var flange_hole_id = HUB_HOLES[flange] + flange_hole;
+	var rim_hole_id	= RIM_HOLES + rim_hole;
 
 	var x1 = E(flange_hole_id).getAttribute('cx');
 	var y1 = E(flange_hole_id).getAttribute('cy');
@@ -2201,7 +2243,7 @@ function Lacing_Modifier(f) { //************************************************
 	one another. 
 
 	Well, those three options: even/odd spoke count, even/odd spoke cross, and lace type,
-	presents us with a three body quatum paradoxical muonicly  gravitational relativistic 
+	presents us with a three body quatum paradoxical muonicly gravitational relativistic 
 	generational equatorial anti-matter plasmatic teseract.  And the effort to solve it 
 	cost me many hours & much pounding of my head against a cinder block wall.
 	Yes, many brain cells died to bring us this informtaiton...
@@ -2267,7 +2309,6 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //***************/
 
 	if (Custom_Odd_NF(nf) && f == 2 ) { d = -1 }
 
-
 	var r_skip = nr/nf; //Normally 2, but can be 3 (flange 1), then 3/2 (flange 2) for triplets.
 
 	//Flange 1 hole 1 aligns to rim hole 1.  Flange 2 hole 1 aligns to rim hole 2 (generally, if NF1 <= NF2)...
@@ -2283,15 +2324,14 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //***************/
 		if (r_hole <  1) {r_hole += nr;}
 		
 		//Make sure there's a hole in both rim & hub for the spoke
-		if ((nr != 0) && (nf != 0)) { Add_Spoke(gn,  f,  h_hole,  r_hole ,  color[gn]); }
+		if ((nr != 0) && (nf != 0)) { Add_Spoke(gn,  f,  h_hole,  r_hole,  color[gn]); }
 		
-		if (gn == g2) { var gn = g1 } else { var gn = g2 }
-		
+		if (gn == g2) { gn = g1 } else { gn = g2 }
 		
 		if (!Custom_Odd_NF(nf)) {
 			d = -d; //toggle direction, aka leading/trailing spokes.
 		}
-		//Else, all spokes on side with odd spoke count laced same direction.
+		//else { all spokes on side with odd spoke count laced same direction.}
 	}
 }//end Create_Spoke_Groups() //************************************************/
 
@@ -2299,13 +2339,20 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f, color ) { //***************/
 
 
 function Make_Rim(save) { //***************************************************/
-	//Adjust displayed rim radius so spoke ends only touch inner radius, not middle/actual radius.
-
+	//Adjust displayed rim radius so that with "wide" rims (size > 4), 
+	//spoke ends stay near the inner radius, not in the middle of the "rim"
+	//     ---------------------------              ---------------------------
+    // This                             instead of     *         *         *
+	//     ---*---------*---------*---              ---|---------|---------|---
+	//        |         |         |                    |         |         |
+    //        |         |         |                    |         |         |
 	if ($ERD.value == 0) { return false; }
-	var rim_radius = $ERD.value/2 + $RIM_LINE_SIZE.value/2 - .5;
+	var rim_width = $RIM_LINE_SIZE.value;
+	if (rim_width < 5) { var rim_radius = $ERD.value/2; }
+	else               { var rim_radius = $ERD.value/2 + rim_width/2 - 2.5; }
 	$RIM.setAttribute('r', rim_radius);
-	$RIM.style['stroke']	= $RIM_COLOR.value;
-	$RIM.style['stroke-width'] = $RIM_LINE_SIZE.value;
+	$RIM.style['stroke'] = $RIM_COLOR.value;
+	$RIM.style['stroke-width'] = rim_width;
 	
 	if (save) { Save_Settings("display"); }
 }//end Make_Rim() { //*********************************************************/
@@ -2313,10 +2360,9 @@ function Make_Rim(save) { //***************************************************/
 
 
 
-function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors) { /****/
+function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2, spoke_colors) { /****/
 	//shd, as used here, and in Create_Spoke_Holes(), only affects
 	//the displayed spoke hole size, and not spoke length calcs.
-
 	var rotate = 0; //180 rotates wheel so that "spoke 1" is at 12 o'clock. Helped during dev.
 	var AR  = 360/nr;  //Angle between holes in Rim.
 	var AF1 = 360/nf1; //Angle between holes in Flange 1.
@@ -2355,14 +2401,12 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors)
 	//Draw basic rim & flange circles..
 	var rim_radius = erd/2 + $RIM_LINE_SIZE.value/2 - .5;
 	$RIM.setAttribute('r', rim_radius); //
-	$FLANGE1.setAttribute('r', pcd1/2); //erd & pcd's are "D"iameters, but SVG <circle>'s require radii...
+	$FLANGE1.setAttribute('r', pcd1/2); //erd & pcd's are "d"iameters, but SVG <circle>'s require radii...
 	$FLANGE2.setAttribute('r', pcd2/2); //
 
-	var f1_prefix = HUB_HOLE_ID_PREFIX + "1" + HUB_HOLE_MESOFIX;
-	var f2_prefix = HUB_HOLE_ID_PREFIX + "2" + HUB_HOLE_MESOFIX;
-	Create_Spoke_Holes( $RIM_HOLES     , RIM_HOLE_ID_PREFIX , RIM_HOLE_CLASS, RIM_HOLE_CLASS, nr , erd/2 , shd, 0, offset_phra + offset_rrot);
-	Create_Spoke_Holes( $FLANGE1_HOLES , f1_prefix, HUB_HOLE_CLASS, HUB_HOLE_CLASS, nf1, pcd1/2, shd, 1, (offset_phha1 + offset_frot1));
-	Create_Spoke_Holes( $FLANGE2_HOLES , f2_prefix, HUB_HOLE_CLASS, HUB_HOLE_CLASS, nf2, pcd2/2, shd, 2, (offset_phha2 + offset_frot2 + offset_f1_f2));
+	Create_Spoke_Holes( $HOLES_RIM    , RIM_HOLES   , nr , erd/2 , shdr , 0, offset_phra + offset_rrot);
+	Create_Spoke_Holes( $FLANGE1_HOLES, HUB_HOLES[1], nf1, pcd1/2, shdf1, 1, (offset_phha1 + offset_frot1));
+	Create_Spoke_Holes( $FLANGE2_HOLES, HUB_HOLES[2], nf2, pcd2/2, shdf2, 2, (offset_phha2 + offset_frot2 + offset_f1_f2));
 
 	Generate_Spoke_Hole_Info_Click_Events();
 
@@ -2370,8 +2414,8 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors)
 	Create_Spoke_Groups(3, 4, nr, nf2, sx2, 2, spoke_colors); //Side 2
 	Create_Spoke_Groups(1, 2, nr, nf1, sx1, 1, spoke_colors); //Side 1
 
-	Set_Wheel_Styles_Spokes();
-	Set_Wheel_Styles_Rim_etc()
+	Set_Styles_Spokes();
+	Set_Styles_Rim_etc()
 
 	$G_WHEEL.setAttribute('transform', " rotate(" + rotate + ")");
 }//end Setup_Wheel() /*********************************************************/
@@ -2379,18 +2423,22 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shd, spoke_colors)
 
 
 
-function Set_Wheel_Styles_Spokes() { //****************************************/
+function Set_Styles_Spokes() { //****************************************/
 	for (var group = 1; group <= 4; group++) {
 		Set_Style_by_Class( SPOKE_GROUP_PREFIX + group, "stroke-width", $SPOKE_LINE_SIZE[group].value);
 		Set_Style_by_Class( SPOKE_GROUP_PREFIX + group, "stroke"      , $SPOKE_COLOR[group].value);
-		Show_Hide_Class(SPOKE_GROUP_PREFIX + group, $SPOKE_SHOW[group].checked);
+		Show_Hide_Class( SPOKE_GROUP_PREFIX + group, $SPOKE_SHOW[group].checked);
 	}
-}//end Set_Wheel_Styles_Spokes() { //******************************************/
+
+	Set_Style_by_Class( AXIS_CLASS, 'stroke-width', $AXES_LINE_SIZE.value );
+	Set_Style_by_Class( AXIS_CLASS, "stroke", $AXES_COLOR.value );
+	Show_Hide_Class( AXIS_CLASS, $AXES_SHOW.checked );
+}//end Set_Styles_Spokes() { //******************************************/
 
 
 
 
-function Set_Wheel_Styles_Rim_etc() { //***************************************/
+function Set_Styles_Rim_etc() { //***************************************/
 
 	Make_Rim(); //Rim line size affects displayed rim radius.
 
@@ -2399,18 +2447,22 @@ function Set_Wheel_Styles_Rim_etc() { //***************************************/
 	$FLANGE1.style['stroke-width'] = $F1_LINE_SIZE.value*1;
 	$FLANGE2.style['stroke-width'] = $F2_LINE_SIZE.value*1;
 
-	Set_Style_by_Class(SPOKE_HOLES, "fill", $HOLE_COLOR.value);
+	Set_Style_by_Class(RIM_HOLES   , "fill", $HOLES_RIM_COLOR.value);
+	Set_Style_by_Class(HUB_HOLES[1], "fill", $HOLES_F1_COLOR.value);
+	Set_Style_by_Class(HUB_HOLES[2], "fill", $HOLES_F2_COLOR.value);
 
-	Show_Hide_Class( SPOKE_HOLES, $HOLES_SHOW.checked);
+	Set_Attribute_by_Class( RIM_HOLES   , 'r', $HOLES_RIM_SIZE.value/2);
+	Set_Attribute_by_Class( HUB_HOLES[1], 'r', $HOLES_F1_SIZE.value/2); //set *radius* of holes (this.value/2)
+	Set_Attribute_by_Class( HUB_HOLES[2], 'r', $HOLES_F2_SIZE.value/2); //set *radius* of holes (this.value/2)
 
-	Set_Style_by_Class( AXIS_CLASS, 'stroke-width', $AXES_LINE_SIZE.value );
-	Set_Style_by_Class( AXIS_CLASS, "stroke", $AXES_COLOR.value );
-	Show_Hide_Class( AXIS_CLASS, $AXES_SHOW.checked );
+	Show_Hide_Class(RIM_HOLES   , $HOLES_RIM_SHOW.checked);
+	Show_Hide_Class(HUB_HOLES[1], $HOLES_F1_SHOW.checked);
+	Show_Hide_Class(HUB_HOLES[2], $HOLES_F2_SHOW.checked);
 
 	Show_Hide($RIM    , $RIM_SHOW.checked);
 	Show_Hide($FLANGE1, $F1_SHOW.checked);
 	Show_Hide($FLANGE2, $F2_SHOW.checked);
-}//end Set_Wheel_Styles_Rim_etc() { //*****************************************/
+}//end Set_Styles_Rim_etc() { //*****************************************/
 
 
 
@@ -2429,7 +2481,7 @@ function Clear_Wheel(all) { //*************************************************/
 		$FLANGE2_HOLES.innerHTML = "";
 	}
 
-	$RIM_HOLES.innerHTML = "";
+	$HOLES_RIM.innerHTML = "";
 	$SPOKES   .innerHTML = "";
 	$SL[1].value = ''; //side 1, odd spokes
 	$SL[2].value = ''; //side 1, even spokes
@@ -2460,10 +2512,10 @@ function Build_Wheel(save) { //************************************************/
 
 	var Spoke_Colors = ["", $SPOKE_COLOR[1].value, $SPOKE_COLOR[2].value,  $SPOKE_COLOR[3].value, $SPOKE_COLOR[4].value ];
 
-	//Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD, Spoke_Colors)
+	//Setup_Wheel(ERD, NR, NF1, NF2, PCD1, PCD2, SX1, SX2, SHD(displayed), Spoke_Colors)
 	Setup_Wheel( $ERD.value*1, $NR.value*1, $NF[1].value*1, $NF[2].value*1,
 				 $PCD[1].value*1, $PCD[2].value*1, $SX[1].value*1, $SX[2].value*1,
-				 $HOLE_SIZE.value*1, Spoke_Colors
+				 $HOLES_RIM_SIZE.value*1, $HOLES_F1_SIZE.value*1, $HOLES_F2_SIZE.value*1, Spoke_Colors
 				);
 
 	Calc_Spoke_Lengths(); //and Update_Advanced_Info();
@@ -2472,10 +2524,6 @@ function Build_Wheel(save) { //************************************************/
 	if ( (($NF[1].value < 2) || ($SL[1].value == $SL[2].value)) && ($SL[3].value == $SL[4].value))
 		 { $SL_2_4.style['display'] = "none";      } //Yes   Well, the first two are, at least.
 	else { $SL_2_4.style['display'] = "table-row"; } //No
-
-	//##### #########################
-	//##### Log(Spoke_Length_Calculator(1) + " : " + Spoke_Length_Calculator(2), 1);//#####
-
 }//end Build_Wheel() //********************************************************/
 
 
@@ -2870,11 +2918,17 @@ function Set_phh_Lace_Opt() { //***********************************************/
 
 
 
-function Setup_Type_and_Build(init) { //*******************************************/
-	//Adjust/set NR, NF, & SX as needed for each type(mode) -  (standard/triplet/custom).
-	//And now paired-hole options... 
+function Show_Hide_PH_ROT_Options(phh, phr, rot) { //**************************/
+		Show_Hide($PHH_options, phh);
+		Show_Hide($PHR_options, phr);
+		Show_Hide($ROT_options, rot);
+}//end Show_Hide_PH_ROT_Options() //*******************************************/
 
-	var NR_new = $NR.value*1;
+
+
+
+function Setup_Type_and_Build(init) { //*******************************************/
+	//Adjust/set NR, NF, & SX as needed for each type(mode) -  (standard/triplet/custom/etc...).
 
 	var standard = ($WHEEL_TYPE.value == "standard");
 	var triplet  = ($WHEEL_TYPE.value == "triplet");
@@ -2888,46 +2942,30 @@ function Setup_Type_and_Build(init) { //****************************************
 	$LACE_OPT.disabled = false; //For all except phh...
 
 	if (standard) {
-		var nr_mod4 = NR_new % 4;
-		if (nr_mod4 != 0) { NR_new += (4 - nr_mod4); } //"round up" if not div/4.
-		Show_Hide($PHH_options, false);
-		Show_Hide($PHR_options, false)
-		Show_Hide($ROT_options, false)
+		Show_Hide_PH_ROT_Options(false, false, false);
 		$SETTINGS.style['background-color'] = BG_STANDARD;
 	} else
 	if (triplet) {
 		var NR_inc = 3;  //NR must be divisible by 3
-		var nr_mod3 = NR_new % 3;
-		if (nr_mod3 != 0) { NR_new += (3 - nr_mod3); } //"round up" if not div/3.
-		Show_Hide($PHH_options, false);
-		Show_Hide($PHR_options, false);
-		Show_Hide($ROT_options, false)
+		Show_Hide_PH_ROT_Options(false, false, false);
 		$SETTINGS.style['background-color'] = BG_TRIPLET;
 	} else
 	if (phh) { //Set_phh_Lace_Opt() AFTER $SX[] in if (!custom) below.
-		var nr_mod4 = NR_new % 4;
-		if (nr_mod4 != 0) { NR_new += (4 - nr_mod4); } //"round up" if not div/4.
 		$LACE_OPT.disabled = true;
-		Show_Hide($PHH_options, true);
-		Show_Hide($PHR_options, false);
-		Show_Hide($ROT_options, false)
+		Show_Hide_PH_ROT_Options(true, false, false);
 		$SETTINGS.style['background-color'] = BG_PHH;
 	} else
 	if (phr) {
-		Show_Hide($PHH_options, false);
-		Show_Hide($PHR_options, true);
-		Show_Hide($ROT_options, false)
+		Show_Hide_PH_ROT_Options(false, true, false);
 		$SETTINGS.style['background-color'] = BG_PHR;
 	} else
 	if (phr_spl) {
-		Show_Hide($PHH_options, false);
-		Show_Hide($PHR_options, true);
-		Show_Hide($ROT_options, true)
+		Show_Hide_PH_ROT_Options(false, true, true);
 		$SETTINGS.style['background-color'] = BG_PHR_SPL;
 	}
 
 
-	//Validate NR if switching from custom mode...
+	//Validate NR in case we're switching between modes with different NR increments.
 	var NR = $NR.value*1;
 	var nr_mod_n = NR % NR_inc;
 	if (nr_mod_n != 0) { NR += (NR_inc - nr_mod_n); } //"round up" if not div/NR_inc.
@@ -2968,9 +3006,7 @@ function Setup_Type_and_Build(init) { //****************************************
 		$PHHD[2].disabled = false;
 		
 		$CUSTOM_opts.style.display = "";
-		Show_Hide($PHH_options, $PH_HUB.checked);
-		Show_Hide($PHR_options, $PH_RIM.checked);
-		Show_Hide($ROT_options, $ROT_OPTS.checked);
+		Show_Hide_PH_ROT_Options($PH_HUB.checked, $PH_RIM.checked, $ROT_OPTS.checked);
 		
 		$SETTINGS.style['background-color'] = BG_CUSTOM;
 	}
@@ -3018,7 +3054,7 @@ function Reset_Scale() { //****************************************************/
 
 function Reset_OPTIONS_SPOKES() { //*******************************************/
 	Load_DEFAULT_OPTIONS_Spokes();
-	Set_Wheel_Styles_Spokes();
+	Set_Styles_Spokes();
 	Save_Settings("display");
 }//end Reset_OPTIONS_SPOKES() //***********************************************/
 
@@ -3027,9 +3063,7 @@ function Reset_OPTIONS_SPOKES() { //*******************************************/
 
 function Reset_OPTIONS_RIM_ETC() { //******************************************/
 	Load_DEFAULT_OPTIONS_Rim_etc();
-	Set_Wheel_Styles_Rim_etc();
-	Set_Attribute_by_Class( RIM_HOLE_CLASS, 'r', $HOLE_SIZE.value/2);
-	Set_Attribute_by_Class( HUB_HOLE_CLASS, 'r', $HOLE_SIZE.value/2);
+	Set_Styles_Rim_etc();
 	Save_Settings("display");
 }//end Reset_OPTIONS_RIM_ETC() //**********************************************/
 
@@ -3088,9 +3122,11 @@ function Set_Auto_Angles_Hub() { //********************************************/
 function Set_Auto_Rot() { //***************************************************/
 	var phr_spl = $WHEEL_TYPE.value == "phr_spl";
 	var custom  = $WHEEL_TYPE.value == "custom";
+	var NR = $NR.value*1;
 	
 	if ((phr_spl || custom) && ($AUTO_ROT.value == "on")) {
-		var rotf = (360/$NR.value - $PHRA.value*1) / 2;
+		if (NR < 1) { var rotf = 0; }
+		else        { var rotf = (360/NR - $PHRA.value*1) / 2; }
 		$ROTF[1].value =  rotf;
 		$ROTF[2].value = -rotf;
 		$ROTF[1].disabled = true;
@@ -3187,7 +3223,7 @@ function Assign_Events() { //**************************************************/
 
 
 	//Save current value (as .prior_value) onfocus for <input type=text>s in case of error in new value.
-	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF[1], $ROTF[2], $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $TENSION[2], $SCALE_fixed, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLE_SIZE ];
+	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF[1], $ROTF[2], $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $TENSION[2], $SCALE_fixed, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE ];
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
 			if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
@@ -3259,7 +3295,6 @@ function Assign_Events() { //**************************************************/
 		option.innerHTML = Pad10(current_wheel) + SSI + $WHEEL_NAME.value;
 		Save_Settings("wheel", 'name');
 	});
-
 
 	$RENAME_WHEEL.onclick = function() {
 		$WHEEL_NAME.style['visibility'] = "visible";
@@ -3502,15 +3537,31 @@ function Assign_Events() { //**************************************************/
 	$AXES_LINE_SIZE.addEventListener("change", function() { if (Validate_Input(this)) { Set_Style_by_Class(AXIS_CLASS, 'stroke-width', this.value, save); } });
 	$AXES_SHOW     .addEventListener("change", function() { Show_Hide_Class( AXIS_CLASS, this.checked, 'display'); });
 
-	$HOLE_COLOR    .addEventListener("change", function() { Set_Style_by_Class(SPOKE_HOLES, "fill"      , this.value, save); });
-	$HOLES_SHOW    .addEventListener("change", function() { Show_Hide_Class(SPOKE_HOLES, this.checked, 'display'); });
+	$HOLES_RIM_COLOR.addEventListener("change", function() { Set_Style_by_Class( RIM_HOLES, "fill" , this.value, save); });
+	$HOLES_RIM_SHOW .addEventListener("change", function() { Show_Hide_Class( RIM_HOLES, this.checked, 'display'); });
 	
-	$HOLE_SIZE.addEventListener("change", function() { 				//$HOLE_SIZE is diameter
-	
+	$HOLES_RIM_SIZE.addEventListener("change", function() { 				//$HOLES_RIM_SIZE is diameter
 		if (!Validate_Input(this)) { return false; }
+		Set_Attribute_by_Class(RIM_HOLES, 'r', this.value/2); //set *radius* of holes (this.value/2)
+		Save_Settings("display");
+	});
+
+
+	$HOLES_F1_COLOR.addEventListener("change", function() { Set_Style_by_Class( HUB_HOLES[1], "fill" , this.value, save); });
+	$HOLES_F1_SHOW .addEventListener("change", function() { Show_Hide_Class( HUB_HOLES[1], this.checked, 'display'); });
 	
-		Set_Attribute_by_Class( RIM_HOLE_CLASS, 'r', this.value/2); //set *radius* of holes (this.value/2)
-		Set_Attribute_by_Class( HUB_HOLE_CLASS, 'r', this.value/2);
+	$HOLES_F1_SIZE.addEventListener("change", function() { 				//$HOLES_F1_SIZE is diameter
+		if (!Validate_Input(this)) { return false; }
+		Set_Attribute_by_Class( HUB_HOLES[1], 'r', this.value/2); //set *radius* of holes (this.value/2)
+		Save_Settings("display");
+	});
+
+	$HOLES_F2_COLOR.addEventListener("change", function() { Set_Style_by_Class( HUB_HOLES[2], "fill" , this.value, save); });
+	$HOLES_F2_SHOW .addEventListener("change", function() { Show_Hide_Class( HUB_HOLES[2], this.checked, 'display'); });
+	
+	$HOLES_F2_SIZE.addEventListener("change", function() { 				//$HOLES_F2_SIZE is diameter
+		if (!Validate_Input(this)) { return false; }
+		Set_Attribute_by_Class( HUB_HOLES[2], 'r', this.value/2); //set *radius* of holes (this.value/2)
 		Save_Settings("display");
 	});
 
@@ -3520,7 +3571,6 @@ function Assign_Events() { //**************************************************/
 		Set_Scale_Mode();
 		Setup_Viewbox();
 	});
-
 
 	$SCALE_fixed.addEventListener("change", function() {
 		if (!Validate_Input(this)) { return false; }
@@ -3639,7 +3689,6 @@ function Assign_Events() { //**************************************************/
 
 
 	$PERFORM_IMPORT.addEventListener("click", function() {
-		
 		//##### Add some basic overall validation of imported_data...
 		//{ "wheels":{"1":{...}, ...}, "display_options":{...} }
 		
