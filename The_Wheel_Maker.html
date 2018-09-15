@@ -4,7 +4,7 @@
 
 
 <!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var SLC_VERSION = "v1.20 2018-08-19" //##### </script>
+<script>var SLC_VERSION = "v1.21 2018-08-19 4pm ET" //##### </script>
 <!--//======================================================-->
 
 
@@ -259,7 +259,7 @@ table.SLC .SLC_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	overflow-y: scroll;
 }
 
-#SLC_svg_wheel  { display: block; padding: 0; margin: auto; border: 0; width: 630px; height: 630px; }
+#SLC_svg_wheel  { display: block; padding: 0; margin: auto; border: 0; }
 
 #SLC_scale_rotate_options {
 	display: inline-block;
@@ -1840,8 +1840,7 @@ function Round(number,places) {
 	if (isNaN(places)) { places = 0; }
 	else               { places = Math.floor(places); }
 	//Use exponetial notation to avoid the 1.005 issue... try it: alert(1.005*10)  or,  alert(Math.round(1.005*100)/100)
-	//##### 2018-08-06 5:45am: Just learned that SVG coord's may be of form: 1.1234567890123456e-14,
-	//##### And this function won't work with such numbers.
+	//SVG coord's may be of form: 1.1234567890123456e-14, so this function won't work with such numbers.
 	return  Number( Math.round( number + 'e' + places ) + 'e-' + places );
 }//end Round()
 
@@ -2880,14 +2879,27 @@ function Validate_Input($input, integer, allow_neg) { //***********************/
 
 function Set_Scale() { //******************************************************/
 
+	//Percentage to set the wheel's width & height. From 20 to 2000.
 	var level = $SCALE_slider.value * 1;
+
+	//Vertically center wheel when scale is < 100 using margin-top.
+	//(Horizontal center accomplished via css...)
+	//At 100 (%),wheel height == container height.
+	//Scale "level" is a percentage to set the wheel's width & height. 100% is the container's clientHeight.
+	//$WHEEL_CONTAINER's height (including scrollbars & borders) is set in css (645 originally).
+	//So, theoretically, the computed height (below) should be 645... 
+    var height = parseInt(window.getComputedStyle($WHEEL_CONTAINER, null ).getPropertyValue("height"));
+	var margin_top = height/2 - (height * (level/100) / 2);
+	$SVG_WHEEL.style.marginTop = 0;
+	if (level < 100) { $SVG_WHEEL.style.marginTop = margin_top + 'px'; }
 
 	$SVG_WHEEL.style.width  = level + "%";
 	$SVG_WHEEL.style.height = level + "%";
 
-	var h = $WHEEL_CONTAINER.scrollHeight;
-	$WHEEL_CONTAINER.scrollTop  = (h / 2) - 322;
-	$WHEEL_CONTAINER.scrollLeft = (h / 2) - 322;
+	var scroll_H = $WHEEL_CONTAINER.scrollHeight; //Height of container's content.
+	var client_H = $WHEEL_CONTAINER.clientHeight; //Visible height of container's content, inside borders & excluding scrollbars.
+	$WHEEL_CONTAINER.scrollTop  = (scroll_H / 2) - (client_H / 2);
+	$WHEEL_CONTAINER.scrollLeft = (scroll_H / 2) - (client_H / 2);//It's square, so height == width.
 }//end Set_Scale() //**********************************************************/
 
 
@@ -3934,7 +3946,7 @@ function Assign_Events() { //**************************************************/
 		}
 		
 		Setup_Type_and_Build("init");
-		Setup_Viewbox();
+		Set_Zoom_Level(100);
 		IMEX_enable_disable(false, $IMPORT_CONTAINER);
 	});
 }//end Assign_Events() //******************************************************/
@@ -4001,8 +4013,8 @@ function Init_Display_NR_SX(display_options, imported) { //********************/
 	$ROTATE_WHEEL_slider.setAttribute('step', $ROTATE_WHEEL_step.value);
 	$ROTATE_WHEEL_slider.value = $ROTATE_WHEEL_text.value;
 
-	$SCALE_slider.value =  $SCALE_text.value;
 	$SCALE_slider.setAttribute('step', $SCALE_step.value);
+	$SCALE_slider.value = $SCALE_text.value * 1; //Must come after step is set...
 }//end Init_Display_NR_SX() //*************************************************/
 
 
