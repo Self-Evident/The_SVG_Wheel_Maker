@@ -3,8 +3,8 @@
 <link rel='shortcut icon' type='image/ico' href='favicon.ico'>
 
 
-<!--//===== UPDATE VERSION AND DATE! Output in footer. =====-->
-<script>var VERSION = "v2.13.2018-09-15" //##### </script>
+<!--//======================================================-->
+<script>var VERSION = "v2.14.2018-09-16"</script>
 <!--//======================================================-->
 
 
@@ -43,7 +43,7 @@ body { overflow-y: scroll; }
 
 
 /*** The prefix "SC2_" simply means "Spoke Length Calculator" ***/
-ul.SC2 { padding-left: 1rem; }
+	ul.SC2 { padding-left: 1rem; }
 p.SC2 { margin: .4rem 0; }
 
 .SC2_indents { margin-left: 1.5rem; }
@@ -225,6 +225,11 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .3rem 0; }
 #SC2_wheel_opts      {}
 
 #SC2_auto_copy_div { font-size: .9rem; padding: .2rem 0 0 0; display: inline-block; margin: 0 .8rem .3rem 0; }
+
+#SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; }
+#SC2_max_wheels_label {display: inline-block;  margin: .1rem 0 0 1rem; border: solid 1px transparent; padding: 0 0 0 0; font-size: .9rem; }
+
+#SC2_undo_sample_clear { margin: 2px .3rem 0 .3rem }
 
 table.SC2 {
 	display: inline-table;
@@ -481,9 +486,6 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 
 #SC2_DELETE_ALL_DATA {  }
 
-#SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; }
-#SC2_max_wheels_label {display: inline-block;  margin: .1rem 0 0 1rem; border: solid 1px transparent; padding: 0 0 0 0; font-size: .9rem; }
-
 #SC2_WHEEL_OR_DISPLAY {
 	width: 100%;
 	height: 2rem;
@@ -539,6 +541,7 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 		</div>
 
 		<button type=button id=SC2_WHEEL_OR_DISPLAY class="SC2 SC2_ndo_buttons" value="wheel">Show Display Settings</button>
+
 		<div id=SC2_WHEEL_SETTINGS_container><!--===========-->
 		<table id=SC2_WHEEL_SETTINGS class="SC2 SC2_type_theme">
 			<tr><th colspan=2>Wheel Settings</th></tr>
@@ -556,8 +559,8 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 					<button type=button id=SC2_rename_wheel      class=SC2>Rename</button>
 					<label id=SC2_max_wheels_label>Max:<input type=text id=SC2_max_wheels class=SC2></label><br>
 					<button type=button id=SC2_load_samples      class=SC2>Load Sample</button> 
-					<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
 					<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
+					<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
 			</td></tr>
 			<tr>
 				<td colspan=2><hr class=SC2><b>Type</b>
@@ -1285,7 +1288,8 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 			<tr><th class=SC2></th><td>&nbsp;</td></tr>
 			<tr><th class=SC2><a class=SC2 tabindex=0>Version</a></th><td id=SC2_VERSION></td></tr>
 			<tr><th class=SC2><a class=SC2 tabindex=0>Contact</a></th>
-				<td>Please report any issues to <a class=SC2 id=SC2_admin_link href="/">...</a>.
+				<td><p>Please report any issues to <a class=SC2 id=SC2_admin_link href="/">...</a>.
+					<p>Or, if you have a github account, at <a class=SC2 href="https://github.com/Self-Evident/The_Wheel_Maker/issues" target="_blank">github.com/Self-Evident/The_Wheel_Maker/issues</a>.
 				</td>
 			</tr>
 			<tr><th class=SC2></th><td></td></tr>
@@ -1316,8 +1320,6 @@ var LS_UNDO            = _NS_ + "UNDO";
 var LS_VALUES_PREFIX   = _NS_ + "WHEEL_";
 var LS_CURRENT_WHEEL   = _NS_ + "CURRENT_WHEEL"; //1, 2, 3, etc...
 var LS_DISPLAY_OPTIONS = _NS_ + 'DISPLAY_OPTIONS';
-
-var MAX_WHEELS = 10; //##### MAKE USER OPTION??? ##### #############################################
 
 var SSI = " :: " //Saved Settings Indicator. Used in CURRENT_WHEEL <select> list <option>'s.
 
@@ -1691,6 +1693,7 @@ var DEFAULT_VALUES = {
 }//end DEFAULT_VALUES
 
 
+var MAX_MAX_WHEELS = 100; //I don't know, seems like a good idea. Not the specific value necessarily, but the general concept...
 
 
 var DEFAULT_OPTIONS = {
@@ -1814,6 +1817,7 @@ function Load_Clear_or_Get_Settings(defaults, action) { //**********************
 
 function Save_Settings(what, misc, keep_undo) { //*****************************/
 	//Save properties of what, but only the properties that exist in defaults.
+	//misc = "imported", "copy", or "name". "imported" also used when restoring undo values.
 
 	if (what == "wheel") {
 		var storage_id = LS_VALUES_PREFIX + $CURRENT_WHEEL.value;
@@ -1841,16 +1845,16 @@ function Save_Settings(what, misc, keep_undo) { //*****************************/
 	var settings = Load_Clear_or_Get_Settings(defaults, "get"); //get curruent settings
 
 
-	//New wheel?
+	//New wheel? Copy? Imported? Restored undo values?
 	var current_wheel = $CURRENT_WHEEL.value;
 	var new_wheel     = (localStorage.getItem(LS_VALUES_PREFIX + current_wheel) == null);
 	var imported      = (misc == "imported");
 	var copy          = (misc == "copy");
-	
+
 	if ( ((what == "wheel") && new_wheel) || imported ) {
 		if      (imported)        { ; }
 		else if (copy)            { $WHEEL_NAME.value = "Copy of " + $WHEEL_NAME.value; }
-		//New wheel created by changing a value other than WHEEL_NAME...
+		//New wheel created by changing a value other than $WHEEL_NAME...
 		else if (misc !== "name") { $WHEEL_NAME.value = DEFAULT_VALUES.WHEEL_NAME; }
 		//else                    { the user set a wheel name to start the wheel, so leave it. }
 		
@@ -2109,16 +2113,13 @@ function Scroll_Blur(event){ //************************************************/
 
 
 function Build_Select_Wheel_List() { //****************************************/
-
-	var display_options = Parse_Settings(localStorage.getItem(LS_DISPLAY_OPTIONS))
-	if (display_options && display_options.max_wheels) { $MAX_WHEELS.value = display_options.max_wheels; }
-	if (!Validate_Input($MAX_WHEELS, true, 0, 1)) { $MAX_WHEELS.value = DEFAULT_OPTIONS.max_wheels }
+	
 	var max_wheels = parseInt($MAX_WHEELS.value);
 
-	var wheel_index = localStorage.getItem(LS_CURRENT_WHEEL) * 1; //1, 2, 3, ...
-	if (isNaN(wheel_index)) { wheel_index = 1; } else
-	if (wheel_index < 1)    { wheel_index = 1; } else
-	if (wheel_index > max_wheels) { wheel_index = max_wheels; localStorage.setItem(LS_CURRENT_WHEEL, wheel_index); }
+	var current_wheel = localStorage.getItem(LS_CURRENT_WHEEL) * 1; //1, 2, 3, ...
+	if (isNaN(current_wheel)) { current_wheel = 1; } else
+	if (current_wheel < 1)    { current_wheel = 1; } else
+	if (current_wheel > max_wheels) { current_wheel = max_wheels; localStorage.setItem(LS_CURRENT_WHEEL, current_wheel); }
 
 	$CURRENT_WHEEL.innerHTML = ""; //Clear any current <option>s
 
@@ -2151,8 +2152,8 @@ function Build_Select_Wheel_List() { //****************************************/
 	}
 
 	$CURRENT_WHEEL.innerHTML   = option_list;
-	$CURRENT_WHEEL.value       = wheel_index;
-	$CURRENT_WHEEL.prior_value = wheel_index;
+	$CURRENT_WHEEL.value       = current_wheel;
+	$CURRENT_WHEEL.prior_value = current_wheel;
 }//end Build_Select_Wheel_List() //********************************************/
 
 
@@ -3737,10 +3738,11 @@ function Check_if_Disclaimer_Accepted(target) { //*****************************/
 
 
 function Change_Wheel() { //***************************************************/
+		var max_wheels = parseInt($MAX_WHEELS.value);
 		var prior_wheel = localStorage.getItem(LS_CURRENT_WHEEL) * 1; //1, 2, 3, etc...
 		if (isNaN(prior_wheel)) { prior_wheel = 1; }
 		if (prior_wheel < 1)    { prior_wheel = 1; }
-		if (prior_wheel > MAX_WHEELS) { prior_wheel = MAX_WHEELS; }	
+		if (prior_wheel > max_wheels) { prior_wheel = max_wheels; }
 		$CURRENT_WHEEL.prior_value = prior_wheel;
 		
 		localStorage.setItem(LS_CURRENT_WHEEL, $CURRENT_WHEEL.value);
@@ -3849,11 +3851,12 @@ function Assign_Events() { //**************************************************/
 
 
 	$MAX_WHEELS.addEventListener("change", function() {
-		Validate_Input(this, true, 0, 0, 100);
+		Validate_Input(this, true, 0, 0, MAX_MAX_WHEELS);
 		Save_Settings("display");
 		var current_wheel = $CURRENT_WHEEL.value;
 		Build_Select_Wheel_List();
 		$CURRENT_WHEEL.value = this.value;
+		Change_Wheel(); 
 	});
 
 	$LOAD_SAMPLES  .addEventListener("click", function() { Load_Samples() });
@@ -3877,7 +3880,7 @@ function Assign_Events() { //**************************************************/
 		if (localStorage.getItem(LS_UNDO) == null) { return }
 		Init_NR_SX();
 		Load_Settings(LS_UNDO);
-		Save_Settings("wheel");
+		Save_Settings("wheel", "imported");
 		Setup_and_Build();
 		localStorage.removeItem(LS_UNDO);
 	});
@@ -4221,6 +4224,7 @@ function Assign_Events() { //**************************************************/
 	$CLOSE_MSG.addEventListener("blur" , function() { Close_Message() });
 	$CLOSE_MSG.addEventListener("click", function() { Close_Message() });
 
+
 	$ACCEPT_MSG.addEventListener("click", function() {
 		$ACCEPT_MSG.value = "true";
 		var expires = new Date(+new Date() + 2592000000); //in 30 days (in milliseconds) Should it be Longer? Shorter?
@@ -4278,7 +4282,9 @@ function Assign_Events() { //**************************************************/
 		ALL_DATA.wheels = {};
 		ALL_DATA.display_options = Parse_Settings(localStorage.getItem(LS_DISPLAY_OPTIONS));
 		
-		for (var wheel = 1; wheel <= MAX_WHEELS; wheel++ ) {
+		var max_wheels = parseInt($MAX_WHEELS.value);
+		
+		for (var wheel = 1; wheel <= max_wheels; wheel++ ) {
 			var wheel_data = Parse_Settings(localStorage.getItem(LS_VALUES_PREFIX + wheel));
 			if (wheel_data) { ALL_DATA.wheels[wheel] = wheel_data; }
 		}
@@ -4414,9 +4420,9 @@ function Init() { //***********************************************************/
 
 	$SC2_VERSION.innerHTML = VERSION;
 	
-	//A probably futile attempt to protect contact info from bots.  Uses html, css, & js, obfuscation...
+	//A probably futile attempt to protect contact info from bots.  Uses html, css, & js obfuscation...
 	var $ADMIN_LINK = E_('admin_link');
-	var issues = 'mai' + 'lto' + ':d' + 'spokecalculator' + '.' + 'ne' + 't';
+	var issues = 'mai' + 'lto' + ':d' + 'spokecalculat' + 'or.ne' + 't';
 	issues = issues.replace(":d", ":d@");
 	$ADMIN_LINK.innerHTML = "d&#064;" + "spokecalculat" + "or&#046;ne" + "<span style='display:none;'>XXXXX</span>" + "t";
 	$ADMIN_LINK.addEventListener("mouseover", function(){ this.href = issues; });
