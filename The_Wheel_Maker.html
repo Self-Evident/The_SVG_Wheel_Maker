@@ -3,9 +3,9 @@
 <link rel='shortcut icon' type='image/ico' href='favicon.ico'>
 
 
-<!--//======================================================-->
-<script>var VERSION = "v2.15 2018-09-17"</script>
-<!--//======================================================-->
+<!--//========================================-->
+<script>var VERSION = "v2.16 2018-09-18"</script>
+<!--//========================================-->
 
 
 <!--============================================================================
@@ -238,15 +238,16 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .3rem 0; }
 	visibility : hidden; /** Visible during rename only. **/
 }
 
-#SC2_show_wheel_opts { width: .9rem; line-height: 1rem; padding: 0 0 1px 0; margin: 0 .3rem 0 .8rem; }
+#SC2_show_wheel_opts { width: 1.2rem; line-height: 1rem; padding: 0 0 1px 0; margin: 0 .3rem 0 .6rem; }
 #SC2_wheel_opts      { display: inline-block; margin-left: 0; vertical-align: middle; padding-bottom: 3px; }
 
-#SC2_auto_copy_container { font-size: .9rem; padding: 2px .7rem 0 0; border: 0; }
+#SC2_auto_copy_container { font-size: .9rem; padding: 2px .6rem 0 .2rem; border: 0; }
+#SC2_auto_copy { margin: 0 0 0 2px; }
 
 #SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; }
 #SC2_max_wheels_label {display: inline-block;  margin: 0 0 0 .5rem; border: solid 1px transparent; padding: 0 0 0 0; font-size: .9rem; }
 
-#SC2_undo_sample_clear { margin: 2px .3rem 0 .3rem }
+#SC2_undo_sample_clear { margin: 2px .1rem 0 .1rem }
 
 table.SC2 {
 	display: inline-table;
@@ -697,7 +698,7 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 			</tr>
 			<tr><td><hr class=SC2_hr2></td></tr>
 			</tbody>
-			
+
 			<tbody id=SC2_ESO_options>
 			<tr><td><b>Esoteric Options</b></td></tr>
 			<tr class=SC2_eso_opts>
@@ -933,21 +934,21 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 	<!--================================================================-->
 	<div id=SC2_right_side>
 		<div id=SC2_header_opts class="SC2 SC2_DO_theme">
-			<div id=SC2_select_wheel_opts style="display: inline-block; border: solid 0px red; ">
-				<div id=SC2_rename_box>
-					<select id=SC2_CURRENT_WHEEL class=SC2><!-- Populated onload --></select><br>
-					<input id=SC2_WHEEL_NAME type=text class=SC2 value="" tabindex=-1>
-				</div>
-				<button type=button id=SC2_rename_wheel class=SC2>Rename</button>
-				<button type=button id=SC2_show_wheel_opts class="SC2" value=none>+</button>
+		<div id=SC2_select_wheel_opts style="display: inline-block; border: solid 0px red; ">
+			<div id=SC2_rename_box>
+				<select id=SC2_CURRENT_WHEEL class=SC2><!-- Populated onload --></select><br>
+				<input id=SC2_WHEEL_NAME type=text class=SC2 value="" tabindex=-1>
 			</div>
-			<div id=SC2_wheel_opts class=SC2 style="border: solid 0px blue; ">
-				<label id=SC2_auto_copy_container>Auto Copy <input id=SC2_auto_copy class=SC2 type=checkbox></label>
-				<button type=button id=SC2_load_samples      class=SC2>Load Sample</button> 
-				<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
-				<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
-				<label id=SC2_max_wheels_label>Max:<input type=text id=SC2_max_wheels class=SC2></label>
-			</div>
+			<button type=button id=SC2_rename_wheel class=SC2>Rename</button>
+			<button type=button id=SC2_show_wheel_opts class="SC2" value=none>+</button>
+		</div>
+		<div id=SC2_wheel_opts class=SC2 style="border: solid 0px blue; ">
+			<label id=SC2_auto_copy_container>Auto Copy<input id=SC2_auto_copy class=SC2 type=checkbox></label>
+			<button type=button id=SC2_load_samples      class=SC2>Load Sample</button> 
+			<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
+			<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
+			<label id=SC2_max_wheels_label>Max:<input type=text id=SC2_max_wheels class=SC2></label>
+		</div>
 		</div>
 	
 		<div id=SC2_wheel_container>
@@ -1464,8 +1465,7 @@ var $PHRD = E_('PHRD'); //Paired-Holes Rim Distance (center to center)
 
 var $ROTR    = E_('ROTR'); //Rim Rotation: additional angle between holes 1 of flange[1] and rim. Normal is 0.
 
-var $ESO_options = E_('ESO_options');
-
+var $ESO_options  = E_('ESO_options');
 var $PRIMA_LACING = E_('PRIMA_LACING');
 
 var $SPOKE_LENGTHS = E_('SPOKE_LENGTHS'); //Container
@@ -1711,6 +1711,7 @@ var DEFAULT_VALUES = {
 }//end DEFAULT_VALUES
 
 
+var SPOKES_RECESSED = 4; //Amount spoke is "recessed" into rim (RIM_LINE_SIZE), similar to a real wheel. For asthetics only.
 var MAX_MAX_WHEELS = 100; //I don't know, seems like a good idea. Not the specific value necessarily, but the general concept...
 
 
@@ -1746,6 +1747,10 @@ var HUB_AUTO_ANGLES_OPTS_CUSTOM = '<option value="2">2 x Even</option> <option v
 var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".875">+7/8 Hole</option> <option value=".75">+3/4 Hole</option> <option value=".625">+5/8 Hole</option> <option value=".5">+1/2 Hole</option> <option value=".375">+3/8 Hole</option> <option value=".25">+1/4 Hole</option> <option value=".125">+1/8 Hole</option> <option value="0">0 (Normal Hub)</option>'; 
 var AUTO_ROT_OPTS_CUSTOM = '<option value="1.5">+1 1/2 Hole</option> <option value="1.375">+1 3/8 Hole</option> <option value="1.25">+1 1/4 Hole</option> <option value="1.125">+1 1/8 Hole</option> ' + AUTO_ROT_OPTS_COMMON + ' <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option>';
 
+
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 
 
@@ -2733,7 +2738,7 @@ function Make_Rim(save) { //***************************************************/
 	//        |         |         |                    |         |         |
 	if ($ERD.value == 0) { return false; }
 	var rim_width = $RIM_LINE_SIZE.value;
-	var recess = 4; //Amount spoke is "recessed" into rim, similar to a real wheel.
+	var recess = SPOKES_RECESSED; //Amount spoke is "recessed" into rim, similar to a real wheel.
 	if (rim_width < (recess*2)) { var rim_radius = $ERD.value/2; }
 	else               { var rim_radius = $ERD.value/2 + rim_width/2 - recess; }
 	$RIM.setAttribute('r', rim_radius);
@@ -3231,10 +3236,11 @@ function Setup_Viewbox() { //**************************************************/
 
 
 function Show_Hide_Class(classname, show, save, style) { //********************/
-	//save should either be 'display', 'wheel', or falsey (usually null)
+	//save must either be 'display', 'wheel', or falsey (undefined/not used).
+	//style should be either 'visibility' or 'display'.  Default is 'display' if style != 'visibility'.
 	var items = D.getElementsByClassName(classname);
 	for (var s = 0; s < items.length; s++) { Show_Hide(items[s], show, false, style) }
-	if (save) { Save_Settings("wheel"); }
+	if (save) { Save_Settings(save); }
 }//end Show_Hide_Class() //****************************************************/
 
 	
@@ -4124,15 +4130,15 @@ function Assign_Events() { //**************************************************/
 	$SHOW_SIDE[1].addEventListener("click", function() {
 		$SPOKE_SHOW[1].checked = this.checked;
 		$SPOKE_SHOW[2].checked = this.checked;
-		Show_Hide_Class( SPOKE_GROUP_PREFIX + 1, this.checked, 'display');
-		Show_Hide_Class( SPOKE_GROUP_PREFIX + 2, this.checked, 'display');
+		Show_Hide_Class( SPOKE_GROUP_PREFIX + 1, this.checked, 'wheel');
+		Show_Hide_Class( SPOKE_GROUP_PREFIX + 2, this.checked, 'wheel');
 	} );
 
 	$SHOW_SIDE[2].addEventListener("click", function() {
 		$SPOKE_SHOW[3].checked = this.checked;
 		$SPOKE_SHOW[4].checked = this.checked;
-		Show_Hide_Class( SPOKE_GROUP_PREFIX + 3, this.checked, 'display');
-		Show_Hide_Class( SPOKE_GROUP_PREFIX + 4, this.checked, 'display');
+		Show_Hide_Class( SPOKE_GROUP_PREFIX + 3, this.checked, 'wheel');
+		Show_Hide_Class( SPOKE_GROUP_PREFIX + 4, this.checked, 'wheel');
 	} );
 
 	for (var group = 1; group <= 4; group++) {
@@ -4141,8 +4147,8 @@ function Assign_Events() { //**************************************************/
 			$SPOKE_LINE_SIZE[g].addEventListener("change", function() {
 				if (Validate_Input(this)) { Set_Style_by_Class( SPOKE_GROUP_PREFIX + g, "stroke-width", this.value, save); }
 			});
-			$SPOKE_SHOW[g]     .addEventListener("change", function() { 
-				Show_Hide_Class( SPOKE_GROUP_PREFIX + g, this.checked, save, 'display');
+			$SPOKE_SHOW[g]     .addEventListener("change", function() {
+				Show_Hide_Class( SPOKE_GROUP_PREFIX + g, this.checked, 'wheel');
 				if (g == 1 || g == 2) { Show_Side_Checked(1); } else { Show_Side_Checked(2); }
 			});
 		})(group);
@@ -4162,21 +4168,21 @@ function Assign_Events() { //**************************************************/
 
 	$AXES_COLOR    .addEventListener("change", function() { Set_Style_by_Class( AXIS_CLASS, "stroke", this.value, save); });
 	$AXES_LINE_SIZE.addEventListener("change", function() { if (Validate_Input(this)) { Set_Style_by_Class(AXIS_CLASS, 'stroke-width', this.value, save); } });
-	$AXES_SHOW     .addEventListener("change", function() { Show_Hide_Class( AXIS_CLASS, this.checked, 'display'); });
+	$AXES_SHOW     .addEventListener("change", function() { Show_Hide_Class( AXIS_CLASS, this.checked, 'wheel'); });
 
 
 	$HOLES_SHOW_ALL.addEventListener("change", function() {
 		$HOLES_RIM_SHOW.checked = this.checked;
 		$HOLES_F1_SHOW.checked  = this.checked;
 		$HOLES_F2_SHOW.checked  = this.checked;
-		Show_Hide_Class( RIM_HOLES   , this.checked, 'display');
-		Show_Hide_Class( HUB_HOLES[1], this.checked, 'display');
-		Show_Hide_Class( HUB_HOLES[2], this.checked, 'display');
+		Show_Hide_Class( RIM_HOLES   , this.checked, 'wheel');
+		Show_Hide_Class( HUB_HOLES[1], this.checked, 'wheel');
+		Show_Hide_Class( HUB_HOLES[2], this.checked, 'wheel');
 	});
 
 	$HOLES_RIM_COLOR.addEventListener("change", function() { Set_Style_by_Class( RIM_HOLES, "fill" , this.value, save); });
 	$HOLES_RIM_SHOW .addEventListener("change", function() {
-		Show_Hide_Class( RIM_HOLES, this.checked, 'display');
+		Show_Hide_Class( RIM_HOLES, this.checked, 'wheel');
 		Show_All_Holes_Checked();
 	});
 	
@@ -4188,7 +4194,7 @@ function Assign_Events() { //**************************************************/
 
 	$HOLES_F1_COLOR.addEventListener("change", function() { Set_Style_by_Class( HUB_HOLES[1], "fill" , this.value, save); });
 	$HOLES_F1_SHOW .addEventListener("change", function() {
-		Show_Hide_Class( HUB_HOLES[1], this.checked, 'display');
+		Show_Hide_Class( HUB_HOLES[1], this.checked, 'wheel');
 		Show_All_Holes_Checked();
 		});
 	
@@ -4200,7 +4206,7 @@ function Assign_Events() { //**************************************************/
 
 	$HOLES_F2_COLOR.addEventListener("change", function() { Set_Style_by_Class( HUB_HOLES[2], "fill" , this.value, save); });
 	$HOLES_F2_SHOW .addEventListener("change", function() {
-		Show_Hide_Class( HUB_HOLES[2], this.checked, 'display');
+		Show_Hide_Class( HUB_HOLES[2], this.checked, 'wheel');
 		Show_All_Holes_Checked();
 	});
 	
