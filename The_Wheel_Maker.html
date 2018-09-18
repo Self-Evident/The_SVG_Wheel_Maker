@@ -4,7 +4,7 @@
 
 
 <!--//========================================-->
-<script>var VERSION = "v2.16 2018-09-18"</script>
+<script>var VERSION = "v2.17 2018-09-18"</script>
 <!--//========================================-->
 
 
@@ -168,7 +168,7 @@ select.SC2:-moz-focusring {
 
 #SC1_flange_to_opts { text-align: right }
 
-button.SC2_mini_button { width: .9rem; padding: 0 1px 0 0; line-height: .9rem; }
+button.SC2_mini_button { width: 16px; padding: 0 0 0 0; line-height: 1rem; }
 
 #SC2_FL_to_LN { background-color: rgba(255,255,255,.4); }
 
@@ -176,7 +176,7 @@ button.SC2_mini_button { width: .9rem; padding: 0 1px 0 0; line-height: .9rem; }
 
 table.SC2 tr td input.SC2_ph_inputs { margin: 0 0 0 0; width: 3.5rem; }
 
-select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .3rem 0; }
+select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 
 .SC2_rot_labels { font-size: .92rem; text-align: center; }
 
@@ -238,7 +238,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .3rem 0; }
 	visibility : hidden; /** Visible during rename only. **/
 }
 
-#SC2_show_wheel_opts { width: 1.2rem; line-height: 1rem; padding: 0 0 1px 0; margin: 0 .3rem 0 .6rem; }
+#SC2_show_wheel_opts { width: 1.2rem; line-height: 1rem; padding: 0 0 1px 0; margin: 0 .3rem 0 .8rem; }
 #SC2_wheel_opts      { display: inline-block; margin-left: 0; vertical-align: middle; padding-bottom: 3px; }
 
 #SC2_auto_copy_container { font-size: .9rem; padding: 2px .6rem 0 .2rem; border: 0; }
@@ -512,10 +512,11 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 	margin-top: 0;
 }
 
-tr td.SC2_PHH_data { text-align: right; }
-tr td.SC2_PHR_data { text-align: right; padding-right: 2rem; }
+td div.SC2_PHH_data { text-align: right; }
+td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
-tr.SC2_eso_opts > td { padding-top: .3rem; }
+.SC2_show_adv_opts { float: left; margin-left: .3rem; }
+#SC2_eso_opts p { padding-top: .3rem; }
 
 .SC2_DO_theme { background-color: rgb(175,198,205); }
 
@@ -627,45 +628,40 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 		<table id=SC2_ADVANCED_SETTINGS class="SC2 SC2_type_theme">
 			<tr class=SC2_separator><td></td></tr>
 			<tbody id=SC2_PHH_options>
-			<tr><td><b>Paired-Hole Hub</b></td></tr>
-			<tr>
-				<td>Auto-Angles
-					<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles"><!-- Populated onload --></select>
-				</td>
-			</tr>
-			<tr>
-				<td class=SC2_PHH_data>PH Angles
+			<tr><td><button type=button id=SC2_show_phh_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button>
+				<b>Paired-Hole Hub</b>
+			</td></tr>
+			<tr id=SC2_phh_opts>
+				<td>
+					<p>Auto-Angles	<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles"><!-- Populated onload --></select>
+					<div class=SC2_PHH_data>PH Angles
 					&#9484;<input type=text id=SC2_PHHA1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 					<input type=text id=SC2_PHHA2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
 					PH Distances
 					&#9492;<input type=text id=SC2_PHHD1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
 					<input type=text id=SC2_PHHD2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
-				</td>
-			</tr>
-
-			<tr class=SC2_separator><td></td></tr>
-			<tr><td>Hub Flange Rotations</td></tr>
-			<tr>
-				<td>Auto-Rotate
-					<select id=SC2_AUTO_ROT class="SC2 SC2_auto_angles">
-						<optgroup id=SC2_AUTO_ROT_OPTS label=""><!-- Populated onload --></optgroup>
-						<option value="auto" id=SC2_auto_rot_linked>Linked to PH Rim</option>
-						<option value="off">Manual</option>
- 					</select>
-				</td>
-			</tr>
-			<tr>
-				<td class=SC2_rot_labels>Flanges Rotated 
-					<input type=text id=SC2_ROTF class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+					</div>
+					<p class=SC2>Hub Flange Rotations</p>
+					<div class=SC2>Auto-Rotate
+						<select id=SC2_AUTO_ROT class="SC2 SC2_auto_angles">
+							<optgroup id=SC2_AUTO_ROT_OPTS label=""><!-- Populated onload --></optgroup>
+							<option value="auto" id=SC2_auto_rot_linked>Linked to PH Rim</option>
+							<option value="off">Manual</option>
+						</select><br>
+					</div>
+					<div class="SC2_rot_labels SC2_PH_data_1">Flanges Rotated 
+						<input type=text id=SC2_ROTF class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+					</div>
 				</td>
 			</tr>
 			<tr><td id=SC2_phr_frot_divider><hr class=SC2_hr2></td></tr>
 			</tbody>
 			
-
 			<tbody id=SC2_PHR_options>
-			<tr><td><b>Paired-Hole Rim</b></td></tr>
-			<tr>
+			<tr><td><button type=button id=SC2_show_phr_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button>
+				<b>Paired-Hole Rim</b>
+			</td></tr>
+			<tr id=SC2_phr_opts>
 				<td>Auto-Angles
 					<select id=SC2_RIM_AUTO_ANGLES class="SC2 SC2_auto_angles">
 						<option value="2">2 x Even</option>
@@ -687,28 +683,22 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 						<option value="-2">2 x Even</option>
 						<option value="off">Manual</option>
 					</select>
+					<div class=SC2_PH_data_1>PH Angles
+						&#9484;<input type=text id=SC2_PHRA class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
+						PH Distances
+						&#9492;<input type=text id=SC2_PHRD class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&nbsp;</span>
+					</div>
 				</td>
-			</tr>
-
-			<tr>
-				<td class=SC2_PHR_data>PH Angles
-				&#9484;<input type=text id=SC2_PHRA class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
-				PH Distances
-				&#9492;<input type=text id=SC2_PHRD class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&nbsp;</span></td>
 			</tr>
 			<tr><td><hr class=SC2_hr2></td></tr>
 			</tbody>
 
 			<tbody id=SC2_ESO_options>
-			<tr><td><b>Esoteric Options</b></td></tr>
-			<tr class=SC2_eso_opts>
-				<td class=SC2_rot_labels>Prima Lacing
-					<input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)<br>
-				</td>
-			</tr>
-			<tr class=SC2_eso_opts>
-				<td class=SC2_rot_labels>Rim Rotated
-					<input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+			<tr><td><button type=button id=SC2_show_eso_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
+			<tr id=SC2_eso_opts>
+				<td class=SC2_rot_labels>
+					<p>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)
+					<p>Rim Rotated <input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 				</td>
 			</tr>
 			<tr class=SC2_separator><td></td></tr>
@@ -934,7 +924,7 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 	<!--================================================================-->
 	<div id=SC2_right_side>
 		<div id=SC2_header_opts class="SC2 SC2_DO_theme">
-		<div id=SC2_select_wheel_opts style="display: inline-block; border: solid 0px red; ">
+		<div id=SC2_select_wheel_opts>
 			<div id=SC2_rename_box>
 				<select id=SC2_CURRENT_WHEEL class=SC2><!-- Populated onload --></select><br>
 				<input id=SC2_WHEEL_NAME type=text class=SC2 value="" tabindex=-1>
@@ -942,7 +932,7 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 			<button type=button id=SC2_rename_wheel class=SC2>Rename</button>
 			<button type=button id=SC2_show_wheel_opts class="SC2" value=none>+</button>
 		</div>
-		<div id=SC2_wheel_opts class=SC2 style="border: solid 0px blue; ">
+		<div id=SC2_wheel_opts class=SC2>
 			<label id=SC2_auto_copy_container>Auto Copy<input id=SC2_auto_copy class=SC2 type=checkbox></label>
 			<button type=button id=SC2_load_samples      class=SC2>Load Sample</button> 
 			<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
@@ -1048,7 +1038,7 @@ tr.SC2_eso_opts > td { padding-top: .3rem; }
 			</tr>
 
 			<tr><th class=SC2><a class=SC2 tabindex=0>Undo</a></th>
-				<td>Will undo the last "Load Sample" or "Clear",
+				<td>This will undo the most recent "Load Sample", or the most recent "Clear",
 					but only if no changes have been made since clicking either button.
 				</td>
 			</tr>
@@ -1441,7 +1431,9 @@ var $LACE_OPT = E_('LACE_OPT'); // Wheel Type/Lacing Option
 
 var $ADVANCED_SETTINGS = E_('ADVANCED_SETTINGS'); //container <table>
 
-var $PHH_options     = E_('PHH_options');
+var $PHH_options   = E_('PHH_options');
+var $SHOW_PHH_OPTS = E_('show_phh_opts');
+var $PHH_OPTS      = E_('phh_opts');
 var $HUB_AUTO_ANGLES = E_('HUB_AUTO_ANGLES');
 var $PHHA    = [];
 	$PHHA[1] = E_('PHHA1'); //Paired-Holes Flange 1 Angle
@@ -1458,15 +1450,18 @@ var $AUTO_ROT_LINKED = E_('auto_rot_linked');
 
 var $PHR_FROT_DIVIDER = E_('phr_frot_divider');
 
-var $PHR_options     = E_('PHR_options');
+var $PHR_options   = E_('PHR_options');
+var $SHOW_PHR_OPTS = E_('show_phr_opts');
+var $PHR_OPTS      = E_('phr_opts');
 var $RIM_AUTO_ANGLES = E_('RIM_AUTO_ANGLES');
 var $PHRA = E_('PHRA'); //Paired-Holes Rim Angle
 var $PHRD = E_('PHRD'); //Paired-Holes Rim Distance (center to center)
 
-var $ROTR    = E_('ROTR'); //Rim Rotation: additional angle between holes 1 of flange[1] and rim. Normal is 0.
-
-var $ESO_options  = E_('ESO_options');
-var $PRIMA_LACING = E_('PRIMA_LACING');
+var $ESO_options   = E_('ESO_options');
+var $SHOW_ESO_OPTS = E_('show_eso_opts');
+var $ESO_OPTS      = E_('eso_opts');
+var $PRIMA_LACING  = E_('PRIMA_LACING');
+var $ROTR = E_('ROTR'); //Rim Rotation: additional angle between holes 1 of flange[1] and rim. Normal is 0.
 
 var $SPOKE_LENGTHS = E_('SPOKE_LENGTHS'); //Container
 var $SL   = [];	              //Spoke Lengths
@@ -1718,6 +1713,9 @@ var MAX_MAX_WHEELS = 100; //I don't know, seems like a good idea. Not the specif
 var DEFAULT_OPTIONS = {
 	'max_wheels'        : 10,
 	'show_wheel_opts'   : "none", //none or table-row
+	'show_phh_opts'     : "table-row", //none or table-row
+	'show_phr_opts'     : "table-row", //none or table-row
+	'show_eso_opts'     : "none", //none or table-row
 	'show_hide_advanced': "none", //none or inline-block
 	'show_hide_other'   : "none", //  "			"
 	'show_hide_notes'   : "none", //  "			"
@@ -3474,6 +3472,9 @@ function Init_Show_Hide_Options(reset) { //************************************/
 
 	$WHEEL_OPTS      .style.display = $SHOW_WHEEL_OPTS.value;
 	$FL_to_LN        .style.display = $SHOW_FL_to_LN.value;
+	$PHH_OPTS        .style.display = $SHOW_PHH_OPTS.value;
+	$PHR_OPTS        .style.display = $SHOW_PHR_OPTS.value;
+	$ESO_OPTS        .style.display = $SHOW_ESO_OPTS.value;
 	$ADVANCED_INFO   .style.display = $SHOW_HIDE_ADVANCED.value;
 	$OTHER_CALCS	 .style.display = $SHOW_HIDE_OTHER.value;
 	$NOTES           .style.display = $SHOW_HIDE_NOTES.value;
@@ -3481,6 +3482,9 @@ function Init_Show_Hide_Options(reset) { //************************************/
 
 	Set_Show_Button_Text($SHOW_WHEEL_OPTS, "+", "-");
 	Set_Show_Button_Text($SHOW_FL_to_LN  , "+", "-");
+	Set_Show_Button_Text($SHOW_PHH_OPTS  , "+", "-");
+	Set_Show_Button_Text($SHOW_PHR_OPTS  , "+", "-");
+	Set_Show_Button_Text($SHOW_ESO_OPTS  , "+", "-");
 	Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", SCALE_ROTATE_OPEN);
 	if ($SHOW_WHEEL_OPTS.value == "none") { $HEADER_OPTS.style.width = ""; }
 	else                                  { $HEADER_OPTS.style.width = "665px"; }
@@ -4095,6 +4099,22 @@ function Assign_Events() { //**************************************************/
 	$ROTR.addEventListener("change", function() {
 		Validate_PH_Angle(this, $NR, -$NR.value, $NR.value, true); //true allows -neg angles.
 		Build_Wheel(true);
+	});
+
+
+	$SHOW_PHH_OPTS.addEventListener("click", function(){
+		Show_Hide_Options($SHOW_PHH_OPTS, $PHH_OPTS , "table-row");
+		Set_Show_Button_Text($SHOW_PHH_OPTS, "+", "-");
+	});
+
+	$SHOW_PHR_OPTS.addEventListener("click", function(){
+		Show_Hide_Options($SHOW_PHR_OPTS, $PHR_OPTS , "table-row");
+		Set_Show_Button_Text($SHOW_PHR_OPTS, "+", "-");
+	});
+
+	$SHOW_ESO_OPTS.addEventListener("click", function(){
+		Show_Hide_Options($SHOW_ESO_OPTS, $ESO_OPTS , "table-row");
+		Set_Show_Button_Text($SHOW_ESO_OPTS, "+", "-");
 	});
 
 
