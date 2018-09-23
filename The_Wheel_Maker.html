@@ -4,7 +4,7 @@
 
 
 <!--//========================================-->
-<script>var VERSION = "v2.17 2018-09-18"</script>
+<script>var VERSION = "v2.18 2018-09-19"</script>
 <!--//========================================-->
 
 
@@ -57,13 +57,15 @@ a.SC2 { outline: 0; text-decoration: none; display: inline-block; background-col
 
 a.SC2:focus, a.SC2:hover { background-color: #ccc; text-decoration: none; }
 
-button.SC2        { 
+button.SC2        {
 	border: solid 1px #444;
 	padding: 0px 5px 1px 4px;
 	background:
 	linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC);
 	border-radius: 4px;
 }
+p.SC2 > button.SC2, div.SC2 > button.SC2 { padding: 1px 5px 1px 4px; }
+
 button.SC2:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
 button.SC2:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); }
 button.SC2:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 0px 6px 1px 3px; }
@@ -151,7 +153,7 @@ select.SC2:-moz-focusring {
 	font-family: arial;
 }
 
-.SC2_inexport_btns { font-size: 1rem; padding: .2rem 1rem; border-radius: 6px; }
+.SC2_imex_btns { font-size: 1rem; padding: .2rem 1rem; border-radius: 6px; margin: .5rem 0 0 1rem; }
 
 .SC2_IMEX_DATA { border: solid 1px black; padding: .3rem; margin-top: .5rem; font-family: courier; word-break: break-all;}
 
@@ -520,8 +522,9 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 .SC2_DO_theme { background-color: rgb(175,198,205); }
 
-.mono   { font-family: mono; }
-.strike { text-decoration: line-through; }
+.SC2_mono   { font-family: mono; }
+.SC2_strike { text-decoration: line-through; }
+.SC2_smaller { font-size: .8rem; font-weight: normal; }
 
 /** Wheel type themes **/
 .SC2_theme_standard { background-color: rgb(175,198,205); }
@@ -538,18 +541,21 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 <div id=SC2_CONTAINER><!--====================================================-->
 
 	<div id=SC2_IMPORT_container class=SC2_imex_containers>
-		<p>Copy/Paste your previously saved data to the area below.
-		<p>Then click</p>
-		<button id=SC2_perform_import class="SC2 SC2_inexport_btns">Import Data</button>
-		<button id=SC2_close_import   class="SC2 SC2_inexport_btns">Return to Wheel</button>
+		<p class=SC2>Copy/Paste your previously saved data to the area below, then click "Import Data".</p>
+		<p class=SC2><button id=SC2_perform_import class="SC2 SC2_imex_btns">Import Data</button>
+		             <button id=SC2_close_import   class="SC2 SC2_imex_btns">Cancel and Return to Wheel</button>
+		<p class=SC2><label><input type=checkbox id=SC2_PRESERVE_INDEX> Preserve Index.</label>
+		<p class=SC2>If "Preserve Index" is checked, imported wheels will restored to the same "slots" from which they were saved.
+		   That is, when saved, if the wheel list had wheels in slots (indexes): 2-5-7-9, they will be restored to the same.
+		   <p class=SC2>However, if "Preserve Index is not checkd, they will be restored to slots: 1-2-3-4.
 		<textarea id=SC2_IMPORT_INPUT class="SC2 SC2_IMEX_DATA"></textarea>
 	</div>
 
 	<div id=SC2_EXPORT_container class=SC2_imex_containers>
-		<p>Copy and paste the text below into a blank text file in your favorite text editor.
+		<p class=SC2>Copy and paste the text below into a blank text file in your favorite text editor.
 		   Do not edit the data unless you <i>really</i> know what you're doing!</p>
-		<button id=SC2_copy_to_clipboard class="SC2 SC2_inexport_btns">Copy to Clipboard</button>
-		<button id=SC2_close_export      class="SC2 SC2_inexport_btns">Return to Wheel</button>
+		<button id=SC2_copy_to_clipboard class="SC2 SC2_imex_btns">Copy to Clipboard</button>
+		<button id=SC2_close_export      class="SC2 SC2_imex_btns">Return to Wheel</button>
 		<div id=SC2_EXPORT_OUTPUT class=SC2_IMEX_DATA></div>
 	</div>
 
@@ -602,7 +608,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr>
-				<td class=SC2_thv>OC Rim</td>
+				<td class=SC2_thv><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked class=SC2> OC Rim</td>
 				<td><input type=text id=SC2_OSB1 class=SC2 maxlength=4> <input type=text id=SC2_OSB2 class=SC2 maxlength=4></td>
 			</tr>
 			<tr>
@@ -697,8 +703,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<tr><td><button type=button id=SC2_show_eso_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
 			<tr id=SC2_eso_opts>
 				<td class=SC2_rot_labels>
-					<p>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)
-					<p>Rim Rotated <input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+					<p class=SC2>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)
+					<p class=SC2>Rim Rotated <input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 				</td>
 			</tr>
 			<tr class=SC2_separator><td></td></tr>
@@ -1038,8 +1044,9 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2><a class=SC2 tabindex=0>Undo</a></th>
-				<td>This will undo the most recent "Load Sample", or the most recent "Clear",
-					but only if no changes have been made since clicking either button.
+				<td><p>This will undo the most recent "Load Sample", or the most recent "Clear",
+					but only if no wheel settings have been changed since clicking either button.
+					<p>
 				</td>
 			</tr>
 
@@ -1066,7 +1073,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			
 			<tr><th class=SC2><a class=SC2 tabindex=0>Flange Holes</a></th><td>
 				Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.
-				<p>Note that the number of holes for Side 1 must be less than or equal to Side 2. This is due to some unsolved programming hangup that I <span class=strike>can't</span> have yet to solve.
+				<p>Note that the number of holes for Side 1 must be less than or equal to Side 2. This is due to some unsolved programming hangup that I <span class=SC2_strike>can't</span> have yet to solve.
 				<p>If your build has fewer spokes on the drive side, which would normally be "Side 2", simply "flip" the wheel.  That is, enter drive side values for "Side 1", and non-drive side for "Side 2".
 			</td></tr>
 			
@@ -1103,7 +1110,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<p>The spoke holes in the rim are "off-center", or "off-set", to one side.
 					<p>Useage: Enter a (-)negative number for the side that the holes are closer to (spokes will be a tiny bit shorter); and enter a (+)positive number for the side that the holes are further from (spoke will be a tiny bit longer).
 					<p>For example, on a rear wheel rim with a 3mm offset, enter -3 for "Side 1" (the left/non-drive side), and 3 for "Side 2" (the right/drive side).
-					<p>Actually, the negative of the value entered in one side will automatically be entered for the other side.
+					<p>If "Linked" is checked, the negative of the value entered in one side will automatically be entered for the other side. This is probably the case for most OC rims.</p>
+					<p>The OC settings can also be used for unusal rims, such as Shimano's 540 series, where the spoke holes are actually in the sides of the rim.  In this case, "Linked" should be <i>unchecked</i>, as both values should be positive.
 				</td>
 			</tr>
 			<tr><th class=SC2><a class=SC2 tabindex=0>Cross</a></th>
@@ -1170,19 +1178,19 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<p>This lacing method should only be used with a paired-hole rim.
 
 					<ul class=SC2>
-						<li><p>At the rim, "Prima Lacing" spokes match up something like this (in a paired-hole rim):</p>
+						<li><p>In a paired-hole rim, "Prima Lacing" spokes match up something like this:</p>
 						<div class=SC2_lacing_examples>
-						<span class=mono>F1_F2_____________F2_F1_____________F1_F2_____________F2_F1_____________</span> ...etc...
+						<span class=SC2_mono>F1_F2_____________F2_F1_____________F1_F2_____________F2_F1_____________</span> ...etc...
 						</div>
 					
-						<li><p>Whereas normally laced spokes match up like this (in a paired-hole rim):</p>
+						<li><p>Whereas normally laced spokes match up like this:</p>
 						<div class=SC2_lacing_examples>
-						<span class=mono>F1_F2_____________F1_F2_____________F1_F2_____________F1_F2_____________</span> ...etc...
+						<span class=SC2_mono>F1_F2_____________F1_F2_____________F1_F2_____________F1_F2_____________</span> ...etc...
 						</div>
 					
 						<li><p>And of course, normally laced spokes in a normal rim:</p>
 						<div class=SC2_lacing_examples>
-						<span class=mono>F1_______F2_______F1_______F2_______F1_______F2_______F1_______F2_______</span> ...etc...
+						<span class=SC2_mono>F1_______F2_______F1_______F2_______F1_______F2_______F1_______F2_______</span> ...etc...
 						</div>
 					</ul>
 
@@ -1281,15 +1289,14 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 			
 			<tr><th class=SC2><a class=SC2 tabindex=0>Export Data</a></th>
-				<td><p>Generates a JSON string of all wheel & display data that may be saved in a text file for backup.</p>
+				<td><p>Generates a JSON string of all wheel & display data that can then be saved in a text file for backup.</p>
 					<button id=SC2_EXPORT class=SC2>Export Wheels &amp; Display Settings</button>
 				</td>
 			</tr>
 			
 			<tr><th class=SC2><a class=SC2 tabindex=0>Import Data</a></th><td>
-				<p>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.  
-				
-				For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
+				<p class=SC2>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.  
+				<p class=SC2>For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
 				<p><button id=SC2_IMPORT class=SC2>Import Wheels &amp; Display Settings</button>
 			</td></tr>
 
@@ -1341,7 +1348,7 @@ MSGS.invalid = "Invalid input: ";
 MSGS.max_fl  = "Maximum value for flange holes: ";
 MSGS.nf1_2   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>If needed, increase Side 2 first.";
 MSGS.nf2_1   = "Number of flange holes:<br>Side 2 must be greater than or equal to Side 1.<br>If needed, decrease Side 1 first.";
-MSGS.data1   = "(Angle from spoke hole thru hub's axial center.)";
+MSGS.data1   = "(Angle from spoke hole thru hub's axial center - <i>not</i> the angle of the spoke.)";
 MSGS.import1 = "Invalid import data.<br>Import data must be a valid JSON string.";
 
 
@@ -1416,6 +1423,7 @@ var $FTL    = [];
 	$FTL[2] = E_('FTL2');	// 	  "			"	 2	 "     .
 var $OLD    = E_('OLD');  //"Over Locknut Distance" = FTL[1] + FTC[1] + FTC[2] + FTL[2]
 
+var $OSB_linked = E_('OSB_linked'); //checkbox - if checked, OSB[1] = -OSB[2], automatically.
 var $OSB    = [];
 	$OSB[1] = E_('OSB1');	// Offset Spoke Bed 1 (off center rim)
 	$OSB[2] = E_('OSB2');	// 	  "			"	2	 "		"
@@ -1608,6 +1616,7 @@ var $DELETE_ALL_DATA = E_('DELETE_ALL_DATA');
 
 var $SC2_VERSION      = E_('VERSION');
 
+var $PRESERVE_INDEX   = E_('PRESERVE_INDEX');
 var $EXPORT           = E_('EXPORT'); //<button>
 var $EXPORT_CONTAINER = E_('EXPORT_container');
 var $EXPORT_OUTPUT    = E_('EXPORT_OUTPUT'); //<div> of data
@@ -1640,6 +1649,7 @@ var DEFAULT_VALUES = {
 	'FTC1' : 37.7,
 	'FTC2' : 17.1,
 	'OLD'  : 0,
+	'OSB_linked': true, //When true, -OSB1 = OSB2, or vice-versa, but only after a change to eiter.
 	'OSB1' : "",
 	'OSB2' : "",
 	'SX1'  : 2,
@@ -1742,7 +1752,7 @@ var PRIMA_LACING = {};
 var HUB_AUTO_ANGLES_OPTS_COMMON = '<option value="1">Even (Normal Hub)</option> <option value=".875">7/8 Even</option> <option value=".75">3/4 Even</option> <option value=".625">5/8 Even</option> <option value=".5">1/2 Even</option> <option value=".375">3/8 Even</option> <option value=".25">1/4 Even</option> <option value=".125">1/8 Even</option> <option value="0">0</option> <option value="off">Manual</option>'; 
 var HUB_AUTO_ANGLES_OPTS_CUSTOM = '<option value="2">2 x Even</option> <option value="1.875">+7/8 Even</option> <option value="1.75">+3/4 Even</option> <option value="1.625">+5/8 Even</option> <option value="1.5">+1/2 Even</option> <option value="1.375">+3/8 Even</option> <option value="1.25">+1/4 Even</option> <option value="1.125">+1/8 Even</option>' + HUB_AUTO_ANGLES_OPTS_COMMON;
 
-var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".875">+7/8 Hole</option> <option value=".75">+3/4 Hole</option> <option value=".625">+5/8 Hole</option> <option value=".5">+1/2 Hole</option> <option value=".375">+3/8 Hole</option> <option value=".25">+1/4 Hole</option> <option value=".125">+1/8 Hole</option> <option value="0">0 (Normal Hub)</option>'; 
+var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".875">+7/8 Hole</option> <option value=".75">+3/4 Hole</option> <option value=".625">+5/8 Hole</option> <option value=".5">+1/2 Hole</option> <option value=".375">+3/8 Hole</option> <option value=".25">+1/4 Hole</option> <option value=".125">+1/8 Hole</option> <option value="0">Even (Normal Hub)</option>'; 
 var AUTO_ROT_OPTS_CUSTOM = '<option value="1.5">+1 1/2 Hole</option> <option value="1.375">+1 3/8 Hole</option> <option value="1.25">+1 1/4 Hole</option> <option value="1.125">+1 1/8 Hole</option> ' + AUTO_ROT_OPTS_COMMON + ' <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option>';
 
 
@@ -1898,13 +1908,12 @@ function Load_Settings(what, imp_def) { //*************************************/
 
 	if (settings == null) { return false; }
 
-
 	Load_Clear_or_Get_Settings(settings, 'load');
-
 
 	if ($CURRENT_WHEEL.value && what == (LS_VALUES_PREFIX + $CURRENT_WHEEL.value)) {
 		$WHEEL_NAME.current = $WHEEL_NAME.value;
 	}
+
 
 
 	//Some settings are based on saved settings...
@@ -3132,9 +3141,12 @@ function Validate_Input($input, integer, allow_neg, low_value, high_value) { //*
 
 	$input.value = $input.value.trim();
 	var input = $input.value; 
+
 	if (input == "") { value = 0; } 
-	if (integer) { input = parseInt(input); }
-	else 		 { input = parseFloat(input); }
+	else {
+		if (integer) { input = parseInt(input); }
+		else 		 { input = parseFloat(input); }
+	}
 
 	if (isNaN(input)) { error = true; } else 
 	if ((typeof  low_value != 'undefined') && (input <  low_value)) { error = true; } else
@@ -4122,8 +4134,19 @@ function Assign_Events() { //**************************************************/
 
 
 	// Only need to recalc final spoke lengths. OSB & SHD are ignored in display calculations for <line> endpoints.
-	$OSB[1].addEventListener("change", function() { Validate_Input(this, 0, 1); $OSB[2].value = -this.value; Calc_Spoke_Lengths(0, false, this, 0, 1); });
-	$OSB[2].addEventListener("change", function() { Validate_Input(this, 0, 1); $OSB[1].value = -this.value; Calc_Spoke_Lengths(0, false, this, 0, 1); });
+	$OSB[1].addEventListener("change", function() {
+		Validate_Input(this, 0, 1);
+		if ($OSB_linked.checked) { $OSB[2].value = -this.value; }
+		Calc_Spoke_Lengths(0, false, this, 0, 1);
+	});
+	$OSB[2].addEventListener("change", function() {
+		Validate_Input(this, 0, 1);
+		if ($OSB_linked.checked) { $OSB[1].value = -this.value; }
+		Calc_Spoke_Lengths(0, false, this, 0, 1);
+	});
+	
+	$OSB_linked.addEventListener("click", function(){ Save_Settings("wheel"); });
+
 	$SHD.addEventListener("change", function() { Calc_Spoke_Lengths(0, true, this, 0, 0); });
 
 	$FW 	   .addEventListener("change", function() { if (Validate_Input(this)) { Update_Advanced_Info(save); } });
@@ -4356,7 +4379,6 @@ function Assign_Events() { //**************************************************/
 		ALL_DATA.display_options = Parse_Settings(localStorage.getItem(LS_DISPLAY_OPTIONS));
 		
 		var max_wheels = parseInt($MAX_WHEELS.value);
-		
 		for (var wheel = 1; wheel <= max_wheels; wheel++ ) {
 			var wheel_data = Parse_Settings(localStorage.getItem(LS_VALUES_PREFIX + wheel));
 			if (wheel_data) { ALL_DATA.wheels[wheel] = wheel_data; }
@@ -4404,16 +4426,19 @@ function Assign_Events() { //**************************************************/
 
 		Init_Display_NR_SX(imported_data.display_options, true);
 		
-		var saved_settings_found = false;
-		for (var wheel in imported_data.wheels) {
-			$CURRENT_WHEEL.value = wheel;
-			saved_settings_found = Load_Settings(imported_data.wheels[wheel], "imported");
+		var imported_settings = false;
+		var new_index = 1;
+		for (var saved_index in imported_data.wheels) {
+			if ($PRESERVE_INDEX.checked) { var index = saved_index; }
+			else                         { var index = new_index++; }
+			$CURRENT_WHEEL.value = index;
+			imported_settings   = Load_Settings(imported_data.wheels[saved_index], "imported");
 			$WHEEL_NAME.value   = $WHEEL_NAME.value.trim();
 			$WHEEL_NAME.current = $WHEEL_NAME.value;
 			Validate_Wheel_Settings('imported', true); //Also saves settings...
 		}
 
-		localStorage.setItem(LS_CURRENT_WHEEL, wheel);
+		localStorage.setItem(LS_CURRENT_WHEEL, index);
 
 		Setup_and_Build("init");
 		IMEX_enable_disable(false, $IMPORT_CONTAINER);
@@ -4483,6 +4508,14 @@ function Init() { //***********************************************************/
 
 	$WHEEL_NAME.current = $WHEEL_NAME.value;
 
+	//A probably futile attempt to protect contact info from bots.  Uses html, css, & js obfuscation.
+	var $ADMIN_LINK = E_('admin_link');
+	var issues = 'mai' + 'lto' + ':d' + 'spokecalculat' + 'or.ne' + 't';
+	issues = issues.replace(":d", ":d@");
+	$ADMIN_LINK.innerHTML = "d&#064;" + "spokecalculat" + "or&#046;ne" + "<span style='display:none;'>XXXXX</span>" + "t";
+	$ADMIN_LINK.addEventListener("mouseover", function(){ this.href = issues; });
+	$ADMIN_LINK.addEventListener("focus"    , function(){ this.href = issues; });
+
 	//##### Enable disclaimer msg on first load & resets?
 	$ACCEPT_MSG.ENABLED = false; //##### true; //#####
 	//##### Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus after accepted.
@@ -4492,14 +4525,6 @@ function Init() { //***********************************************************/
 	$PRIOR_FOCUS = D.activeElement;
 
 	$SC2_VERSION.innerHTML = VERSION;
-	
-	//A probably futile attempt to protect contact info from bots.  Uses html, css, & js obfuscation.
-	var $ADMIN_LINK = E_('admin_link');
-	var issues = 'mai' + 'lto' + ':d' + 'spokecalculat' + 'or.ne' + 't';
-	issues = issues.replace(":d", ":d@");
-	$ADMIN_LINK.innerHTML = "d&#064;" + "spokecalculat" + "or&#046;ne" + "<span style='display:none;'>XXXXX</span>" + "t";
-	$ADMIN_LINK.addEventListener("mouseover", function(){ this.href = issues; });
-	$ADMIN_LINK.addEventListener("focus"    , function(){ this.href = issues; });
 }//end Init() //***************************************************************/
 
 
