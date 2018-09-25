@@ -4,7 +4,7 @@
 
 
 <!--//========================================-->
-<script>var VERSION = "v2.18 2018-09-19"</script>
+<script>var VERSION = "v2.19 2018-09-25"</script>
 <!--//========================================-->
 
 
@@ -161,10 +161,18 @@ select.SC2:-moz-focusring {
 
 #SC2_IMPORT_INPUT  {
 	width: 100%;
-	height: 40rem;
+	height: 107px;  /* The 107 should match the new_height minimum value in $IMPORT_INPUT.addEventListener. */
 	overflow: auto;
+	overflow-y: scroll;
+	resize: none;
 }
 
+
+#SC2_import_index_label { display: inline-block; margin: 0 0 0 1rem; padding: 0; border: solid 0px red; }
+
+.SC2_disabled { color: #777; }
+
+#SC2_IMPORT_INDEX:disabled { border: solid 1px #ccc; color: #ccc; }
 
 #SC2_WHEEL_TYPE { margin: 0 0 .3rem .2rem; padding-left: .1rem; width: 11rem; }
 
@@ -531,7 +539,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 .SC2_theme_triplet  { background-color: rgb(210,223,227); }
 .SC2_theme_phh      { background-color: rgb(200,214,240); }
 .SC2_theme_phr      { background-color: rgb(227,214,254); }
-.SC2_theme_phh_phr { background-color: rgb(245,192,245); }
+.SC2_theme_phh_phr  { background-color: rgb(245,192,245); }
 .SC2_theme_custom   { background-color: #FAB; }
 </style>
 
@@ -542,12 +550,18 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 	<div id=SC2_IMPORT_container class=SC2_imex_containers>
 		<p class=SC2>Copy/Paste your previously saved data to the area below, then click "Import Data".</p>
-		<p class=SC2><button id=SC2_perform_import class="SC2 SC2_imex_btns">Import Data</button>
-		             <button id=SC2_close_import   class="SC2 SC2_imex_btns">Cancel and Return to Wheel</button>
-		<p class=SC2><label><input type=checkbox id=SC2_PRESERVE_INDEX> Preserve Index.</label>
-		<p class=SC2>If "Preserve Index" is checked, imported wheels will restored to the same "slots" from which they were saved.
+		<p class=SC2>If "Preserve Index" is checked, imported wheels will be restored to the same "slots" from which they were saved.
 		   That is, when saved, if the wheel list had wheels in slots (indexes): 2-5-7-9, they will be restored to the same.
-		   <p class=SC2>However, if "Preserve Index is not checkd, they will be restored to slots: 1-2-3-4.
+		   <p class=SC2>However, if "Preserve Index is not checked, they will be restored to slots: 1-2-3-4.<br>
+		   (Or, starting at the "beginning at index" specified below.)
+		<p class=SC2>Also, the import may set "Max" lower than the highest index of the current wheel list. If so,
+			you will need to increase "Max" in order to access those wheels.
+		<p class=SC2>
+			<button id=SC2_perform_import class="SC2 SC2_imex_btns">Import Data</button>
+			<button id=SC2_import_sample_set class="SC2 SC2_imex_btns">Load Sample Wheel Set</button>
+			<button id=SC2_close_import   class="SC2 SC2_imex_btns">Cancel and Return to Wheel</button>
+		<p class=SC2><label><input type=checkbox id=SC2_PRESERVE_INDEX class=SC2> Preserve Index.</label>
+			<label id=SC2_import_index_label>Place imported wheels beginning at index <input type=text id=SC2_IMPORT_INDEX class=SC2 value=1></label>
 		<textarea id=SC2_IMPORT_INPUT class="SC2 SC2_IMEX_DATA"></textarea>
 	</div>
 
@@ -1029,9 +1043,9 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 			<tr><th class=SC2><a class=SC2 tabindex=0>Max</a></th>
 				<td><p>Number of slots in the "Wheel" select list.
-					<p>Note that if you have 10 wheels, and change "Max" to 5, wheels above 5 are not lost, 
-					   they are just not currently selectable. If you change "Max" back to 10, 
-					   all existing wheels up to 10 will be listed.
+					<p>Note that if you have 10 wheels, and change "Max" to 5, wheels above 5 are not lost.
+					   If you change "Max" back to 10, all existing wheels up to 10 will be listed.
+					<p>The maximum "Max" is 100.
 				</td>
 			</tr>
 
@@ -1297,6 +1311,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<tr><th class=SC2><a class=SC2 tabindex=0>Import Data</a></th><td>
 				<p class=SC2>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.  
 				<p class=SC2>For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
+				<p class=SC2>In the Import window that opens by clicking the following button, there is an option to load &amp; import 
+				a sample set of wheels. These wheels are for example only, and do not contain accurate values for any actual known wheel.
 				<p><button id=SC2_IMPORT class=SC2>Import Wheels &amp; Display Settings</button>
 			</td></tr>
 
@@ -1343,13 +1359,23 @@ var $PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfoc
 
 //Various messeges
 var MSGS = {};
-MSGS.notice  = "<div id=SC2_MSG_HEADER>Notice!</div>";
-MSGS.invalid = "Invalid input: ";
-MSGS.max_fl  = "Maximum value for flange holes: ";
-MSGS.nf1_2   = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>If needed, increase Side 2 first.";
-MSGS.nf2_1   = "Number of flange holes:<br>Side 2 must be greater than or equal to Side 1.<br>If needed, decrease Side 1 first.";
-MSGS.data1   = "(Angle from spoke hole thru hub's axial center - <i>not</i> the angle of the spoke.)";
-MSGS.import1 = "Invalid import data.<br>Import data must be a valid JSON string.";
+MSGS.notice   = "<div id=SC2_MSG_HEADER>Notice!</div>";
+MSGS.invalid  = "Invalid input: ";
+MSGS.max_fl   = "Maximum value for flange holes: ";
+MSGS.nf1_2    = "Number of flange holes:<br>Side 1 must be less than or equal to Side 2.<br>If needed, increase Side 2 first.";
+MSGS.nf2_1    = "Number of flange holes:<br>Side 2 must be greater than or equal to Side 1.<br>If needed, decrease Side 1 first.";
+MSGS.data1    = "(Angle from spoke hole thru hub's axial center - <i>not</i> the angle of the spoke.)";
+MSGS.import_invalid     = "Invalid import data.<br>Import data must be a valid JSON string.";
+MSGS.import_complete    = "<b>Import complete.</b>"
+MSGS.import_adjust_max  = '<br>The imported "Max" number of wheels is less than before the import.<br>';
+MSGS.import_adjust_max += 'Adjust "Max" as needed to access any existing wheels above its current value.<br>';
+MSGS.cannot_exceed   = 'The number of imported wheels plus the "beginning" index cannot exceed ';
+MSGS.imported_wheels = 'Imported wheels: ';
+MSGS.beginning_index = 'Beginning at index: ';
+MSGS.total           = 'Total: ';
+MSGS.decrease        = 'Decrease the "beginning at index" value to no more than: ';
+MSGS.before_import   = 'before import: ';
+MSGS.after_import    = ' after import: ';
 
 
 
@@ -1614,20 +1640,23 @@ var $Y_axis2 = E_('y-axis2');
 
 var $DELETE_ALL_DATA = E_('DELETE_ALL_DATA');
 
-var $SC2_VERSION      = E_('VERSION');
+var $SC2_VERSION = E_('VERSION');
 
-var $PRESERVE_INDEX   = E_('PRESERVE_INDEX');
-var $EXPORT           = E_('EXPORT'); //<button>
-var $EXPORT_CONTAINER = E_('EXPORT_container');
-var $EXPORT_OUTPUT    = E_('EXPORT_OUTPUT'); //<div> of data
+var $EXPORT            = E_('EXPORT'); //<button>
+var $EXPORT_CONTAINER  = E_('EXPORT_container');
+var $EXPORT_OUTPUT     = E_('EXPORT_OUTPUT'); //<div> of data
 var $COPY_TO_CLIPBOARD = E_('copy_to_clipboard');//<button>
 var $CLOSE_EXPORT      = E_('close_export');     //<button>
 
-var $IMPORT           = E_('IMPORT');         //<button>
-var $IMPORT_CONTAINER = E_('IMPORT_container');
-var $IMPORT_INPUT     = E_('IMPORT_INPUT'); //<input textarea> of data
-var $PERFORM_IMPORT   = E_('perform_import'); //<button>
-var $CLOSE_IMPORT     = E_('close_import');   //<button>
+var $IMPORT             = E_('IMPORT');         //<button>
+var $IMPORT_CONTAINER   = E_('IMPORT_container');
+var $IMPORT_INPUT       = E_('IMPORT_INPUT'); //<input textarea> of data
+var $PERFORM_IMPORT     = E_('perform_import'); //<button>
+var $IMPORT_SAMPLE_SET  = E_('import_sample_set'); //<button>
+var $CLOSE_IMPORT       = E_('close_import');   //<button>
+var $PRESERVE_INDEX     = E_('PRESERVE_INDEX');
+var $IMPORT_INDEX_LABEL = E_('import_index_label'); //also container.
+var $IMPORT_INDEX       = E_('IMPORT_INDEX'); //Import starting at this index/slot.
 //end assignment of element references.
 
 
@@ -1672,7 +1701,7 @@ var DEFAULT_VALUES = {
 	'RIM_AUTO_ANGLES': "1",  //Make sure "value" actually === an <option> "value"! ex: ".5" !== ".50"
 	'PHRA'  : 15,
 
-	'ROTR'    : 0, //Rim      rotation in degrees. This is really useless, but fun!
+	'ROTR'    : 0, //Rim rotation in degrees. This is really useless, but fun!
 	'PRIMA_LACING': false,
 
 	'SPOKE_COLOR1': "#477", //Spoke group colors
@@ -1737,23 +1766,15 @@ var DEFAULT_OPTIONS = {
 
 
 
-//Prima Lacing default/example values...
-var PRIMA_LACING = {};
-	PRIMA_LACING.HUB_AUTO_ANGLES = '.375'; // Set PHHA's or PHHD's instead?*
-	PRIMA_LACING.AUTO_ROT = '.5';
-	PRIMA_LACING.PHRD = '10'; //20
-//*re:HUB_AUTO_ANGLES -vs- PHHD's
-//Without one in hand, can't tell if the PHHD's are the same for both flanges.
-//If the PHHD's are the same regardless of PCD, then PHHA's will be different for different PCD's, and vice-versa.
-
-
-
-
 var HUB_AUTO_ANGLES_OPTS_COMMON = '<option value="1">Even (Normal Hub)</option> <option value=".875">7/8 Even</option> <option value=".75">3/4 Even</option> <option value=".625">5/8 Even</option> <option value=".5">1/2 Even</option> <option value=".375">3/8 Even</option> <option value=".25">1/4 Even</option> <option value=".125">1/8 Even</option> <option value="0">0</option> <option value="off">Manual</option>'; 
 var HUB_AUTO_ANGLES_OPTS_CUSTOM = '<option value="2">2 x Even</option> <option value="1.875">+7/8 Even</option> <option value="1.75">+3/4 Even</option> <option value="1.625">+5/8 Even</option> <option value="1.5">+1/2 Even</option> <option value="1.375">+3/8 Even</option> <option value="1.25">+1/4 Even</option> <option value="1.125">+1/8 Even</option>' + HUB_AUTO_ANGLES_OPTS_COMMON;
 
 var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".875">+7/8 Hole</option> <option value=".75">+3/4 Hole</option> <option value=".625">+5/8 Hole</option> <option value=".5">+1/2 Hole</option> <option value=".375">+3/8 Hole</option> <option value=".25">+1/4 Hole</option> <option value=".125">+1/8 Hole</option> <option value="0">Even (Normal Hub)</option>'; 
 var AUTO_ROT_OPTS_CUSTOM = '<option value="1.5">+1 1/2 Hole</option> <option value="1.375">+1 3/8 Hole</option> <option value="1.25">+1 1/4 Hole</option> <option value="1.125">+1 1/8 Hole</option> ' + AUTO_ROT_OPTS_COMMON + ' <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option>';
+
+
+
+var SAMPLE_WHEELS = {"wheels":{"2":{"WHEEL_NAME":"Sample Standard","WHEEL_TYPE":"standard","ERD":"577","NR":"24","NF1":"12","NF2":"12","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"0","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_WHEEL_text":"180","ROTATE_WHEEL_step":"5","SCALE_text":"100","SCALE_step":"20"},"3":{"WHEEL_NAME":"Sample Triplet","WHEEL_TYPE":"triplet","ERD":"577","NR":"24","NF1":"8","NF2":"16","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"22.5","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_WHEEL_text":"180","ROTATE_WHEEL_step":"5","SCALE_text":"100","SCALE_step":"20"},"4":{"WHEEL_NAME":"Sample PHR","WHEEL_TYPE":"phr","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":".25","PHRA":"3.75","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_WHEEL_text":"215","ROTATE_WHEEL_step":"5","SCALE_text":"100","SCALE_step":"20"},"5":{"WHEEL_NAME":"Sample PHH","WHEEL_TYPE":"phh","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_WHEEL_text":"180","ROTATE_WHEEL_step":"5","SCALE_text":"100","SCALE_step":"20"},"6":{"WHEEL_NAME":"Skip-Hole Triplet","WHEEL_TYPE":"custom","ERD":"577","NR":"36","NF1":"18","NF2":"18","PCD1":"38","PCD2":"50","FTC1":"37.3","FTC2":"17.2","OLD":"","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"20","PHHA2":"20","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"10","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":false,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_WHEEL_text":"0","ROTATE_WHEEL_step":"5","SCALE_text":"100","SCALE_step":"20"},"7":{"WHEEL_NAME":"SSR rear","WHEEL_TYPE":"phh_phr","ERD":"588","NR":"24","NF1":"12","NF2":"12","PCD1":"47","PCD2":"47","FTC1":"30","FTC2":"18","OLD":"","OSB_linked":false,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"auto","ROTF":"20.07","RIM_AUTO_ANGLES":"off","PHRA":"-5.07","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"25","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_WHEEL_text":"180","ROTATE_WHEEL_step":"5","SCALE_text":"100","SCALE_step":"20"},"8":{"WHEEL_NAME":"540 - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"45","PCD2":"50","FTC1":"35","FTC2":"18","OLD":"130","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"1","SX2":"0","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"off","PHHA1":"5.625","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_WHEEL_text":"213","ROTATE_WHEEL_step":"5","SCALE_text":"100","SCALE_step":"20"},"9":{"WHEEL_NAME":"540 - front","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"40","PCD2":"40","FTC1":"32","FTC2":"32","OLD":"100","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"0","SX2":"0","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_WHEEL_text":"213","ROTATE_WHEEL_step":"0.25","SCALE_text":"100","SCALE_step":"20"},"10":{"WHEEL_NAME":"Prima - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"60","PCD2":"76","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"1","SX2":"1","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".375","PHHA1":"16.875","PHHA2":"16.875","AUTO_ROT":".5","ROTF":"22.5","RIM_AUTO_ANGLES":"off","PHRA":"1.98","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_WHEEL_text":"0","ROTATE_WHEEL_step":"5","SCALE_text":"100","SCALE_step":"20"}},"display_options":{"max_wheels":"10","show_wheel_opts":"inline-block","show_phh_opts":"table-row","show_phr_opts":"table-row","show_eso_opts":"none","show_hide_advanced":"none","show_hide_other":"none","show_hide_notes":"inline-block","show_hide_scale":"none","show_FL_to_LN":"none"}}
 
 
 
@@ -1887,8 +1908,8 @@ function Save_Settings(what, misc, keep_undo) { //*****************************/
 		else if (copy)            { $WHEEL_NAME.value = "Copy of " + $WHEEL_NAME.value; }
 		//New wheel created by changing a value other than $WHEEL_NAME...
 		else if (misc !== "name") { $WHEEL_NAME.value = DEFAULT_VALUES.WHEEL_NAME; }
-		//else                    { the user set a wheel name to start the wheel, so leave it. }
-		
+		//else { the user set a wheel name to start the wheel, so leave it. }
+
 		var option = $CURRENT_WHEEL.options[current_wheel - 1]; //CURRENT_WHEEL counts from 1, options from 0.
 		option.innerHTML = Pad10(current_wheel) + SSI + $WHEEL_NAME.value;
 		settings.WHEEL_NAME = $WHEEL_NAME.value;
@@ -1937,7 +1958,7 @@ function Load_Settings(what, imp_def) { //*************************************/
 
 
 function Validate_Wheel_Settings(misc, save) { //******************************/
-	//Currently, just a very basic sanitation of loaded values.
+	//Currently, just a very basic sanitation of loaded values. Now, even less.
 
 	if (($WHEEL_TYPE.value != "custom") && 
 	    ($WHEEL_TYPE.value != "triplet") && 
@@ -1948,8 +1969,8 @@ function Validate_Wheel_Settings(misc, save) { //******************************/
 	if ($LACE_OPT.value != "-1") { $LACE_OPT.value = 1; }
 
 	//For now, just make sure they're numbers (those that should be, at leaset).
-	for (var name in DEFAULT_VALUES) {
-		var $setting = E_(name);
+	for (var id in DEFAULT_VALUES) {
+		var $setting = E_(id);
 		if ( !$setting ) { continue }
 
 		//#####All wheel setting text inputs USED to be numbers (erd, pcd, etc...),
@@ -2171,10 +2192,7 @@ function Build_Select_Wheel_List() { //****************************************/
 			
 			for (var id in settings) {
 				var value = settings[id];
-				if (id == "WHEEL_NAME") {
-					mark = SSI + value;
-					break;
-				}
+				if (id == "WHEEL_NAME") { mark = SSI + value; break; } //I don't care - deal with it.
 			}
 		}
 		
@@ -2365,7 +2383,7 @@ function Init_NR_SX() { //*****************************************************/
     /   |   \ 
    /    |    \
   O-----+-----O  Paired Holes  (Actual paired-holes are much closer together,)
-  |     | d/2 |                (relatively speaking.                         )
+  |     |<d/2>|                (relatively speaking.                         )
   |<----d---->| 
 /******************************************************************************/
 
@@ -2497,7 +2515,7 @@ function Spoke_Length_Calculator(f) { //***************************************/
 	var aR  = 360/$NR.value;    //angle between holes in Rim.
 	var aF  = 360/$NF[f].value; //angle between holes in Flange.
 
-	//"zero cross" adjustment angle for triplets. Fails for some skip-hole configs. Don't know why.
+	//"zero cross" adjustment angle for triplets. Fails for some skip-hole configs, so I've read. Don't know why.
 	//Valid if flange1 spokes + flange2 spokes == rim holes.
 	if (($NR.value % $NF[f].value) == 0) { var a0 = 0 } else { var a0  = aR - aF/2; }
 
@@ -2539,8 +2557,8 @@ function Create_Spoke_Holes($hole_group, base_id, N, scale, shd, side, offset) {
 		if ($hole_group == $HOLES_RIM) { var ph_angle = (parseFloat($PHRA.value) - A); }
 	}
 
+	//Create the holes...
 	for (var sh = 1; sh <= N; sh++) {
-		
 		var full_id = base_id + sh;
 		var classes = base_id;
 		
@@ -3705,20 +3723,18 @@ function IMEX_enable_disable(enable, $imex_container) {
 	//Also used for Disclaimer messege (if enabled at end of file).
 
 	if (enable) {
-		$CONTAINER.classList.add(_NS_ + "imex_mode");
+		document.body.classList.add(_NS_ + "imex_mode");
 		var display  = "block";
 		var tabindex = "-1";
 		var tf       = true ;
 		$IMPORT_INPUT.selectionStart = 0;
 	}
 	else {
-		$CONTAINER.classList.remove(_NS_ + "imex_mode");
+		document.body.classList.remove(_NS_ + "imex_mode");
 		var display  = "none";
 		var tabindex = "";
 		var tf       = false;
 	}
-
-	if (enable) { window.scroll(0,0); } //Must come afer $CONTAINER display is set (via added .classlist.add/remove).
 
 	if ($imex_container) { $imex_container.style.display = display; }
 	var anchors = document.getElementsByTagName('A');
@@ -3728,16 +3744,18 @@ function IMEX_enable_disable(enable, $imex_container) {
 	for (var id in DEFAULT_VALUES)  { E_(id).disabled = tf; }
 	for (var id in DEFAULT_OPTIONS) { E_(id).disabled = tf; }
 
-	//A few controls that's not listed in DEFAULT_VALUES/_OPTIONS.
-	$CURRENT_WHEEL.disabled = tf;
+	//A few controls not listed in DEFAULT_VALUES/_OPTIONS.
+	$CURRENT_WHEEL.disabled       = tf;
+	$AUTO_COPY.disabled           = tf;
 	$ROTATE_WHEEL_slider.disabled = tf;
-	$SCALE_slider.disabled = tf;
+	$SCALE_slider.disabled        = tf;
 
 	//Can ya' guess what's next??
 	var buttons = document.getElementsByTagName('BUTTON');
 	for (var b = 0; b < buttons.length; b++) {
 		//but skip these, 'cause we need 'em...
 		if (buttons[b].id == $PERFORM_IMPORT.id    || 
+			buttons[b].id == $IMPORT_SAMPLE_SET.id ||
 			buttons[b].id == $CLOSE_IMPORT.id      ||
 			buttons[b].id == $COPY_TO_CLIPBOARD.id ||
 			buttons[b].id == $CLOSE_EXPORT.id      ||
@@ -3747,8 +3765,23 @@ function IMEX_enable_disable(enable, $imex_container) {
 		buttons[b].disabled = tf;
 	}
 
-	if (!enable) { $CURRENT_WHEEL.focus(); }
+	if (enable) { window.scroll(0,0); }
+	else        { $CURRENT_WHEEL.focus(); }
 }//end IMEX_enable_disable()
+
+
+
+
+function Auto_Size_Input() { //************************************************/
+	//Auto-size input textarea (vertically) to fit contents, so that visible contents 
+	//are controlled by only one scrollbar (not two, with the textare "nested").
+	//Minium height is 5 lines (21px * 5 = 105, plus 2px needed to prevent scrollbars that only move those 2px.)
+	//The 107 min height should match the css height defined in <style>.
+	$IMPORT_INPUT.style.height = 'auto';
+	var new_height = $IMPORT_INPUT.scrollHeight;
+	if (new_height < 107) { new_height = 105; } //+2 added below.
+	$IMPORT_INPUT.style.height = (new_height + 2) + 'px'; //The +2 prevents a scrollbar that only moves those 2px.
+}//end Auto_Size_Input() //****************************************************/
 
 
 
@@ -3828,6 +3861,22 @@ function Drag_Wheel(e) { //****************************************************/
 
 
 
+function Import_Index_Enable_Disable() { //************************************/
+	if ($PRESERVE_INDEX.checked) {
+		$IMPORT_INDEX_LABEL.classList.add(_NS_ + "disabled");
+		$IMPORT_INDEX.disabled = true;
+	}
+	else {
+		$IMPORT_INDEX_LABEL.classList.remove(_NS_ + "disabled");
+		$IMPORT_INDEX.disabled = false;
+	}
+	
+	$IMPORT_INDEX.value = 1; //Default for $PERFORM_IMPORT.
+}//end Import_Index_Enable_Disable() //****************************************/
+
+
+
+
 function Assign_Events() { //**************************************************/
 
 	D.addEventListener("keydown", function(event){Scroll_Blur(event)} );
@@ -3835,7 +3884,7 @@ function Assign_Events() { //**************************************************/
 	var save = true; //Just for clarity below, as some functions have an option to save settings.
 
 	//Save current value (as .prior_value) onfocus for <input type=text>s in case of error in new value.
-	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $TENSION[2], $SCALE_text, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_WHEEL_text];
+	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $TENSION[2], $SCALE_text, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_WHEEL_text, $IMPORT_INDEX];
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
 			if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
@@ -4406,43 +4455,97 @@ function Assign_Events() { //**************************************************/
 
 	$IMPORT.addEventListener("click", function() {
 		IMEX_enable_disable(true, $IMPORT_CONTAINER);
+		$PRESERVE_INDEX.checked = true;
+		Import_Index_Enable_Disable();
+		Auto_Size_Input();
 		$IMPORT_INPUT.focus();
+		setTimeout(function() {window.scroll(0,0);} ,10);
 	});
 
 
-	$CLOSE_IMPORT.addEventListener("click", function() {
-		IMEX_enable_disable(false, $IMPORT_CONTAINER);
+	$CLOSE_IMPORT.addEventListener("click", function() { IMEX_enable_disable(false, $IMPORT_CONTAINER); });
+
+	$PRESERVE_INDEX.addEventListener("click", function() { Import_Index_Enable_Disable(); });
+
+	$IMPORT_INDEX.addEventListener("change", function(){ Validate_Input(this, true, false, 1, MAX_MAX_WHEELS); });
+
+	$IMPORT_INPUT.addEventListener('input', function(){ Auto_Size_Input() });
+
+
+	$IMPORT_SAMPLE_SET.addEventListener("click", function(){
+		$IMPORT_INPUT.value = JSON.stringify(SAMPLE_WHEELS);
+		Auto_Size_Input();
 	});
 
 
 	$PERFORM_IMPORT.addEventListener("click", function() {
-		
-		//##### Add some basic overall validation of imported_data...
+		//Some basic validation done by Validate_Wheel_Settings(). Could probably use more.
 		//{ "wheels":{"1":{...}, ...}, "display_options":{...} }
-		
+		var max_wheels_before = $MAX_WHEELS.value*1;
 		var imported_data = Parse_Settings($IMPORT_INPUT.value);
+		if (imported_data == null) { Error_Notice($IMPORT_INPUT, MSGS.import_invalid); return; }
 
-		if (imported_data == null) { Error_Notice($IMPORT_INPUT, MSGS.import1); return; }
+		var wheel_indexes = Object.keys(imported_data.wheels); //From/for the wheel select list.  [ 1 :: Wheel Name ]
+		var wheel_count   = wheel_indexes.length;
 
-		Init_Display_NR_SX(imported_data.display_options, true);
-		
-		var imported_settings = false;
-		var new_index = 1;
-		for (var saved_index in imported_data.wheels) {
-			if ($PRESERVE_INDEX.checked) { var index = saved_index; }
-			else                         { var index = new_index++; }
-			$CURRENT_WHEEL.value = index;
-			imported_settings   = Load_Settings(imported_data.wheels[saved_index], "imported");
-			$WHEEL_NAME.value   = $WHEEL_NAME.value.trim();
-			$WHEEL_NAME.current = $WHEEL_NAME.value;
-			Validate_Wheel_Settings('imported', true); //Also saves settings...
+		if ($PRESERVE_INDEX.checked) {
+			var new_index = 0;
+			var last_index = wheel_indexes[wheel_count-1];
+		}
+		else {
+			var new_index = $IMPORT_INDEX.value*1 - 1;
+			var last_index = new_index + wheel_count;
+			var max_import_index = MAX_MAX_WHEELS - wheel_count + 1;
 		}
 
-		localStorage.setItem(LS_CURRENT_WHEEL, index);
+		if (last_index > MAX_MAX_WHEELS) {
+			var msg  = MSGS.cannot_exceed   + (MAX_MAX_WHEELS+1) + ".<br>";
+				msg += MSGS.imported_wheels + wheel_count + '<br>';
+				msg += MSGS.beginning_index + $IMPORT_INDEX.value + '<br>';
+				msg += MSGS.total           + (wheel_count + $IMPORT_INDEX.value*1) + "<br>";//#####
+			    msg += MSGS.decrease        + max_import_index;
+			Error_Notice('', msg);
+			return;
+		}
+
+		//Needs to come before $MAX_WHEELS it checked/adjusted below...
+		Init_Display_NR_SX(imported_data.display_options, true);
+
+		if (last_index > $MAX_WHEELS.value*1) { $MAX_WHEELS.value = last_index; }
+
+		Build_Select_Wheel_List(); 
+
+		//The meat of the import...
+		for (var saved_index in imported_data.wheels) {
+			if ($PRESERVE_INDEX.checked) { new_index = saved_index; }
+			else                         { new_index++; }
+
+			$CURRENT_WHEEL.value = new_index;
+			var imported_settings   = Load_Settings(imported_data.wheels[saved_index], "imported");
+
+			$WHEEL_NAME.value   = $WHEEL_NAME.value.trim();
+			$WHEEL_NAME.current = $WHEEL_NAME.value;
+
+			Validate_Wheel_Settings('imported', true); //Also saves settings and updates <option>'s innerHTML...
+		}
+
+		localStorage.setItem(LS_CURRENT_WHEEL, new_index);
 
 		Setup_and_Build("init");
 		IMEX_enable_disable(false, $IMPORT_CONTAINER);
-	});
+		
+		var msg = MSGS.import_complete;
+		if (max_wheels_before > $MAX_WHEELS.value*1) { 
+			msg += MSGS.import_adjust_max;
+			msg += MSGS.before_import + max_wheels_before + '<br>';
+			msg += MSGS.after_import  + $MAX_WHEELS.value + '<br>';
+		}
+
+		$PRIOR_FOCUS = $CURRENT_WHEEL;
+		Error_Notice('', msg);
+		
+	});//end $PERFORM_IMPORT click
+
 }//end Assign_Events() //******************************************************/
 
 
