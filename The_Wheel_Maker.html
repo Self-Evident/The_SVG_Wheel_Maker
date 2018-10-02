@@ -4,7 +4,7 @@
 
 
 <!--//========================================-->
-<script>var VERSION = "v2.20 2018-09-30"</script>
+<script>var VERSION = "v2.20a 2018-10-02 7:20pm"</script>
 <!--//========================================-->
 
 
@@ -249,7 +249,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	visibility : hidden; /** Visible during rename only. **/
 }
 
-#SC2_show_wheel_opts { width: 1.2rem; line-height: 1rem; padding: 0 0 1px 0; margin: 0 .3rem 0 .8rem; }
+#SC2_show_wheel_opts { width: 1.2rem; line-height: 1rem; padding: 0 0 1px 0; margin: 0 .3rem 0 .5rem; }
 #SC2_wheel_opts      { display: inline-block; margin-left: 0; vertical-align: middle; padding-bottom: 3px; }
 
 #SC2_auto_copy_container { font-size: .9rem; padding: 2px .6rem 0 .2rem; border: 0; }
@@ -963,8 +963,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</div>
 				<button type=button id=SC2_rename_wheel class=SC2>Rename</button>
 				<button type=button id=SC2_show_wheel_opts class="SC2" value=none>+</button>
-			</div>
-			<div id=SC2_wheel_opts class=SC2>
+			</div><div id=SC2_wheel_opts class=SC2>
 				<label id=SC2_auto_copy_container>Auto Copy<input id=SC2_auto_copy class=SC2 type=checkbox></label>
 				<button type=button id=SC2_load_sample      class=SC2>Load Sample</button> 
 				<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
@@ -2137,7 +2136,7 @@ function Round(number, places) { //********************************************/
 	else               { places = Math.floor(places); }
 	if (places > 13) { places = 13 } //Avoid scientific notation.  ex:  1.0e-14.  Javascript uses s.n. after 13 digits.
 	number = parseFloat(number);
-	number = number.toFixed(30);//Avoid really small numbers in s.n.
+	number = number.toFixed(20);//Avoid numbers in s.n. //MS Edge craps out atfter toFixed(20).  FF works 'til (30).
 	//Now use exponetial notation to avoid the 1.005 issue... try it: alert(1.005*10)  or,  alert(Math.round(1.005*100)/100)
 	//Some numbers may be of form: 1.1234567890123456e-14, and this function won't work with such numbers. Yet...
 	var rounded = Number( Math.round( number + 'e' + places ) + 'e-' + places );
