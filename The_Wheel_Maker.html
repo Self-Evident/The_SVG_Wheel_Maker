@@ -4,7 +4,7 @@
 
 
 <!--//========================================-->
-<script>var VERSION = "v2.21 2018-10-03"</script>
+<script>var VERSION = "v2.22 2018-10-04"</script>
 <!--//========================================-->
 
 
@@ -124,7 +124,18 @@ select.SC2:-moz-focusring {
 	text-shadow: 0 0 0 #000;
 }
 
-.SC2_imex_mode { } /*Also used for Disclaimer messege.*/
+
+
+#SC2_disable_page {
+    position: fixed;
+    z-index: 998;
+    background: white;
+    display: none;
+    opacity: .3;
+    width: 100%;
+    height: 100%;
+}
+
 
 #SC2_CONTAINER {
 	position: relative;
@@ -163,7 +174,7 @@ button.SC2_X_imex_windows {
 	min-width: 200px;
 	max-width: 700px;
 	text-align: left;
-	z-index : 999;
+	z-index : 998;
 	font-family: arial;
 	border-radius: 4px;
 }
@@ -293,6 +304,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	overflow: hidden;
 	background-color: white;
 	font: bold 1.1rem arial;
+	z-index : 998;
 }
 
 #SC2_sample_list_hdr {
@@ -301,7 +313,6 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	padding: .2rem 0 2px 0; 
 	margin: 0 0 .1rem 0; 
 	border-bottom: solid 1px;
-	background-color: #ddd;
 	float: left;
 	width: 100%;
 }
@@ -317,10 +328,14 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 #SC2_sample_wheel_list {
 	margin: 0;
 	display: inline-block;
-	border: 0;
+	border: solid 2px transparent;
 	width: 100%;
 	font-size: 1rem; 
+	height: 100%;
 }
+
+#SC2_sample_wheel_list:focus { border: solid 2px teal; box-shadow: 0 0 3pt 1pt #006060 }
+
 
 table.SC2 {
 	display: inline-table;
@@ -556,7 +571,7 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 	position: absolute;
 	top		: 6rem;
 	left	: 2rem;
-	z-index : 999;
+	z-index : 998;
 	border	: solid 1px red;
 	border-radius	: 5px;
 	padding			: .5rem .5rem .5rem .5rem; 
@@ -621,6 +636,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 
 <div id=SC2_CONTAINER><!--====================================================-->
+	<div id=SC2_disable_page></div><!--Used to cover page for "modal" mode.-->
+
 	<div id=SC2_IMPORT_container class=SC2_imex_containers>
 		<button id=SC2_X_import class='SC2 SC2_X_imex_windows'>X</button>
 		<p class=SC2>Copy/Paste your previously saved data to the area below, then click "Import Data".</p>
@@ -1019,6 +1036,11 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 	<!--================================================================-->
 	<div id=SC2_right_side>
+		<div id=SC2_list_container><h4 id=SC2_sample_list_hdr class=SC2_theme_standard>Choose Sample Wheel
+			<button type=button id=SC2_X_close_load_sample class=SC2>X</button></h4>
+			<select id=SC2_sample_wheel_list class=SC2 size=10><!--//Populated onload--></select>
+		</div>
+
 		<div id=SC2_header_opts class="SC2 SC2_DO_theme">
 			<div id=SC2_select_wheel_opts>
 				<div id=SC2_rename_box>
@@ -1062,12 +1084,6 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</svg>
 			</div><!--//end SC2_wheel_container-->
 		</div><!--//end SC2_wheel_container_container-->
-
-		<!--//Needs to be after _container_container so that it's "on top".-->
-		<div id=SC2_list_container><h4 id=SC2_sample_list_hdr>Choose Sample Wheel
-			<button type=button id=SC2_X_close_load_sample class=SC2>X</button></h4>
-			<select id=SC2_sample_wheel_list size=10><!--//Populated onload--></select>
-		</div>
 
 		<button type=button id=SC2_show_hide_scale class="SC2 SC2_ndo_buttons" value=none>+
 		</button><div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
@@ -1482,6 +1498,8 @@ var SCALE_ROTATE_OPEN   = _NS_ + "scale_rotate_open"
 
 //Assign all necessary element references here.
 var $PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocus() of the inputs.
+
+var $DISABLE_PAGE = E_('disable_page');
 
 var $RESPONSIBILITY   = E_('responsibility');
 var $WHEEL_OR_DISPLAY = E_('WHEEL_OR_DISPLAY');
@@ -3365,14 +3383,16 @@ function Show_Hide_Class(classname, show, save, style) { //********************/
 	
 
 
-function Show_Hide($what, show, save, style) { //*******************************/
+function Show_Hide($what, show, save, style, value) { //***********************/
+
+	if (typeof value == 'undefined') { value = ""; }
 
 	if (style == 'visibility') {
-		if (show) { $what.style.visibility = ""     }
+		if (show) { $what.style.visibility = value    }
 		else 	  { $what.style.visibility = "hidden" }
 	}
 	else {
-		if (show) { $what.style.display = ""     }
+		if (show) { $what.style.display = value  }
 		else 	  { $what.style.display = "none" }
 	}
 
@@ -3833,7 +3853,7 @@ function Close_Load_Sample(event) { //*****************************************/
 	Normalize_Event(event);
 	if(event.key_code == 13 || event.key_code == 27 || event.type == "click") {
 		setTimeout(function(){ //Needed for Edge. I don't know why.
-			IMEX_enable_disable(false, $LIST_CONTAINER);
+			Modal_Enable_Disable(false, $LIST_CONTAINER);
 			$LIST_CONTAINER.style.display = "none";
 			Enable_Disable_Undo_Clear();
 			$LOAD_SAMPLE.focus();
@@ -3844,52 +3864,43 @@ function Close_Load_Sample(event) { //*****************************************/
 
 
 
-function IMEX_enable_disable(enable, $imex_container) {
-	//When (enable == true),  show import/export window, and "disable" & "dim out" The Wheel Maker.
-	//  ie: disable inputs & <a>'s so that only import/export buttons (etc) take focus.
+function Modal_Enable_Disable(enable, $modal_window) { //***********************/
+	//Used for Import/Export, when loading a sample wheel, and for Disclaimer messege.
+	//When (enable == true),  show $modal_window, and "disable" & "dim out" The Wheel Maker.
+	//  ie: "disable" inputs & <a>'s so that only buttons (etc) in the $modal_window can take focus.
 	//Undo all that when !enable.
-	//Also used when loading a sample wheel, and for Disclaimer messege (if enabled at end of file).
-	//##### Should rename this function, and the $imex_container parameter.
 
 	if (enable) {
-		document.body.classList.add(_NS_ + "imex_mode");
 		var display  = "block";
 		var tabindex = "-1";
-		var tf       = true ;
-		$IMPORT_INPUT.selectionStart = 0;
+		$IMPORT_INPUT.selectionStart = 0; //Only needed with Import window, but don't care...
 	}
 	else {
-		document.body.classList.remove(_NS_ + "imex_mode");
 		var display  = "none";
 		var tabindex = "";
-		var tf       = false;
 	}
 
+	//Show/hide our "modal" window
+	if ($modal_window) { $modal_window.style.display = display; }
 
-	if ($imex_container) { $imex_container.style.display = display; }
-	var anchors = document.getElementsByTagName('A');
-	for (var a = 0; a < anchors.length; a++) { anchors[a].tabIndex = tabindex; }
+	//Show/hide a cover page to disable/enable click events
+	Show_Hide($DISABLE_PAGE, true, false, 'display', display);
 
-	//Most <inputs> and <selects> (except for $CURRENT_WHEEL and $SAMPLE_WHEEL_LIST).
-	for (var id in DEFAULT_VALUES)  { E_(id).disabled = tf; }
-	for (var id in DEFAULT_OPTIONS) { E_(id).disabled = tf; }
+	//Disable/enable keyboard/tabbing
+	var tags_to_disable = ['A', 'INPUT', 'SELECT', 'BUTTON'];
+	for (var t=0; t < tags_to_disable.length; t++) {
+		var elements = document.getElementsByTagName(tags_to_disable[t]);
+		for (var i = 0; i < elements.length; i++) { elements[i].tabIndex = tabindex; }
+	}
 
-	//A few inputs & controls not listed in DEFAULT_VALUES/_OPTIONS (because they are not saved, because they are computed values).
-	var controls = [$CURRENT_WHEEL, $AUTO_COPY, $ROTATE_WHEEL_slider, $SCALE_slider, $FTL[1], $FTL[2], $OLD, $PHHD[1], $PHHD[2], $PHRD];
-	for (var x=0; x < controls.length; x++) { controls[x].disabled = tf; }
-
-	//Can ya' guess what's next??
-	var buttons = document.getElementsByTagName('BUTTON');
-	for (var b = 0; b < buttons.length; b++) { buttons[b].disabled = tf; }
-
-	//But keep these enabled, 'cause we need 'em...
-	var dont_disable = [$PERFORM_IMPORT, $IMPORT_SAMPLE_SET, $X_IMPORT, $X_EXPORT, $CLOSE_IMPORT, $COPY_TO_CLIPBOARD, $CLOSE_EXPORT, $CLOSE_MSG, $X_CLOSE_LOAD_SAMPLE];
-	for (var dd = 0; dd < dont_disable.length; dd++) { dont_disable[dd].disabled = false; }
+	//But keep these tabbable, 'cause we need 'em...
+	var dont_disable = [$PERFORM_IMPORT, $IMPORT_SAMPLE_SET, $X_IMPORT, $X_EXPORT, $CLOSE_IMPORT, $COPY_TO_CLIPBOARD, $CLOSE_EXPORT, $CLOSE_MSG, $X_CLOSE_LOAD_SAMPLE, $SAMPLE_WHEEL_LIST];
+	for (var dd = 0; dd < dont_disable.length; dd++) { dont_disable[dd].tabIndex = ""; }
 
 	if (enable) { window.scroll(0,0); }
-	else if ($imex_container == $LIST_CONTAINER) {;} //focus() handled by Close_Load_Sample().
+	else if ($modal_window == $LIST_CONTAINER) {;} //focus() handled by Close_Load_Sample().
 	else { $CURRENT_WHEEL.focus(); }
-}//end IMEX_enable_disable()
+}//end Modal_Enable_Disable() //************************************************/
 
 
 
@@ -3999,7 +4010,7 @@ function Check_if_Disclaimer_Accepted(target) { //*****************************/
 	//Set inital focus or show disclaimer
 	if (!$ACCEPT_MSG.ENABLED || $ACCEPT_MSG.value == "true") { target.focus(); }
 	else {
-		IMEX_enable_disable(true);
+		Modal_Enable_Disable(true);
 		$ACCEPT_MSG.disabled = false;
 		Error_Notice(target, MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init');
 	}
@@ -4112,7 +4123,7 @@ function Assign_Events() { //**************************************************/
 
 	$LOAD_SAMPLE.addEventListener("click", function(){
 		SAVE_UNDO = true; //used onchange of $SAMPLE_WHEEL_LIST.
-		IMEX_enable_disable(true, $LIST_CONTAINER);
+		Modal_Enable_Disable(true, $LIST_CONTAINER);
 		$LIST_CONTAINER.style.display = ""; //default of block or inline-block.
 		$X_CLOSE_LOAD_SAMPLE.focus();
 		$SAMPLE_WHEEL_LIST.selectedIndex = 0; //Needed for Edge.
@@ -4133,7 +4144,6 @@ function Assign_Events() { //**************************************************/
 		if (SAVE_UNDO) { Save_Undo(); SAVE_UNDO = false; }
 		var option = this.options[this.selectedIndex];
 		Load_Samples(option.value);  //runs Setup_Type_and_Build("build")
-		IMEX_enable_disable(true, $LIST_CONTAINER); //Building a wheel enables some options that we don't want enabled yet.
 	});
 
 
@@ -4550,7 +4560,7 @@ function Assign_Events() { //**************************************************/
 		var expires = new Date(+new Date() + 2592000000); //in 30 days (in milliseconds) Should it be Longer? Shorter?
 		var domain = window.location.hostname;
 		D.cookie = $ACCEPT_MSG.id + "=true; expires=" + expires.toUTCString() + '; path=/; domain=.' + domain;
-		IMEX_enable_disable(false);
+		Modal_Enable_Disable(false);
 		Close_Message();
 	});
 
@@ -4610,7 +4620,7 @@ function Assign_Events() { //**************************************************/
 		
 		$EXPORT_OUTPUT.innerHTML = JSON.stringify(ALL_DATA);
 		
-		IMEX_enable_disable(true, $EXPORT_CONTAINER);
+		Modal_Enable_Disable(true, $EXPORT_CONTAINER);
 		
 		$COPY_TO_CLIPBOARD.focus();
 	});
@@ -4618,7 +4628,7 @@ function Assign_Events() { //**************************************************/
 
 	$CLOSE_EXPORT.addEventListener("click", function() {
 		$EXPORT_OUTPUT.innerHTML = "";
-		IMEX_enable_disable(false, $EXPORT_CONTAINER);
+		Modal_Enable_Disable(false, $EXPORT_CONTAINER);
 	});
 
 
@@ -4629,7 +4639,7 @@ function Assign_Events() { //**************************************************/
 
 
 	$IMPORT.addEventListener("click", function() {
-		IMEX_enable_disable(true, $IMPORT_CONTAINER);
+		Modal_Enable_Disable(true, $IMPORT_CONTAINER);
 		$PRESERVE_INDEX.checked = true;
 		Import_Index_Enable_Disable();
 		Auto_Size_Input();
@@ -4638,9 +4648,9 @@ function Assign_Events() { //**************************************************/
 	});
 
 
-	$CLOSE_IMPORT.addEventListener("click", function() { IMEX_enable_disable(false, $IMPORT_CONTAINER); });
-	$X_IMPORT.addEventListener("click", function() { IMEX_enable_disable(false, $IMPORT_CONTAINER); });
-	$X_EXPORT.addEventListener("click", function() { IMEX_enable_disable(false, $EXPORT_CONTAINER); $EXPORT_OUTPUT.innerHTML = ""; });
+	$CLOSE_IMPORT.addEventListener("click", function() { Modal_Enable_Disable(false, $IMPORT_CONTAINER); });
+	$X_IMPORT.addEventListener("click", function() { Modal_Enable_Disable(false, $IMPORT_CONTAINER); });
+	$X_EXPORT.addEventListener("click", function() { Modal_Enable_Disable(false, $EXPORT_CONTAINER); $EXPORT_OUTPUT.innerHTML = ""; });
 
 	$PRESERVE_INDEX.addEventListener("click", function() { Import_Index_Enable_Disable(); });
 
@@ -4710,7 +4720,7 @@ function Assign_Events() { //**************************************************/
 		Enable_Disable_Undo_Clear();
 
 		Setup_and_Build("init");
-		IMEX_enable_disable(false, $IMPORT_CONTAINER);
+		Modal_Enable_Disable(false, $IMPORT_CONTAINER);
 		
 		var msg = MSGS.import_complete;
 		if (max_wheels_before > $MAX_WHEELS.value*1) { 
@@ -4806,15 +4816,15 @@ function Init() { //***********************************************************/
 
 	Add_Contact_Info();
 
+	//##### Enable disclaimer msg on first load & resets?
+	$ACCEPT_MSG.ENABLED = false; //##### true; //#####
+	//##### Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus after accepted.
+
 	$ERD.focus();
 
 	$PRIOR_FOCUS = D.activeElement;
 
 	$SC2_VERSION.innerHTML = VERSION;
-
-	//##### Enable disclaimer msg on first load & resets?
-	$ACCEPT_MSG.ENABLED = false; //##### true; //#####
-	//##### Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus after accepted.
 }//end Init() //***************************************************************/
 
 
