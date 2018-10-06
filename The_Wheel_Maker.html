@@ -4,7 +4,7 @@
 
 
 <!--//========================================-->
-<script>var VERSION = "v2.22 2018-10-04"</script>
+<script>var VERSION = "v2.23 2018-10-06"</script>
 <!--//========================================-->
 
 
@@ -98,6 +98,7 @@ input[readonly].SC2 {
 	border: solid .05rem #077;
 	border-radius: 4px;
 	background-color: rgba(255,255,255, .8);
+	
 }
 
 input[disabled].SC2, select.SC2:disabled {
@@ -129,7 +130,7 @@ select.SC2:-moz-focusring {
 #SC2_disable_page {
     position: fixed;
     z-index: 998;
-    background: white;
+    background: #EEE;
     display: none;
     opacity: .3;
     width: 100%;
@@ -233,40 +234,44 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	display: inline-block;
 	height: 2rem;
 	vertical-align: middle;
-	padding-top: 2px;
+	padding: 0;
+	text-align: right;
 	border: solid 1px #444;
 	border-radius : 8px;
-	/* Along with cooresponding border styles in SC2_scale_rotate_options & SC2_show_hide_scale,
-	 * I can't decide if I prefer these styles which makes them look connected, like a single box.
-	 * border-bottom-left-radius: 0;   
-	 * border-bottom-right-radius: 0;
-	 * border-bottom: 0;
-	 */
 }
 
-#SC2_select_wheel_opts { display: inline-block; padding-left: .4rem; vertical-align: middle; border: solid 0px red;}
+#SC2_select_wheel_opts { display: inline-block; vertical-align: middle;
+	height: 100%;
+	padding: 2px 0 0 0;
+	margin: 0 0 0 .4rem;
+	border: solid 1px transparent;
+	float: left;
+}
+
+SC2_rename_wheel {}
 
 #SC2_rename_box {
 	position: relative;
 	display: inline-block;
-	margin: 0 0 3px 0;
-	padding: 2px 0 0 0;
-	border: 0;
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+	border: solid 1px transparent;
 }
 #SC2_CURRENT_WHEEL {
 	width  : 11.5rem;
 	margin : 0;
-	padding: 0;
+	padding: 1px 0 0 0;
 	font-family: arial;
 }
 #SC2_CURRENT_WHEEL option { text-align: left; padding-left: .2rem;}
+
 #SC2_WHEEL_NAME {
 	position: absolute;
-	top     : 3px;
+	top     : .75px;
 	left    : 2.2rem;
 	margin  : 0;
-	padding : 0 0 1px .05rem;
-	width   : 9.22rem;
+	padding : 2px 0 1px .05rem;
+	width   : 9.25rem;
 	height  : 21px;
 	border     : solid 1px transparent;
 	text-align : left;
@@ -275,12 +280,30 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	visibility : hidden; /** Visible during rename only. **/
 }
 
-#SC2_show_wheel_opts { width: 1.2rem; line-height: 1rem; padding: 0; margin: 0 0 0 .5rem; }
-#SC2_wheel_opts      { display: inline-block; vertical-align: middle; margin: 0; padding: 1px .4rem 0 0;
-	float: right;
-	border: solid 0px red;
+
+#SC2_wheel_opts {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 0 0 0 0;
+	padding: 2px 0 0 0;
+	border: solid 1px transparent;
 	height: 100%;
  }
+
+
+#SC2_show_wheel_opts {
+	height: 100%;
+	width: 20px;
+	min-width: 1rem;
+	padding: 0 0 0 0;
+	margin: 0 0 0 .3rem;
+	vertical-align: middle;
+	font: normal 1rem arial;
+	border-top-left-radius:0;
+	border-bottom-left-radius:0;
+	border: transparent;
+}
+
 
 #SC2_auto_copy_container { font-size: .9rem; padding: 2px .6rem 0 .2rem; border: 0; }
 #SC2_auto_copy { margin: 0 0 0 2px; }
@@ -294,7 +317,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 #SC2_list_container {
 	text-align: center;
 	position: absolute;
-	left: 330px;
+	left: 18rem;
 	top: 1.8rem;
 	display: inline-block;
 	border: solid 1px #444;
@@ -320,15 +343,15 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 #SC2_X_close_load_sample {
 	float:right;
 	height: 1.3rem;
-	width: 1.3rem;
 	margin: -.1rem .15rem 0 0;
-	padding: 1px 0 0 1px;
+	padding: 1px 3px 0 3px;
 }
 
 #SC2_sample_wheel_list {
 	margin: 0;
 	display: inline-block;
 	border: solid 2px transparent;
+	border-bottom-left-radius: 8px;
 	width: 100%;
 	font-size: 1rem; 
 	height: 100%;
@@ -391,31 +414,52 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 
 #SC2_svg_wheel  { display: block; padding: 0; margin: auto; border: 0; }
 
-#SC2_scale_rotate_options {
+#SC2_scale_rotate_container {
 	display: inline-block;
-	margin: 0 0 .1rem 0;   /* bottom margin should match SC2_ndo_buttons' */
-	padding: .2rem .3rem .3rem 1rem;
-	font-family: arial;
-	text-align: left;
+	height: 2rem;
+	padding: 0;
+	margin: 0;
 	border			: solid 1px #444;
 	border-radius : 8px;
-	border-left              : 0; /* So it blends in with  */
-	border-bottom-left-radius: 0; /* it's show/hide button */
-	border-top-left-radius   : 0; /* to it's left.         */
+}
+
+#SC2_show_hide_scale.SC2_scale_rotate_open {
+	border-right: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+#SC2_show_hide_scale {
+	height: 100%;
+	width: 24px;
+	min-width: 1rem;
+	padding: 0;
+	margin : 0;
 	vertical-align: middle;
-	width: 643px;
-	height: 2rem;
-	/* border-top-right-radius: 0;  /* So it blends in with the wheel container above it. */
-	/* border-top: 0;               /* But, can't decide if I prefer it.                  */
+	font: normal 1rem arial;
+	border: transparent;
+}
+
+#SC2_scale_rotate_options {
+	display: inline-block;
+	padding: 2px 0 0 0;
+	margin: 0 0 0 1rem;
+	font-family: arial;
+	text-align: left;
+	border			: solid 1px transparent;
+	border-radius : 8px;
+	vertical-align: middle;
+	height: 100%;
+	width: 620.5px;
 }
 
 .SC2_rotate_scale_containers {
 	display: inline-block;
-	margin: 0;
 	padding: 0;
+	margin : 0;
 	text-align: center;
 	vertical-align: bottom;
-	
+	border: solid 1px transparent;
 }
 
 
@@ -425,25 +469,6 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 
 .SC2 input.SC2_slider_step { width: 1.5rem; font-size: .8rem; }
 
-
-#SC2_show_hide_scale.SC2_scale_rotate_open {
-	border-right: 0;
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-}
-
-#SC2_show_hide_scale {
-	height: 2rem;
-	width: 24px;
-	min-width: 1rem;
-	padding: 0;
-	margin: 0 0 2px 0;
-	vertical-align: middle;
-	font: normal 1rem arial;
-	/* border-top-left-radius: 0;    /* So it blends in with               */
-	/* border-top-right-radius: 0;   /* the wheel container above it,      */
-	/* border-top: 0;                /* but I can't decide if I prefer it. */
-}
 
 input[type=range].SC2 {
 	-webkit-appearance: none;
@@ -1036,8 +1061,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 	<!--================================================================-->
 	<div id=SC2_right_side>
-		<div id=SC2_list_container><h4 id=SC2_sample_list_hdr class=SC2_theme_standard>Choose Sample Wheel
-			<button type=button id=SC2_X_close_load_sample class=SC2>X</button></h4>
+		<div id=SC2_list_container><h4 id=SC2_sample_list_hdr class=SC2_theme_standard>Choose Sample
+			<button type=button id=SC2_X_close_load_sample class=SC2>Done</button></h4>
 			<select id=SC2_sample_wheel_list class=SC2 size=10><!--//Populated onload--></select>
 		</div>
 
@@ -1048,14 +1073,15 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<input id=SC2_WHEEL_NAME type=text class=SC2 value="" tabindex=-1>
 				</div>
 				<button type=button id=SC2_rename_wheel class=SC2>Rename</button>
-				<button type=button id=SC2_show_wheel_opts class="SC2" value=none>+</button>
-			</div><div id=SC2_wheel_opts class=SC2>
+			</div>
+			<div id=SC2_wheel_opts class=SC2>
 				<label id=SC2_auto_copy_container>Auto Copy<input id=SC2_auto_copy class=SC2 type=checkbox></label>
-				<button type=button id=SC2_load_sample      class=SC2>Load Sample</button> 
+				<button type=button id=SC2_load_sample       class=SC2>Load Sample</button> 
 				<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
 				<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
 				<label id=SC2_max_wheels_label>Max:<input type=text id=SC2_max_wheels class=SC2></label>
 			</div>
+			<button type=button id=SC2_show_wheel_opts class="SC2 SC2_ndo_buttons" value=none>+</button>
 		</div>
 
 		<div id=SC2_wheel_container_container>
@@ -1085,23 +1111,25 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</div><!--//end SC2_wheel_container-->
 		</div><!--//end SC2_wheel_container_container-->
 
-		<button type=button id=SC2_show_hide_scale class="SC2 SC2_ndo_buttons" value=none>+
-		</button><div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
-			<div class=SC2_rotate_scale_containers><label>Scale:</label>
-				<input type=range id=SC2_SCALE_slider class=SC2 min=20 max=2000>
-				<input type=text  id=SC2_SCALE_text class=SC2>%
-				<input type=text  id=SC2_SCALE_step class="SC2 SC2_slider_step">
+		<div id=SC2_scale_rotate_container class=SC2_theme_standard>
+			<button type=button id=SC2_show_hide_scale class="SC2 SC2_ndo_buttons" value=none>+</button>
+			<div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
+				<div class=SC2_rotate_scale_containers><label>Scale:</label>
+					<input type=range id=SC2_SCALE_slider class=SC2 min=20 max=2000>
+					<input type=text  id=SC2_SCALE_text class=SC2>%
+					<input type=text  id=SC2_SCALE_step class="SC2 SC2_slider_step">
+				</div>
+				<button type=button id=SC2_reset_scale_rotate class=SC2>Reset</button>
+				<div class=SC2_rotate_scale_containers>
+					<label>Rotate:</label>
+					<input type=range id=SC2_ROTATE_WHEEL_slider class=SC2 min=0 max=360>
+					<input type=text  id=SC2_ROTATE_WHEEL_text   class=SC2>&deg;
+					<input type=text  id=SC2_ROTATE_WHEEL_step   class="SC2 SC2_slider_step">
+				</div>
 			</div>
-			<button type=button id=SC2_reset_scale_rotate class=SC2>Reset</button>
-			<div class=SC2_rotate_scale_containers>
-				<label>Rotate:</label>
-				<input type=range id=SC2_ROTATE_WHEEL_slider class=SC2 min=0 max=360>
-				<input type=text  id=SC2_ROTATE_WHEEL_text   class=SC2>&deg;
-				<input type=text  id=SC2_ROTATE_WHEEL_step   class="SC2 SC2_slider_step">
-			</div>
-		</div>
+		</div><!--//end SC2_scale_rotate_container-->
 	</div><!--//end SC2_right_side ========================================-->
-	
+
 
 
 	<button type=button id=SC2_show_hide_notes class="SC2 SC2_ndo_buttons" value=none>Notes etc.</button>
@@ -3622,7 +3650,7 @@ function Init_Show_Hide_Options(reset) { //************************************/
 	$NOTES           .style.display = $SHOW_HIDE_NOTES.value;
 	$SCALE_ROTATE_OPTIONS.style.display = $SHOW_HIDE_SCALE.value;
 
-	Set_Show_Button_Text($SHOW_WHEEL_OPTS, "+", "-");
+	Set_Show_Button_Text($SHOW_WHEEL_OPTS, "+", "&minus;");
 	Set_Show_Button_Text($SHOW_FL_to_LN  , "+", "-");
 	Set_Show_Button_Text($SHOW_PHH_OPTS  , "+", "-");
 	Set_Show_Button_Text($SHOW_PHR_OPTS  , "+", "-");
@@ -4104,7 +4132,7 @@ function Assign_Events() { //**************************************************/
 	
 	$SHOW_WHEEL_OPTS.addEventListener("click", function() {
 		Show_Hide_Options(this, $WHEEL_OPTS, 'inline-block');
-		Set_Show_Button_Text($SHOW_WHEEL_OPTS, "+", "-");
+		Set_Show_Button_Text($SHOW_WHEEL_OPTS, "+", "&minus;");
 		if ($SHOW_WHEEL_OPTS.value == "none") { $HEADER_OPTS.style.width = ""; }
 		else                                  { $HEADER_OPTS.style.width = HEADER_OPTS_WIDTH; }
 	});
