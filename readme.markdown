@@ -13,9 +13,10 @@
 --------------------------------------------------------------------------------
 ## <a name=demo></a>Demo
 
-- Just download & try the [current version](https://raw.githubusercontent.com/Self-Evident/The_Wheel_Maker/master/The_Wheel_Maker.html) - it's one file!
-  
+- Visit: [spokecalculator.net](http://spokecalculator.net/)
 
+- Or download & try the [current version](https://raw.githubusercontent.com/Self-Evident/The_Wheel_Maker/master/The_Wheel_Maker.html) - it's just one file!
+  
 
 
 ## <a name=description></a>Description
@@ -33,7 +34,7 @@ To try it out, just get the latest version from above.  It's a single html/javas
 
 Now, as indicated above, this is not just your average everyday spoke length calculator.  No, this one raises the bar, several times.  For starters, after spoke lengths, it provides some "advanced" build information, such as bracing angles & spoke tension ratios - but not just for the "center flange" (ie: average) approximations: it also provides the values for spokes laced both elbows in and elbows out.
 
-Additionally, besides standard wheels, it has options triplet lacings, custom lacing patterns, paired-hole hubs, paired-hole rims, and most combinations thereof.  And there is no need for you to figure some non-integer "spoke cross" value first for any of them.  Such math is handled automatically - you just enter the desired actual cross: 1, 2, 3, etc.
+Additionally, besides standard wheels, it has options for triplet lacings, custom lacing patterns, paired-hole hubs, paired-hole rims, and most combinations thereof.  And there is no need for you to figure some non-integer "spoke cross" value first for any of them.  Such math is handled automatically - you just enter the actual desired cross: 1, 2, 3, etc.
 
 And not to stop there, in most modes, The Wheel Maker suggests appropriate spoke cross values (all integers) based on rim/hub spoke hole counts (except in custom mode).  Of course, such suggestions, along with most values, can be changed as desired.
 
