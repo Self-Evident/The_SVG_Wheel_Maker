@@ -4,7 +4,7 @@
 
 
 <!--//========================================-->
-<script>var VERSION = "v2.23 2018-10-06"</script>
+<script>var VERSION = "v2.24 2018-10-08"</script>
 <!--//========================================-->
 
 
@@ -240,7 +240,9 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	border-radius : 8px;
 }
 
-#SC2_select_wheel_opts { display: inline-block; vertical-align: middle;
+#SC2_select_wheel_opts {
+	display: inline-block;
+	vertical-align: middle;
 	height: 100%;
 	padding: 2px 0 0 0;
 	margin: 0 0 0 .4rem;
@@ -3881,7 +3883,7 @@ function Close_Load_Sample(event) { //*****************************************/
 	Normalize_Event(event);
 	if(event.key_code == 13 || event.key_code == 27 || event.type == "click") {
 		setTimeout(function(){ //Needed for Edge. I don't know why.
-			Modal_Enable_Disable(false, $LIST_CONTAINER);
+			Set_Modal_Mode(false, $LIST_CONTAINER);
 			$LIST_CONTAINER.style.display = "none";
 			Enable_Disable_Undo_Clear();
 			$LOAD_SAMPLE.focus();
@@ -3892,7 +3894,7 @@ function Close_Load_Sample(event) { //*****************************************/
 
 
 
-function Modal_Enable_Disable(enable, $modal_window) { //***********************/
+function Set_Modal_Mode(enable, $modal_window) { //****************************/
 	//Used for Import/Export, when loading a sample wheel, and for Disclaimer messege.
 	//When (enable == true),  show $modal_window, and "disable" & "dim out" The Wheel Maker.
 	//  ie: "disable" inputs & <a>'s so that only buttons (etc) in the $modal_window can take focus.
@@ -3922,13 +3924,13 @@ function Modal_Enable_Disable(enable, $modal_window) { //***********************
 	}
 
 	//But keep these tabbable, 'cause we need 'em...
-	var dont_disable = [$PERFORM_IMPORT, $IMPORT_SAMPLE_SET, $X_IMPORT, $X_EXPORT, $CLOSE_IMPORT, $COPY_TO_CLIPBOARD, $CLOSE_EXPORT, $CLOSE_MSG, $X_CLOSE_LOAD_SAMPLE, $SAMPLE_WHEEL_LIST];
+	var dont_disable = [$PERFORM_IMPORT, $IMPORT_SAMPLE_SET, $PRESERVE_INDEX, $IMPORT_INDEX, $X_IMPORT, $X_EXPORT, $CLOSE_IMPORT, $COPY_TO_CLIPBOARD, $CLOSE_EXPORT, $CLOSE_MSG, $X_CLOSE_LOAD_SAMPLE, $SAMPLE_WHEEL_LIST];
 	for (var dd = 0; dd < dont_disable.length; dd++) { dont_disable[dd].tabIndex = ""; }
 
 	if (enable) { window.scroll(0,0); }
 	else if ($modal_window == $LIST_CONTAINER) {;} //focus() handled by Close_Load_Sample().
 	else { $CURRENT_WHEEL.focus(); }
-}//end Modal_Enable_Disable() //************************************************/
+}//end Set_Modal_Mode() //*****************************************************/
 
 
 
@@ -4038,7 +4040,7 @@ function Check_if_Disclaimer_Accepted(target) { //*****************************/
 	//Set inital focus or show disclaimer
 	if (!$ACCEPT_MSG.ENABLED || $ACCEPT_MSG.value == "true") { target.focus(); }
 	else {
-		Modal_Enable_Disable(true);
+		Set_Modal_Mode(true);
 		$ACCEPT_MSG.disabled = false;
 		Error_Notice(target, MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init');
 	}
@@ -4054,7 +4056,7 @@ function Assign_Events() { //**************************************************/
 	var save = true; //Just for clarity below, as some functions have an option to save settings.
 
 	//Save current value (as .prior_value) onfocus for <input type=text>s in case of error in new value.
-	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $TENSION[2], $SCALE_text, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_WHEEL_text, $IMPORT_INDEX];
+	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $MAX_WHEELS, $TENSION[2], $SCALE_text, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_WHEEL_text, $IMPORT_INDEX];
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
 			if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
@@ -4139,7 +4141,7 @@ function Assign_Events() { //**************************************************/
 
 
 	$MAX_WHEELS.addEventListener("change", function() {
-		Validate_Input(this, true, 0, 0, MAX_MAX_WHEELS);
+		Validate_Input(this, true, 0, 1, MAX_MAX_WHEELS);
 		Save_Settings("display");
 		var current_wheel = $CURRENT_WHEEL.value;
 		Build_Select_Wheel_List();
@@ -4151,7 +4153,7 @@ function Assign_Events() { //**************************************************/
 
 	$LOAD_SAMPLE.addEventListener("click", function(){
 		SAVE_UNDO = true; //used onchange of $SAMPLE_WHEEL_LIST.
-		Modal_Enable_Disable(true, $LIST_CONTAINER);
+		Set_Modal_Mode(true, $LIST_CONTAINER);
 		$LIST_CONTAINER.style.display = ""; //default of block or inline-block.
 		$X_CLOSE_LOAD_SAMPLE.focus();
 		$SAMPLE_WHEEL_LIST.selectedIndex = 0; //Needed for Edge.
@@ -4588,7 +4590,7 @@ function Assign_Events() { //**************************************************/
 		var expires = new Date(+new Date() + 2592000000); //in 30 days (in milliseconds) Should it be Longer? Shorter?
 		var domain = window.location.hostname;
 		D.cookie = $ACCEPT_MSG.id + "=true; expires=" + expires.toUTCString() + '; path=/; domain=.' + domain;
-		Modal_Enable_Disable(false);
+		Set_Modal_Mode(false);
 		Close_Message();
 	});
 
@@ -4648,7 +4650,7 @@ function Assign_Events() { //**************************************************/
 		
 		$EXPORT_OUTPUT.innerHTML = JSON.stringify(ALL_DATA);
 		
-		Modal_Enable_Disable(true, $EXPORT_CONTAINER);
+		Set_Modal_Mode(true, $EXPORT_CONTAINER);
 		
 		$COPY_TO_CLIPBOARD.focus();
 	});
@@ -4656,7 +4658,7 @@ function Assign_Events() { //**************************************************/
 
 	$CLOSE_EXPORT.addEventListener("click", function() {
 		$EXPORT_OUTPUT.innerHTML = "";
-		Modal_Enable_Disable(false, $EXPORT_CONTAINER);
+		Set_Modal_Mode(false, $EXPORT_CONTAINER);
 	});
 
 
@@ -4667,7 +4669,7 @@ function Assign_Events() { //**************************************************/
 
 
 	$IMPORT.addEventListener("click", function() {
-		Modal_Enable_Disable(true, $IMPORT_CONTAINER);
+		Set_Modal_Mode(true, $IMPORT_CONTAINER);
 		$PRESERVE_INDEX.checked = true;
 		Import_Index_Enable_Disable();
 		Auto_Size_Input();
@@ -4676,9 +4678,9 @@ function Assign_Events() { //**************************************************/
 	});
 
 
-	$CLOSE_IMPORT.addEventListener("click", function() { Modal_Enable_Disable(false, $IMPORT_CONTAINER); });
-	$X_IMPORT.addEventListener("click", function() { Modal_Enable_Disable(false, $IMPORT_CONTAINER); });
-	$X_EXPORT.addEventListener("click", function() { Modal_Enable_Disable(false, $EXPORT_CONTAINER); $EXPORT_OUTPUT.innerHTML = ""; });
+	$CLOSE_IMPORT.addEventListener("click", function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); });
+	$X_IMPORT.addEventListener("click", function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); });
+	$X_EXPORT.addEventListener("click", function() { Set_Modal_Mode(false, $EXPORT_CONTAINER); $EXPORT_OUTPUT.innerHTML = ""; });
 
 	$PRESERVE_INDEX.addEventListener("click", function() { Import_Index_Enable_Disable(); });
 
@@ -4748,7 +4750,7 @@ function Assign_Events() { //**************************************************/
 		Enable_Disable_Undo_Clear();
 
 		Setup_and_Build("init");
-		Modal_Enable_Disable(false, $IMPORT_CONTAINER);
+		Set_Modal_Mode(false, $IMPORT_CONTAINER);
 		
 		var msg = MSGS.import_complete;
 		if (max_wheels_before > $MAX_WHEELS.value*1) { 
@@ -4815,7 +4817,7 @@ function Init() { //***********************************************************/
 
 	Assign_Events();
 
-	//This option is not saved. Always load page with Wheel Settings visable.
+	//These options are not saved. Always load page with Wheel Settings visable & enabled.
 	$DISPLAY_SETTINGS.style.display = "none";
 	$LIST_CONTAINER.style.display = "none";
 
