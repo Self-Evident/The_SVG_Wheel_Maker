@@ -2,16 +2,14 @@
 <meta charset="utf-8"/>
 <link rel='shortcut icon' type='image/ico' href='favicon.ico'>
 
+<title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//========================================-->
-<script>var VERSION = "v2.24 2018-10-08"</script>
+<script>var VERSION = "v2.25 2018-10-13"</script>
 <!--//========================================-->
 
-
-<!--============================================================================
-The Wheel Maker and Spoke Length Calculator
-
-Copyright © 2017-2018 https://github.com/Self-Evident
+<noscript id=SC2_LICENSE
+>Copyright © 2017-2018 https://github.com/Self-Evident
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -30,11 +28,8 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-=============================================================================-->
+</noscript>
 
-
-
-<title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 
 <style>
@@ -42,11 +37,13 @@ SOFTWARE.
 body { overflow-y: scroll; }
 
 
-/*** The prefix "SC2_" simply means "Spoke Length Calculator" ***/
+/*** The prefix "SC2_" simply means "Spoke Calculator 2" ***/
 
 ul.SC2 { padding-left: 1rem; }
 
 p.SC2 { margin: .4rem 0; }
+
+pre { font-family: courier; text-align: left; }
 
 .SC2_indents { margin-left: 1.5rem; }
 
@@ -63,7 +60,7 @@ button.SC2 {
 	background:
 	linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC);
 	border-radius: 4px;
-	height 20px; 	
+	height: 22px; 	
 }
 p.SC2 > button.SC2, div.SC2 > button.SC2 { padding: 1px 5px 1px 4px; }
 
@@ -605,7 +602,7 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 	background-color: white;
 	font-family		: arial;
 	text-align		: center;
-	visibility		: hidden;  /** toggled in Error_Notice() **/
+	visibility		: hidden;  /** toggled in Show_Message() **/
 	max-height: 30rem;
 	overflow-y: auto;
 	box-shadow: 0 0 10pt 3pt red;
@@ -1446,12 +1443,15 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</td></tr>
 
 			<tr><th class=SC2></th><td>&nbsp;</td></tr>
-			<tr><th class=SC2><a class=SC2 tabindex=0>Version</a></th><td id=SC2_VERSION></td></tr>
 			<tr><th class=SC2><a class=SC2 tabindex=0>Contact</a></th>
 				<td><p>Please report any issues to <a class=SC2 id=SC2_admin_link href="/">...</a>.
 					<p>Or, if you have a github account, at <a class=SC2 href="https://github.com/Self-Evident/The_Wheel_Maker/issues" target="_blank">github.com/Self-Evident/The_Wheel_Maker/issues</a>.
 				</td>
 			</tr>
+			<tr><th class=SC2><a class=SC2 tabindex=0>Copyright</a></th>
+				<td><pre id=SC2_COPY_LICENSE></pre></td>
+			</tr>
+			<tr><th class=SC2><a class=SC2 tabindex=0>Version</a></th><td id=SC2_VERSION></td></tr>
 			<tr><th class=SC2></th><td></td></tr>
 		</table>
 	</div><!--//end Notes button & table  =============-->
@@ -1781,6 +1781,9 @@ var $DELETE_ALL_DATA = E_('DELETE_ALL_DATA');
 
 var $SC2_VERSION = E_('VERSION');
 
+var $LICENSE      = E_('LICENSE');
+var $COPY_LICENSE = E_('COPY_LICENSE');
+
 var $EXPORT            = E_('EXPORT'); //<button>
 var $EXPORT_CONTAINER  = E_('EXPORT_container');
 var $EXPORT_OUTPUT     = E_('EXPORT_OUTPUT'); //<div> of data
@@ -2027,7 +2030,7 @@ function Save_Settings(what, misc, keep_undo) { //*****************************/
 		var msg  = 'Save_Settings(what)<br>what = "';
 			msg += what + '" is invalid<br>Called from:<br>';
 			msg += Save_Settings.caller.name;
-		Error_Notice('', msg);
+		Show_Message('', msg);
 		return false;
 	}
 
@@ -2631,7 +2634,7 @@ function Output_Spoke_Lengths(side) { //***************************************/
 
 
 function Spoke_Length_Calculator(f) { //***************************************/
-	//Tradtional method for basic wheel lacings. Not currently used except for dev.
+	//Tradtional method for basic wheel lacings. Not currently used within except for dev.
 	//Not valid for some paired hole, some skip hole, and maybe other configurations.
 	//That is, this function only calcs one length, based on spoke 1 (laced to holes 1 in rim & hub),
 	//and some lacing patterns produce two spoke lengths per side (or more for really esoteric patterns).
@@ -2722,8 +2725,8 @@ function Generate_Spoke_Hole_Info_Click_Events() { //**************************/
 		var degrees = Round(radians * 180.0 / Math.PI, 3);
 		var attribute_list = "id = " + id + "<br>x = " + Round(x,2) + "<br>y = " + Round(y,2) + "<br>angle = " + degrees + "&deg;";
 		attribute_list += "<br>" + MSGS.data1;
-		(function(spoke_hole, attribute_list) { 
-			spoke_hole.onclick = function() { Error_Notice(false, attribute_list) }
+		(function($spoke_hole, attribute_list) { 
+			$spoke_hole.onclick = function() { Show_Message(false, attribute_list); $PRIOR_FOCUS = ""; }
 		})(spoke_holes[item], attribute_list);
 	}
 }//end Generate_Spoke_Hole_Info_Click_Events() //******************************/
@@ -2738,7 +2741,7 @@ function Add_Spoke(group, flange, hub_hole, rim_hole) { //*********************/
 	var hub_hole_id = HUB_HOLES[flange] + hub_hole;
 	var rim_hole_id	= RIM_HOLES + rim_hole;
 
-	//Shouldn't happen, but it did once, so just in case...
+	//Shouldn't happen anymore, but when it does anyway...
 	if (E(hub_hole_id) == null || E(rim_hole_id) == null) {
 		var msg  = "No Rim or Flange hole. Can't add spoke.<br>";
 			msg += "Rim Holes: " + $NR.value + "" + "<br>";
@@ -2746,7 +2749,7 @@ function Add_Spoke(group, flange, hub_hole, rim_hole) { //*********************/
 			msg += "Flange 2 Holes: " + $NF[2].value + "" + "<br>";
 		    msg += "rim_hole_id: " + rim_hole_id + "<br>";
 			msg += "hub_hole_id: " + hub_hole_id + "";
-		Error_Notice('', msg);
+		Show_Message('', msg);
 		return false;
 	}
 
@@ -2850,7 +2853,7 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f) { //***********************/
 	var r_skip = nr/nf; //Normally 2, but can be 3 (flange 1), then 3/2 (flange 2) for triplets.
 	var r_hole = 0; //index to matching rim hole for a given hub hole.
 
-	//Flange 1 hole 1 aligns to rim hole 1.  Flange 2 hole 1 aligns to rim hole 2 (generally, if NF1 <= NF2)...
+	//Flange 1 hole 1 aligns to rim hole 1.  Flange 2 hole 1 aligns to rim hole 2 (generally, if NF[1] <= NF[2])...
 	if (f == 2) { var f_skip = r_skip/2 } else { var f_skip = 0 }
 
 	var prima_lacing = ($PRIMA_LACING.checked && $WHEEL_TYPE.value == 'custom');
@@ -2859,16 +2862,18 @@ function Create_Spoke_Groups(g1, g2, nr, nf, sx, f) { //***********************/
 		
 		r_hole = (h_hole-1 + sx*d*Lacing_Modifier(f)) * r_skip + 1 + f_skip
 		r_hole = Round(r_hole) //Needed for triplets. I don't like it, but can't figure out another way...
-
+		
 		if (prima_lacing) { //swap holes...
-			if (f == 1 && d == -1) { r_hole ++ } else
-			if (f == 2 && d == -1) { r_hole -- }
+			if (f == 1 && d == -1) { r_hole++ } else
+			if (f == 2 && d == -1) { r_hole-- }
 		}
 		
-		if (r_hole > nr) {r_hole -= nr;}
+		//The while loop is needed for custom mode.
+		//with Cross == NR, and NF[1]+NF[2] >= NR.  Or, if Cross == NR-1, & NR <= 2...
+		while (r_hole > nr) { r_hole -= nr; }
 		if (r_hole <  1) {r_hole += nr;}
 		Add_Spoke(gn, f, h_hole, r_hole);
-		
+
 		if (gn == g2) { gn = g1 } else { gn = g2 }
 		
 		//toggle direction, aka leading/trailing spokes.
@@ -3062,7 +3067,7 @@ function Build_Wheel(save) { //************************************************/
 
 
 
-function Error_Notice($input, msg, init) {//*************************************/
+function Show_Message($input, msg, init, width) {//*****************************/
 	//$input: input element with invalid input.
 
 	if ($input) { //Position $MSG_BOX just below $input.
@@ -3075,6 +3080,9 @@ function Error_Notice($input, msg, init) {//************************************
 	if ((typeof $input == "object") && ($input.tagName == "INPUT") && (init != "init")) {
 		msg = MSGS['invalid'] + ' "' + $input.value + '"<br>' + msg;
 	}
+	
+	if (width) { $MSG_BOX.style.width = width; }
+	else       { $MSG_BOX.style.width = ''   ; }
 
 	$MESSAGE_DIV.innerHTML = msg;
 	$MSG_BOX.style['visibility'] = "visible"; 
@@ -3094,7 +3102,7 @@ function Error_Notice($input, msg, init) {//************************************
 		//setTimeout needed when changing wheel "Type", if there's a msg. I don't know why.
 		setTimeout(function() { $CLOSE_MSG.focus() },55);
 	}
-}//end Error_Notice() //*******************************************************/
+}//end Show_Message() //*******************************************************/
 
 
 
@@ -3226,7 +3234,7 @@ function Validate_NF(f) { //***************************************************/
 	}
 
 	if (error) {
-		Error_Notice($NF[f], msg);
+		Show_Message($NF[f], msg);
 		$NF[f].value = $NF[f].prior_value;
 		return false;
 	}
@@ -3526,7 +3534,6 @@ function Set_Wheel_Type_Theme(wheel_type) { //*********************************/
 
 
 function Setup_and_Build(init) { //********************************************/
-
 	$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_WHEEL_text.value + ")");
 	Setup_Type_and_Build(init);
 	Setup_Viewbox();
@@ -3540,7 +3547,7 @@ function Setup_Type_and_Build(init) { //***************************************/
 	var NR = $NR.value*1;
 	var NR_inc = 4; //Standard increment for NR options for most wheel types.
 
-	$LACE_OPT.disabled = false; //For all except phh...
+	$LACE_OPT.disabled = false; //For all except phh & phh_phr...
 
 	if ($WHEEL_TYPE.value == "standard") {
 		Show_Hide_PH_Hub_Rim_Options(false, false, false);
@@ -4042,7 +4049,7 @@ function Check_if_Disclaimer_Accepted(target) { //*****************************/
 	else {
 		Set_Modal_Mode(true);
 		$ACCEPT_MSG.disabled = false;
-		Error_Notice(target, MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init');
+		Show_Message(target, MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init');
 	}
 }//end Check_if_Disclaimer_Accepted() //***************************************/
 
@@ -4629,7 +4636,7 @@ function Assign_Events() { //**************************************************/
 		document.cookie = $ACCEPT_MSG.id + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=.' + domain;
 		$ACCEPT_MSG.value = false;
 		
-		if ($ACCEPT_MSG.ENABLED) { Error_Notice('', MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init'); }
+		if ($ACCEPT_MSG.ENABLED) { Show_Message('', MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init'); }
 		else                     { $ERD.focus(); }
 		
 		$CURRENT_WHEEL.value = 1;
@@ -4700,7 +4707,7 @@ function Assign_Events() { //**************************************************/
 		//{ "wheels":{"1":{...}, ...}, "display_options":{...} }
 		var max_wheels_before = $MAX_WHEELS.value*1;
 		var imported_data = Parse_Settings($IMPORT_INPUT.value);
-		if (imported_data == null) { Error_Notice($IMPORT_INPUT, MSGS.import_invalid); return; }
+		if (imported_data == null) { Show_Message($IMPORT_INPUT, MSGS.import_invalid); return; }
 
 		var wheel_indexes = Object.keys(imported_data.wheels); //From/for the wheel select list.  [ 1 :: Wheel Name ]
 		var wheel_count   = wheel_indexes.length;
@@ -4721,7 +4728,7 @@ function Assign_Events() { //**************************************************/
 				msg += MSGS.beginning_index + $IMPORT_INDEX.value + '<br>';
 				msg += MSGS.total           + (wheel_count + $IMPORT_INDEX.value*1) + "<br>";
 			    msg += MSGS.decrease        + max_import_index;
-			Error_Notice('', msg);
+			Show_Message('', msg);
 			return;
 		}
 
@@ -4760,7 +4767,7 @@ function Assign_Events() { //**************************************************/
 		}
 
 		$PRIOR_FOCUS = $CURRENT_WHEEL;
-		Error_Notice('', msg);
+		Show_Message('', msg);
 		
 	});//end $PERFORM_IMPORT click
 
@@ -4816,6 +4823,8 @@ function Add_Contact_Info() { //***********************************************/
 function Init() { //***********************************************************/
 
 	Assign_Events();
+	
+	$COPY_LICENSE.innerHTML += $LICENSE.innerHTML;
 
 	//These options are not saved. Always load page with Wheel Settings visable & enabled.
 	$DISPLAY_SETTINGS.style.display = "none";
@@ -4849,9 +4858,7 @@ function Init() { //***********************************************************/
 	//##### Enable disclaimer msg on first load & resets?
 	$ACCEPT_MSG.ENABLED = false; //##### true; //#####
 	//##### Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus after accepted.
-
 	$ERD.focus();
-
 	$PRIOR_FOCUS = D.activeElement;
 
 	$SC2_VERSION.innerHTML = VERSION;
