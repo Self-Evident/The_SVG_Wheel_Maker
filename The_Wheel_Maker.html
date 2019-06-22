@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//========================================-->
-<script>var VERSION = "v2.27 2019-06-20"</script>
+<script>var VERSION = "v2.28 2019-06-22"</script>
 <!--//========================================-->
 
 <template id=SC2_LICENSE>
@@ -384,9 +384,6 @@ table.SC2 th { height: 1.8rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
 table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-weight: bold; }
 
-.SC2_wheel_btns { text-align: center; }
-.SC2_wheel_btns button { display: inline-block; margin: 0; }
-
 .SC2_separator { padding: 0; height: .3rem; }
 
 .SC2_containers { display: inline-block; vertical-align: top; margin: 0; border: 0; }
@@ -444,17 +441,20 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	border: transparent;
 }
 
+
+#SC2_CONTAINER .SC2_plus_minus_buttons { width: .9rem; padding: 0px 0px 1px 0px; }
+
 #SC2_scale_rotate_options {
 	display: inline-block;
-	padding: 2px 0 0 0;
-	margin: 0 0 0 1rem;
+	padding: 2px 0 0 .2rem;
+	margin: 0;
 	font-family: arial;
 	text-align: left;
 	border: solid 1px transparent;
 	border-radius : 8px;
 	vertical-align: middle;
 	height: 100%;
-	width: 620.5px;
+	width: 636px;
 }
 
 .SC2_rotate_scale_containers {
@@ -467,12 +467,13 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 }
 
 
-#SC2_reset_scale_rotate { margin: 0 1.5rem; }
+#SC2_reset_scale_rotate { margin: 0 .6rem; }
+
+#SC2_SCALE_text, #SC2_ROTATE_WHEEL_text { width: 2.9rem; }
+
+.SC2 input.SC2_slider_step { width: 1.3rem; font-size: .8rem; }
 
 #SC2_DISPLAY_SETTINGS  { vertical-align: top; border: 0; width: 100%; }
-
-.SC2 input.SC2_slider_step { width: 1.5rem; font-size: .8rem; }
-
 
 input[type=range].SC2 {
 	-webkit-appearance: none;
@@ -1117,14 +1118,18 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<button type=button id=SC2_show_hide_scale class="SC2 SC2_ndo_buttons" value=none>+</button>
 			<div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
 				<div class=SC2_rotate_scale_containers><label>Scale:</label>
-					<input type=range id=SC2_SCALE_slider class=SC2 min=20 max=2000>
+					<button type=button class="SC2 SC2_plus_minus_buttons" id=SC2_SCALE_down>-</button>
+					<input type=range id=SC2_SCALE_slider class=SC2 min=0 max=2000>
+					<button type=button class="SC2 SC2_plus_minus_buttons" id=SC2_SCALE_up>+</button>
 					<input type=text  id=SC2_SCALE_text class=SC2>%
 					<input type=text  id=SC2_SCALE_step class="SC2 SC2_slider_step">
 				</div>
 				<button type=button id=SC2_reset_scale_rotate class=SC2>Reset</button>
 				<div class=SC2_rotate_scale_containers>
 					<label>Rotate:</label>
+					<button type=button class="SC2 SC2_plus_minus_buttons" id=SC2_ROTATE_down>-</button>
 					<input type=range id=SC2_ROTATE_WHEEL_slider class=SC2 min=0 max=360>
+					<button type=button class="SC2 SC2_plus_minus_buttons" id=SC2_ROTATE_up>+</button>
 					<input type=text  id=SC2_ROTATE_WHEEL_text   class=SC2>&deg;
 					<input type=text  id=SC2_ROTATE_WHEEL_step   class="SC2 SC2_slider_step">
 				</div>
@@ -1688,13 +1693,17 @@ var $SHOW_HIDE_NOTES = E_('show_hide_notes'); //<button> to show/hide Notes.
 
 var $SCALE_ROTATE_OPTIONS = E_('scale_rotate_options');
 
-var $SCALE_text  = E_('SCALE_text');
+var $SCALE_text   = E_('SCALE_text');
 var $SCALE_step   = E_('SCALE_step');
 var $SCALE_slider = E_('SCALE_slider');
+var $SCALE_up     = E_('SCALE_up');
+var $SCALE_down   = E_('SCALE_down');
 
 var $ROTATE_WHEEL_text   = E_('ROTATE_WHEEL_text');
 var $ROTATE_WHEEL_step   = E_('ROTATE_WHEEL_step');
 var $ROTATE_WHEEL_slider = E_('ROTATE_WHEEL_slider');
+var $ROTATE_WHEEL_up     = E_('ROTATE_up');
+var $ROTATE_WHEEL_down   = E_('ROTATE_down');
 
 var $RESET_SCALE = E_('reset_scale_rotate');
 var $RESET_OPTIONS_SPOKES  = E_('reset_options_spokes');   //<button> to reset display options.
@@ -4044,6 +4053,40 @@ function Wheel_or_Display_Settings(button, new_value, show_or_hide, Wheel_or_Dis
 
 
 
+function Step_Up_Down_Repeater(scale_or_rotate, $button, $slider, $text, min_max, up_down, step) {
+
+	var new_value = Step_Up_Down($slider, $text, min_max, up_down, step);
+	
+	if (scale_or_rotate == "scale") { Set_Scale(); }
+	else { $G_WHEEL.setAttribute('transform', " rotate(" + new_value + ")"); }
+	
+	$button.timeout = setTimeout(function() { //Delay start of repeat....
+		$button.interval = setInterval(function() {   
+			var new_value = Step_Up_Down($slider, $text, min_max, up_down, step);
+			if (scale_or_rotate == "scale") { Set_Scale(); }
+			else { $G_WHEEL.setAttribute('transform', " rotate(" + new_value + ")"); }
+		}, 50);
+	}, 500);
+}//end Setup_up_Down_Repeater()
+
+
+
+
+function Step_Up_Down($slider, $text, min_max, up, step) {
+	//up is 1 for up, -1 for down.
+	var limit = $slider.getAttribute(min_max);
+	var new_value = ($slider.value * 1) + up*step;
+	if (up == 1) { if (new_value > limit) { new_value = limit; } }
+	else         { if (new_value < limit) { new_value = limit; } }
+	$slider.value = new_value;
+	$text.value   = new_value;
+	Save_Settings("wheel");
+	return new_value;
+}//end Setup_up_Down()
+
+
+
+
 function Check_if_Disclaimer_Accepted(target) { //*****************************/
 	//Disclaimer - check cookies to see if already accepted.
 	//Why? I don't know, it was really late, and seemed like a good idea at the time...
@@ -4539,7 +4582,7 @@ function Assign_Events() { //**************************************************/
 
 
 	$ROTATE_WHEEL_text.addEventListener("change", function(){
-		Validate_Input(this);
+		Validate_Input(this); // make sure number & >= 0;
 		if (this.value > 360) { this.value = 360; }
 		$ROTATE_WHEEL_slider.value = this.value;
 		$G_WHEEL.setAttribute('transform', " rotate(" + this.value + ")");
@@ -4561,16 +4604,33 @@ function Assign_Events() { //**************************************************/
 		$G_WHEEL.setAttribute('transform', " rotate(" + this.value + ")");
 	});
 
+	$ROTATE_WHEEL_down.addEventListener("mousedown", function() {
+		Step_Up_Down_Repeater("rotate", $ROTATE_WHEEL_down, $ROTATE_WHEEL_slider, $ROTATE_WHEEL_text, "min", -1, $ROTATE_WHEEL_step.value);
+	});
+
+	$ROTATE_WHEEL_down.addEventListener("mouseup", function() {
+		clearTimeout(this.timeout);
+		clearInterval(this.interval);
+	});
+
+	$ROTATE_WHEEL_up.addEventListener("mousedown", function() {
+		Step_Up_Down_Repeater("rotate", $ROTATE_WHEEL_up, $ROTATE_WHEEL_slider, $ROTATE_WHEEL_text, "max", 1, $ROTATE_WHEEL_step.value);
+	});
+
+	$ROTATE_WHEEL_up.addEventListener("mouseup", function() {
+		clearTimeout(this.timeout);
+		clearInterval(this.interval);
+	});
+
 
 	$SCALE_text.addEventListener("change", function() {
 		if (!Validate_Input(this)) { return false; }
 		var scale = this.value * 1;
-		var step  = $SCALE_step.value * 1;
-		var max   = $SCALE_slider.getAttribute("max");
-		if (scale < step) { this.value = step; } else 
-		if (scale > max)  { this.value = max; }
+		var min   = $SCALE_slider.getAttribute("min") * 1;
+		var max   = $SCALE_slider.getAttribute("max") * 1;
+		if (scale < min) { this.value = min; } else 
+		if (scale > max) { this.value = max; }
 		$SCALE_slider.value = this.value;
-
 		Set_Scale();
 		Save_Settings("wheel");
 		this.prior_value = this.value
@@ -4588,6 +4648,24 @@ function Assign_Events() { //**************************************************/
 
 	$SCALE_slider.addEventListener("change", function() { Save_Settings("wheel"); });
 	$SCALE_slider.addEventListener("input" , function() { $SCALE_text.value = this.value; Set_Scale(); });
+
+	$SCALE_down.addEventListener("mousedown", function() {
+		Step_Up_Down_Repeater("scale", $SCALE_down, $SCALE_slider, $SCALE_text, "min", -1, $SCALE_step.value);
+	});
+
+	$SCALE_down.addEventListener("mouseup", function() {
+		clearTimeout(this.timeout);
+		clearInterval(this.interval);
+	});
+
+	$SCALE_up.addEventListener("mousedown", function() {
+		Step_Up_Down_Repeater("scale", $SCALE_up, $SCALE_slider, $SCALE_text, "max", 1, $SCALE_step.value);
+	});
+
+	$SCALE_up.addEventListener("mouseup", function() {
+		clearTimeout(this.timeout);
+		clearInterval(this.interval);
+	});
 
 
 	$RESET_SCALE          .addEventListener("click", function() { Reset_Scale_Rotate(true);    });
