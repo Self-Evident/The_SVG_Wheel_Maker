@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//========================================-->
-<script>var VERSION = "v2.30 2019-06-23 1:15am"</script>
-<!--//========================================-->
+<!--//===============================================-->
+<script>var VERSION = "v2.31 2019-06-23 1:42am"</script>
+<!--//===============================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -4057,7 +4057,6 @@ function Step_Up_Down_Repeater(scale_or_rotate, $slider, $text, min_max, up_down
 	//For mousedown events.  keydown events auto-repeat.
 	Step_Up_Down(scale_or_rotate, $slider, $text, min_max, up_down, step);
 	
-	//##### 
 	clearTimeout($slider.timeout);    //Just in case...
 	clearInterval($slider.interval);  //      "
 	
@@ -4086,6 +4085,14 @@ function Step_Up_Down(scale_or_rotate, $slider, $text, min_max, up_down, step) {
 
 	return new_value;
 }//end Step_Up_Down() //*******************************************************/
+
+
+
+
+function Stop_Scale_Rotate_Repeats($slider) { //*******************************/
+	clearTimeout($slider.timeout);
+	clearInterval($slider.interval);
+}//end Stop_Scale_Rotate_Repeats() //******************************************/
 
 
 
@@ -4614,11 +4621,6 @@ function Assign_Events() { //**************************************************/
 		}
 	});
 
-	$ROTATE_down.addEventListener("keyup", function() {
-		clearTimeout($ROTATE_slider.timeout);
-		clearInterval($ROTATE_slider.interval);
-	});
-
 	$ROTATE_up.addEventListener("keydown", function(event) {
 		Normalize_Event(event);
 		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
@@ -4626,39 +4628,20 @@ function Assign_Events() { //**************************************************/
 		}
 	});
 
-	$ROTATE_up.addEventListener("keyup", function() {
-		clearTimeout($ROTATE_slider.timeout);
-		clearInterval($ROTATE_slider.interval);
-	});
-
 	$ROTATE_down.addEventListener("mousedown", function() {
 		Step_Up_Down_Repeater("rotate", $ROTATE_slider, $ROTATE_text, "min", -1, $ROTATE_step.value);
-	});
-
-	$ROTATE_down.addEventListener("mouseup", function() {
-		clearTimeout($ROTATE_slider.timeout);
-		clearInterval($ROTATE_slider.interval);
-	});
-
-	$ROTATE_down.addEventListener("mouseout", function() {
-		clearTimeout($ROTATE_slider.timeout);
-		clearInterval($ROTATE_slider.interval);
 	});
 
 	$ROTATE_up.addEventListener("mousedown", function() {
 		Step_Up_Down_Repeater("rotate", $ROTATE_slider, $ROTATE_text, "max", 1, $ROTATE_step.value);
 	});
 
-	$ROTATE_up.addEventListener("mouseup", function() {
-		clearTimeout($ROTATE_slider.timeout);
-		clearInterval($ROTATE_slider.interval);
-	});
-
-
-	$ROTATE_up.addEventListener("mouseout", function() {
-		clearTimeout($ROTATE_slider.timeout);
-		clearInterval($ROTATE_slider.interval);
-	});
+	$ROTATE_down.addEventListener("keyup"   , function() { Stop_Scale_Rotate_Repeats($ROTATE_slider); });
+	$ROTATE_up.addEventListener  ("keyup"   , function() { Stop_Scale_Rotate_Repeats($ROTATE_slider); });
+	$ROTATE_down.addEventListener("mouseup" , function() { Stop_Scale_Rotate_Repeats($ROTATE_slider); });
+	$ROTATE_up.addEventListener  ("mouseup" , function() { Stop_Scale_Rotate_Repeats($ROTATE_slider); });
+	$ROTATE_down.addEventListener("mouseout", function() { Stop_Scale_Rotate_Repeats($ROTATE_slider); });
+	$ROTATE_up.addEventListener  ("mouseout", function() { Stop_Scale_Rotate_Repeats($ROTATE_slider); });
 
 
 	$SCALE_text.addEventListener("change", function() {
@@ -4694,11 +4677,6 @@ function Assign_Events() { //**************************************************/
 		}
 	});
 
-	$SCALE_down.addEventListener("keyup", function() {
-		clearTimeout($SCALE_slider.timeout);
-		clearInterval($SCALE_slider.interval);
-	});
-
 	$SCALE_up.addEventListener("keydown", function(event) {
 		Normalize_Event(event);
 		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
@@ -4706,38 +4684,21 @@ function Assign_Events() { //**************************************************/
 		}
 	});
 
-	$SCALE_up.addEventListener("keyup", function() {
-		clearTimeout($SCALE_slider.timeout);
-		clearInterval($SCALE_slider.interval);
-	});
-
 	$SCALE_down.addEventListener("mousedown", function() {
 		Step_Up_Down_Repeater("scale", $SCALE_slider, $SCALE_text, "min", -1, $SCALE_step.value);
-	});
-
-	$SCALE_down.addEventListener("mouseup", function() {
-		clearTimeout($SCALE_slider.timeout);
-		clearInterval($SCALE_slider.interval);
-	});
-
-	$SCALE_down.addEventListener("mouseout", function() {
-		clearTimeout($SCALE_slider.timeout);
-		clearInterval($SCALE_slider.interval);
 	});
 
 	$SCALE_up.addEventListener("mousedown", function() {
 		Step_Up_Down_Repeater("scale", $SCALE_slider, $SCALE_text, "max", 1, $SCALE_step.value);
 	});
 
-	$SCALE_up.addEventListener("mouseup", function() {
-		clearTimeout($SCALE_slider.timeout);
-		clearInterval($SCALE_slider.interval);
-	});
+	$SCALE_down.addEventListener("keyup"   , function() { Stop_Scale_Rotate_Repeats($SCALE_slider); });
+	$SCALE_up.addEventListener  ("keyup"   , function() { Stop_Scale_Rotate_Repeats($SCALE_slider); });
+	$SCALE_down.addEventListener("mouseup" , function() { Stop_Scale_Rotate_Repeats($SCALE_slider); });
+	$SCALE_up.addEventListener  ("mouseup" , function() { Stop_Scale_Rotate_Repeats($SCALE_slider); });
+	$SCALE_down.addEventListener("mouseout", function() { Stop_Scale_Rotate_Repeats($SCALE_slider); });
+	$SCALE_up.addEventListener  ("mouseout", function() { Stop_Scale_Rotate_Repeats($SCALE_slider); });
 
-	$SCALE_up.addEventListener("mouseout", function() {
-		clearTimeout($SCALE_slider.timeout);
-		clearInterval($SCALE_slider.interval);
-	});
 
 	$RESET_SCALE          .addEventListener("click", function() { Reset_Scale_Rotate(true);    });
 	$RESET_OPTIONS_SPOKES .addEventListener("click", function() { Reset_OPTIONS_SPOKES(true);  });
