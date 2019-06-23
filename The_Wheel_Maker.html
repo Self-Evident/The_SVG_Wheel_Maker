@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//===============================================-->
-<script>var VERSION = "v2.31 2019-06-23 1:42am"</script>
+<script>var VERSION = "v2.32 2019-06-23 2:25pm"</script>
 <!--//===============================================-->
 
 <template id=SC2_LICENSE>
@@ -185,11 +185,11 @@ button.SC2_X_imex_windows {
 
 #SC2_IMPORT_INPUT  {
 	width: 100%;
-	height: 107px;  /* The 107 should match the new_height minimum value in $IMPORT_INPUT.addEventListener.  */
+	height: 107px;  /* The 107 should match the new_height minimum value in Auto_Size_Input(). */
 	resize: none;
-	overflow: hidden; /* Not really, its vertical size is adjusted to fit its content on input, by Auto_Size_Input(). */
-}	                  /* But, if overflow is not set to hidden or scroll, extra space can end up at the bottom of the */
-                      /* input.  The extra space doesn't seem to affect functionality, I just don't like it. */
+	overflow: hidden; /* Not really, as its vertical size is adjusted to fit its content on input, by Auto_Size_Input(). */
+}	                  /* But, if overflow is not set to hidden or scroll, extra space can end up at the bottom of the input. */
+                      /* The extra space doesn't seem to affect functionality, I just don't like it. */
 
 
 #SC2_import_index_label { display: inline-block; margin: 0 0 0 1rem; padding: 0; border:0; }
@@ -3956,8 +3956,8 @@ function Set_Modal_Mode(enable, $modal_window) { //****************************/
 
 
 function Auto_Size_Input() { //************************************************/
-	//Auto-size input textarea (vertically) to fit contents, so that visible contents 
-	//are controlled by only one scrollbar - the browser window scrollbar (not two, with the textarea "nested").
+	//Auto-size input textarea (vertically) to fit contents, so that browser window contents are controlled
+	//by only one scrollbar - the browser window scrollbar, and not two, if the textarea also had a scrollbar.
 	//Minium height is 5 lines (21px * 5 = 105, plus 2px needed to prevent scrollbars that only move those 2px.)
 	//The 107 min height should match the css height defined in <style>.
 	$IMPORT_INPUT.style.height = 'auto';
@@ -4085,6 +4085,16 @@ function Step_Up_Down(scale_or_rotate, $slider, $text, min_max, up_down, step) {
 
 	return new_value;
 }//end Step_Up_Down() //*******************************************************/
+
+
+
+
+function Slider_up_down_keydown(event, scale_rotate, $slider, $text, min_max, up_down, step) {
+	Normalize_Event(event);
+	if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
+		Step_Up_Down(scale_rotate, $slider, $text, min_max, up_down, step);
+	}
+}//end Slider_up_down_keydown() //*********************************************/
 
 
 
@@ -4236,7 +4246,7 @@ function Assign_Events() { //**************************************************/
 	$SAMPLE_WHEEL_LIST.addEventListener("keydown"  , function(event){ Close_Load_Sample(event); });
 	$SAMPLE_WHEEL_LIST.addEventListener("change"   , function(event){
 		//Save_Undo() only on first change after $LOAD_SAMPLE clicked,
-		//so that the undo is only for the wheel prior to samples.
+		//so that the undo is only for the wheel prior to clicking on [Load Samples].
 		//That is, don't Save_Undo() for the samples as we scroll thru the list.
 		if (SAVE_UNDO) { Save_Undo(); SAVE_UNDO = false; }
 		var option = this.options[this.selectedIndex];
@@ -4615,17 +4625,11 @@ function Assign_Events() { //**************************************************/
 	});
 
 	$ROTATE_down.addEventListener("keydown", function(event) {
-		Normalize_Event(event);
-		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
-			Step_Up_Down("rotate", $ROTATE_slider, $ROTATE_text, "min", -1, $ROTATE_step.value);
-		}
+		Slider_up_down_keydown(event, "rotate", $ROTATE_slider, $ROTATE_text, "min", -1, $ROTATE_step.value);
 	});
 
 	$ROTATE_up.addEventListener("keydown", function(event) {
-		Normalize_Event(event);
-		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
-			Step_Up_Down("rotate", $ROTATE_slider, $ROTATE_text, "max", 1, $ROTATE_step.value);
-		}
+		Slider_up_down_keydown(event, "rotate", $ROTATE_slider, $ROTATE_text, "max", 1, $ROTATE_step.value);
 	});
 
 	$ROTATE_down.addEventListener("mousedown", function() {
@@ -4671,17 +4675,11 @@ function Assign_Events() { //**************************************************/
 	$SCALE_slider.addEventListener("input" , function() { $SCALE_text.value = this.value; Set_Scale(); });
 
 	$SCALE_down.addEventListener("keydown", function(event) {
-		Normalize_Event(event);
-		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
-			Step_Up_Down("scale", $SCALE_slider, $SCALE_text, "min", -1, $SCALE_step.value);
-		}
+		Slider_up_down_keydown(event, "scale", $SCALE_slider, $SCALE_text, "min", -1, $SCALE_step.value);
 	});
 
 	$SCALE_up.addEventListener("keydown", function(event) {
-		Normalize_Event(event);
-		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
-			Step_Up_Down("scale", $SCALE_slider, $SCALE_text, "max", 1, $SCALE_step.value);
-		}
+		Slider_up_down_keydown(event, "scale", $SCALE_slider, $SCALE_text, "max", 1, $SCALE_step.value);
 	});
 
 	$SCALE_down.addEventListener("mousedown", function() {
