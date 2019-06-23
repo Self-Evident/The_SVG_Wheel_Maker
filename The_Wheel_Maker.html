@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//========================================-->
-<script>var VERSION = "v2.29 2019-06-22 3:30am"</script>
+<script>var VERSION = "v2.30 2019-06-23 1:15am"</script>
 <!--//========================================-->
 
 <template id=SC2_LICENSE>
@@ -2017,7 +2017,7 @@ function Load_Clear_or_Get_Settings(defaults, action) { //*********************/
 	}
 
 	return settings;
-}//end Load_Clear_or_Get_Settings() //***********************************************/
+}//end Load_Clear_or_Get_Settings() //*****************************************/
 
 
 
@@ -2105,7 +2105,7 @@ function Load_Settings(what, imp_def) { //*************************************/
 	}
 
 	return true;
-}//end Load_Settings() { //***************************************************/
+}//end Load_Settings() { //****************************************************/
 
 
 
@@ -2200,7 +2200,7 @@ function Clear_Settings() { //*************************************************/
 
 
 
-function Load_DEFAULT_VALUES_Spokes() { //************************************/
+function Load_DEFAULT_VALUES_Spokes() { //*************************************/
 	for (var group = 1; group <=4; group++) {
 		$SPOKE_COLOR[group]    .value   = DEFAULT_VALUES['SPOKE_COLOR'     + group];
 		$SPOKE_LINE_SIZE[group].value   = DEFAULT_VALUES['SPOKE_LINE_SIZE' + group];
@@ -2213,12 +2213,12 @@ function Load_DEFAULT_VALUES_Spokes() { //************************************/
 	$AXES_SHOW.checked    = DEFAULT_VALUES['AXES_SHOW'];
 	$AXES_COLOR.value     = DEFAULT_VALUES['AXES_COLOR'];
 	$AXES_LINE_SIZE.value = DEFAULT_VALUES['AXES_LINE_SIZE'];
-}//end Load_DEFAULT_VALUES_Spokes() { //**************************************/
+}//end Load_DEFAULT_VALUES_Spokes() { //***************************************/
 
 
 
 
-function Load_DEFAULT_VALUES_Rim_etc() { //***********************************/
+function Load_DEFAULT_VALUES_Rim_etc() { //************************************/
 	$RIM_COLOR.value     = DEFAULT_VALUES['RIM_COLOR'];
 	$F1_COLOR.value      = DEFAULT_VALUES['F1_COLOR'];
 	$F2_COLOR.value      = DEFAULT_VALUES['F2_COLOR'];
@@ -2242,7 +2242,7 @@ function Load_DEFAULT_VALUES_Rim_etc() { //***********************************/
 	$HOLES_F2_SHOW.checked = DEFAULT_VALUES['HOLES_F2_SHOW'];
 	
 	$HOLES_SHOW_ALL.checked = ($HOLES_RIM_SHOW.checked || $HOLES_F1_SHOW.checked || $HOLES_F2_SHOW.checked);
-}//end Load_DEFAULT_VALUES_Rim_etc() { //*************************************/
+}//end Load_DEFAULT_VALUES_Rim_etc() { //**************************************/
 
 
 
@@ -2559,7 +2559,7 @@ function Calc_PA_from_PD($pa, $pd, $pcd_or_erd) { //***************************/
 
 
 
-function Calc_Spoke_Length(flange, spoke, round_to, elbows) { //************/
+function Calc_Spoke_Length(flange, spoke, round_to, elbows) { //***************/
 	//Calculate actual spoke length in 3-d space, including flange-to-center measurement..
 	//elbows = +/- offset from flange centerline to spoke centerline (elbows out/in)
 
@@ -2785,7 +2785,7 @@ function Add_Spoke(group, flange, hub_hole, rim_hole) { //*********************/
 
 
 
-function Lacing_Modifier(f) { //*************************************************/
+function Lacing_Modifier(f) { //***********************************************/
 	/****************************************************../
 	tl;dr: It's complicated...  :) 
 
@@ -2838,7 +2838,7 @@ function Lacing_Modifier(f) { //************************************************
 	if ( (NRE && SXE && T1) || (!NRE && SXE && T1) || (NRE && !SXE && !T1) || (!NRE && !SXE && !T1) )
 		 { return  1 }
 	else { return -1 }
-}//end Lacing_Modifier() //******************************************************/
+}//end Lacing_Modifier() //****************************************************/
 
 
 
@@ -2983,7 +2983,7 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 
 
 
-function Set_Styles_Spokes() { //****************************************/
+function Set_Styles_Spokes() { //**********************************************/
 	for (var group = 1; group <= 4; group++) {
 		Set_Style_by_Class( SPOKE_GROUP_PREFIX + group, "stroke-width", $SPOKE_LINE_SIZE[group].value);
 		Set_Style_by_Class( SPOKE_GROUP_PREFIX + group, "stroke"      , $SPOKE_COLOR[group].value);
@@ -2993,12 +2993,12 @@ function Set_Styles_Spokes() { //****************************************/
 	Set_Style_by_Class( AXIS_CLASS, 'stroke-width', $AXES_LINE_SIZE.value );
 	Set_Style_by_Class( AXIS_CLASS, "stroke", $AXES_COLOR.value );
 	Show_Hide_Class( AXIS_CLASS, $AXES_SHOW.checked );
-}//end Set_Styles_Spokes() { //******************************************/
+}//end Set_Styles_Spokes() { //************************************************/
 
 
 
 
-function Set_Styles_Rim_etc() { //***************************************/
+function Set_Styles_Rim_etc() { //*********************************************/
 
 	Make_Rim(); //Rim line size affects displayed rim radius.
 
@@ -3022,7 +3022,7 @@ function Set_Styles_Rim_etc() { //***************************************/
 	Show_Hide($RIM    , $RIM_SHOW.checked);
 	Show_Hide($FLANGE1, $F1_SHOW.checked);
 	Show_Hide($FLANGE2, $F2_SHOW.checked);
-}//end Set_Styles_Rim_etc() { //*****************************************/
+}//end Set_Styles_Rim_etc() { //***********************************************/
 
 
 
@@ -3081,7 +3081,7 @@ function Build_Wheel(save) { //************************************************/
 
 
 
-function Show_Message($input, msg, init, width) {//*****************************/
+function Show_Message($input, msg, init, width) {//****************************/
 	//$input: input element with invalid input.
 
 	if ($input) { //Position $MSG_BOX just below $input.
@@ -3683,7 +3683,7 @@ function Init_Show_Hide_Options(reset) { //************************************/
 	Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", SCALE_ROTATE_OPEN);
 	if ($SHOW_WHEEL_OPTS.value == "none") { $HEADER_OPTS.style.width = ""; }
 	else                                  { $HEADER_OPTS.style.width = HEADER_OPTS_WIDTH; }
-}//end Init_Show_Hide_Options() //********************************************/
+}//end Init_Show_Hide_Options() //*********************************************/
 
 
 
@@ -3881,7 +3881,7 @@ function Show_All_Holes_Checked() { //*****************************************/
 
 
 
-function Build_Load_Sample_List() { //**********************************************/
+function Build_Load_Sample_List() { //*****************************************/
 	var wheels  = SAMPLE_WHEELS.wheels;
 	var options = "";
 
@@ -3894,7 +3894,7 @@ function Build_Load_Sample_List() { //******************************************
 	var size = $SAMPLE_WHEEL_LIST.options.length;
 	if (size > 30) { $SAMPLE_WHEEL_LIST.setAttribute('size', 30); }
 	else           { $SAMPLE_WHEEL_LIST.setAttribute('size', $SAMPLE_WHEEL_LIST.options.length); }
-}//end Build_Load_Sample_List() //**************************************************/
+}//end Build_Load_Sample_List() //*********************************************/
 
 
 
@@ -4022,7 +4022,7 @@ function Save_Undo() { //******************************************************/
 	//Only save undo if wheel has settings to undo (in localStorage).
 	var saved_settings = localStorage.getItem(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
 	if (saved_settings) { Save_Settings("undo"); }
-}//end Save_Undo() //***********************************************************/
+}//end Save_Undo() //**********************************************************/
 
 
 
@@ -4053,36 +4053,39 @@ function Wheel_or_Display_Settings(button, new_value, show_or_hide, Wheel_or_Dis
 
 
 
-function Step_Up_Down_Repeater(scale_or_rotate, $button, $slider, $text, min_max, up_down, step) {
-
-	var new_value = Step_Up_Down($slider, $text, min_max, up_down, step);
+function Step_Up_Down_Repeater(scale_or_rotate, $slider, $text, min_max, up_down, step) {
+	//For mousedown events.  keydown events auto-repeat.
+	Step_Up_Down(scale_or_rotate, $slider, $text, min_max, up_down, step);
 	
-	if (scale_or_rotate == "scale") { Set_Scale(); }
-	else { $G_WHEEL.setAttribute('transform', " rotate(" + new_value + ")"); }
+	//##### 
+	clearTimeout($slider.timeout);    //Just in case...
+	clearInterval($slider.interval);  //      "
 	
-	$button.timeout = setTimeout(function() { //Delay start of repeat....
-		$button.interval = setInterval(function() {   
-			var new_value = Step_Up_Down($slider, $text, min_max, up_down, step);
-			if (scale_or_rotate == "scale") { Set_Scale(); }
-			else { $G_WHEEL.setAttribute('transform', " rotate(" + new_value + ")"); }
+	$slider.timeout = setTimeout(function() { //Delay start of repeat....
+		$slider.interval = setInterval(function() { //repeat...
+			Step_Up_Down(scale_or_rotate, $slider, $text, min_max, up_down, step);
 		}, 50);
 	}, 500);
-}//end Setup_up_Down_Repeater()
+}//end Step_Up_Down_Repeater() //**********************************************/
 
 
 
 
-function Step_Up_Down($slider, $text, min_max, up, step) {
-	//up is 1 for up, -1 for down.
+function Step_Up_Down(scale_or_rotate, $slider, $text, min_max, up_down, step) {
+	//up_down is 1 for up, -1 for down.
 	var limit = $slider.getAttribute(min_max);
-	var new_value = ($slider.value * 1) + up*step;
-	if (up == 1) { if (new_value > limit) { new_value = limit; } }
+	var new_value = ($slider.value * 1) + up_down*step;
+	if (up_down == 1) { if (new_value > limit) { new_value = limit; } }
 	else         { if (new_value < limit) { new_value = limit; } }
 	$slider.value = new_value;
 	$text.value   = new_value;
 	Save_Settings("wheel");
+
+	if (scale_or_rotate == "scale") { Set_Scale(); }
+	else { $G_WHEEL.setAttribute('transform', " rotate(" + new_value + ")"); }
+
 	return new_value;
-}//end Setup_up_Down()
+}//end Step_Up_Down() //*******************************************************/
 
 
 
@@ -4604,22 +4607,57 @@ function Assign_Events() { //**************************************************/
 		$G_WHEEL.setAttribute('transform', " rotate(" + this.value + ")");
 	});
 
+	$ROTATE_down.addEventListener("keydown", function(event) {
+		Normalize_Event(event);
+		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
+			Step_Up_Down("rotate", $ROTATE_slider, $ROTATE_text, "min", -1, $ROTATE_step.value);
+		}
+	});
+
+	$ROTATE_down.addEventListener("keyup", function() {
+		clearTimeout($ROTATE_slider.timeout);
+		clearInterval($ROTATE_slider.interval);
+	});
+
+	$ROTATE_up.addEventListener("keydown", function(event) {
+		Normalize_Event(event);
+		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
+			Step_Up_Down("rotate", $ROTATE_slider, $ROTATE_text, "max", 1, $ROTATE_step.value);
+		}
+	});
+
+	$ROTATE_up.addEventListener("keyup", function() {
+		clearTimeout($ROTATE_slider.timeout);
+		clearInterval($ROTATE_slider.interval);
+	});
+
 	$ROTATE_down.addEventListener("mousedown", function() {
-		Step_Up_Down_Repeater("rotate", $ROTATE_down, $ROTATE_slider, $ROTATE_text, "min", -1, $ROTATE_step.value);
+		Step_Up_Down_Repeater("rotate", $ROTATE_slider, $ROTATE_text, "min", -1, $ROTATE_step.value);
 	});
 
 	$ROTATE_down.addEventListener("mouseup", function() {
-		clearTimeout(this.timeout);
-		clearInterval(this.interval);
+		clearTimeout($ROTATE_slider.timeout);
+		clearInterval($ROTATE_slider.interval);
+	});
+
+	$ROTATE_down.addEventListener("mouseout", function() {
+		clearTimeout($ROTATE_slider.timeout);
+		clearInterval($ROTATE_slider.interval);
 	});
 
 	$ROTATE_up.addEventListener("mousedown", function() {
-		Step_Up_Down_Repeater("rotate", $ROTATE_up, $ROTATE_slider, $ROTATE_text, "max", 1, $ROTATE_step.value);
+		Step_Up_Down_Repeater("rotate", $ROTATE_slider, $ROTATE_text, "max", 1, $ROTATE_step.value);
 	});
 
 	$ROTATE_up.addEventListener("mouseup", function() {
-		clearTimeout(this.timeout);
-		clearInterval(this.interval);
+		clearTimeout($ROTATE_slider.timeout);
+		clearInterval($ROTATE_slider.interval);
+	});
+
+
+	$ROTATE_up.addEventListener("mouseout", function() {
+		clearTimeout($ROTATE_slider.timeout);
+		clearInterval($ROTATE_slider.interval);
 	});
 
 
@@ -4649,24 +4687,57 @@ function Assign_Events() { //**************************************************/
 	$SCALE_slider.addEventListener("change", function() { Save_Settings("wheel"); });
 	$SCALE_slider.addEventListener("input" , function() { $SCALE_text.value = this.value; Set_Scale(); });
 
+	$SCALE_down.addEventListener("keydown", function(event) {
+		Normalize_Event(event);
+		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
+			Step_Up_Down("scale", $SCALE_slider, $SCALE_text, "min", -1, $SCALE_step.value);
+		}
+	});
+
+	$SCALE_down.addEventListener("keyup", function() {
+		clearTimeout($SCALE_slider.timeout);
+		clearInterval($SCALE_slider.interval);
+	});
+
+	$SCALE_up.addEventListener("keydown", function(event) {
+		Normalize_Event(event);
+		if (event.key_code == 13 || event.key_code == 32) { //enter or space bar...
+			Step_Up_Down("scale", $SCALE_slider, $SCALE_text, "max", 1, $SCALE_step.value);
+		}
+	});
+
+	$SCALE_up.addEventListener("keyup", function() {
+		clearTimeout($SCALE_slider.timeout);
+		clearInterval($SCALE_slider.interval);
+	});
+
 	$SCALE_down.addEventListener("mousedown", function() {
-		Step_Up_Down_Repeater("scale", $SCALE_down, $SCALE_slider, $SCALE_text, "min", -1, $SCALE_step.value);
+		Step_Up_Down_Repeater("scale", $SCALE_slider, $SCALE_text, "min", -1, $SCALE_step.value);
 	});
 
 	$SCALE_down.addEventListener("mouseup", function() {
-		clearTimeout(this.timeout);
-		clearInterval(this.interval);
+		clearTimeout($SCALE_slider.timeout);
+		clearInterval($SCALE_slider.interval);
+	});
+
+	$SCALE_down.addEventListener("mouseout", function() {
+		clearTimeout($SCALE_slider.timeout);
+		clearInterval($SCALE_slider.interval);
 	});
 
 	$SCALE_up.addEventListener("mousedown", function() {
-		Step_Up_Down_Repeater("scale", $SCALE_up, $SCALE_slider, $SCALE_text, "max", 1, $SCALE_step.value);
+		Step_Up_Down_Repeater("scale", $SCALE_slider, $SCALE_text, "max", 1, $SCALE_step.value);
 	});
 
 	$SCALE_up.addEventListener("mouseup", function() {
-		clearTimeout(this.timeout);
-		clearInterval(this.interval);
+		clearTimeout($SCALE_slider.timeout);
+		clearInterval($SCALE_slider.interval);
 	});
 
+	$SCALE_up.addEventListener("mouseout", function() {
+		clearTimeout($SCALE_slider.timeout);
+		clearInterval($SCALE_slider.interval);
+	});
 
 	$RESET_SCALE          .addEventListener("click", function() { Reset_Scale_Rotate(true);    });
 	$RESET_OPTIONS_SPOKES .addEventListener("click", function() { Reset_OPTIONS_SPOKES(true);  });
