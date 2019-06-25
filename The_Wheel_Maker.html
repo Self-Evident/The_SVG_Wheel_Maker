@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//===============================================-->
-<script>var VERSION = "v2.33 2019-06-23 2:50pm"</script>
-<!--//===============================================-->
+<!--//================================================-->
+<script>var VERSION = "v2.34 2019-06-25 12:12am"</script>
+<!--//================================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -482,7 +482,7 @@ input[type=range].SC2 {
 	margin: 0 0 0 0;
 	display: inline-block;
 	vertical-align: middle;
-	width: 5.7rem;
+	width: 5rem;
 	height: .5rem;
 }
 input[type=range].SC2:hover { }
@@ -528,16 +528,22 @@ input[type=range].SC2::-ms-thumb {
 
 #SC2_see_notes { border-radius: 5px; }
 
-#SC2_notes td { padding: .2rem .2rem .2rem .5rem; border: solid 1px #555; }
-#SC2_notes th { padding: .2rem .5rem .2rem .2rem; border: solid 1px #555; }
+#SC2_notes td { padding: .2rem .2rem .5rem .5rem; border: solid 1px #555; }
+#SC2_notes th { padding: .2rem .5rem .2rem .5rem; border: solid 1px #555; }
 #SC2_notes th.SC2_th1 { font-size: 1.2rem; text-decoration: none; }
-#SC2_notes th.SC2 { width: 9rem; }
+#SC2_notes th.SC2 { width: 9.2rem; }
 
 #SC2_notes .SC2_lacing_examples { border: solid 1px #777; display: inline-block; margin: .3rem 0 .3rem 0; padding: .4rem; }
 #SC2_notes .SC2_lacing_examples p { margin: 0 0 .5rem 0; }
 
 
-.SC2_list_option_in_text { display: inline-block; width: 8rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; }
+.SC2_list_option_in_text {
+	display: inline-block;
+	width: 9rem;
+	border: solid 1px gray;
+	margin-bottom: 1px;
+	padding: 1px .2rem 0 .2rem;
+}
 .SC2_example_input { display: inline-block; width: 3rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; text-align: center; }
 
 table.SC2_DO { margin: 0 0 .2rem 0; }
@@ -711,8 +717,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<select id=SC2_WHEEL_TYPE class=SC2>
 						<option value="standard">Standard</option>
 						<option value="triplet" >Triplet</option>
-						<option value="phr"     >Paired Hole Rim (PHR)</option>
-						<option value="phh"     >Paired Hole Hub (PHH)</option>
+						<option value="phr"     >Paired-Hole Rim (PHR)</option>
+						<option value="phh"     >Paired-Hole Hub (PHH)</option>
 						<option value="phh_phr" >PHH &amp; PHR</option>
 						<option value="custom"  >Custom</option>
 					</select>
@@ -1205,7 +1211,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Type</a></th>
-				<td><p>Determines the base type of wheel: Standard, Triplet, Paired-Hole Rim, Paired Hole Hub, Paired-Hole Rim with Paired Hole Hub, Custom.
+				<td><p>Determines the base type of wheel: Standard, Triplet, Paired-Hole Rim, Paired-Hole Hub, Paired-Hole Rim with Paired-Hole Hub, Custom.
 					<p>Each "Type" has various restrictions on hole count, spoke cross, Lace Type, etc, depending on the nature of the type.  Never-the-less, this does not guarantee that the generated wheel will be realistic or practical. 
 					<p>When changing the Type, some wheel values - such as Rim Holes, Flange Holes, and Spoke Cross - may automatically be adjusted to fit the contraints of the new Type. For example, if the current wheel is set to "Triplet" with 21 Rim Holes, and then Type is changed to "Standard", Rim Holes will be adjusted to 24, along with cooresponding changes to Flange Holes.
 					<p>Custom removes most restrictions on the various wheel values.  Subsequently, there's a greater possibilty to enter values that will produce an impractical, or even impossible, wheel.  It may be obvious. Hopefully. But maybe not...
@@ -1271,15 +1277,14 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>SHD</a></th><td>"Spoke Hole Diameter". Like Flange Offset &amp; OC, this value only affects final spoke length, and not the wheel as displayed.  To change the displayed hole size, see [Display Setttings]</td></tr>
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Lace Option</a></th><td>Asymetrical lacings, such as triplets, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
 			
-			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Paired Holes</a></th>
+			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Paired-Hole (PH)<br>Hubs &amp; Rims</a></th>
 				<td>
-					<p>Paired Hole (PH) options available in PH  &amp; Custom Wheel Types.
 					<p>A <u>PH Angle</u> is formed by lines passing thru the center of paired spoke holes and extending to the axial center of the hub. For example: the angle between two radial spokes.
-					<p>A <u>PH Distance</u> is the straight-line distance between the center of paired spoke holes (not along the arc of the rim).  In geometry, this distance is called a chord.
+					<p>A <u>PH Distance</u> is the straight-line distance between the center of paired spoke holes (not along the arc of the rim or hub flange).  In geometry, this distance is called a chord.
 					<p>The PH angle and PH distance are directly related.  That is, setting the PH angle will automatically set the cooresponding PH distance, and vice-versa.
 					<p><ul class=SC2>
 						<li>In <span class=SC2_list_option_in_text>Paired-Hole Hub</span> mode, hole angles and spoke cross for Side 2 are automatically set to the same value as Side 1.
-						<li>In <span class=SC2_list_option_in_text>Custom</span> mode, and Paired Holes Hub selected, hole angles and spoke cross for Side 1 and Side 2 are each user selectable and independent of one another.
+						<li>In <span class=SC2_list_option_in_text>Custom</span> mode, and Paired-Holes Hub selected, hole angles and spoke cross for Side 1 and Side 2 are each user selectable and independent of one another.
 							<ul class=SC2>
 								<li>Be careful in custom mode to always set the Lace Option so that the spokes in paired holes pull away from each other. The spokes in paired holes should <i>not</i> cross each other!
 							</ul>
@@ -1288,7 +1293,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Hub Auto-Angles</a></th>
-				<td><p>Determines if angles between paired-holes (PH) are automatically calculated, or user provided.				
+				<td><p>Determines if the angle between paired holes (PH) is automatically calculated, or user provided.				
 					<p><ul class=SC2>
 						<li><span class=SC2_list_option_in_text>Even (Normal)</span> Normal angles (non-PH hub), with evenly spaced holes around the flange.
 						<li><span class=SC2_list_option_in_text>...</span> A few paired-hole angles, based on "Even (Normal)" angles.
@@ -1298,11 +1303,11 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Hub Flange Rotations</a></th>
-				<td><p>In addition to, and seperate from, paired-holes on each flange, the flanges can be "rotated" relative to each other.  (Not physically rotated of course, but the holes drilled in positions as though the flanges had been rotated.) "Even (Normal)" means a normal hub, such that the holes in each flange are evenly spaced between them. "1/2 Hole" aligns the holes of each flange.
+				<td><p>In addition to, and seperate from, the paired-holes on each flange, the flanges can be "rotated" relative to each other.  (Not physically rotated of course, but the holes drilled in positions as though the flanges had been rotated.) "Even (Normal)" means a normal hub, such that the holes in each flange are evenly spaced between them. "1/2 Hole" aligns the holes of each flange.
 					<p><ul class=SC2>
 						<li><span class=SC2_list_option_in_text>...</span> A few rotation values relative to "Normal".
 						<li><span class=SC2_list_option_in_text>0 (Normal)</span> Normal, non-"rotated" flanges.
-						<li><span class=SC2_list_option_in_text>Auto w/ Rim PH</span>  The calculated rotations are based on any rim PH angles, and should produce a wheel with only one spoke length per side,*
+						<li><span class=SC2_list_option_in_text>Linked to PH Rim</span> The calculated rotations are based on any rim PH angles, and should produce a wheel with only one spoke length per side,*
 						<li><span class=SC2_list_option_in_text>Manual</span>
 					</ul>
 					<p>*With normal rim to hub spoke hole ratios. Ex: 24 hole rim, and a 24 hole hub with 12 holes in each flange.
@@ -1310,7 +1315,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Rim Auto-Angles</a></th>
-				<td><p>Determines if angles between paired-holes (PH) are automatically calculated, or user provided.				
+				<td><p>Determines if angles between paired holes (PH) are automatically calculated, or user provided.				
 					<p><ul class=SC2>
 						<li><span class=SC2_list_option_in_text>Even (Normal)</span> Normal angles (non-PH rim), with evenly spaced holes around the rim.
 						<li><span class=SC2_list_option_in_text>...</span> A few paired-hole values based on "Even (Normal)" angles.
@@ -1331,7 +1336,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 						<span class=SC2_mono>F1_F2_____________F2_F1_____________F1_F2_____________F2_F1_____________</span> ...etc...
 						</div>
 					
-						<li><p>Whereas normally laced spokes match up like this:</p>
+						<li><p>Whereas normally laced spokes in a paired-hole rim match up like this:</p>
 						<div class=SC2_lacing_examples>
 						<span class=SC2_mono>F1_F2_____________F1_F2_____________F1_F2_____________F1_F2_____________</span> ...etc...
 						</div>
@@ -1438,7 +1443,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Export Data</a></th>
 				<td><p>Generates a JSON string of all wheel & display data that can then be saved in a text file for backup.</p>
-					<button id=SC2_EXPORT class=SC2>Export Wheels &amp; Display Settings</button>
+					<p><button id=SC2_EXPORT class=SC2>Export Wheels &amp; Display Settings</button></p>
 				</td>
 			</tr>
 			
@@ -2276,7 +2281,7 @@ function Round(number, places) {
 
 
 
-function Scroll_Blur(event){ 
+function Scroll_Blur(event) { 
 	//Permit "clearing" focus, and some keyboard navigation while in <input>'s.
 
 	Normalize_Event(event);
@@ -2350,19 +2355,6 @@ function Build_Select_Wheel_List() {
 
 
 
-function Advanced_Build_Notes_btn() { 
-
-	var $Notes = $SHOW_HIDE_NOTES; //[Notes] button at bottom of page
-	
-	//If notes are hidden, show them...
-	if ($Notes.value == "none") { Show_Hide_Options($SHOW_HIDE_NOTES, $NOTES, "inline-block"); }
-	
-	$NOTES_ADVANCED_BUILD_INFO.scrollIntoView();
-}//end Advanced_Build_Notes_btn() 
-
-
-
-
 function Show_Hide_Options(button, target, mode) { 
 	//Toggle button.value, and Show or Hide target,
 
@@ -2394,7 +2386,7 @@ function Bracing_Angle(f, adj) {
 	var lo = $LACE_OPT.value*1; 	//lacing option, 1 or -1. For standard lacings, doesn't matter.
 	
 
-	//"angle" to hole zero. For standard wheels = 0, but not for triplets.
+	//"angle" to hole zero. For standard wheels, angle = 0, but not for triplets.
 	if (($NR.value % $NF[f].value) == 0) { var a0 = 0; } else { var a0  = aR - aF/2; }
 
 	var af     = ($SX[f].value * aF) + a0 * lo; //angle to hole in flange  spoke.
@@ -2402,7 +2394,7 @@ function Bracing_Angle(f, adj) {
 	var y1     = rF * Math.cos(af_rad);  // x1^2 + y1^2 = rF^2
 	var tan_aB = (ftc + osb) / (rR - y1 - rSH);//tangent of Bracing angle
 	var aB_rad = Math.atan(tan_aB);		 //Bracing angle (in radians)
-	var aB    = aB_rad * 180 / Math.PI;	 //Bracing angle (in degrees)
+	var aB     = aB_rad * 180 / Math.PI; //Bracing angle (in degrees)
 
 	return aB;
 }//end Bracing_Angle() { 
@@ -2525,7 +2517,7 @@ function Init_NR_SX() {
      /  |  \  hypotenuse = PCD/2
     /   |   \ 
    /    |    \
-  O-----+-----O  Paired Holes  (Actual paired-holes are much closer together,)
+  O-----+-----O  Paired-Holes  (Actual paired holes are much closer together,)
   |     |<d/2>|                (relatively speaking.                         )
   |<----d---->| 
 /******************************************************************************/
@@ -2533,7 +2525,7 @@ function Init_NR_SX() {
 
 
 function Calc_PD_from_PA($phd, $pha, $pcd_or_erd) { 
-	//Calculate the c-t-c distance between paired-holes, from the angle bwtween them.
+	//Calculate the c-t-c distance between paired holes, from the angle bwtween them.
 	//Also uses flange or rim diameter (PCD or ERD).
 	var radians = $pha.value * Math.PI / 180;
 	var distance = Math.sin(radians/2) * $pcd_or_erd.value;
@@ -2544,7 +2536,7 @@ function Calc_PD_from_PA($phd, $pha, $pcd_or_erd) {
 
 
 function Calc_PA_from_PD($pa, $pd, $pcd_or_erd) { 
-	//Calculate the angle between paired-holes, from the distance between them (c-t-c).
+	//Calculate the angle between paired holes, from the distance between them (c-t-c).
 	//Also uses flange or rim diameter (PCD or ERD).
 	//sin(θ/2) = (d/2) / (PCD/2)
 	//      θ  = 2 * asin(d/PCD)
@@ -2647,7 +2639,7 @@ function Output_Spoke_Lengths(side) {
 
 function Spoke_Length_Calculator(f) { 
 	//Tradtional method for basic wheel lacings. Not currently used within except for dev.
-	//Not valid for some paired hole, some skip hole, and maybe other configurations.
+	//Not valid for some paired-hole, some skip-hole, and maybe other configurations.
 	//That is, this function only calcs one length, based on spoke 1 (laced to holes 1 in rim & hub),
 	//and some lacing patterns produce two spoke lengths per side (or more for really esoteric patterns).
 
@@ -2963,9 +2955,9 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 	$FLANGE1.setAttribute('r', pcd1/2); //erd & pcd's are diameters, but SVG <circle>'s require radii...
 	$FLANGE2.setAttribute('r', pcd2/2); //
 
-	Create_Spoke_Holes( $HOLES_RIM    , RIM_HOLES   , nr , erd/2 , shdr , 0, offset_phra + rrot);
-	Create_Spoke_Holes( $FLANGE1_HOLES, HUB_HOLES[1], nf1, pcd1/2, shdf1, 1, (offset_phha1 + frot1));
-	Create_Spoke_Holes( $FLANGE2_HOLES, HUB_HOLES[2], nf2, pcd2/2, shdf2, 2, (offset_phha2 + frot2));
+	Create_Spoke_Holes( $HOLES_RIM    , RIM_HOLES   , nr , erd/2 , shdr , 0, (offset_phra  + rrot)  );
+	Create_Spoke_Holes( $FLANGE1_HOLES, HUB_HOLES[1], nf1, pcd1/2, shdf1, 1, (offset_phha1 + frot1) );
+	Create_Spoke_Holes( $FLANGE2_HOLES, HUB_HOLES[2], nf2, pcd2/2, shdf2, 2, (offset_phha2 + frot2) );
 
 	Generate_Spoke_Hole_Info_Click_Events();
 
@@ -2974,14 +2966,14 @@ function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2
 		if (nf2 > 0) { Create_Spoke_Groups(3, 4, nr, nf2, sx2, 2); } //Side 2
 	}
 
-	Set_Styles_Spokes();
+	Set_Styles_Spokes_and_Axis();
 	Set_Styles_Rim_etc(); //Also calls Make_Rim()...
 }//end Setup_Wheel() /*********************************************************/
 
 
 
 
-function Set_Styles_Spokes() { 
+function Set_Styles_Spokes_and_Axis() { 
 	for (var group = 1; group <= 4; group++) {
 		Set_Style_by_Class( SPOKE_GROUP_PREFIX + group, "stroke-width", $SPOKE_LINE_SIZE[group].value);
 		Set_Style_by_Class( SPOKE_GROUP_PREFIX + group, "stroke"      , $SPOKE_COLOR[group].value);
@@ -2991,7 +2983,8 @@ function Set_Styles_Spokes() {
 	Set_Style_by_Class( AXIS_CLASS, 'stroke-width', $AXES_LINE_SIZE.value );
 	Set_Style_by_Class( AXIS_CLASS, "stroke", $AXES_COLOR.value );
 	Show_Hide_Class( AXIS_CLASS, $AXES_SHOW.checked );
-}//end Set_Styles_Spokes() { 
+	Draw_Axis();
+}//end Set_Styles_Spokes_and_Axis() { 
 
 
 
@@ -3028,7 +3021,7 @@ function Set_Styles_Rim_etc() {
 function Clear_Wheel(all) { 
 	//Clear built (displayed) wheel, not wheel settings, in prep for a re-build with current/new settings.
 
-	if (all){
+	if (all) {
 		$RIM    .setAttribute('r', 0);
 		$FLANGE1.setAttribute('r', 0);
 		$FLANGE2.setAttribute('r', 0);
@@ -3208,7 +3201,7 @@ function Validate_NR() {
 	//If NF is odd, cross can only be 0. (Except in "custom" mode.)
 	SX_Enable_Disable(1);
 
-	//In paired hole hubs, SX must be the same, so spokes don't cross over paired holes.
+	//In paired-hole hubs, SX must be the same, so spokes don't cross over paired holes.
 	if ($WHEEL_TYPE.value == 'phh') { $SX[2].disabled = true; }
 	else                            { SX_Enable_Disable(2);   }
 
@@ -3278,8 +3271,9 @@ function Validate_PH_Angle($pha, $nr_or_nf, min, max, allow_neg) {
 
 
 function Validate_PH_Distance($phd, $nr_or_nf, $pcd_or_erd, allow_neg) { 
-	//Distances that produce angles larger than 1/2 of the angles for evenly spaced holes
-	//just mirrors effects up to that point, but in phh's, also crosses the spokes of paired holes in PHH. Which is bad.
+	//Distances that produce angles larger than 1/2 of the angles for evenly spaced holes, just mirror the effects
+	//up to that point. Additionaly, those larger disatances/angles in PHH's also crosses the spokes of paired holes
+	//in PHH's, which is bad.
 
 	var pcd_or_erd = parseFloat($pcd_or_erd.value);
 
@@ -3396,7 +3390,7 @@ function Set_Scale() {
 	$WHEEL_CONTAINER.scrollTop  = (scroll_H / 2) - (client_H / 2);
 	$WHEEL_CONTAINER.scrollLeft = (scroll_H / 2) - (client_H / 2);//It's square, so height == width.
 
-	Draw_Axis(client_H);
+	Draw_Axis();
 }//end Set_Scale() 
 
 
@@ -3605,7 +3599,7 @@ function Setup_Type_and_Build(init) {
 		}
 		
 		//Must come after Set_SX().
-		//In paired hole hubs, SX must be the same, so spokes don't cross over paired holes.
+		//In paired-hole hubs, SX must be the same, so spokes don't cross over paired holes.
 		if ($WHEEL_TYPE.value == "phh" || $WHEEL_TYPE.value == "phh_phr") {
 			Set_phh_Lace_Opt();
 			$SX[2].disabled = true;
@@ -3697,9 +3691,8 @@ function Reset_Scale_Rotate(save) {
 
 function Reset_OPTIONS_SPOKES(save) { 
 	Load_DEFAULT_VALUES_Spokes();
-	Set_Styles_Spokes();
+	Set_Styles_Spokes_and_Axis();
 	if (save) { Save_Settings("wheel"); }
-	Draw_Axis();
 }//end Reset_OPTIONS_SPOKES() 
 
 
@@ -4284,9 +4277,9 @@ function Assign_Events() {
 		if (Validate_Input(this)) {
 			Calc_PD_from_PA($PHRD, $PHRA, this);
 			Build_Wheel(save);
-			Setup_Viewbox(); }
+			Setup_Viewbox();
 		}
-	);
+	});
 
 	$NR.addEventListener("change", function() {
 		if (Validate_NR()) {
@@ -4499,7 +4492,11 @@ function Assign_Events() {
 	$SHOW_HIDE_ADVANCED.addEventListener("click", function() { Show_Hide_Options(this, $ADVANCED_INFO, "inline-block"); });
 	$SHOW_HIDE_NOTES   .addEventListener("click", function() { Show_Hide_Options(this, $NOTES		 , "inline-block"); });
 	$SHOW_HIDE_OTHER   .addEventListener("click", function() { Show_Hide_Options(this, $OTHER_CALCS	 , "inline-block"); });
-	$SEE_NOTES         .addEventListener("click", function() { Advanced_Build_Notes_btn();} );
+	$SEE_NOTES         .addEventListener("click", function() {
+		//First, if $NOTES are hidden, show 'em, then scroll to Advanced Build Info notes...
+		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_Options($SHOW_HIDE_NOTES, $NOTES, "inline-block"); }
+		$NOTES_ADVANCED_BUILD_INFO.scrollIntoView();
+	});
 	$SHOW_HIDE_SCALE   .addEventListener("click", function() {
 		Show_Hide_Options(this, $SCALE_ROTATE_OPTIONS, "inline-block");
 		Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", SCALE_ROTATE_OPEN);
@@ -4908,7 +4905,7 @@ function Init_Display_NR_SX(display_options, imported) {
 
 	Enable_Disable_FTL();
 
-	//Init with all options. Setup_Type_and_Build() will change to COMMON if needed.
+	//Init with all options. Setup_Type_and_Build() will change to _COMMON if needed.
 	$HUB_AUTO_ANGLES.innerHTML = HUB_AUTO_ANGLES_OPTS_CUSTOM;
 	$AUTO_ROT_OPTS.innerHTML = AUTO_ROT_OPTS_CUSTOM;
 
