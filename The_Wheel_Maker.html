@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//===============================================-->
-<script>var VERSION = "v2.36 2019-06-27 1:45am"</script>
-<!--//===============================================-->
+<!--//============================================-->
+<script>var VERSION = "v2.37 2019-06-27 7am"</script>
+<!--//============================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -533,6 +533,8 @@ input[type=range].SC2::-ms-thumb {
 
 #SC2_show_hide_notes { width: 16rem; margin: 0 0 0 0; }
 
+#SC2_TOPIC_select { height: 2rem; min-width: 16rem; font-size: 1rem; margin-bottom: .25rem; border-radius: 8px;}
+
 #SC2_notes p { margin-top: .5rem; }
 
 #SC2_notes  {
@@ -577,9 +579,9 @@ table.SC2_DO input.SC2_color { width: 5.5rem; }
 .SC2_spoke{ fill: none; stroke: #000; stroke-width: 2; }
 .SC2_pcd  { fill: none; stroke: #000; stroke-width: 1; }
 
-.SC2_desc { font-siZe: .8rem; padding: 0; line-height: .8rem; }
-.SC2_th1	 { height: 1.0rem; text-decoration: underline; font-weight: bold; }
-.SC2_th2	 { height: 1.8rem; text-decoration: underline; }
+.SC2_desc { font-size: .9rem; padding: 0; line-height: .8rem; }
+.SC2_th1  { height: 1.0rem; text-decoration: underline; font-weight: bold; }
+.SC2_th2  { height: 1.8rem; text-decoration: underline; }
 
 div.SC2_lengths { display: inline-block; margin: .3rem .3rem; vertical-align: top; }
 
@@ -1165,8 +1167,12 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 	</div><!--//end SC2_right_side ========================================-->
 
 
-
+	<br><br><br>
 	<button type=button id=SC2_show_hide_notes class="SC2 SC2_ndo_buttons" value=none>Notes etc.</button>
+	<select id=SC2_TOPIC_select class=SC2>
+		<option selected>Choose a Help Topic</option>
+		<optgroup id=SC2_TOPIC_list label=""><!-- Populated onload --></optgroup>
+	</select>
 	<div class=SC2_containers><!-- Notes <table> -->
 		<table id=SC2_notes>
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Disclaimer</a></th>
@@ -1522,6 +1528,8 @@ var SAVE_UNDO = true;  //used onclick of $LOAD_SAMPLE, and onchange of $SAMPLE_W
 
 var HEADER_OPTS_WIDTH = parseInt(window.getComputedStyle(E_('wheel_container_container'), null ).getPropertyValue("width")) + "px";
 
+var HELP_TOPICS = document.getElementsByClassName(_NS_ + "help_topic");
+
 
 //Various messeges
 var MSGS = {};
@@ -1719,6 +1727,9 @@ var $OTHER_CALCS = E_('other_calcs'); //<div> around A Few Other Calcs links
 var $SHOW_HIDE_OTHER = E_('show_hide_other'); //<button> to show/hide other calcs links.
 var $SHOW_HIDE_SCALE = E_('show_hide_scale'); //<button> to show/hide scale & rotation options.
 var $SHOW_HIDE_NOTES = E_('show_hide_notes'); //<button> to show/hide Notes.
+
+var $TOPIC_select    = E_('TOPIC_select'); //<select>
+var $TOPIC_list      = E_('TOPIC_list');   //<options>
 
 var $SCALE_ROTATE_OPTIONS = E_('scale_rotate_options');
 
@@ -4771,6 +4782,15 @@ function Assign_Events() {
 	$RESET_OPTIONS_RIM_ETC.addEventListener("click", function() { Reset_OPTIONS_RIM_ETC(true); });
 
 
+	$TOPIC_select.addEventListener('change', function(){
+		if (this.selectedIndex < 1) { return; } //0 is just the "Choose Topic" <option>
+		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_Options($SHOW_HIDE_NOTES, $NOTES, "inline-block"); }
+		var selected = this.selectedIndex - 1; //help_topics doesn't include the "Choose Topic" <option>.
+		HELP_TOPICS[selected].scrollIntoView(false);
+		HELP_TOPICS[selected].focus();
+	});
+
+
 	$CLOSE_MSG.addEventListener("blur" , function() { Close_Message() });
 	$CLOSE_MSG.addEventListener("click", function() { Close_Message() });
 
@@ -5039,6 +5059,14 @@ function Init() {
 
 	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
 	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
+
+	//Populate "Choose a Topic" <select> list.
+	var topic_list = '';
+	for (var x=0; x < HELP_TOPICS.length; x++) {
+		topic_list += "<option>" +  HELP_TOPICS[x].innerHTML + "</option>\n"
+	}
+	$TOPIC_list.innerHTML = topic_list;	
+
 
 	//##### Enable disclaimer msg on first load & resets?
 	$ACCEPT_MSG.ENABLED = false; //##### true; //#####
