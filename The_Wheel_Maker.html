@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//================================================-->
-<script>var VERSION = "v2.35 2019-06-25 01:55am"</script>
-<!--//================================================-->
+<!--//===============================================-->
+<script>var VERSION = "v2.36 2019-06-27 1:45am"</script>
+<!--//===============================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -201,7 +201,7 @@ button.SC2_X_imex_windows {
 
 #SC1_flange_to_opts { text-align: right }
 
-button.SC2_mini_button { width: 16px; padding: 0 0 0 0; line-height: 1rem; }
+button.SC2_mini_button { width: 1rem; padding: 0; line-height: 1rem; }
 
 #SC2_FL_to_LN { background-color: rgba(255,255,255,.4); }
 
@@ -414,13 +414,35 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 
 #SC2_svg_wheel  { display: block; padding: 0; margin: auto; border: 0; }
 
-#SC2_scale_rotate_container {
+#SC2_scale_rotate_container, #SC2_SCALE_user_input_tab {
+	position: relative;
 	display: inline-block;
 	height: 2rem;
 	padding: 0;
 	margin: 0;
-	border			: solid 1px #444;
+	border: solid 1px #444;
 	border-radius : 8px;
+}
+
+#SC2_SCALE_mode {
+	width: 4.5rem;
+	font-weight: bold;
+	font-size: 1rem;
+	padding: 1px 0 0 .1rem;
+	text-align: left;
+}
+
+#SC2_SCALE_user_input_tab {
+	position: absolute;
+	top: 31px;
+	left: 0;
+	height: 2rem; 
+	margin-top: -1px;
+	margin-left: 1.5rem;
+	padding: .25rem 1rem 0 1rem;
+	border-top: 0;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 }
 
 #SC2_show_hide_scale.SC2_scale_rotate_open {
@@ -440,12 +462,9 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	border: transparent;
 }
 
-
-#SC2_CONTAINER .SC2_plus_minus_buttons { width: .9rem; padding: 0px 0px 1px 0px; }
-
 #SC2_scale_rotate_options {
 	display: inline-block;
-	padding: 2px 0 0 .2rem;
+	padding: 2px 0 0 0;
 	margin: 0;
 	font-family: arial;
 	text-align: left;
@@ -464,7 +483,6 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	vertical-align: bottom;
 	border: solid 1px transparent;
 }
-
 
 #SC2_reset_scale_rotate { margin: 0 .6rem; }
 
@@ -1122,19 +1140,23 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 		<div id=SC2_scale_rotate_container class=SC2_theme_standard>
 			<button type=button id=SC2_show_hide_scale class="SC2 SC2_ndo_buttons" value=none>+</button>
 			<div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
-				<div class=SC2_rotate_scale_containers><label>Scale:</label>
-					<button type=button class="SC2 SC2_plus_minus_buttons" id=SC2_SCALE_down>-</button>
+				<div class=SC2_rotate_scale_containers>
+					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_mode>Scale:</button>
+					<div id=SC2_SCALE_user_input_tab class=SC2_theme_standard>
+						<input type=text class=SC2 id=SC2_SCALE_user>mm (Wheel Window Size)
+					</div>
+					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_down>-</button>
 					<input type=range id=SC2_SCALE_slider class=SC2 min=0 max=2000>
-					<button type=button class="SC2 SC2_plus_minus_buttons" id=SC2_SCALE_up>+</button>
+					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_up>+</button>
 					<input type=text  id=SC2_SCALE_text class=SC2>%
 					<input type=text  id=SC2_SCALE_step class="SC2 SC2_slider_step">
 				</div>
 				<button type=button id=SC2_reset_scale_rotate class=SC2>Reset</button>
 				<div class=SC2_rotate_scale_containers>
 					<label>Rotate:</label>
-					<button type=button class="SC2 SC2_plus_minus_buttons" id=SC2_ROTATE_down>-</button>
+					<button type=button class="SC2 SC2_mini_button" id=SC2_ROTATE_down>-</button>
 					<input type=range id=SC2_ROTATE_slider class=SC2 min=0 max=360>
-					<button type=button class="SC2 SC2_plus_minus_buttons" id=SC2_ROTATE_up>+</button>
+					<button type=button class="SC2 SC2_mini_button" id=SC2_ROTATE_up>+</button>
 					<input type=text  id=SC2_ROTATE_text   class=SC2>&deg;
 					<input type=text  id=SC2_ROTATE_step   class="SC2 SC2_slider_step">
 				</div>
@@ -1150,7 +1172,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Disclaimer</a></th>
 				<td>
 					<div id=SC2_responsibility>
-						<p id=SC2_assumes class=SC2>In all cases, the user assumes full responsibility for the use of any spoke length, image, or other output of this program.
+						<p id=SC2_assumes class=SC2>In all cases, the user assumes full responsibility for any use of this program.  It may work.  It may not.  I don't know.  I hope it does, but THERE ARE NO GUARENTEES.
 					</div>
 					<div>
 						<p class=SC2>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
@@ -1408,26 +1430,29 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Rim Size</a></th>
 				<td>
 					Rim Size affects the displayed scale, and- as indicated above, has no effect on spoke length calculations.
-					<p>When set to 5 or less, the "center" of the "rim" will be the ERD, and traces thru the rim spoke holes.
-					<p>When set more than 5, the "rim" expands away from the rim holes, to simulate an actual rim, where the spoke ends (and the ERD) are slightly within the inner diameter of the rim.
+					<p>When set to <span id=SC2_spokes_recessed1>_</span> or less, the "center" of the "rim" will be the ERD, and traces thru the rim spoke holes.
+					<p>When set more than <span id=SC2_spokes_recessed2>_</span>, the "rim" expands away from the rim holes, to simulate an actual rim, where the spoke ends (and the ERD) are slightly within the inner diameter of the rim.
 				</td>
 			</tr>
 			<tr>
 				<th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Scale</a></th>
-				<td><p>The wheel window is always 100% of the current wheel size (ERD + Rim size Display Setting).  The scale is a percentage relative to the current wheel size.<br>
-					<p>For Example:
+				<td><p>The Scale setting is like a "zoom" view setting - higher values increase the displayed size of the wheel (the portion within the wheel window).
+					<p>There are two Scale modes: "w", and "u".
+					<p>[Scale: w] (wheel - default)
 					<p>
-					At 100, the displayed wheel is scaled to fit the display window.<br>
-					At 200, the displayed wheel's diameter is twice the window size,<br>
-					At 300, the displayed wheel's diameter is thrice the window size, etc...<br>
-					<p>Changeing the scale re-centers the wheel within the window.
+					At 100%, the displayed wheel is scaled to fit the display window (regardless of ERD).<br>
+					At 200%, the displayed wheel's diameter is twice the window size,<br>
+					At 300%, the displayed wheel's diameter is thrice the window size, etc...<br>
+					<p>[Scale: u] (user)
+					<p>Similar to [Scale: w], except the size that the wheel window represents is fixed by the user defined value, and does not change with the wheel's ERD.
+					<p>Changing the scale re-centers the wheel within the window.
 				</td>
 			</tr>
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Colors</a></th>
 				<td>Colors can be specified using common
-				<a class=SC2 href="https://www.w3schools.com/Colors/colors_names.asp" target="_blank">html/css color names</a>
-				(black, gray, red, blue, green, skyblue, etc.),
-				or with any currently valid html/css color code format (hex, rgb, cymk, etc.).
+					<a class=SC2 href="https://www.w3schools.com/Colors/colors_names.asp" target="_blank">html/css color names</a>
+					(black, gray, red, blue, green, skyblue, etc.),
+					or with any currently valid html/css color code format (hex, rgb, cymk, etc.).
 				</td>
 			</tr>
 			<tr><th class=SC2></th><th>ETC</th></tr>
@@ -1697,6 +1722,10 @@ var $SHOW_HIDE_NOTES = E_('show_hide_notes'); //<button> to show/hide Notes.
 
 var $SCALE_ROTATE_OPTIONS = E_('scale_rotate_options');
 
+var $SCALE_user_input_tab = E_('SCALE_user_input_tab');
+var $SCALE_user   = E_('SCALE_user');
+
+var $SCALE_mode   = E_('SCALE_mode');
 var $SCALE_text   = E_('SCALE_text');
 var $SCALE_step   = E_('SCALE_step');
 var $SCALE_slider = E_('SCALE_slider');
@@ -1819,17 +1848,20 @@ var $CLOSE_IMPORT       = E_('close_import');      //<button>
 var $PRESERVE_INDEX     = E_('PRESERVE_INDEX');
 var $IMPORT_INDEX_LABEL = E_('import_index_label'); //also container.
 var $IMPORT_INDEX       = E_('IMPORT_INDEX'); //Import starting at this index/slot.
+
+var $SPOKES_RECESSED1   = E_('spokes_recessed1');
+var $SPOKES_RECESSED2   = E_('spokes_recessed2');
 //end assignment of element references.
 
 
 
-var SPOKES_RECESSED = 4; //Amount spoke is "recessed" into rim (RIM_LINE_SIZE), similar to a real wheel. For asthetics only.
+var SPOKES_RECESSED = 2; //Amount spokes are "recessed" into rim (RIM_LINE_SIZE), similar to a real wheel. For asthetics only.
 var MAX_MAX_WHEELS = 100; //I don't know, seems like a good idea. Not the specific value necessarily, but the general concept...
 
 
 /*************************************************./
 Consider all raw size & x/y values to be either mm or degrees,
-to coorespond directly to rim, hub, & spoke measurements.
+and to coorespond directly to rim, hub, & spoke measurements.
 /*************************************************/
 var DEFAULT_VALUES = {
 	'WHEEL_NAME' : "New Wheel",
@@ -1906,8 +1938,10 @@ var DEFAULT_VALUES = {
 
 	'ROTATE_text': 180,
 	'ROTATE_step': 5,
-	'SCALE_text'       : 100,  //Percent.  100% will fit wheel on screen. (ERD + (RIM_LINE_SIZE * 2)).
-	'SCALE_step'       : 20,
+	'SCALE_text' : 100,  //Percent.  100% will fit wheel on screen. (ERD + (RIM_LINE_SIZE * 2)).
+	'SCALE_step' : 20,
+	'SCALE_mode' : 'wheel', //Window Size is either user specified, or based on wheel size(diameter). In mm.
+	'SCALE_user' : '642',  //mm, a good size for common 700c wheels.
 }//end DEFAULT_VALUES
 
 
@@ -1936,7 +1970,7 @@ var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".8
 var AUTO_ROT_OPTS_CUSTOM = '<option value="1.5">+1 1/2 Hole</option> <option value="1.375">+1 3/8 Hole</option> <option value="1.25">+1 1/4 Hole</option> <option value="1.125">+1 1/8 Hole</option> ' + AUTO_ROT_OPTS_COMMON + ' <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option>';
 
 
-var SAMPLE_WHEELS = {"wheels":{"2":{"WHEEL_NAME":"Sample Standard","WHEEL_TYPE":"standard","ERD":"577","NR":"24","NF1":"12","NF2":"12","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"0","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20"},"3":{"WHEEL_NAME":"Sample Triplet","WHEEL_TYPE":"triplet","ERD":"577","NR":"24","NF1":"8","NF2":"16","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"22.5","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20"},"4":{"WHEEL_NAME":"Sample PHR","WHEEL_TYPE":"phr","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":".25","PHRA":"3.75","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"215","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20"},"5":{"WHEEL_NAME":"Sample PHH","WHEEL_TYPE":"phh","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20"},"6":{"WHEEL_NAME":"Skip-Hole Triplet","WHEEL_TYPE":"custom","ERD":"577","NR":"36","NF1":"18","NF2":"18","PCD1":"38","PCD2":"50","FTC1":"37.3","FTC2":"17.2","OLD":"","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"20","PHHA2":"20","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"10","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":false,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20"},"7":{"WHEEL_NAME":"SSR rear","WHEEL_TYPE":"phh_phr","ERD":"588","NR":"24","NF1":"12","NF2":"12","PCD1":"47","PCD2":"47","FTC1":"30","FTC2":"18","OLD":"","OSB_linked":false,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"auto","ROTF":"20.07","RIM_AUTO_ANGLES":"off","PHRA":"-5.07","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"25","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20"},"8":{"WHEEL_NAME":"540 - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"45","PCD2":"50","FTC1":"35","FTC2":"18","OLD":"130","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"1","SX2":"0","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"off","PHHA1":"5.625","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213.75","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20"},"9":{"WHEEL_NAME":"540 - front","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"40","PCD2":"40","FTC1":"32","FTC2":"32","OLD":"100","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"0","SX2":"0","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213","ROTATE_step":"0.25","SCALE_text":"100","SCALE_step":"20"},"10":{"WHEEL_NAME":"Prima - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"60","PCD2":"76","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"1","SX2":"1","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".375","PHHA1":"16.875","PHHA2":"16.875","AUTO_ROT":".5","ROTF":"22.5","RIM_AUTO_ANGLES":"off","PHRA":"1.98","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20"}}}
+var SAMPLE_WHEELS = {"wheels":{"2":{"WHEEL_NAME":"Sample Standard","WHEEL_TYPE":"standard","ERD":"577","NR":"24","NF1":"12","NF2":"12","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"0","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"3":{"WHEEL_NAME":"Sample Triplet","WHEEL_TYPE":"triplet","ERD":"577","NR":"24","NF1":"8","NF2":"16","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"22.5","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"4":{"WHEEL_NAME":"Sample PHR","WHEEL_TYPE":"phr","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":".25","PHRA":"3.75","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"215","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"5":{"WHEEL_NAME":"Sample PHH","WHEEL_TYPE":"phh","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"6":{"WHEEL_NAME":"Skip-Hole Triplet","WHEEL_TYPE":"custom","ERD":"577","NR":"36","NF1":"18","NF2":"18","PCD1":"38","PCD2":"50","FTC1":"37.3","FTC2":"17.2","OLD":"","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"20","PHHA2":"20","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"10","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":false,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"7":{"WHEEL_NAME":"SSR rear","WHEEL_TYPE":"phh_phr","ERD":"588","NR":"24","NF1":"12","NF2":"12","PCD1":"47","PCD2":"47","FTC1":"30","FTC2":"18","OLD":"","OSB_linked":false,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"auto","ROTF":"20.07","RIM_AUTO_ANGLES":"off","PHRA":"-5.07","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"25","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"8":{"WHEEL_NAME":"540 - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"45","PCD2":"50","FTC1":"35","FTC2":"18","OLD":"130","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"1","SX2":"0","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"off","PHHA1":"5.625","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213.75","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"9":{"WHEEL_NAME":"540 - front","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"40","PCD2":"40","FTC1":"32","FTC2":"32","OLD":"100","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"0","SX2":"0","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213","ROTATE_step":"0.25","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"10":{"WHEEL_NAME":"Prima - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"60","PCD2":"76","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"1","SX2":"1","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".375","PHHA1":"16.875","PHHA2":"16.875","AUTO_ROT":".5","ROTF":"22.5","RIM_AUTO_ANGLES":"off","PHRA":"1.98","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",}}}
 
 
 
@@ -2097,6 +2131,7 @@ function Load_Settings(what, imp_def) {
 		Calc_Flange_Offset($FTL[1], $FTC[1]);
 		Calc_Flange_Offset($FTL[2], $FTC[2]);
 		Enable_Disable_FTL();
+		$SCALE_mode.innerHTML = "Scale: " + $SCALE_mode.value.substr(0,1);
 		$SCALE_slider.value = $SCALE_text.value;
 		$SCALE_slider.setAttribute('step', $SCALE_step.value);
 		$ROTATE_slider.value = $ROTATE_text.value
@@ -2104,6 +2139,9 @@ function Load_Settings(what, imp_def) {
 		Show_Side_Checked(1); //Spokes...
 		Show_Side_Checked(2);
 		Show_All_Holes_Checked();
+
+		var show_user_scale = ($SCALE_mode.value == "user");
+		Show_Hide($SCALE_user_input_tab, show_user_scale,false , 'display', 'inline-block');
 	}
 
 	return true;
@@ -2255,10 +2293,14 @@ function Load_DEFAULT_VALUES_Scale_Rotate() {
 	$ROTATE_slider.value = $ROTATE_text.value;
 	$ROTATE_slider.setAttribute('step', $ROTATE_step.value);
 	$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_text.value + ")");
+	$SCALE_mode.value   = DEFAULT_VALUES.SCALE_mode;
+	$SCALE_user.value   = DEFAULT_VALUES.SCALE_user;
+	$SCALE_mode.innerHTML = "Scale: " + $SCALE_mode.value.substr(0,1); //Must come after $SCALE_mode.value is set.
 	$SCALE_step.value   = DEFAULT_VALUES.SCALE_step;
 	$SCALE_text.value   = DEFAULT_VALUES.SCALE_text;
 	$SCALE_slider.value = $SCALE_text.value
 	$SCALE_slider.setAttribute('step', $SCALE_step.value);
+	$SCALE_user_input_tab.style.display = "none";
 }//end Load_DEFAULT_VALUES_Scale_Rotate()
 
 
@@ -2269,7 +2311,7 @@ function Round(number, places) {
 	else               { places = Math.floor(places); }
 	if (places > 13) { places = 13 } //Avoid scientific notation (sn).  ex:  1.0e-14.  Javascript uses sn after 13 digits.
 	number = parseFloat(number);
-	number = number.toFixed(20);//Avoid numbers in sn. //MS Edge craps out atfter toFixed(20).  FF works 'til (30).
+	number = number.toFixed(20);//Avoid numbers in sn. //MS Edge craps out after toFixed(20).  FF works 'til (30).
 	//Now use exponetial notation to avoid the 1.005 issue... try it: alert(1.005*10)  or,  alert(Math.round(1.005*100)/100)
 	//Some numbers may be of form: 1.1234567890123456e-14, and this function won't work with such numbers. Yet...
 	var rounded = Number( Math.round( number + 'e' + places ) + 'e-' + places );
@@ -2912,7 +2954,7 @@ function Make_Rim(save) {
 
 
 
-function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2) { /***/
+function Setup_Wheel(erd, nr, nf1, nf2, pcd1, pcd2, sx1, sx2, shdr, shdf1, shdf2) {
 	//shd[r,f1,f2], as used here, and in Create_Spoke_Holes(), only affects
 	//the displayed spoke hole size, and not spoke length calcs.
 
@@ -3334,13 +3376,15 @@ function Draw_Axis() {
 	//Otherwise, when starting from edges, the dashes at (0,0) vary depending on zoom level.
 	//    (Well, they did with the original zoom method.)
 	var viewport_H = $WHEEL_CONTAINER.clientHeight; //Visible height of container's content, inside borders & excluding scrollbars.
-	var view_box = $SVG_WHEEL.getAttribute('viewBox')
+	var view_box = $SVG_WHEEL.viewBox.baseVal; //{x,  y,  width,  height}
 
-	if (view_box) { //            viewBox.split(" ") =              [0]            [1]       [2]     [3]
-		     var view_box_size = view_box.split(" ")[3]; // [horizontal_offset,  v_offset,  width,  height]
-	} else { var view_box_size = viewport_H; }
-	
-	var scale = (view_box_size / viewport_H) / ($SCALE_text.value / 100);
+	if (view_box) { var view_box_size = view_box.height; } //.width should == .height
+	else          { var view_box_size = viewport_H; }     //view_box is null on Init()...
+
+	//Scale, in Draw_Axis(), is the relative side of the wheel on screen.
+	if ($SCALE_mode.value == "user") { var scale = ($SCALE_user.value / viewport_H) / ($SCALE_text.value / 100); }
+	else   /** mode == "wheel" **/   { var scale = (view_box_size     / viewport_H) / ($SCALE_text.value / 100); }
+
 	var max_XY = view_box_size/2;
 	var axis_line_width = $AXES_LINE_SIZE.value * scale;
 	var axis_dash = 4 * scale;             //##### Abstract out the 4?
@@ -3367,23 +3411,36 @@ function Draw_Axis() {
 
 
 function Set_Scale() {
-	//Percentage to set the wheel's width & height. From 20 to 2000.
-	var level = $SCALE_text.value * 1;
+	//Set the height & width of the wheel's <svg> element, $SVG_WHEEL,
+	//as a percentage (0 to 2000) of its parent <div>, $WHEEL_CONTAINER.
+	//A scale of 100% = the $WHEEL_CONTAINER size (h & w).
+	//$WHEEL_CONTAINER is a fixed size (relative to the rest of the displayed page).
+	//$WHEEL_CONTAINER's height & width (including scrollbars & borders) are set in css to 665 (as of v2.15).
+	//So, theoretically, the height (wch) computed below should always be 665...
+	//After setting the scale, vertically center wheel.  (Horizontal center accomplished via css...)
 
-	//Vertically center wheel when scale is < 100 using marginTop.
-	//(Horizontal center accomplished via css...)
-	//At 100 (%),wheel height == container height.
-	//Scale "level" is a percentage to set the wheel's width & height. 100% is the container's clientHeight.
-	//$WHEEL_CONTAINER's height (including scrollbars & borders) is set in css to 665 (as of v2.15).
-	//So, theoretically, the computed height (below) should be 665...
-    var height = parseInt(window.getComputedStyle($WHEEL_CONTAINER, null ).getPropertyValue("height"));
-	var margin_top = height/2 - (height * (level/100) / 2);
+	var scale = $SCALE_text.value * 1; // %
+
+	if ($SCALE_mode.value == "user") {
+		var view_box_size = $SVG_WHEEL.viewBox.baseVal.width; //.width should == .height
+		var user_size = $SCALE_user.value;
+		scale = scale * (view_box_size / $SCALE_user.value);
+	}
+
+	//Scale the wheel relative its parent div, $WHEEL_CONTAINER...
+	$SVG_WHEEL.style.width  = scale + "%";
+	$SVG_WHEEL.style.height = scale + "%";
+
+	//Vertically center $SVG_WHEEL in $WHEEL_CONTAINER, when scale is < 100 (%).
+	//(When the displayed wheel size is smaller than $WHEEL_CONTAINER.)
 	$SVG_WHEEL.style.marginTop = 0;
-	if (level < 100) { $SVG_WHEEL.style.marginTop = margin_top + 'px'; }
+	if (scale < 100) {
+		var wch = parseInt(window.getComputedStyle($WHEEL_CONTAINER, null ).getPropertyValue("height"));// wheel container height
+		var margin_top = wch/2 - (wch * (scale/100) / 2);
+		$SVG_WHEEL.style.marginTop = margin_top + "px";
+	}
 
-	$SVG_WHEEL.style.width  = level + "%";
-	$SVG_WHEEL.style.height = level + "%";
-
+	//Vertically center the wheel (the scroll bars)...
 	var scroll_H = $WHEEL_CONTAINER.scrollHeight; //Height of container's content.
 	var client_H = $WHEEL_CONTAINER.clientHeight; //Visible height of container's content, inside borders & excluding scrollbars.
 	$WHEEL_CONTAINER.scrollTop  = (scroll_H / 2) - (client_H / 2);
@@ -3408,7 +3465,7 @@ function Setup_Viewbox() {
 	var view_box_size = (erd + rim*2 + 5); //The + 5 adds a small margin between the wheel & edges.
 
 	//Setup viewBox & <svg wheel> sizes.
-	var offset = (-view_box_size/2);  // H              V                width                height
+	var offset = (-view_box_size/2);  // x              y                width                height
 	$SVG_WHEEL.setAttribute('viewBox', offset + " " + offset + " " + view_box_size + " " + view_box_size);
 
 	Set_Scale();
@@ -4642,6 +4699,23 @@ function Assign_Events() {
 	$ROTATE_up.addEventListener  ("mouseout", function() { Stop_Scale_Rotate_Repeats($ROTATE_slider); });
 
 
+	$SCALE_mode.addEventListener("click", function() {
+		if (this.value != DEFAULT_VALUES.SCALE_mode)
+			 { this.value = DEFAULT_VALUES.SCALE_mode }
+		else { this.value = 'user' }
+		this.innerHTML = "Scale: " + this.value.substr(0,1);
+		Setup_Viewbox();
+		Save_Settings("wheel");
+		Show_Hide($SCALE_user_input_tab, (this.value == 'user'),false , 'display', 'inline-block');
+	});
+	
+	$SCALE_user.addEventListener("change", function() {
+		Validate_Input(this, false, false, 10, 999999);
+		Set_Scale();
+		Draw_Axis();
+		Save_Settings("wheel");
+	});
+
 	$SCALE_text.addEventListener("change", function() {
 		if (!Validate_Input(this)) { return false; }
 		var scale = this.value * 1;
@@ -4962,6 +5036,9 @@ function Init() {
 	$WHEEL_NAME.current = $WHEEL_NAME.value;
 
 	Add_Contact_Info();
+
+	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
+	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
 
 	//##### Enable disclaimer msg on first load & resets?
 	$ACCEPT_MSG.ENABLED = false; //##### true; //#####
