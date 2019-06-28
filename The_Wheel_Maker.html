@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//============================================-->
-<script>var VERSION = "v2.37 2019-06-27 7am"</script>
+<script>var VERSION = "v2.38 2019-06-28 4am"</script>
 <!--//============================================-->
 
 <template id=SC2_LICENSE>
@@ -1232,7 +1232,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2></th>
-				<th>Wheel Settings
+				<th><a class="SC2 SC2_help_topic" tabindex=0>Wheel Settings</a>
 					<p>All measured settings are mm (millimeters), except those that aren't (like angles).
 				</th>
 			</tr>
@@ -1264,7 +1264,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<td><p>"Flange to Center", or "FTC", or "Center to Flange", or "CTF", etc.
 					<p>The distance the flange is offset from the hub center.
 					<p>Since it's highly impractical to actually measure anything from the hub center (since it's never marked), to obtain these values, subtract the Flange-to-LN from 1/2 the OLD.
-					<p>For example, common rear road hubs have an OLD of 130mm.  Half of that is 65mm.  So, if the distance from the left (or Side 1) locknut face to the left flange center is 27.5mm, then the Side 1 Flange Offset is (65 - 27.5), or 37.5mm .
+					<p>For example, common rear road hubs have an OLD of 130mm.  Half of that is 65mm.  So, if the distance from the left (or Side 1) locknut face to the left flange center is 27.5mm, then the Side 1 Flange-to-Ctr is (65 - 27.5), or 37.5mm .
 					<p>Or, if not currently visible, click the [+] just left of "Flange-to-Ctr", and enter the OLD & Flange-to-Locknut values.  The subsequent "Flange-to-Center" value will automatically be calculated.
 				</td>
 			</tr>
@@ -1301,10 +1301,10 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<p>In Custom mode, if the number of flange holes is odd, cross can be non-zero, but all spokes on that side will be laced the same direction.  Spokes on the opposite flange will be laced in the opposite direction if they are also odd, otherwise they will be laced normally.
 				</td>
 			</tr>
-			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>SHD</a></th><td>"Spoke Hole Diameter". Like Flange Offset &amp; OC, this value only affects final spoke length, and not the wheel as displayed.  To change the displayed hole size, see [Display Setttings]</td></tr>
+			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>SHD</a></th><td>"Spoke Hole Diameter". Like Flange-to-Ctr &amp; OC, this value only affects final spoke length, and not the wheel as displayed.  To change the displayed hole size, see [Display Setttings]</td></tr>
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Lace Option</a></th><td>Asymetrical lacings, such as triplets, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
 			
-			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Paired-Hole (PH)<br>Hubs &amp; Rims</a></th>
+			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Paired-Hole (PH) Hubs &amp; Rims</a></th>
 				<td>
 					<p>A <u>PH Angle</u> is formed by lines passing thru the center of paired spoke holes and extending to the axial center of the hub. For example: the angle between two radial spokes.
 					<p>A <u>PH Distance</u> is the straight-line distance between the center of paired spoke holes (not along the arc of the rim or hub flange).  In geometry, this distance is called a chord.
@@ -1388,10 +1388,10 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2 id=SC2_advanced_notes></th>
-				<th><p>Advanced Build Info</th>
+				<th><a class="SC2 SC2_help_topic" tabindex=0>Advanced Build Info</a></th>
 			</tr>
 			
-			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>General Info</a></th>
+			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Advanced Build Info Summary</a></th>
 				<td>
 					<p>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.
 					<p>Basically, this section does not directly affect the "Spoke Lengths" provided above. Instead, it
@@ -1425,9 +1425,9 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SC2></th><th>Disaplay Settings</th></tr>
+			<tr><th class=SC2></th><th><a class="SC2 SC2_help_topic" tabindex=0>Display Settings</a></th></tr>
 			<tr>
-				<th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>General</a></th>
+				<th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Display Settings Summary</a></th>
 				<td>
 					Display Options affect the wheel as displayed only, and have no effect on spoke length calculations.
 				</td>
@@ -1461,7 +1461,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					or with any currently valid html/css color code format (hex, rgb, cymk, etc.).
 				</td>
 			</tr>
-			<tr><th class=SC2></th><th>ETC</th></tr>
+			<tr><th class=SC2></th><th><a class="SC2 SC2_help_topic" tabindex=0>ETC</a></th></tr>
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Saved Settings</a></th>
 				<td><p>In general, all information generated and used by this program internally, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage.
 					<p>To clear all wheel data &amp; display options stored by this web browser on this device, click the following button:<br>
@@ -1528,8 +1528,7 @@ var SAVE_UNDO = true;  //used onclick of $LOAD_SAMPLE, and onchange of $SAMPLE_W
 
 var HEADER_OPTS_WIDTH = parseInt(window.getComputedStyle(E_('wheel_container_container'), null ).getPropertyValue("width")) + "px";
 
-var HELP_TOPICS = document.getElementsByClassName(_NS_ + "help_topic");
-
+var HELP_TOPICS = []; //Populated during Init(), via Build_Choose_Topic_List().
 
 //Various messeges
 var MSGS = {};
@@ -2359,6 +2358,31 @@ function Scroll_Blur(event) {
 		else if (key == PD) { window.scrollBy(0, 400); }
 	}
 }//end Scroll_Blur()
+
+
+
+
+function Build_Choose_Topic_List() {
+	//Populate "Choose a Topic" <select> list.
+
+	//Grab & index help topics...
+	var help_topics = document.getElementsByClassName(_NS_ + "help_topic");
+	for (var x=0; x < help_topics.length; x++) {
+		HELP_TOPICS[x] = [];
+		HELP_TOPICS[x][0] = x + 1; //See $TOPIC_select change event.
+		HELP_TOPICS[x][1] = help_topics[x];
+	}
+
+	//Sort the topics...
+	HELP_TOPICS.sort( function(a, b) { return a[1].innerHTML.localeCompare(b[1].innerHTML); } );
+
+	//Populate <select>...
+	var topic_list = '';
+	for (var x=0; x < HELP_TOPICS.length; x++) {
+		topic_list += "<option>" +  HELP_TOPICS[x][1].innerHTML + "</option>\n"
+	}
+	$TOPIC_list.innerHTML = topic_list;
+}//end Build_Choose_Topic_List()
 
 
 
@@ -3515,23 +3539,24 @@ function Show_Hide($what, show, save, style, value) {
 
 
 
-function Scroll_Into_View(target, extra) {
+function Scroll_Into_View(target, extra, min_visible) {
 	//Only scroll if target display is !=none, and
 	//if the top of the element is not visible in the window.
+	
+	//Scroll min_visible of element into view, if less than min_visible is visible.
+	if (typeof min_visible == "undefined") { min_visible = 150 }
 
 	if (target.style['display'] == "none") { return; }
 
-	var rect = target.getBoundingClientRect();
+	var rect = target.getBoundingClientRect(); //left, top, right, bottom, x, y, width, height
 
 	//window contents scroll down if off the top...
     if (rect.top < extra) { window.scrollBy(0, rect.top - extra); return; }
 
-
 	var viewable_amount = window.innerHeight - rect.top;
-	var min_top_visible = 150; //Scroll this much of element into view, if less than this amount.
 
 	//window contents scroll up if off the bottom...
-    if (viewable_amount < min_top_visible) { window.scrollBy(0, min_top_visible - viewable_amount); }
+    if (viewable_amount < min_visible) { window.scrollBy(0, min_visible - viewable_amount); }
 
 }//end Scroll_Into_View() {
 
@@ -4785,9 +4810,9 @@ function Assign_Events() {
 	$TOPIC_select.addEventListener('change', function(){
 		if (this.selectedIndex < 1) { return; } //0 is just the "Choose Topic" <option>
 		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_Options($SHOW_HIDE_NOTES, $NOTES, "inline-block"); }
-		var selected = this.selectedIndex - 1; //help_topics doesn't include the "Choose Topic" <option>.
-		HELP_TOPICS[selected].scrollIntoView(false);
-		HELP_TOPICS[selected].focus();
+		var selected = this.selectedIndex - 1;  //help_topics doesn't include the "Choose Topic" <option>.
+		Scroll_Into_View(HELP_TOPICS[selected][1], 50,75); //[x][0] index, [x][1] innerHTML, [x][2] element
+		HELP_TOPICS[selected][1].focus();
 	});
 
 
@@ -5044,9 +5069,11 @@ function Init() {
 	Build_Load_Sample_List();
 
 	Build_Select_Wheel_List();
+	
+	Build_Choose_Topic_List();
 
 	Enable_Disable_Undo_Clear();
-
+ 
 	var saved_settings_found = Load_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
 
 	if (saved_settings_found) { Validate_Wheel_Settings(); }
@@ -5059,14 +5086,6 @@ function Init() {
 
 	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
 	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
-
-	//Populate "Choose a Topic" <select> list.
-	var topic_list = '';
-	for (var x=0; x < HELP_TOPICS.length; x++) {
-		topic_list += "<option>" +  HELP_TOPICS[x].innerHTML + "</option>\n"
-	}
-	$TOPIC_list.innerHTML = topic_list;	
-
 
 	//##### Enable disclaimer msg on first load & resets?
 	$ACCEPT_MSG.ENABLED = false; //##### true; //#####
