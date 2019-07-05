@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//============================================-->
-<script>var VERSION = "v2.39 2019-06-29 2:25pm"</script>
+<script>var VERSION = "v2.40 2019-07-04"</script>
 <!--//============================================-->
 
 <template id=SC2_LICENSE>
@@ -615,6 +615,8 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 #SC2_other_calcs   { font-family: arial; text-align: left; margin: 0; }
 #SC2_other_calcs a { min-width: 55%; border-bottom: solid 2px white; }
 
+#nonD_calcs { }
+
 #SC2_MSG_HEADER {
 	margin			: auto;
 	text-align		: center;
@@ -1073,18 +1075,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<hr class=SC2>
 			And a few other spoke length calculators from around the web:<br>
 			<p class="SC2 SC2_desc">(I have no affiliation with the following calculators or websites.
-			Their links are provided for convenience and comparison only.)</p>
-			
-			<a class=SC2 href="https://www.sheldonbrown.com/rinard/spocalc.htm" target="_blank">Sheldon's SpoCalc</a><br>
-			<a class=SC2 href="http://www.mrrabbit.net/wheelsbyflemingapplications.php" target="_blank">Mr. Rabbit's SpokeChart v2-0<br><span class=SC2_indents>(link near bottom of page)</span></a><br>
-			<a class=SC2 href="https://www.bikeschool.com/index.php/resources/spoke-calculator" target="_blank">Bike School</a><br>
-			<a class=SC2 href="http://www.prowheelbuilder.com/spokelengthcalculator" target="_blank">Pro Wheel Builder</a><br>
-			<a class=SC2 href="https://leonard.io/edd/" target="_blank">Edd</a><br>
-			<a class=SC2 href="http://www.sapim.be/spoke-calculator" target="_blank">Sapim</a><br>
-			<a class=SC2 href="https://spokes-calculator.dtswiss.com/en/" target="_blank">DT Swiss</a><br>
-			<a class=SC2 href="http://www.wheelpro.co.uk/spokecalc/" target="_blank">Wheel Pro</a><br>
-			<a class=SC2 href="https://biketechtools.com/spoke-length-calculator" target="_blank">Bike Tech Tools</a><br>
-			<a class=SC2 href="http://www.kstoerz.com/freespoke/fullcalc" target="_blank">FreeSpoke</a><br>
+			Their links are provided for convenience and comparison only, and in a random order.)</p>
+			<div id=SC2_nonD_calcs><!--//Populated onload --></div>
 		</div>
 	</div><!--//end SC2_left_side ======================================-->
 
@@ -1196,7 +1188,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Wheel</a></th>
 				<td><p>
 					<p>All wheels with saved settings are marked with two colons (::) after the wheel number in the Wheel select list.
-					<p>Wheels names can be blank.  You can click [Rename] and delete the name, except for the " :: " indicator.
+					<p>Wheel names can be blank.  You can click [Rename] and delete the name, except for the " :: " indicator.
 				</td>
 			</tr>
 			
@@ -1500,7 +1492,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 <script>(function(){
 /******************************************************************************/
 var D = document;
-function E(id) { return document.getElementById(id); }
+function E(id)  { return document.getElementById(id); }
 function E_(id) { return document.getElementById(_NS_ + id); }
 
 var _NS_ = "SC2_"; //"Namespace" prefix used for <element> id's & class names.
@@ -1543,6 +1535,22 @@ MSGS.clear_all += "This will delete all* cookies and localStorage created\n";
 MSGS.clear_all += "by this web page and this web browser on this device.\n\n";
 MSGS.clear_all += "*(Those that begin with \""+_NS_+"\".)\n\n";
 MSGS.clear_all += "Are you sure?\n\n";
+
+
+
+
+var nonD_CALCS = [
+	["Sheldon's SpoCalc"           , "https://www.sheldonbrown.com/rinard/spocalc.htm"],
+	["Mr. Rabbit's SpokeChart v2-0", "http://www.mrrabbit.net/wheelsbyflemingapplications.php"],
+	["Bike School"                 , "https://www.bikeschool.com/index.php/resources/spoke-calculator"],
+	["Pro Wheel Builder"           , "http://www.prowheelbuilder.com/spokelengthcalculator"],
+	["Edd"                         , "https://leonard.io/edd/"],
+	["Sapim"                       , "http://www.sapim.be/spoke-calculator"],
+	["DT Swiss"                    , "https://spokes-calculator.dtswiss.com/en/"],
+	["Wheel Pro"                   , "http://www.wheelpro.co.uk/spokecalc/"],
+	["Bike Tech Tools"             , "https://biketechtools.com/spoke-length-calculator"],
+	["FreeSpoke"                   , "http://www.kstoerz.com/freespoke/fullcalc"],
+];
 
 
 
@@ -1853,6 +1861,8 @@ var $IMPORT_INDEX       = E_('IMPORT_INDEX'); //Import starting at this index/sl
 
 var $SPOKES_RECESSED1   = E_('spokes_recessed1');
 var $SPOKES_RECESSED2   = E_('spokes_recessed2');
+
+var $nonD_CALCS   = E_('nonD_calcs');
 //end assignment of element references.
 
 
@@ -2015,6 +2025,56 @@ function Pad10(number, pad_str) {
 	if ((number * 1) < 10) { var pad = pad_str; } else { var pad = ""; }
 	return pad + number;
 }//end Pad10()
+
+
+
+
+function Shuffle_Array(shuffle_me, dont_shuffle) {
+	/***********************************************
+	In javascript, functions which are passed arrays as arguments are actually
+	passed a reference to the array, and not a copy.  So, any changes to the 
+	arguments in the function directly affect the array in the function call.
+	Because I didn't know that when I wrote this, that's why.
+	//**********************************************/
+
+	var elements   = shuffle_me.length;
+	var last_index = elements - 1;
+	var tmp		   = "";
+
+	//Don't shuffle the first dont_shuffle number of elements
+	//Make sure it's a number, and an int.
+	//Then verify that 1 < dont_shuffle < last_index
+	if ((dont_shuffle * 1) !== dont_shuffle) {dont_shuffle = 0;}
+	dont_shuffle = Math.floor(dont_shuffle);
+	if      (dont_shuffle < 1)          { dont_shuffle = 0; }
+	else if (dont_shuffle > last_index) { dont_shuffle = last_index; }
+
+	//Shuffle...
+	for (var x = dont_shuffle; x < elements; x++) { 
+		
+		//index to a random element, skipping first dont_shuffle elements
+		rnd = Math.round(Math.random()*(last_index-dont_shuffle)) + dont_shuffle;
+		
+		//swap current element with random element
+		tmp             = shuffle_me[rnd];
+		shuffle_me[rnd] = shuffle_me[x];
+		shuffle_me[x]   = tmp;
+	}
+}//end Shuffle_Array()
+
+
+
+
+function Shuffle_and_List_nonD_Calcs() {
+	Shuffle_Array(nonD_CALCS);
+
+	var output = "";
+	for (var x = 0; x < nonD_CALCS.length; x++) {
+		output += '<a class=SC2 href="' + nonD_CALCS[x][1] + '" target="_blank">' + nonD_CALCS[x][0] + "</a><br>\n";
+	}
+	
+	$nonD_CALCS.innerHTML = output;
+}//end Shuffle_and_List_nonD_Calcs()
 
 
 
@@ -4608,6 +4668,7 @@ function Assign_Events() {
 
 
 	$SHOW_HIDE_ADVANCED.addEventListener("click", function() { Show_Hide_Options(this, $ADVANCED_INFO  , "inline-block"); });
+
 	$SHOW_HIDE_NOTES.addEventListener("click", function() {
 		Show_Hide_Options(this, $NOTES_CONTAINER, "");
 		Show_Hide_all_Topics(this.value == "");
@@ -4616,14 +4677,20 @@ function Assign_Events() {
 		$TOPIC_select.selectedIndex = 0;
 		Save_Settings("display");
 	});
-	$SHOW_HIDE_OTHER   .addEventListener("click", function() { Show_Hide_Options(this, $OTHER_CALCS    , "inline-block"); });
-	$SEE_NOTES         .addEventListener("click", function() {
+
+	$SHOW_HIDE_OTHER.addEventListener("click", function() {
+		Shuffle_and_List_nonD_Calcs();
+		Show_Hide_Options(this, $OTHER_CALCS    , "inline-block");
+	});
+
+	$SEE_NOTES.addEventListener("click", function() {
 		//First, if $NOTES are hidden, show 'em, then scroll to Advanced Build Info notes...
 		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_Options($SHOW_HIDE_NOTES, $NOTES_CONTAINER, ""); }
 		Show_Hide_all_Topics(true);
 		$NOTES_ADVANCED_BUILD_INFO.scrollIntoView();
 		$ADVANCED_NOTES_LABEL.focus();
 	});
+
 	$SHOW_HIDE_SCALE   .addEventListener("click", function() {
 		Show_Hide_Options(this, $SCALE_ROTATE_OPTIONS, "inline-block");
 		Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", SCALE_ROTATE_OPEN);
@@ -5100,6 +5167,8 @@ function Init() {
 
 	$FW .value = DEFAULT_VALUES.FW;
 	$SDB.value = DEFAULT_VALUES.SDB;
+
+	Shuffle_and_List_nonD_Calcs();
 
 	Build_Load_Sample_List();
 
