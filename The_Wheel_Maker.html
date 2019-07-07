@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//============================================-->
-<script>var VERSION = "v2.40 2019-07-04"</script>
-<!--//============================================-->
+<!--//===============================================-->
+<script>var VERSION = "v2.41 2019-07-06 8:15pm"</script>
+<!--//===============================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -50,9 +50,17 @@ pre { font-family: courier; text-align: left; }
 hr.SC2 {margin: .5rem 0; }
 .SC2_hr2 {margin: .4rem 1rem;; }
 
-a.SC2 { outline: 0; text-decoration: none; display: inline-block; background-color: #EEE; border: solid 1px white; }
-
-a.SC2:focus, a.SC2:hover { background-color: #ccc; text-decoration: none; }
+a.SC2 {
+	display: inline-block;
+	outline: 0;
+	border: 0;
+	padding: 1px;
+	margin: 0 0 .2em 0;
+	text-decoration: none;
+	background-color: #EEE;
+}
+a.SC2:focus { background-color: #ccc; text-decoration: none; box-shadow: 0 0 3pt 1pt #006060; }
+a.SC2:hover { background-color: #ccc; text-decoration: none; }
 
 button.SC2 {
 	border: solid 1px #444;
@@ -73,7 +81,6 @@ button.SC2::-moz-focus-inner { border: 0 }
 
 button.SC2_ndo_buttons {
 	display: inline-block;
-	min-width: 11rem;
 	width: 100%;
 	height: 2rem;
 	margin: 1rem auto .1rem auto;
@@ -236,7 +243,6 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 #SC2_header_opts {
 	display: inline-block;
 	height: 2rem;
-	vertical-align: middle;
 	padding: 0;
 	text-align: right;
 	border: solid 1px #444;
@@ -296,17 +302,22 @@ SC2_rename_wheel {}
  }
 
 
-#SC2_show_wheel_opts {
+button.SC2_open_close_toolbar {
 	height: 100%;
-	width: 20px;
-	min-width: 1rem;
-	padding: 0 0 0 0;
-	margin: 0 0 0 .3rem;
+	width: 24px;
+	padding: 0;
+	margin: 0;
 	vertical-align: middle;
 	font: normal 1rem arial;
+	border-color: transparent;
+	border-radius: 8px;
+}
+
+
+#SC2_show_wheel_opts {
+	margin: 0 0 0 .3rem;
 	border-top-left-radius:0;
 	border-bottom-left-radius:0;
-	border: transparent;
 }
 
 
@@ -387,8 +398,6 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 
 .SC2_containers { display: inline-block; vertical-align: top; margin: 0; border: 0; }
 
-.SC2_rotate_scale_containers label { display: inline-block; vertical-align: middle; font-weight: bold; }
-
 /* So we can apply border-radius to SC2_wheel_container within it that has scroll bars. */
 #SC2_wheel_container_container {
 	padding: 0;
@@ -445,15 +454,14 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	border-top-right-radius: 0;
 }
 
-#SC2_show_hide_scale.SC2_scale_rotate_open {
+#SC2_show_hide_scale.SC2_toolbar_open_R {
+	/*Applied/removed by js when the toolbar is open/closed.*/
 	border-right: 0;
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
 
 #SC2_show_hide_scale {
-	height: 100%;
-	width: 24px;
 	min-width: 1rem;
 	padding: 0;
 	margin : 0;
@@ -464,7 +472,7 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 
 #SC2_scale_rotate_options {
 	display: inline-block;
-	padding: 2px 0 0 0;
+	padding: 1px 0 0 0;
 	margin: 0;
 	font-family: arial;
 	text-align: left;
@@ -474,6 +482,8 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	height: 100%;
 	width: 636px;
 }
+
+.SC2_rotate_scale_containers label { display: inline-block; vertical-align: middle; font-weight: bold; }
 
 .SC2_rotate_scale_containers {
 	display: inline-block;
@@ -534,6 +544,8 @@ input[type=range].SC2::-ms-thumb {
 #SC2_show_hide_notes { width: 16rem; margin: 0 0 0 0; }
 
 #SC2_TOPIC_select { height: 2rem; min-width: 16rem; font-size: 1rem; margin-bottom: .25rem; border-radius: 8px;}
+
+.SC2_help_topic { cursor: pointer; }
 
 #SC2_notes p { margin-top: .5rem; }
 
@@ -613,9 +625,7 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 #SC2_assumes { font-weight: bold }
 
 #SC2_other_calcs   { font-family: arial; text-align: left; margin: 0; }
-#SC2_other_calcs a { min-width: 55%; border-bottom: solid 2px white; }
-
-#nonD_calcs { }
+#SC2_other_calcs a { min-width: 75%; padding-left: .3em ;}
 
 #SC2_MSG_HEADER {
 	margin			: auto;
@@ -658,7 +668,7 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 }
 
 
-#SC2_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 2px; }
+#SC2_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 0 1em; height: 2em; }
 
 #SC2_DELETE_ALL_DATA {  }
 
@@ -690,6 +700,11 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 .SC2_theme_phh_phr  { background-color: rgb(245,192,245); }
 .SC2_theme_custom   { background-color: #FAB; }
 </style>
+
+
+
+
+<noscript><h2>Sorry, javascript is required for <br> The Wheel Maker & Spoke Length Calculator.</h2></noscript>
 
 
 
@@ -1105,7 +1120,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
 				<label id=SC2_max_wheels_label>Max:<input type=text id=SC2_max_wheels class=SC2></label>
 			</div>
-			<button type=button id=SC2_show_wheel_opts class="SC2 SC2_ndo_buttons" value=none>+</button>
+			<button type=button id=SC2_show_wheel_opts class="SC2 SC2_open_close_toolbar" value=none>+</button>
 		</div>
 
 		<div id=SC2_wheel_container_container>
@@ -1136,7 +1151,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 		</div><!--//end SC2_wheel_container_container-->
 
 		<div id=SC2_scale_rotate_container class=SC2_theme_standard>
-			<button type=button id=SC2_show_hide_scale class="SC2 SC2_ndo_buttons" value=none>+</button>
+			<button type=button id=SC2_show_hide_scale class="SC2 SC2_open_close_toolbar" value=none>+</button>
 			<div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
 				<div class=SC2_rotate_scale_containers>
 					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_mode>Scale:</button>
@@ -1166,8 +1181,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 	<br><br><br>
 	<button type=button id=SC2_show_hide_notes class="SC2 SC2_ndo_buttons" value=none>Notes etc.</button>
 	<select id=SC2_TOPIC_select class=SC2>
-		<option selected>Choose a Help Topic</option><!--!!! innerHTML, "Choose a Help Topic", 
-														     MUST match default value in DEFAULT_OPTIONS.!!! -->
+		<option value=0 selected>Choose a Help Topic</option>
 		<optgroup id=SC2_TOPIC_list label=""><!-- Populated onload --></optgroup>
 	</select>
 	<div id=SC2_notes_container>
@@ -1228,7 +1242,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Wheel Settings</a></th>
-				<th><p>All measured settings are mm (millimeters), except those that aren't (like angles).</th>
+				<td><p><b>All measured settings are mm (millimeters), except those that aren't (like angles).</b></td>
 			</tr>
 
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Type</a></th>
@@ -1275,7 +1289,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>OLD</a></th>
 				<td><p>"Over Locknut Distance", or "Over Locknut Dimension".
 					<p>The distance between the axle "locknuts" outer faces. Now, not all axles have actual "locknuts", but they will have an outer surface before the end of each axle end that fits between the dropouts.
-					<p>As with most things, <a class=SC2 href='https://duckduckgo.com/?q=bicycle+hub+measure+over+locknut&iax=images&ia=images' target=_blank>see the internet</a> for more information.
+					<p>As with most things, <a class=SC2 href='https://duckduckgo.com/?q=bicycle+hub+measure+over+locknut+distance&iar=images&iax=images&ia=images' target=_blank>see the internet</a> for more information.
 				</td>
 			</tr>
 
@@ -1381,9 +1395,10 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 
-			<tr id=SC2_notes_advanced_build_info><th class=SC2><a class="SC2 SC2_help_topic" id=SC2_notes_advanced_build_info_label tabindex=0>Advanced Build Info</a></th>
+			<tr id=SC2_notes_advanced_build_info>
+				<th class=SC2><a class="SC2 SC2_help_topic" id=SC2_notes_advanced_build_info_label tabindex=0>Advanced Build Info</a></th>
 				<td>
-					<p>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.
+					<p><b>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.</b>
 					<p>Basically, this section does not directly affect the "Spoke Lengths" provided above. Instead, it
 						just indicates the effects to various spoke values (length, angle, etc) based on "Flange width",
 						"Spoke diameter at bend", and "Elbows Laced".
@@ -1416,9 +1431,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</tr>
 			
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Display Settings</a></th>
-				<td>
-					Display Options affect the wheel as displayed only, and have no effect on spoke length calculations.
-				</td>
+				<td><p><b>Display Options affect the wheel as displayed only, and have no effect on spoke length calculations.</b></td>
 			</tr>
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Rim Size</a></th>
 				<td>
@@ -1447,6 +1460,11 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					or with any currently valid html/css color code format (hex, rgb, cymk, etc.).
 				</td>
 			</tr>
+
+			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>ETC</a></th>
+				<td><p><b>Import/Export wheel data, and general information.</b></td>
+			</tr>
+			
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Saved Settings</a></th>
 				<td><p>In general, all information generated and used by this program internally, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage.
 					<p>To clear all wheel data &amp; display options stored by this web browser on this device, click the following button:<br>
@@ -1481,7 +1499,6 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 	</div><!--//end SC2_notes_container =============-->
 
 </div><!--//end SC2_CONTAINER ===============================================-->
-<br>
 <br>
 
 
@@ -1565,7 +1582,7 @@ var HUB_HOLES           = [];
 	HUB_HOLES[2]        = _NS_ + "f2" + HUB_HOLE_MESOFIX; //Hub/flange hole id ex: SC2_f1_sh1
 var RIM_HOLES			= _NS_ + "rsh"; //class; id prefix: SC2_rsh1, SC2_rsh2, etc...
 var AXIS_CLASS			= _NS_ + "axis";
-var SCALE_ROTATE_OPEN   = _NS_ + "scale_rotate_open"
+var TOOLBAR_OPEN_R      = _NS_ + "toolbar_open_R";
 
 
 
@@ -1721,7 +1738,8 @@ var $TENSION    = [];
 
 var $DISPLAY_SETTINGS = E_('DISPLAY_SETTINGS'); //<div> around display options to enable show/hide
 
-var $OTHER_CALCS = E_('other_calcs'); //<div> around A Few Other Calcs links
+var $OTHER_CALCS = E_('other_calcs'); //<div> around all of the "A Few Other Calcs links".
+var $nonD_CALCS  = E_('nonD_calcs');  //<div> around only the non-D other calc links.
 
 var $SHOW_HIDE_OTHER = E_('show_hide_other'); //<button> to show/hide other calcs links.
 var $SHOW_HIDE_SCALE = E_('show_hide_scale'); //<button> to show/hide scale & rotation options.
@@ -1861,8 +1879,6 @@ var $IMPORT_INDEX       = E_('IMPORT_INDEX'); //Import starting at this index/sl
 
 var $SPOKES_RECESSED1   = E_('spokes_recessed1');
 var $SPOKES_RECESSED2   = E_('spokes_recessed2');
-
-var $nonD_CALCS   = E_('nonD_calcs');
 //end assignment of element references.
 
 
@@ -1969,7 +1985,7 @@ var DEFAULT_OPTIONS = {
 	'show_hide_notes'   : "none", //  "			"
 	'show_hide_scale'   : "none", //  "			"
 	'show_FL_to_LN'     : "none", //none or block
-	'TOPIC_select'      : "Choose a Help Topic", //MUST === innerHTML of <option>!  Just deal with it...
+	'TOPIC_select'      : "0", //the selectedIndex
  }
 /*************************************************/
 
@@ -2065,7 +2081,7 @@ function Shuffle_Array(shuffle_me, dont_shuffle) {
 
 
 
-function Shuffle_and_List_nonD_Calcs() {
+function Shuffle_nonD_Calcs() {
 	Shuffle_Array(nonD_CALCS);
 
 	var output = "";
@@ -2074,7 +2090,7 @@ function Shuffle_and_List_nonD_Calcs() {
 	}
 	
 	$nonD_CALCS.innerHTML = output;
-}//end Shuffle_and_List_nonD_Calcs()
+}//end Shuffle_nonD_Calcs()
 
 
 
@@ -2421,22 +2437,36 @@ function Build_Choose_Topic_List() {
 
 	//Grab & index help topics...
 	var help_topics = document.getElementsByClassName(_NS_ + "help_topic");
-	for (var x=0; x < help_topics.length; x++) {
+	for (var x = 0; x < help_topics.length; x++) {
 		HELP_TOPICS[x] = [];
-		HELP_TOPICS[x][0] = x + 1; //See $TOPIC_select change event.
-		HELP_TOPICS[x][1] = help_topics[x];
+		HELP_TOPICS[x][1] = help_topics[x]; //The <a class=help_topic> $element
 		HELP_TOPICS[x][2] = help_topics[x].parentElement.parentElement; //The <tr> around the topic.
 	}
 
 	//Sort the topics...
 	HELP_TOPICS.sort( function(a, b) { return a[1].innerHTML.localeCompare(b[1].innerHTML); } );
 
+	for (var topic = 0; topic < help_topics.length; topic++) {
+		HELP_TOPICS[topic][1].addEventListener("click",    function(event){ Topic_Select_Focus(event); });
+		HELP_TOPICS[topic][1].addEventListener("keypress", function(event){ Topic_Select_Focus(event); });
+
+		(function(t) { //This part needs to come after the HELP_TOPICS.sort()...
+			HELP_TOPICS[t][1].addEventListener("focus", function(event){ 
+				$TOPIC_select.selectedIndex = t + 1;
+				Save_Settings("display");
+			});
+		})(topic);
+	}
+
+
 	//Populate <select>...
 	var topic_list = '';
-	for (var x=0; x < HELP_TOPICS.length; x++) {
-		topic_list += "<option>" +  HELP_TOPICS[x][1].innerHTML + "</option>\n"
+	for (var x = 0; x < HELP_TOPICS.length; x++) {
+		//The value is it's selectedIndex. value 0 is the "placeholder" <option>Choose a Help Topic</option>.
+		topic_list += "\n<option value=" + (x+1) + ">" +  HELP_TOPICS[x][1].innerHTML + "</option>"
 	}
-	$TOPIC_list.innerHTML = topic_list;
+
+	$TOPIC_list.innerHTML = topic_list + "\n";
 }//end Build_Choose_Topic_List()
 
 
@@ -2486,19 +2516,18 @@ function Build_Select_Wheel_List() {
 
 
 
-function Show_Hide_Class(classname, show, save, style) {
-	//save must either be 'display', 'wheel', or falsey (undefined/not used).
+function Show_Hide_Class(classname, show, what, style) {
+	//what must either be 'display', 'wheel', or falsey (undefined/not used).
 	//style should be either 'visibility' or 'display'.  Default is 'display' if style != 'visibility'.
 	var items = D.getElementsByClassName(classname);
 	for (var s = 0; s < items.length; s++) { Show_Hide(items[s], show, false, style) }
-	if (save) { Save_Settings(save); }
+	if (what) { Save_Settings(what); }
 }//end Show_Hide_Class()
 
 	
 
 
 function Show_Hide($what, show, save, style, value) {
-
 	if (typeof value == 'undefined') { value = ""; }
 
 	if (style == 'visibility') {
@@ -2533,11 +2562,13 @@ function Show_Hide_Options($button, $target, mode, force) {
 
 
 
-function Show_Hide_all_Topics(show) {
+function Show_Hide_all_Topics(show, init) {
+	if (init === "init") { var save = false; } else { var save = true; }
+
 	if (show) { var display = ""; }
 	else      { var display = "none"; }
 
-	Show_Hide($NOTES_CONTAINER, show, 1, "display", display);
+	Show_Hide($NOTES_CONTAINER, show, save, "display", display);
 
 	for (var x=0; x < HELP_TOPICS.length; x++) { 
 		HELP_TOPICS[x][2].style.display = display;
@@ -3538,7 +3569,7 @@ function Draw_Axis() {
 
 	var max_XY = view_box_size/2;
 	var axis_line_width = $AXES_LINE_SIZE.value * scale;
-	var axis_dash = 4 * scale;             //##### Abstract out the 4?
+	var axis_dash = 4 * scale;
 
 	var $axis = [$X_axis1, $X_axis2, $Y_axis1, $Y_axis2];
 	var x1    = [       0,        0,        0,        0]; //   _______     _______     _______     _______
@@ -3835,23 +3866,19 @@ function Init_Show_Hide_Options(reset) {
 	Set_Show_Button_Text($SHOW_PHH_OPTS  , "+", "-");
 	Set_Show_Button_Text($SHOW_PHR_OPTS  , "+", "-");
 	Set_Show_Button_Text($SHOW_ESO_OPTS  , "+", "-");
-	Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", SCALE_ROTATE_OPEN);
+	Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", TOOLBAR_OPEN_R);
 	if ($SHOW_WHEEL_OPTS.value == "none") { $HEADER_OPTS.style.width = ""; }
 	else                                  { $HEADER_OPTS.style.width = HEADER_OPTS_WIDTH; }
 
-	if ($SHOW_HIDE_NOTES.value !== "") {
-		$SHOW_HIDE_NOTES.value = "none";
-		$SHOW_HIDE_NOTES.innerHTML = "Show all Notes";
-	}
-	else {
-		$SHOW_HIDE_NOTES.value = "";
-		$SHOW_HIDE_NOTES.innerHTML = "Close Notes";
-	}
-	Show_Hide_all_Topics($SHOW_HIDE_NOTES.value == "")
+	if ($SHOW_HIDE_NOTES.value !== "") { $SHOW_HIDE_NOTES.value = "none"; }
+	else                               { $SHOW_HIDE_NOTES.value = ""; }
+	Set_Show_Button_Text($SHOW_HIDE_NOTES, "Show all Notes", "Close Notes");
+
+	Show_Hide_all_Topics($SHOW_HIDE_NOTES.value == "", "init");
 
 	if ($TOPIC_select.selectedIndex > 0) { //0 is just the "Choose a Help Topic" <option>
-		$NOTES_CONTAINER.style.display = "";
-		HELP_TOPICS[$TOPIC_select.selectedIndex-1][2].style.display = "";
+		$NOTES_CONTAINER.style.display = ""; //Show notes container...
+		HELP_TOPICS[$TOPIC_select.selectedIndex-1][2].style.display = ""; //...show topic container.
 	}
 }//end Init_Show_Hide_Options()
 
@@ -4302,7 +4329,16 @@ function Check_if_Disclaimer_Accepted(target) {
 
 
 
+function Topic_Select_Focus(event) {
+	Normalize_Event(event);
+	if ((event.type == "click") || (event.key_code == 13) || (event.key_code == 32)) { $TOPIC_select.focus(); }
+}//end Topic_Select_Focus()
+
+
+
+
 function Assign_Events() {
+	//Most, except for some assigned during Build_Choose_Topic_List().
 
 	D.addEventListener("keydown", function(event){Scroll_Blur(event)} );
 
@@ -4672,14 +4708,13 @@ function Assign_Events() {
 	$SHOW_HIDE_NOTES.addEventListener("click", function() {
 		Show_Hide_Options(this, $NOTES_CONTAINER, "");
 		Show_Hide_all_Topics(this.value == "");
-		if (this.value == "none") { this.innerHTML = "Show all Notes"; }
-		else                      { this.innerHTML = "Close Notes"; }
+		Set_Show_Button_Text(this, "Show all Notes", "Close Notes");
 		$TOPIC_select.selectedIndex = 0;
 		Save_Settings("display");
 	});
 
 	$SHOW_HIDE_OTHER.addEventListener("click", function() {
-		Shuffle_and_List_nonD_Calcs();
+		Shuffle_nonD_Calcs();
 		Show_Hide_Options(this, $OTHER_CALCS    , "inline-block");
 	});
 
@@ -4691,9 +4726,9 @@ function Assign_Events() {
 		$ADVANCED_NOTES_LABEL.focus();
 	});
 
-	$SHOW_HIDE_SCALE   .addEventListener("click", function() {
+	$SHOW_HIDE_SCALE.addEventListener("click", function() {
 		Show_Hide_Options(this, $SCALE_ROTATE_OPTIONS, "inline-block");
-		Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", SCALE_ROTATE_OPEN);
+		Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", TOOLBAR_OPEN_R);
 	});
 
 
@@ -4909,10 +4944,16 @@ function Assign_Events() {
 	$RESET_OPTIONS_RIM_ETC.addEventListener("click", function() { Reset_OPTIONS_RIM_ETC(true); });
 
 
+	$TOPIC_select.addEventListener('keypress', function(event){
+		Normalize_Event(event);
+		//HELP_TOPICS doesn't include the first <option>, "Choose a Help Topic".
+		if (event.key_code == 13) { HELP_TOPICS[this.selectedIndex - 1][1].focus(); }
+	});
+
 	$TOPIC_select.addEventListener('change', function(){
-		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_all_Topics(false); }
+		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_all_Topics(false); } //Only really need to hide the last viewed topic, but this is easier.
 		var selected = this.selectedIndex - 1;  //HELP_TOPICS doesn't include the first <option>, "Choose a Help Topic".
-		if (this.selectedIndex < 1) { return; } //0 is just the "Choose Topic" <option>
+		if (this.selectedIndex < 1) {Save_Settings("display"); return; } //The first <option> is just a "placeholer" <option>.
 		$NOTES_CONTAINER.style.display = "";
 		HELP_TOPICS[selected][2].style.display = "";
 		Scroll_Into_View(HELP_TOPICS[selected][1], 50,100); //[x][0] index, [x][1] innerHTML, [x][2] element
@@ -5109,6 +5150,8 @@ function Assign_Events() {
 
 function Init_Display_NR_SX(display_options, imported) {
 
+	Shuffle_nonD_Calcs();
+
 	Load_Settings(DEFAULT_OPTIONS, true); //first load defaults
 
 	Load_Settings(display_options, imported);
@@ -5127,7 +5170,7 @@ function Init_Display_NR_SX(display_options, imported) {
 
 	Enable_Disable_FTL();
 
-	//Init with all options. Setup_Type_and_Build() will change to _COMMON if needed.
+	//Init with all options. Setup_Type_and_Build() will change to just _COMMON options as needed.
 	$HUB_AUTO_ANGLES.innerHTML = HUB_AUTO_ANGLES_OPTS_CUSTOM;
 	$AUTO_ROT_OPTS.innerHTML = AUTO_ROT_OPTS_CUSTOM;
 
@@ -5153,7 +5196,7 @@ function Add_Contact_Info() {
 
 function Init() {
 
-	Assign_Events();
+	Assign_Events(); //Most, except for some assigned during Build_Choose_Topic_List().
 	
 	$COPY_LICENSE.innerHTML += $LICENSE.innerHTML;
 
@@ -5168,11 +5211,9 @@ function Init() {
 	$FW .value = DEFAULT_VALUES.FW;
 	$SDB.value = DEFAULT_VALUES.SDB;
 
-	Shuffle_and_List_nonD_Calcs();
-
 	Build_Load_Sample_List();
 
-	Build_Choose_Topic_List(); //MUST COME BEFORE Init_Show_Hide_Options(), which is called from Build_Choose_Topic_List().
+	Build_Choose_Topic_List();              //MUST COME BEFORE Init_Show_Hide_Options(), which is called from Init_Display_NR_SX().
 
 	Init_Display_NR_SX(LS_DISPLAY_OPTIONS); //MUST COME AFTER Build_Choose_Topic_List();
 
