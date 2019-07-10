@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//===============================================-->
-<script>var VERSION = "v2.42 2019-07-07 2:20am"</script>
-<!--//===============================================-->
+<!--//============================================-->
+<script>var VERSION = "v2.43 2019-07-10 6pm"</script>
+<!--//============================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -33,7 +33,7 @@ SOFTWARE.
 
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: arial; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: arial, sans-serif; }
 body { overflow-y: scroll; }
 
 
@@ -43,12 +43,10 @@ ul.SC2 { padding-left: 1rem; }
 
 p.SC2 { margin: .4rem 0; }
 
-pre { font-family: courier; text-align: left; }
-
-.SC2_indents { margin-left: 1.5rem; }
+#SC2_CONTAINER pre { font-family: courier; text-align: left; }
 
 hr.SC2 {margin: .5rem 0; }
-.SC2_hr2 {margin: .4rem 1rem;; }
+.SC2_hr2 {margin: .4rem 1rem; }
 
 a.SC2 {
 	display: inline-block;
@@ -101,12 +99,11 @@ input[readonly].SC2 {
 	border: solid .05rem #077;
 	border-radius: 4px;
 	background-color: rgba(255,255,255, .8);
-	
 }
 
 input[disabled].SC2, select.SC2:disabled {
 	color			: #555;
-	background-color: rgba(255,255,255, .4);
+	background-color: rgba(255,255,255, .6);
 	border: solid 1px #7a7a7a;
 }
 
@@ -744,220 +741,220 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 		<button type=button id=SC2_WHEEL_OR_DISPLAY class="SC2 SC2_ndo_buttons" value="wheel">Show Display Settings</button>
 
 		<div id=SC2_WHEEL_SETTINGS_container><!--===========-->
-		<table id=SC2_WHEEL_SETTINGS class="SC2 SC2_type_theme">
-			<tr><th colspan=2>Wheel Settings</th></tr>
-			<tr>
-				<td colspan=2><b>Type</b>
-					<select id=SC2_WHEEL_TYPE class=SC2>
-						<option value="standard">Standard</option>
-						<option value="triplet" >Triplet</option>
-						<option value="phr"     >Paired-Hole Rim (PHR)</option>
-						<option value="phh"     >Paired-Hole Hub (PHH)</option>
-						<option value="phh_phr" >PHH &amp; PHR</option>
-						<option value="custom"  >Custom</option>
-					</select>
-				</td>
-			</tr>
-
-			<tr><td class=SC2_thv>ERD</td><td><input id=SC2_ERD class=SC2 type=text maxlength=5></td></tr>
-			<tr><td class=SC2_thv>Rim Holes</td>
-				<td><select id=SC2_NR class=SC2><!-- Populated onload --></select></td>
-			</tr>
-			<tr><td></td><td>Side 1 &nbsp;Side 2</td></tr>
-			<tr>
-				<td class=SC2_thv>Flange Holes</td>
-				<td><input type=text id=SC2_NF1 class=SC2 maxlength=2> <input type=text id=SC2_NF2 class=SC2 maxlength=2></td>
-			</tr>
-			<tr>
-				<td class=SC2_thv>PCD</td>
-				<td><input type=text id=SC2_PCD1 class=SC2 maxlength=5> <input type=text id=SC2_PCD2 class=SC2 maxlength=5></td>
-			</tr>
-
-			<tr id=SC1_flange_to_opts>
-				<td colspan=2>
-					<button type=button id=SC2_show_FL_to_LN class="SC2 SC2_mini_button" value=none>+</button>
-					<b>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 class=SC2 maxlength=5> <input type=text id=SC2_FTC2 class=SC2 maxlength=5>&nbsp;
-					<div id=SC2_FL_to_LN>Flange-to-LN&boxur;<input type=text id=SC2_FTL1 class=SC2 maxlength=5> <input type=text id=SC2_FTL2 class=SC2 maxlength=5>&nbsp;<br>
-					OLD&nbsp; &nbsp; &nbsp; &boxUR;<input type=text id=SC2_OLD class=SC2 maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
-				</td>
-			</tr>
-
-			<tr>
-				<td class=SC2_thv><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked class=SC2> OC Rim</td>
-				<td><input type=text id=SC2_OSB1 class=SC2 maxlength=4> <input type=text id=SC2_OSB2 class=SC2 maxlength=4></td>
-			</tr>
-			<tr>
-				<td class=SC2_thv>Cross</td>  <!-- Populated onload -->
-				<td><select id=SC2_SX1 class=SC2></select> <select id=SC2_SX2 class=SC2></select></td>
-			</tr>
-			<tr>
-				<td class=SC2_thv>SHD</td>
-				<td><input id=SC2_SHD class=SC2 type=text maxlength=4></td>
-			</tr>
-			<tr>
-				<td class=SC2_thv>Lace Option</td>
-				<td>
-					<select id=SC2_LACE_OPT class=SC2>
-						<option value="-1">&nbsp;2</option>
-						<option value=" 1" selected>&nbsp;1</option>
-					</select>
-				</td>
-			</tr>
-		</table><!--//end Wheel Settings -->
-
-
-		<table id=SC2_ADVANCED_SETTINGS class="SC2 SC2_type_theme">
-			<tr class=SC2_separator><td></td></tr>
-			<tbody id=SC2_PHH_options>
-			<tr><td><button type=button id=SC2_show_phh_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button>
-				<b>Paired-Hole Hub</b>
-			</td></tr>
-			<tr id=SC2_phh_opts>
-				<td>
-					<p>Auto-Angles	<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles"><!-- Populated onload --></select>
-					<div class=SC2_PHH_data>PH Angles
-					&#9484;<input type=text id=SC2_PHHA1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
-					<input type=text id=SC2_PHHA2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
-					PH Distances
-					&#9492;<input type=text id=SC2_PHHD1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
-					<input type=text id=SC2_PHHD2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
-					</div>
-					<p class=SC2>Hub Flange Rotations</p>
-					<div class=SC2>Auto-Rotate
-						<select id=SC2_AUTO_ROT class="SC2 SC2_auto_angles">
-							<optgroup id=SC2_AUTO_ROT_OPTS label=""><!-- Populated onload --></optgroup>
-							<option value="auto" id=SC2_auto_rot_linked>Linked to PH Rim</option>
-							<option value="off">Manual</option>
-						</select><br>
-					</div>
-					<div class="SC2_rot_labels SC2_PH_data_1">Flanges Rotated
-						<input type=text id=SC2_ROTF class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
-					</div>
-				</td>
-			</tr>
-			<tr><td id=SC2_phr_frot_divider><hr class=SC2_hr2></td></tr>
-			</tbody>
-			
-			<tbody id=SC2_PHR_options>
-			<tr><td><button type=button id=SC2_show_phr_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button>
-				<b>Paired-Hole Rim</b>
-			</td></tr>
-			<tr id=SC2_phr_opts>
-				<td>Auto-Angles
-					<select id=SC2_RIM_AUTO_ANGLES class="SC2 SC2_auto_angles">
-						<option value="2">2 x Even</option>
-						<option value="1.75" >+3/4 Even</option>
-						<option value="1.5"  >+1/2 Even</option>
-						<option value="1.25" >+1/4 Even</option>
-						<option value="1" selected>Even (Normal Rim)</option>
-						<option value=".75" >3/4 Even</option>
-						<option value=".5"  >1/2 Even</option>
-						<option value=".25" >1/4 Even</option>
-						<option value="0">0</option>
-						<option value="-.25" >-1/4 Even</option>
-						<option value="-.5"  >-1/2 Even</option>
-						<option value="-.75" >-3/4 Even</option>
-						<option value="-1"   >-Even</option>
-						<option value="-1.25">-1 1/4 Even</option>
-						<option value="-1.5" >-1 1/2 Even</option>
-						<option value="-1.75">-1 3/4 Even</option>
-						<option value="-2">-2 x Even</option>
-						<option value="off">Manual</option>
-					</select>
-					<div class=SC2_PH_data_1>PH Angles
-						&#9484;<input type=text id=SC2_PHRA class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
+			<table id=SC2_WHEEL_SETTINGS class="SC2 SC2_type_theme">
+				<tr><th colspan=2>Wheel Settings</th></tr>
+				<tr>
+					<td colspan=2><b>Type</b>
+						<select id=SC2_WHEEL_TYPE class=SC2>
+							<option value="standard">Standard</option>
+							<option value="triplet" >Triplet</option>
+							<option value="phr"     >Paired-Hole Rim (PHR)</option>
+							<option value="phh"     >Paired-Hole Hub (PHH)</option>
+							<option value="phh_phr" >PHH &amp; PHR</option>
+							<option value="custom"  >Custom</option>
+						</select>
+					</td>
+				</tr>
+	
+				<tr><td class=SC2_thv>ERD</td><td><input type=text id=SC2_ERD class=SC2 maxlength=5></td></tr>
+				<tr><td class=SC2_thv>Rim Holes</td>
+					<td><select id=SC2_NR class=SC2><!-- Populated onload --></select></td>
+				</tr>
+				<tr><td></td><td>Side 1 &nbsp;Side 2</td></tr>
+				<tr>
+					<td class=SC2_thv>Flange Holes</td>
+					<td><input type=text id=SC2_NF1 class=SC2 maxlength=2> <input type=text id=SC2_NF2 class=SC2 maxlength=2></td>
+				</tr>
+				<tr>
+					<td class=SC2_thv>PCD</td>
+					<td><input type=text id=SC2_PCD1 class=SC2 maxlength=5> <input type=text id=SC2_PCD2 class=SC2 maxlength=5></td>
+				</tr>
+	
+				<tr id=SC1_flange_to_opts>
+					<td colspan=2>
+						<button type=button id=SC2_show_FL_to_LN class="SC2 SC2_mini_button" value=none>+</button>
+						<b>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 class=SC2 maxlength=5> <input type=text id=SC2_FTC2 class=SC2 maxlength=5>&nbsp;
+						<div id=SC2_FL_to_LN>Flange-to-LN&boxur;<input type=text id=SC2_FTL1 class=SC2 maxlength=5> <input type=text id=SC2_FTL2 class=SC2 maxlength=5>&nbsp;<br>
+						OLD&nbsp; &nbsp; &nbsp; &boxUR;<input type=text id=SC2_OLD class=SC2 maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
+					</td>
+				</tr>
+	
+				<tr>
+					<td class=SC2_thv><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked class=SC2> OC Rim</td>
+					<td><input type=text id=SC2_OSB1 class=SC2 maxlength=4> <input type=text id=SC2_OSB2 class=SC2 maxlength=4></td>
+				</tr>
+				<tr>
+					<td class=SC2_thv>Cross</td>  <!-- Populated onload -->
+					<td><select id=SC2_SX1 class=SC2></select> <select id=SC2_SX2 class=SC2></select></td>
+				</tr>
+				<tr>
+					<td class=SC2_thv>SHD</td>
+					<td><input type=text id=SC2_SHD class=SC2 maxlength=4></td>
+				</tr>
+				<tr>
+					<td class=SC2_thv>Lace Option</td>
+					<td>
+						<select id=SC2_LACE_OPT class=SC2>
+							<option value="-1">&nbsp;2</option>
+							<option value=" 1" selected>&nbsp;1</option>
+						</select>
+					</td>
+				</tr>
+			</table><!--//end Wheel Settings -->
+	
+	
+			<table id=SC2_ADVANCED_SETTINGS class="SC2 SC2_type_theme">
+				<tr class=SC2_separator><td></td></tr>
+				<tbody id=SC2_PHH_options>
+				<tr><td><button type=button id=SC2_show_phh_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button>
+					<b>Paired-Hole Hub</b>
+				</td></tr>
+				<tr id=SC2_phh_opts>
+					<td>
+						<p>Auto-Angles	<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles"><!-- Populated onload --></select>
+						<div class=SC2_PHH_data>PH Angles
+						&#9484;<input type=text id=SC2_PHHA1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+						<input type=text id=SC2_PHHA2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
 						PH Distances
-						&#9492;<input type=text id=SC2_PHRD class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&nbsp;</span>
-					</div>
-				</td>
-			</tr>
-			<tr><td><hr class=SC2_hr2></td></tr>
-			</tbody>
-
-			<tbody id=SC2_ESO_options>
-			<tr><td><button type=button id=SC2_show_eso_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
-			<tr id=SC2_eso_opts>
-				<td class=SC2_rot_labels>
-					<p class=SC2>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)
-					<p class=SC2>Rim Rotated <input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
-				</td>
-			</tr>
-			<tr class=SC2_separator><td></td></tr>
-		</table><!--//end Advanced Settings -->
-
-
-		<table id=SC2_SPOKE_LENGTHS class="SC2 SC2_type_theme">
-			<tr><th>Spoke Lengths</th></tr>
-			<tr>
-				<td>
-					<div class=SC2_lengths><span id=SC2_SL1 class=SC2_lengths></span></div>
-					<div class=SC2_lengths><span id=SC2_SL2 class=SC2_lengths></span></div>
-				</td>
-			</tr>
-		</table>
-
-
-		<button type=button id=SC2_show_hide_advanced class="SC2 SC2_ndo_buttons" value=none>Advanced Build Info</button>
-		<table id=SC2_advanced_info class="SC2 SC2_type_theme">
-			<tbody id=SC2_adv_info_tbody>
-			<tr><td id=SC2_adv_r1c1></td><td id=SC2_adv_r1c2></td><td id=SC2_adv_r1c3></td></tr>
-			<tr class=SC2_separator><td colspan=3 id=SC2_adv_hdr>
-				(This section does not directly affect the "Spoke Lengths" provided above.
-				See <button type=button id=SC2_see_notes class=SC2>Notes</button>
-				for more information.)
-			</td></tr>
-			<tr class=SC2_lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  class="SC2" maxlength=4></td></tr>
-			<tr class=SC2_lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input type=text id=SC2_SDB class="SC2" maxlength=4></td></tr>
-		
-			<tr class=SC2_separator><td colspan=3></td></tr>
-			<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
-			<tr>
-				<td>Elbows Laced</td>
-				<td>
-					<select id=SC2_ELBOWS1 class="SC2 SC2_elbows_laced">
-						<option value="-1">In</option>
-						<option value="0" >Center</option>
-						<option value="1" >Out</option>
-					</select>
-				</td>
-				<td>
-					<select id=SC2_ELBOWS2 class="SC2 SC2_elbows_laced">
-						<option value="-1">In</option>
-						<option value="0" >Center</option>
-						<option value="1" >Out</option>
-					</select>
-				</td>
-			</tr>
-		
-			<tr class=SC2_separator><td colspan=3></td></tr>
-			<tr>
-				<td>Length Adjust.</td>
-				<td><input type=text id=SC2_SL_ADJ1 class=SC2 readonly tabindex="-1"></td>
-				<td><input type=text id=SC2_SL_ADJ2 class=SC2 readonly tabindex="-1"></td>
-			</tr>
-			<tr>
-				<td>Spoke Ratio</td>
-				<td><input type=text id=SC2_spoke_ratio1 class=SC2 readonly tabindex="-1"></td>
-				<td><input type=text id=SC2_spoke_ratio2 class=SC2 readonly tabindex="-1"></td>
-			</tr>
-			<tr>
-				<td>Bracing Angles</td>
-				<td><input type=text id=SC2_brace_angle1 class=SC2 readonly tabindex="-1">&deg;</td>
-				<td><input type=text id=SC2_brace_angle2 class=SC2 readonly tabindex="-1">&deg;</td>
-			</tr>
-			<tr>
-				<td>Tension Ratio</td>
-				<td><input type=text id=SC2_tension_ratio1 class=SC2 readonly tabindex="-1">%</td>
-				<td><input type=text id=SC2_tension_ratio2 class=SC2 readonly tabindex="-1">%</td>
-			</tr>
-			<tr>
-				<td>Tension</td>
-				<td><input type=text id=SC2_TENSION1 class=SC2 readonly tabindex="-1"></td>
-				<td><input type=text id=SC2_TENSION2 class=SC2 ></td>
-			</tr>
-			<tr class=SC2_separator><td colspan=3></td></tr>
-			</tbody>
-		</table>
+						&#9492;<input type=text id=SC2_PHHD1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
+						<input type=text id=SC2_PHHD2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
+						</div>
+						<p class=SC2>Hub Flange Rotations</p>
+						<div class=SC2>Auto-Rotate
+							<select id=SC2_AUTO_ROT class="SC2 SC2_auto_angles">
+								<optgroup id=SC2_AUTO_ROT_OPTS label=""><!-- Populated onload --></optgroup>
+								<option value="auto" id=SC2_auto_rot_linked>Linked to PH Rim</option>
+								<option value="off">Manual</option>
+							</select><br>
+						</div>
+						<div class="SC2_rot_labels SC2_PH_data_1">Flanges Rotated
+							<input type=text id=SC2_ROTF class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+						</div>
+					</td>
+				</tr>
+				<tr><td id=SC2_phr_frot_divider><hr class=SC2_hr2></td></tr>
+				</tbody>
+				
+				<tbody id=SC2_PHR_options>
+				<tr><td><button type=button id=SC2_show_phr_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button>
+					<b>Paired-Hole Rim</b>
+				</td></tr>
+				<tr id=SC2_phr_opts>
+					<td>Auto-Angles
+						<select id=SC2_RIM_AUTO_ANGLES class="SC2 SC2_auto_angles">
+							<option value="2">2 x Even</option>
+							<option value="1.75" >+3/4 Even</option>
+							<option value="1.5"  >+1/2 Even</option>
+							<option value="1.25" >+1/4 Even</option>
+							<option value="1" selected>Even (Normal Rim)</option>
+							<option value=".75" >3/4 Even</option>
+							<option value=".5"  >1/2 Even</option>
+							<option value=".25" >1/4 Even</option>
+							<option value="0">0</option>
+							<option value="-.25" >-1/4 Even</option>
+							<option value="-.5"  >-1/2 Even</option>
+							<option value="-.75" >-3/4 Even</option>
+							<option value="-1"   >-Even</option>
+							<option value="-1.25">-1 1/4 Even</option>
+							<option value="-1.5" >-1 1/2 Even</option>
+							<option value="-1.75">-1 3/4 Even</option>
+							<option value="-2">-2 x Even</option>
+							<option value="off">Manual</option>
+						</select>
+						<div class=SC2_PH_data_1>PH Angles
+							&#9484;<input type=text id=SC2_PHRA class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
+							PH Distances
+							&#9492;<input type=text id=SC2_PHRD class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&nbsp;</span>
+						</div>
+					</td>
+				</tr>
+				<tr><td><hr class=SC2_hr2></td></tr>
+				</tbody>
+	
+				<tbody id=SC2_ESO_options>
+				<tr><td><button type=button id=SC2_show_eso_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
+				<tr id=SC2_eso_opts>
+					<td class=SC2_rot_labels>
+						<p class=SC2>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)
+						<p class=SC2>Rim Rotated <input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+					</td>
+				</tr>
+				<tr class=SC2_separator><td></td></tr>
+			</table><!--//end Advanced Settings -->
+	
+	
+			<table id=SC2_SPOKE_LENGTHS class="SC2 SC2_type_theme">
+				<tr><th>Spoke Lengths</th></tr>
+				<tr>
+					<td>
+						<div class=SC2_lengths><span id=SC2_SL1 class=SC2_lengths></span></div>
+						<div class=SC2_lengths><span id=SC2_SL2 class=SC2_lengths></span></div>
+					</td>
+				</tr>
+			</table>
+	
+	
+			<button type=button id=SC2_show_hide_advanced class="SC2 SC2_ndo_buttons" value=none>Advanced Build Info</button>
+			<table id=SC2_advanced_info class="SC2 SC2_type_theme">
+				<tbody id=SC2_adv_info_tbody>
+				<tr><td id=SC2_adv_r1c1></td><td id=SC2_adv_r1c2></td><td id=SC2_adv_r1c3></td></tr>
+				<tr class=SC2_separator><td colspan=3 id=SC2_adv_hdr>
+					(This section does not directly affect the "Spoke Lengths" provided above.
+					See <button type=button id=SC2_see_notes class=SC2>Notes</button>
+					for more information.)
+				</td></tr>
+				<tr class=SC2_lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  class="SC2" maxlength=4></td></tr>
+				<tr class=SC2_lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input type=text id=SC2_SDB class="SC2" maxlength=4></td></tr>
+			
+				<tr class=SC2_separator><td colspan=3></td></tr>
+				<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
+				<tr>
+					<td>Elbows Laced</td>
+					<td>
+						<select id=SC2_ELBOWS1 class="SC2 SC2_elbows_laced">
+							<option value="-1">In</option>
+							<option value="0" >Center</option>
+							<option value="1" >Out</option>
+						</select>
+					</td>
+					<td>
+						<select id=SC2_ELBOWS2 class="SC2 SC2_elbows_laced">
+							<option value="-1">In</option>
+							<option value="0" >Center</option>
+							<option value="1" >Out</option>
+						</select>
+					</td>
+				</tr>
+			
+				<tr class=SC2_separator><td colspan=3></td></tr>
+				<tr>
+					<td>Length Adjust.</td>
+					<td><input type=text id=SC2_SL_ADJ1 class=SC2 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_SL_ADJ2 class=SC2 readonly tabindex="-1"></td>
+				</tr>
+				<tr>
+					<td>Spoke Ratio</td>
+					<td><input type=text id=SC2_spoke_ratio1 class=SC2 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_spoke_ratio2 class=SC2 readonly tabindex="-1"></td>
+				</tr>
+				<tr>
+					<td>Bracing Angles</td>
+					<td><input type=text id=SC2_brace_angle1 class=SC2 readonly tabindex="-1">&deg;</td>
+					<td><input type=text id=SC2_brace_angle2 class=SC2 readonly tabindex="-1">&deg;</td>
+				</tr>
+				<tr>
+					<td>Tension Ratio</td>
+					<td><input type=text id=SC2_tension_ratio1 class=SC2 readonly tabindex="-1">%</td>
+					<td><input type=text id=SC2_tension_ratio2 class=SC2 readonly tabindex="-1">%</td>
+				</tr>
+				<tr>
+					<td>Tension</td>
+					<td><input type=text id=SC2_TENSION1 class=SC2 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_TENSION2 class=SC2 ></td>
+				</tr>
+				<tr class=SC2_separator><td colspan=3></td></tr>
+				</tbody>
+			</table>
 		</div><!--end SC2_WHEEL_SETTINGS_container -->
 
 		
@@ -1104,12 +1101,12 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<div id=SC2_select_wheel_opts>
 				<div id=SC2_rename_box>
 					<select id=SC2_CURRENT_WHEEL class=SC2><!-- Populated onload --></select><br>
-					<input id=SC2_WHEEL_NAME type=text class=SC2 value="" tabindex=-1>
+					<input type=text id=SC2_WHEEL_NAME class=SC2 value="" tabindex=-1>
 				</div>
 				<button type=button id=SC2_rename_wheel class=SC2>Rename</button>
 			</div>
 			<div id=SC2_wheel_opts class=SC2>
-				<label id=SC2_auto_copy_container>Auto Copy<input id=SC2_auto_copy class=SC2 type=checkbox></label>
+				<label id=SC2_auto_copy_container>Auto Copy<input type=checkbox id=SC2_auto_copy class=SC2></label>
 				<button type=button id=SC2_load_sample       class=SC2>Load Sample</button>
 				<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
 				<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
@@ -1863,7 +1860,7 @@ var $X_IMPORT           = E_('X_import');          //<button> [X]
 var $X_EXPORT           = E_('X_export');          //<button> [X]
 var $IMPORT             = E_('IMPORT');            //<button>
 var $IMPORT_CONTAINER   = E_('IMPORT_container');
-var $IMPORT_INPUT       = E_('IMPORT_INPUT');      //<input textarea> of data
+var $IMPORT_INPUT       = E_('IMPORT_INPUT');      //<textarea> of data to import
 var $PERFORM_IMPORT     = E_('perform_import');    //<button>
 var $IMPORT_SAMPLE_SET  = E_('import_sample_set'); //<button>
 var $CLOSE_IMPORT       = E_('close_import');      //<button>
