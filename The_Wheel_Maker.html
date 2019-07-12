@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//===============================================-->
-<script>var VERSION = "v2.44 2019-07-12 5:35pm"</script>
+<script>var VERSION = "v2.45 2019-07-12 5:45pm"</script>
 <!--//===============================================-->
 
 <template id=SC2_LICENSE>
@@ -39,14 +39,10 @@ body { overflow-y: scroll; }
 
 /*** The prefix "SC2_" simply means "Spoke Calculator 2" ***/
 
-ul.SC2 { padding-left: 1rem; }
-
-p.SC2 { margin: .4rem 0; }
-
+#SC2_CONTAINER ul { padding-left: 1rem; }
+#SC2_CONTAINER p { margin: .4rem 0; }
 #SC2_CONTAINER pre { font-family: courier; text-align: left; }
-
-hr.SC2 {margin: .5rem 0; }
-.SC2_hr2 {margin: .4rem 1rem; }
+#SC2_CONTAINER hr {margin: .5rem 0; }
 
 a.SC2 {
 	display: inline-block;
@@ -713,27 +709,27 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 	<div id=SC2_IMPORT_container class=SC2_imex_containers>
 		<button id=SC2_X_import class='SC2 SC2_X_imex_windows'>X</button>
-		<p class=SC2>Copy/Paste your previously saved data to the area below, then click "Import Data".</p>
-		<p class=SC2>If "Preserve Index" is checked, imported wheels will be restored to the same "slots" (or indexes) from which they were saved.
+		<p>Copy/Paste your previously saved data to the area below, then click "Import Data".</p>
+		<p>If "Preserve Index" is checked, imported wheels will be restored to the same "slots" (or indexes) from which they were saved.
 		   That is, when saved, if the wheel list had wheels in slots: 2-5-7-9, they will be restored to the same.
-		   <p class=SC2>However, if "Preserve Index is not checked, they will be restored to slots: 1-2-3-4.<br>
+		   <p>However, if "Preserve Index is not checked, they will be restored to slots: 1-2-3-4.<br>
 		   (Or, starting at the "beginning at index" specified below.)
-		<p class=SC2>Also, the import may set "Max" lower than the highest index of the current wheel list. If so,
+		<p>Also, the import may set "Max" lower than the highest index of the current wheel list. If so,
 			you will need to increase "Max" in order to access those wheels.
-		<p class=SC2>
+		<p>
 			<button id=SC2_perform_import class="SC2 SC2_imex_btns">Import Data</button>
 			<button id=SC2_import_sample_set class="SC2 SC2_imex_btns">Load Sample Wheel Set</button>
 			<button id=SC2_close_import   class="SC2 SC2_imex_btns">Cancel and Return to Wheel</button>
-		<p class=SC2><label><input type=checkbox id=SC2_PRESERVE_INDEX class=SC2> Preserve Index.</label>
+		<p><label><input type=checkbox id=SC2_PRESERVE_INDEX class=SC2> Preserve Index.</label>
 			<label id=SC2_import_index_label>Place imported wheels beginning at index <input type=text id=SC2_IMPORT_INDEX value=1></label>
 		<textarea id=SC2_IMPORT_INPUT class="SC2 SC2_IMEX_DATA"></textarea>
 	</div>
 
 	<div id=SC2_EXPORT_container class=SC2_imex_containers>
 		<button id=SC2_X_export class='SC2 SC2_X_imex_windows'>X</button>
-		<p class=SC2>Copy and paste the text below into a blank text file in your favorite text editor.
+		<p>Copy and paste the text below into a blank text file in your favorite text editor.
 		   Do not edit the data unless you <i>really</i> know what you're doing!</p>
-		<p class=SC2>
+		<p>
 		<button id=SC2_copy_to_clipboard class="SC2 SC2_imex_btns">Copy to Clipboard</button>
 		<button id=SC2_close_export      class="SC2 SC2_imex_btns">Return to Wheel</button>
 		<div id=SC2_EXPORT_OUTPUT class=SC2_IMEX_DATA></div>
@@ -827,7 +823,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 						&#9492;<input type=text id=SC2_PHHD1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
 						<input type=text id=SC2_PHHD2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
 						</div>
-						<p class=SC2>Hub Flange Rotations</p>
+						<p>Hub Flange Rotations</p>
 						<div class=SC2>Auto-Rotate
 							<select id=SC2_AUTO_ROT class="SC2 SC2_auto_angles">
 								<optgroup id=SC2_AUTO_ROT_OPTS label=""><!-- Populated onload --></optgroup>
@@ -840,7 +836,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 						</div>
 					</td>
 				</tr>
-				<tr><td id=SC2_phr_frot_divider><hr class=SC2_hr2></td></tr>
+				<tr><td id=SC2_phr_frot_divider><hr></td></tr>
 				</tbody>
 				
 				<tbody id=SC2_PHR_options>
@@ -876,15 +872,15 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 						</div>
 					</td>
 				</tr>
-				<tr><td><hr class=SC2_hr2></td></tr>
+				<tr><td><hr></td></tr>
 				</tbody>
 	
 				<tbody id=SC2_ESO_options>
 				<tr><td><button type=button id=SC2_show_eso_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
 				<tr id=SC2_eso_opts>
 					<td class=SC2_rot_labels>
-						<p class=SC2>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)
-						<p class=SC2>Rim Rotated <input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+						<p>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)
+						<p>Rim Rotated <input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
 					</td>
 				</tr>
 				<tr class=SC2_separator><td></td></tr>
@@ -1011,7 +1007,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<td><input type=text id=SC2_SPOKE_LINE_SIZE4 class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_SPOKE_SHOW4  class=SC2></td>
 				</tr>
-				<tr class=SC2_separator><td colspan=4><hr class=SC2></td></tr>
+				<tr class=SC2_separator><td colspan=4><hr></td></tr>
 				<tr>
 					<td>Axes</td>
 					<td><input type=text id=SC2_AXES_COLOR     class=SC2_do_color_input></td>
@@ -1086,9 +1082,9 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<a id=a1 class=SC2 href="D-SC.1.html">D-SC 1</a><br>
 			<a id=a2 class=SC2 href="D-SC.3.html">D-SC 3</a><br>
 			<br>
-			<hr class=SC2>
+			<hr>
 			And a few other spoke length calculators from around the web:<br>
-			<p class="SC2 SC2_desc">(I have no affiliation with the following calculators or websites.
+			<p class=SC2_desc>(I have no affiliation with the following calculators or websites.
 			Their links are provided for convenience and comparison only, and in a random order.)</p>
 			<div id=SC2_nonD_calcs><!--//Populated onload --></div>
 		</div>
@@ -1188,12 +1184,12 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Disclaimer</a></th>
 				<td>
 					<div id=SC2_responsibility>
-						<p id=SC2_assumes class=SC2>In all cases, the user assumes full responsibility for any use of this program.  It may work.  It may not.  I don't know.  I hope it does, but THERE ARE NO GUARENTEES.
+						<p id=SC2_assumes>In all cases, the user assumes full responsibility for any use of this program.  It may work.  It may not.  I don't know.  I hope it does, but THERE ARE NO GUARENTEES.
 					</div>
 					<div>
-						<p class=SC2>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
-						<p class=SC2>That is, just because the program many generate a theoretical wheel on screen from a given set of values, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than the other modes.  And while it may often be obvious when values produce an unrealistic wheel, again, there are no guarantees.
-						<p class=SC2>For additional information, please refer to geometry. And physics.
+						<p>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
+						<p>That is, just because the program many generate a theoretical wheel on screen from a given set of values, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than the other modes.  And while it may often be obvious when values produce an unrealistic wheel, again, there are no guarantees.
+						<p>For additional information, please refer to geometry. And physics.
 					</div>
 				</td>
 			</tr>
@@ -1208,7 +1204,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Auto Copy</a></th>
 				<td>
 					<p>Values for the current wheel can be copied to a blank wheel (one that has no settings):
-					<ul class=SC2>
+					<ul>
 						<li>Select the wheel to copy.
 						<li>Make sure Auto Copy is checked.
 						<li>Select a blank wheel (no "::" after the number) from the Wheel select list.
@@ -1316,10 +1312,10 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<p>A <u>PH Angle</u> is formed by lines passing thru the center of paired spoke holes and extending to the axial center of the hub. For example: the angle between two radial spokes.
 					<p>A <u>PH Distance</u> is the straight-line distance between the center of paired spoke holes (not along the arc of the rim or hub flange).  In geometry, this distance is called a chord.
 					<p>The PH angle and PH distance are directly related.  That is, setting the PH angle will automatically set the cooresponding PH distance, and vice-versa.
-					<p><ul class=SC2>
+					<p><ul>
 						<li>In <span class=SC2_list_option_in_text>Paired-Hole Hub</span> mode, hole angles and spoke cross for Side 2 are automatically set to the same value as Side 1.
 						<li>In <span class=SC2_list_option_in_text>Custom</span> mode, and Paired-Holes Hub selected, hole angles and spoke cross for Side 1 and Side 2 are each user selectable and independent of one another.
-							<ul class=SC2>
+							<ul>
 								<li>Be careful in custom mode to always set the Lace Option so that the spokes in paired holes pull away from each other. The spokes in paired holes should <i>not</i> cross each other!
 							</ul>
 					</ul>
@@ -1328,7 +1324,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Hub Auto-Angles</a></th>
 				<td><p>Determines if the angle between paired holes (PH) is automatically calculated, or user provided.				
-					<p><ul class=SC2>
+					<p><ul>
 						<li><span class=SC2_list_option_in_text>Even (Normal)</span> Normal angles (non-PH hub), with evenly spaced holes around the flange.
 						<li><span class=SC2_list_option_in_text>...</span> A few paired-hole angles, based on "Even (Normal)" angles.
 						<li><span class=SC2_list_option_in_text>Manual</span> Angles, or distances, are user provided.
@@ -1338,7 +1334,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Hub Flange Rotations</a></th>
 				<td><p>In addition to, and seperate from, the paired-holes on each flange, the flanges can be "rotated" relative to each other.  (Not physically rotated of course, but the holes drilled in positions as though the flanges had been rotated.) "Even (Normal)" means a normal hub, such that the holes in each flange are evenly spaced between them. "1/2 Hole" aligns the holes of each flange.
-					<p><ul class=SC2>
+					<p><ul>
 						<li><span class=SC2_list_option_in_text>...</span> A few rotation values relative to "Normal".
 						<li><span class=SC2_list_option_in_text>0 (Normal)</span> Normal, non-"rotated" flanges.
 						<li><span class=SC2_list_option_in_text>Linked to PH Rim</span> The calculated rotations are based on any rim PH angles, and should produce a wheel with only one spoke length per side,*
@@ -1350,7 +1346,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Rim Auto-Angles</a></th>
 				<td><p>Determines if angles between paired holes (PH) are automatically calculated, or user provided.				
-					<p><ul class=SC2>
+					<p><ul>
 						<li><span class=SC2_list_option_in_text>Even (Normal)</span> Normal angles (non-PH rim), with evenly spaced holes around the rim.
 						<li><span class=SC2_list_option_in_text>...</span> A few paired-hole values based on "Even (Normal)" angles.
 						<li><span class=SC2_list_option_in_text>0</span> (ex: Shimano 540's)
@@ -1364,7 +1360,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				
 					<p>This lacing method should only be used with a paired-hole rim.
 
-					<ul class=SC2>
+					<ul>
 						<li><p>In a paired-hole rim, "Prima Lacing" spokes match up something like this:</p>
 						<div class=SC2_lacing_examples>
 						<span class=SC2_mono>F1_F2_____________F2_F1_____________F1_F2_____________F2_F1_____________</span> ...etc...
@@ -1383,7 +1379,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 					<p>"F1" &amp; "F2" indicate spokes from a Flange on "Side 1" or "Side 2". (Or left side/right side, or NDS/DS, etc...)
 					<p>An example of some wheel values that might be used in conjunction with this option:
-					<ul class=SC2>
+					<ul>
 						<li>PCD <span class=SC2_example_input>60</span> <span class=SC2_example_input>76</span>
 						<li>Paired-Hole Hub Auto-Angles <span class=SC2_list_option_in_text>3/8 Even</span>
 						<li>Paired-Hole Hub Auto-Rotate <span class=SC2_list_option_in_text>+ 1/2 Hole</span>
@@ -1478,9 +1474,9 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</td>
 			</tr>
 			<tr><th class=SC2><a class="SC2 SC2_help_topic" tabindex=0>Import Data</a></th><td>
-				<p class=SC2>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.
-				<p class=SC2>For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
-				<p class=SC2>In the Import window that opens by clicking the following button, there is an option to load &amp; import
+				<p>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.
+				<p>For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
+				<p>In the Import window that opens by clicking the following button, there is an option to load &amp; import
 				a sample set of wheels. These wheels are for example only, and do not contain accurate values for any actual known wheel.
 				<p><button id=SC2_IMPORT class=SC2>Import Wheels &amp; Display Settings</button>
 			</td></tr>
@@ -3951,7 +3947,7 @@ function Set_Auto_Rot() {
 	//Set_Auto_Rot() should only be available in phh, phr, or custom modes.
 
 	var NR  = $NR.value*1;
-	$PHR_FROT_DIVIDER.innerHTML = '<hr class=SC2_hr2>';
+	$PHR_FROT_DIVIDER.innerHTML = '<hr>';
 
 
 	//"Linked to PH Rim" Auto-Rotation option only available ...
@@ -3961,7 +3957,7 @@ function Set_Auto_Rot() {
 	else {
 		$AUTO_ROT_LINKED.disabled = true;
 		if ($AUTO_ROT.value == "auto") { $AUTO_ROT.value = "off"; } //Set to "Manual" to preserve existing PH value.
-		$PHR_FROT_DIVIDER.innerHTML = '<hr class=SC2_hr2>';
+		$PHR_FROT_DIVIDER.innerHTML = '<hr>';
 	}
 
 
