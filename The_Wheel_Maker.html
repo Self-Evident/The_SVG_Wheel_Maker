@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//===============================================-->
-<script>var VERSION = "v2.47 2019-07-12 6:00pm"</script>
-<!--//===============================================-->
+<!--//==============================================-->
+<script>var VERSION = "v2.48 2019-07-12 7:50pm"</script>
+<!--//==============================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -33,7 +33,7 @@ SOFTWARE.
 
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: arial, sans-serif; }
+#SC2_CONTAINER * { margin: 0; padding: 0; box-sizing: border-box; font-family: arial, sans-serif; }
 body { overflow-y: scroll; }
 
 
@@ -41,7 +41,7 @@ body { overflow-y: scroll; }
 
 #SC2_CONTAINER ul { padding-left: 1rem; }
 #SC2_CONTAINER p { margin: .4rem 0; }
-#SC2_CONTAINER pre { font-family: courier; text-align: left; }
+#SC2_CONTAINER pre { font-family: courier, monospace; text-align: left; }
 #SC2_CONTAINER hr {margin: .5rem 0; }
 
 #SC2_CONTAINER a {
@@ -65,13 +65,13 @@ body { overflow-y: scroll; }
 }
 #SC2_CONTAINER p > button, #SC2_CONTAINER div > button { padding: 1px 5px 1px 4px; }
 
-#SC2_CONTAINER button.SC2:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
-#SC2_CONTAINER button.SC2:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); }
-#SC2_CONTAINER button.SC2:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 0px 6px 1px 3px; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 0px 6px 1px 3px; }
 
-#SC2_CONTAINER button.SC2::-moz-focus-inner { border: 0 }
+#SC2_CONTAINER button::-moz-focus-inner { border: 0 }
 
-.SC2_reset_button { font-size: .8rem; float: right; margin: 0 0 .0 -2rem; }
+.SC2_reset_button { font-size: .8rem; float: right; margin: 0; }
 
 #SC2_CONTAINER button.SC2_ndo_buttons {
 	display: inline-block;
@@ -80,9 +80,12 @@ body { overflow-y: scroll; }
 	margin: 0 auto .1rem auto;
 	padding: 3px .5rem;
 	text-align: center;
-	font: normal 1.2rem arial;
+	font: normal 1.2rem arial, sans-serif;
 	border-radius: 8px;
 }
+
+#SC2_CONTAINER #SC2_show_hide_advanced { margin-top:  .5em; }
+#SC2_CONTAINER #SC2_show_hide_other    { margin: 1.5em 0 0 0; }
 
 #SC2_CONTAINER input:focus, 
 #SC2_CONTAINER select:focus, 
@@ -94,22 +97,22 @@ body { overflow-y: scroll; }
 	width: 3.3rem;
 	text-align: center;
 	font-size: 1rem;
-	font-family: courier;
+	font-family: courier, monospace;
 	border: solid 1px gray;
 	border-radius: 0;
 }
 
 input[type=checkbox]:hover { box-shadow: 0 0 0pt 1pt black; }
 
-select.SC2:hover { border-color: black; }
 
-input[readonly].SC2 {
+
+#SC2_CONTAINER input[readonly] {
 	border: solid .05rem #077;
 	border-radius: 4px;
 	background-color: rgba(255,255,255, .8);
 }
 
-input[disabled].SC2, select.SC2:disabled {
+#SC2_CONTAINER input[disabled], select.SC2:disabled {
 	color			: #555;
 	background-color: rgba(255,255,255, .6);
 	border: solid 1px #7a7a7a;
@@ -125,7 +128,7 @@ select.SC2 {
 	border: solid 1px #7a7a7a;
 }
 select.SC2 option { padding-left: .5rem }
-
+select.SC2:hover { border-color: black; }
 
 /* Removes that annoying dotted onfocus outline of FF selects */
 select.SC2:-moz-focusring {
@@ -164,14 +167,14 @@ select.SC2:-moz-focusring {
 	float   : right;
 	margin  : -.4rem -.35rem 0 0;
 	padding	: 0;
-	font    : normal .9rem arial;
+	font    : normal .9rem arial, sans-serif;
 	text-align	: center;
 	border        : solid 1px #444;
 	border-radius : 4px;
 	background-color: #F9F9F9;
 }
 
-.SC2_imex_containers {
+#SC2_CONTAINER .SC2_imex_containers {
 	position: absolute;
 	top: 2.5rem;
 	border: solid 1px teal;
@@ -184,13 +187,13 @@ select.SC2:-moz-focusring {
 	max-width: 700px;
 	text-align: left;
 	z-index : 998;
-	font-family: arial;
+	font-family: arial, sans-serif;
 	border-radius: 4px;
 }
 
-.SC2_imex_btns { font-size: 1rem; padding: .2rem 1rem; border-radius: 6px; margin: .5rem 0 0 1rem; }
+#SC2_CONTAINER .SC2_imex_btns { height: 2rem; font-size: 1rem; padding: 0 1em ; border-radius: 6px; margin: .5rem 0 0 1rem; }
 
-.SC2_IMEX_DATA { border: solid 1px black; padding: .3rem; margin-top: .5rem; font-family: courier; word-break: break-all;}
+.SC2_IMEX_DATA { border: solid 1px black; padding: .3rem; margin-top: .5rem; font-family: courier, monospace; word-break: break-all;}
 
 #SC2_EXPORT_OUTPUT { }
 
@@ -275,11 +278,11 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	width  : 11.5rem;
 	margin : 0;
 	padding: 1px 0 0 0;
-	font-family: arial;
+	font-family: arial, sans-serif;
 }
 #SC2_CURRENT_WHEEL option { text-align: left; padding-left: .2rem;}
 
-#SC2_WHEEL_NAME {
+#SC2_CONTAINER #SC2_WHEEL_NAME {
 	position: absolute;
 	top     : .75px;
 	left    : 2.2rem;
@@ -290,7 +293,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	border     : solid 1px transparent;
 	text-align : left;
 	font-size  : .9rem;
-	font-family: arial;  /** Set to same as CURRENT_WHEEL. **/
+	font-family: arial, sans-serif;  /** Set to same as CURRENT_WHEEL. **/
 	visibility : hidden; /** Visible during rename only. **/
 }
 
@@ -298,12 +301,15 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 #SC2_wheel_opts {
 	display: inline-block;
 	vertical-align: middle;
-	margin: 0 0 0 .5rem;
+	margin: 0 .2em 0 0;
 	padding: 1px 0 0 0;
 	border: solid 1px transparent;
 	height: 100%;
+	float: right;
  }
 
+
+#SC2_wheel_opts button { font-size: .75em; }
 
 #SC2_CONTAINER button.SC2_open_close_toolbar {
 	height: 100%;
@@ -311,7 +317,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	padding: 0;
 	margin: 0;
 	vertical-align: middle;
-	font: normal 1rem arial;
+	font: normal 1rem arial, sans-serif;
 	border-color: transparent;
 	border-radius: 8px;
 }
@@ -326,7 +332,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 #SC2_CONTAINER #SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; }
 #SC2_max_wheels_label {display: inline-block;  margin: 0 0 0 .5rem; border: solid 1px transparent; padding: 0 0 0 0; font-size: .9rem; }
 
-#SC2_undo_sample_clear { margin: 2px .4rem 0 .4rem }
+#SC2_undo_sample_clear { margin: 2px .3em 0 .3em }
 
 
 #SC2_list_container {
@@ -341,7 +347,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	padding: 0;
 	overflow: hidden;
 	background-color: white;
-	font: bold 1.1rem arial;
+	font: bold 1.1rem arial, sans-serif;
 	z-index : 998;
 }
 
@@ -375,10 +381,10 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 #SC2_sample_wheel_list:focus { border: solid 2px teal; box-shadow: 0 0 3pt 1pt #006060 }
 
 
-table.SC2 {
+#SC2_CONTAINER table.SC2 {
 	display: inline-table;
 	width: 100%;
-	font-family: arial;
+	font-family: arial, sans-serif;
 	text-align: center;
 	border			: solid 1px #444;
 	border-collapse	: separate;
@@ -465,7 +471,7 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	padding: 0;
 	margin : 0;
 	vertical-align: middle;
-	font: normal 1rem arial;
+	font: normal 1rem arial, sans-serif;
 	border: transparent;
 }
 
@@ -473,7 +479,7 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	display: inline-block;
 	padding: 1px 0 0 0;
 	margin: 0;
-	font-family: arial;
+	font-family: arial, sans-serif;
 	text-align: left;
 	border: solid 1px transparent;
 	border-radius : 8px;
@@ -493,11 +499,11 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	border: solid 1px transparent;
 }
 
-#SC2_CONTAINER #SC2_reset_scale_rotate { margin: 0rem .6rem 2px .6rem; }
+#SC2_CONTAINER #SC2_reset_scale_rotate { margin: 0rem .6rem 1px .6rem; }
 
 #SC2_SCALE_text, #SC2_ROTATE_text { width: 2.9rem; }
 
-#SC2_CONTAINER input.SC2_slider_step { width: 1.3rem; font-size: .8rem; }
+#SC2_CONTAINER input.SC2_slider_step { width: 1.3rem; font-size: .8em; padding: 2px 0 0 0; }
 
 #SC2_DISPLAY_SETTINGS  { vertical-align: top; border: 0; width: 100%; }
 
@@ -553,7 +559,7 @@ input[type=range].SC2::-ms-thumb {
 	width: 100%; 
 	vertical-align: top;
 	border: solid 0px black;
-	font-family: arial;
+	font-family: arial, sans-serif;
 	text-align: left;
 	padding: 0 0 0 0;
 }
@@ -580,10 +586,12 @@ input[type=range].SC2::-ms-thumb {
 }
 .SC2_example_input { display: inline-block; width: 3rem; border: solid 1px gray; margin-bottom: 1px; padding: 1px .2rem 0 .2rem; text-align: center; }
 
-table.SC2_DO { margin: 0 0 .2rem 0; }
+#SC2_CONTAINER .SC2_DO label { display: block; } /*So checkboxes have larger hover/clickable areas (entire <td>).*/
 
 table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
-table.SC2_DO input.SC2_do_color_input { width: 5.5rem; }
+#SC2_DISPLAY_SETTINGS input.SC2_do_color_input { width: 5.2rem; }
+
+.SC2_DO_group_col { width: 3em; }
 
 #SC2_rim  { fill: none; stroke: #999; }
 .SC2_axis {             stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; }
@@ -593,20 +601,20 @@ table.SC2_DO input.SC2_do_color_input { width: 5.5rem; }
 .SC2_spoke{ fill: none; stroke: #000; stroke-width: 2; }
 .SC2_pcd  { fill: none; stroke: #000; stroke-width: 1; }
 
-.SC2_desc { font-size: .9rem; padding: 0; line-height: .8rem; }
+.SC2_desc { font-size: .9rem; padding: 0; line-height: 1.1em; }
 .SC2_th1  { height: 1.0rem; text-decoration: underline; font-weight: bold; }
 .SC2_th2  { height: 1.8rem; text-decoration: underline; }
 
-div.SC2_lengths { display: inline-block; margin: .3rem .3rem; vertical-align: top; }
+#SC2_CONTAINER div.SC2_lengths { display: inline-block; margin: .3rem .3rem; vertical-align: top; }
 
-span.SC2_lengths {
+#SC2_CONTAINER span.SC2_lengths {
 	display: inline-block;
 	padding: 2px 0 0 0;
 	border: solid .05rem #077;
 	border-radius: 4px;
 	background-color: rgba(255,255,255, .8);
 	width: 5rem;
-	font: bold 1.1rem courier;
+	font: bold 1.1rem courier, monospace;
 	min-height: 1.5rem;
 }
 
@@ -643,7 +651,7 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 	border-radius	: 5px;
 	padding			: .5rem .5rem .5rem .5rem;
 	background-color: white;
-	font-family		: arial;
+	font-family		: arial, sans-serif;
 	text-align		: center;
 	visibility		: hidden;  /** toggled in Show_Message() **/
 	max-height: 30rem;
@@ -659,7 +667,7 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 	margin: -.5rem -.5rem .5rem .5rem;
 	padding	: 1px 0 0 0;
 	text-align	: center;
-	font		: normal .9rem arial;
+	font		: normal .9rem arial, sans-serif;
 	border			: solid 1px #444;
 	border-radius	: 3px;
 	background-color: #F9F9F9;
@@ -673,7 +681,7 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 #SC2_WHEEL_OR_DISPLAY {
 	width: 100%;
 	height: 2rem;
-	font: normal 1.1rem arial;
+	font: normal 1.1rem arial, sans-serif;
 	border-radius: 8px;
 	margin-top: 0;
 }
@@ -787,7 +795,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</tr>
 	
 				<tr>
-					<td class=SC2_thv><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked> OC Rim</td>
+					<td class=SC2_thv><label><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked> </label>OC Rim</td>
 					<td><input type=text id=SC2_OSB1 maxlength=4> <input type=text id=SC2_OSB2 maxlength=4></td>
 				</tr>
 				<tr>
@@ -820,11 +828,11 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<td>
 						<p>Auto-Angles	<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles"><!-- Populated onload --></select>
 						<div class=SC2_PHH_data>PH Angles
-						&#9484;<input type=text id=SC2_PHHA1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
-						<input type=text id=SC2_PHHA2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
+						&#9484;<input type=text id=SC2_PHHA1 class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
+						<input type=text id=SC2_PHHA2 class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span><br>
 						PH Distances
-						&#9492;<input type=text id=SC2_PHHD1 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
-						<input type=text id=SC2_PHHD2 class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta> </span>
+						&#9492;<input type=text id=SC2_PHHD1 class=SC2_ph_inputs maxlength=6><span class=SC2_theta> </span>
+						<input type=text id=SC2_PHHD2 class=SC2_ph_inputs maxlength=6><span class=SC2_theta> </span>
 						</div>
 						<p>Hub Flange Rotations</p>
 						<div class=SC2>Auto-Rotate
@@ -835,7 +843,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 							</select><br>
 						</div>
 						<div class="SC2_rot_labels SC2_PH_data_1">Flanges Rotated
-							<input type=text id=SC2_ROTF class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+							<input type=text id=SC2_ROTF class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
 						</div>
 					</td>
 				</tr>
@@ -869,9 +877,9 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 							<option value="off">Manual</option>
 						</select>
 						<div class=SC2_PH_data_1>PH Angles
-							&#9484;<input type=text id=SC2_PHRA class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span><br>
+							&#9484;<input type=text id=SC2_PHRA class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span><br>
 							PH Distances
-							&#9492;<input type=text id=SC2_PHRD class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&nbsp;</span>
+							&#9492;<input type=text id=SC2_PHRD class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&nbsp;</span>
 						</div>
 					</td>
 				</tr>
@@ -882,8 +890,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<tr><td><button type=button id=SC2_show_eso_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
 				<tr id=SC2_eso_opts>
 					<td class=SC2_rot_labels>
-						<p>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)
-						<p>Rim Rotated <input type=text id=SC2_ROTR class="SC2 SC2_ph_inputs" maxlength=6><span class=SC2_theta>&deg;</span>
+						<p><label>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)</label>
+						<p>Rim Rotated <input type=text id=SC2_ROTR class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
 					</td>
 				</tr>
 				<tr class=SC2_separator><td></td></tr>
@@ -974,48 +982,48 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 						<button type=button id=SC2_reset_options_spokes class=SC2_reset_button>Reset</button>
 					</th>
 				</tr>
-				<tr class=SC2_th1><td>Group</td><td>Color</td><td>Size</td><td>Show?</td></tr>
-				<tr class=SC2_th2>
+				<tr class=SC2_th1><td class=SC2_DO_group_col>Group</td><td>Color</td><td>Size</td><td>Show?</td></tr>
+				<tr>
 					<td></td>
-					<td colspan=2>Side 1</td>
-					<td><input type=checkbox id=SC2_SHOW_SIDE1></td>
+					<td colspan=2 class=SC2_th2>Side 1</td>
+					<td><label><input type=checkbox id=SC2_SHOW_SIDE1></label></td>
 				</tr>
 				<tr>
 					<td>1</td>
 					<td><input type=text id=SC2_SPOKE_COLOR1     class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_SPOKE_LINE_SIZE1 class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_SPOKE_SHOW1  class=SC2></td>
+					<td><label><input type=checkbox id=SC2_SPOKE_SHOW1 class=SC2></label></td>
 				</tr>
 				<tr>
 					<td>2</td>
 					<td><input type=text id=SC2_SPOKE_COLOR2     class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_SPOKE_LINE_SIZE2 class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_SPOKE_SHOW2  class=SC2></td>
+					<td><label><input type=checkbox id=SC2_SPOKE_SHOW2 class=SC2></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
-				<tr class=SC2_th2>
+				<tr>
 					<td></td>
-					<td colspan=2>Side 2</td>
-					<td><input type=checkbox id=SC2_SHOW_SIDE2 class=SC2></td>
+					<td colspan=2 class=SC2_th2>Side 2</td>
+					<td><label><input type=checkbox id=SC2_SHOW_SIDE2 class=SC2></label></td>
 				</tr>
 				<tr>
 					<td>3</td>
 					<td><input type=text id=SC2_SPOKE_COLOR3     class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_SPOKE_LINE_SIZE3 class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_SPOKE_SHOW3  class=SC2></td>
+					<td><label><input type=checkbox id=SC2_SPOKE_SHOW3 class=SC2></label></td>
 				</tr>
 				<tr>
 					<td>4</td>
 					<td><input type=text id=SC2_SPOKE_COLOR4     class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_SPOKE_LINE_SIZE4 class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_SPOKE_SHOW4  class=SC2></td>
+					<td><label><input type=checkbox id=SC2_SPOKE_SHOW4 class=SC2></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4><hr></td></tr>
 				<tr>
 					<td>Axes</td>
 					<td><input type=text id=SC2_AXES_COLOR     class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_AXES_LINE_SIZE class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_AXES_SHOW  class=SC2></td>
+					<td><label><input type=checkbox id=SC2_AXES_SHOW class=SC2></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 			</table>
@@ -1028,49 +1036,49 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					</th>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
-				<tr class=SC2_th1><td></td><td>Color</td><td>Size</td><td>Show?</td></tr>
+				<tr class=SC2_th1><td class=SC2_DO_group_col></td><td>Color</td><td>Size</td><td>Show?</td></tr>
 				<tr>
 					<td>Rim</td>
 					<td><input type=text id=SC2_RIM_COLOR     class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_RIM_LINE_SIZE class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_RIM_SHOW  class=SC2></td>
+					<td><label><input type=checkbox id=SC2_RIM_SHOW class=SC2></label></td>
 				</tr>
 				<tr>
 					<td>F1</td>
 					<td><input type=text id=SC2_F1_COLOR     class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_F1_LINE_SIZE class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_F1_SHOW  class=SC2></td>
+					<td><label><input type=checkbox id=SC2_F1_SHOW class=SC2></label></td>
 				</tr>
 				<tr>
 					<td>F2</td>
 					<td><input type=text id=SC2_F2_COLOR     class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_F2_LINE_SIZE class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_F2_SHOW  class=SC2></td>
+					<td><label><input type=checkbox id=SC2_F2_SHOW class=SC2></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 
-				<tr class=SC2_th2>
+				<tr>
 					<td></td>
-					<td colspan=2>Spoke Holes</td>
-					<td><input type=checkbox id=SC2_HOLES_SHOW_ALL class=SC2></td>
+					<td colspan=2 class=SC2_th2>Spoke Holes</td>
+					<td><label><input type=checkbox id=SC2_HOLES_SHOW_ALL class=SC2></label></td>
 				</tr>
 				<tr>
 					<td>Rim</td>
 					<td><input type=text id=SC2_HOLES_RIM_COLOR    class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_HOLES_RIM_SIZE     class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_HOLES_RIM_SHOW class=SC2></td>
+					<td><label><input type=checkbox id=SC2_HOLES_RIM_SHOW class=SC2></label></td>
 				</tr>
 				<tr>
 					<td>F1</td>
 					<td><input type=text id=SC2_HOLES_F1_COLOR    class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_HOLES_F1_SIZE     class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_HOLES_F1_SHOW class=SC2></td>
+					<td><label><input type=checkbox id=SC2_HOLES_F1_SHOW class=SC2></label></td>
 				</tr>
 				<tr>
 					<td>F2</td>
 					<td><input type=text id=SC2_HOLES_F2_COLOR    class=SC2_do_color_input></td>
 					<td><input type=text id=SC2_HOLES_F2_SIZE     class=SC2_do_size_input></td>
-					<td><input type=checkbox id=SC2_HOLES_F2_SHOW class=SC2></td>
+					<td><label><input type=checkbox id=SC2_HOLES_F2_SHOW class=SC2></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 			</table>
@@ -4153,7 +4161,7 @@ function Auto_Size_Input() {
 	//Auto-size input textarea (vertically) to fit contents, so that browser window contents are controlled
 	//by only one scrollbar - the browser window scrollbar, and not two, if the textarea also had a scrollbar.
 	//Minium height is 5 lines (21px * 5 = 105, plus 2px needed to prevent scrollbars that only move those 2px.)
-	//The 107 min height should match the css height defined in <style>.
+	//The 107 min height should match the css height for #SC2_IMPORT_INPUT defined in <style>.
 	$IMPORT_INPUT.style.height = 'auto';
 	var new_height = $IMPORT_INPUT.scrollHeight;
 	if (new_height < 107) { new_height = 105; } //+2 added below.
