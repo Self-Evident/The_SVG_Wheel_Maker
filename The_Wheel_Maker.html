@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//===============================================-->
-<script>var VERSION = "v2.46 2019-07-12 5:50pm"</script>
+<script>var VERSION = "v2.47 2019-07-12 6:00pm"</script>
 <!--//===============================================-->
 
 <template id=SC2_LICENSE>
@@ -56,42 +56,45 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER a:focus { background-color: #ccc; text-decoration: none; box-shadow: 0 0 3pt 1pt #006060; }
 #SC2_CONTAINER a:hover { background-color: #ccc; text-decoration: none; }
 
-button.SC2 {
+#SC2_CONTAINER button {
 	border: solid 1px #444;
 	padding: 0px 5px 1px 4px;
 	background:	linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC);
 	border-radius: 4px;
 	height: 22px;
 }
-p.SC2 > button.SC2, div.SC2 > button.SC2 { padding: 1px 5px 1px 4px; }
+#SC2_CONTAINER p > button, #SC2_CONTAINER div > button { padding: 1px 5px 1px 4px; }
 
-button.SC2:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
-button.SC2:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); }
-button.SC2:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 0px 6px 1px 3px; }
+#SC2_CONTAINER button.SC2:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
+#SC2_CONTAINER button.SC2:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); }
+#SC2_CONTAINER button.SC2:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 0px 6px 1px 3px; }
 
-button.SC2::-moz-focus-inner { border: 0 }
+#SC2_CONTAINER button.SC2::-moz-focus-inner { border: 0 }
 
 .SC2_reset_button { font-size: .8rem; float: right; margin: 0 0 .0 -2rem; }
 
-button.SC2_ndo_buttons {
+#SC2_CONTAINER button.SC2_ndo_buttons {
 	display: inline-block;
-	width: 100%;
+	width: 16rem;
 	height: 2rem;
-	margin: 1rem auto .1rem auto;
+	margin: 0 auto .1rem auto;
 	padding: 3px .5rem;
 	text-align: center;
 	font: normal 1.2rem arial;
 	border-radius: 8px;
 }
 
-input.SC2:focus, select.SC2:focus, button.SC2:focus { box-shadow: 0 0 3pt 1pt #006060 }
+#SC2_CONTAINER input:focus, 
+#SC2_CONTAINER select:focus, 
+#SC2_CONTAINER button:focus { box-shadow: 0 0 3pt 1pt #006060 }
 
 #SC2_CONTAINER input[type=text] {
 	padding, 0;
 	height: 1.33rem;
 	width: 3.3rem;
 	text-align: center;
-	font: 1rem courier;
+	font-size: 1rem;
+	font-family: courier;
 	border: solid 1px gray;
 	border-radius: 0;
 }
@@ -155,7 +158,7 @@ select.SC2:-moz-focusring {
 }
 
 
-button.SC2_X_imex_windows {
+#SC2_CONTAINER button.SC2_X_imex_windows {
 	height	: 1.5rem;
 	width	: 1.5rem;
 	float   : right;
@@ -210,7 +213,7 @@ button.SC2_X_imex_windows {
 
 #SC1_flange_to_opts { text-align: right }
 
-button.SC2_mini_button { width: 1rem; padding: 0; line-height: 1rem; }
+#SC2_CONTAINER button.SC2_mini_button { width: 1rem; padding: 0; line-height: 1rem; }
 
 #SC2_FL_to_LN { background-color: rgba(255,255,255,.4); }
 
@@ -259,7 +262,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	border: solid 1px transparent;
 }
 
-SC2_rename_wheel {}
+#SC2_rename_wheel { }
 
 #SC2_rename_box {
 	position: relative;
@@ -302,7 +305,7 @@ SC2_rename_wheel {}
  }
 
 
-button.SC2_open_close_toolbar {
+#SC2_CONTAINER button.SC2_open_close_toolbar {
 	height: 100%;
 	width: 24px;
 	padding: 0;
@@ -314,13 +317,13 @@ button.SC2_open_close_toolbar {
 }
 
 
-#SC2_show_wheel_opts { border-top-right-radius:0; border-bottom-right-radius:0; }
+#SC2_CONTAINER #SC2_show_wheel_opts { border-top-right-radius:0; border-bottom-right-radius:0; }
 
 
 #SC2_auto_copy_container { font-size: .9rem; padding: 2px .6rem 0 .2rem; border: 0; }
 #SC2_auto_copy { margin: 0 0 0 2px; }
 
-#SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; }
+#SC2_CONTAINER #SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; }
 #SC2_max_wheels_label {display: inline-block;  margin: 0 0 0 .5rem; border: solid 1px transparent; padding: 0 0 0 0; font-size: .9rem; }
 
 #SC2_undo_sample_clear { margin: 2px .4rem 0 .4rem }
@@ -429,7 +432,7 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	border-radius : 8px;
 }
 
-#SC2_SCALE_mode {
+#SC2_CONTAINER #SC2_SCALE_mode {
 	width: 4.5rem;
 	font-weight: bold;
 	font-size: 1rem;
@@ -450,7 +453,7 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	border-top-right-radius: 0;
 }
 
-#SC2_show_hide_scale.SC2_toolbar_open_R {
+#SC2_CONTAINER #SC2_show_hide_scale.SC2_toolbar_open_R { /* [+] <button>s on left end of toolbars.*/
 	/*Applied/removed by js when the toolbar is open/closed.*/
 	border-right: 0;
 	border-top-right-radius: 0;
@@ -490,11 +493,11 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	border: solid 1px transparent;
 }
 
-#SC2_reset_scale_rotate { margin: 0 .6rem; }
+#SC2_CONTAINER #SC2_reset_scale_rotate { margin: 0rem .6rem 2px .6rem; }
 
 #SC2_SCALE_text, #SC2_ROTATE_text { width: 2.9rem; }
 
-.SC2 input.SC2_slider_step { width: 1.3rem; font-size: .8rem; }
+#SC2_CONTAINER input.SC2_slider_step { width: 1.3rem; font-size: .8rem; }
 
 #SC2_DISPLAY_SETTINGS  { vertical-align: top; border: 0; width: 100%; }
 
@@ -505,7 +508,7 @@ input[type=range].SC2 {
 	margin: 0 0 0 0;
 	display: inline-block;
 	vertical-align: middle;
-	width: 5rem;
+	width: 4.5rem;
 	height: .5rem;
 }
 input[type=range].SC2:hover { }
@@ -708,7 +711,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 	<div id=SC2_disable_page></div><!--Used to cover page for "modal" mode.-->
 
 	<div id=SC2_IMPORT_container class=SC2_imex_containers>
-		<button id=SC2_X_import class='SC2 SC2_X_imex_windows'>X</button>
+		<button type=button id=SC2_X_import class=SC2_X_imex_windows>X</button>
 		<p>Copy/Paste your previously saved data to the area below, then click "Import Data".</p>
 		<p>If "Preserve Index" is checked, imported wheels will be restored to the same "slots" (or indexes) from which they were saved.
 		   That is, when saved, if the wheel list had wheels in slots: 2-5-7-9, they will be restored to the same.
@@ -717,32 +720,32 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 		<p>Also, the import may set "Max" lower than the highest index of the current wheel list. If so,
 			you will need to increase "Max" in order to access those wheels.
 		<p>
-			<button id=SC2_perform_import class="SC2 SC2_imex_btns">Import Data</button>
-			<button id=SC2_import_sample_set class="SC2 SC2_imex_btns">Load Sample Wheel Set</button>
-			<button id=SC2_close_import   class="SC2 SC2_imex_btns">Cancel and Return to Wheel</button>
-		<p><label><input type=checkbox id=SC2_PRESERVE_INDEX class=SC2> Preserve Index.</label>
+			<button type=button id=SC2_perform_import    class=SC2_imex_btns>Import Data</button>
+			<button type=button id=SC2_import_sample_set class=SC2_imex_btns>Load Sample Wheel Set</button>
+			<button type=button id=SC2_close_import      class=SC2_imex_btns>Cancel and Return to Wheel</button>
+		<p><label><input type=checkbox id=SC2_PRESERVE_INDEX> Preserve Index.</label>
 			<label id=SC2_import_index_label>Place imported wheels beginning at index <input type=text id=SC2_IMPORT_INDEX value=1></label>
 		<textarea id=SC2_IMPORT_INPUT class="SC2 SC2_IMEX_DATA"></textarea>
 	</div>
 
 	<div id=SC2_EXPORT_container class=SC2_imex_containers>
-		<button id=SC2_X_export class='SC2 SC2_X_imex_windows'>X</button>
+		<button type=button id=SC2_X_export class=SC2_X_imex_windows>X</button>
 		<p>Copy and paste the text below into a blank text file in your favorite text editor.
 		   Do not edit the data unless you <i>really</i> know what you're doing!</p>
 		<p>
-		<button id=SC2_copy_to_clipboard class="SC2 SC2_imex_btns">Copy to Clipboard</button>
-		<button id=SC2_close_export      class="SC2 SC2_imex_btns">Return to Wheel</button>
+		<button type=button id=SC2_copy_to_clipboard class=SC2_imex_btns>Copy to Clipboard</button>
+		<button type=button id=SC2_close_export      class=SC2_imex_btns>Return to Wheel</button>
 		<div id=SC2_EXPORT_OUTPUT class=SC2_IMEX_DATA></div>
 	</div>
 
 	<div id=SC2_left_side><!--==========================================-->
 		<div id=SC2_msg_box>
-			<button id=SC2_close_msg class=SC2>X</button>
+			<button type=button id=SC2_close_msg>X</button>
 			<div id=SC2_message><br></div>
-			<button id=SC2_ACCEPT_MSG class=SC2>I Accept</button>
+			<button type=button id=SC2_ACCEPT_MSG>I Accept</button>
 		</div>
 
-		<button type=button id=SC2_WHEEL_OR_DISPLAY class="SC2 SC2_ndo_buttons" value="wheel">Show Display Settings</button>
+		<button type=button id=SC2_WHEEL_OR_DISPLAY class=SC2_ndo_buttons value="wheel">Show Display Settings</button>
 
 		<div id=SC2_WHEEL_SETTINGS_container><!--===========-->
 			<table id=SC2_WHEEL_SETTINGS class="SC2 SC2_type_theme">
@@ -776,7 +779,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 	
 				<tr id=SC1_flange_to_opts>
 					<td colspan=2>
-						<button type=button id=SC2_show_FL_to_LN class="SC2 SC2_mini_button" value=none>+</button>
+						<button type=button id=SC2_show_FL_to_LN class=SC2_mini_button value=none>+</button>
 						<b>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 maxlength=5> <input type=text id=SC2_FTC2 maxlength=5>&nbsp;
 						<div id=SC2_FL_to_LN>Flange-to-LN&boxur;<input type=text id=SC2_FTL1 maxlength=5> <input type=text id=SC2_FTL2 maxlength=5>&nbsp;<br>
 						OLD&nbsp; &nbsp; &nbsp; &boxUR;<input type=text id=SC2_OLD maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
@@ -810,7 +813,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<table id=SC2_ADVANCED_SETTINGS class="SC2 SC2_type_theme">
 				<tr class=SC2_separator><td></td></tr>
 				<tbody id=SC2_PHH_options>
-				<tr><td><button type=button id=SC2_show_phh_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button>
+				<tr><td><button type=button id=SC2_show_phh_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button>
 					<b>Paired-Hole Hub</b>
 				</td></tr>
 				<tr id=SC2_phh_opts>
@@ -840,7 +843,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</tbody>
 				
 				<tbody id=SC2_PHR_options>
-				<tr><td><button type=button id=SC2_show_phr_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button>
+				<tr><td><button type=button id=SC2_show_phr_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button>
 					<b>Paired-Hole Rim</b>
 				</td></tr>
 				<tr id=SC2_phr_opts>
@@ -876,7 +879,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</tbody>
 	
 				<tbody id=SC2_ESO_options>
-				<tr><td><button type=button id=SC2_show_eso_opts class="SC2 SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
+				<tr><td><button type=button id=SC2_show_eso_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
 				<tr id=SC2_eso_opts>
 					<td class=SC2_rot_labels>
 						<p>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)
@@ -898,13 +901,13 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</table>
 	
 	
-			<button type=button id=SC2_show_hide_advanced class="SC2 SC2_ndo_buttons" value=none>Advanced Build Info</button>
+			<button type=button id=SC2_show_hide_advanced class=SC2_ndo_buttons value=none>Advanced Build Info</button>
 			<table id=SC2_advanced_info class="SC2 SC2_type_theme">
 				<tbody id=SC2_adv_info_tbody>
 				<tr><td id=SC2_adv_r1c1></td><td id=SC2_adv_r1c2></td><td id=SC2_adv_r1c3></td></tr>
 				<tr class=SC2_separator><td colspan=3 id=SC2_adv_hdr>
 					(This section does not directly affect the "Spoke Lengths" provided above.
-					See <button type=button id=SC2_see_notes class=SC2>Notes</button>
+					See <button type=button id=SC2_see_notes>Notes</button>
 					for more information.)
 				</td></tr>
 				<tr class=SC2_lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  maxlength=4></td></tr>
@@ -968,7 +971,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<table class="SC2 SC2_DO SC2_DO_theme">
 				<tr>
 					<th colspan=4>Spokes
-						<button type=button id=SC2_reset_options_spokes class="SC2 SC2_reset_button">Reset</button>
+						<button type=button id=SC2_reset_options_spokes class=SC2_reset_button>Reset</button>
 					</th>
 				</tr>
 				<tr class=SC2_th1><td>Group</td><td>Color</td><td>Size</td><td>Show?</td></tr>
@@ -1021,7 +1024,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<tr>
 					<th colspan=4>
 						Rim &amp; Flanges
-						<button type=button id=SC2_reset_options_rim_etc class="SC2 SC2_reset_button">Reset</button>
+						<button type=button id=SC2_reset_options_rim_etc class=SC2_reset_button>Reset</button>
 					</th>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
@@ -1035,7 +1038,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<tr>
 					<td>F1</td>
 					<td><input type=text id=SC2_F1_COLOR     class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_F1_LINE_SIZE class=SC2_do_size_input"></td>
+					<td><input type=text id=SC2_F1_LINE_SIZE class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_F1_SHOW  class=SC2></td>
 				</tr>
 				<tr>
@@ -1076,7 +1079,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 
 
-		<button type=button id=SC2_show_hide_other class="SC2 SC2_ndo_buttons" value="none">A few other calculators</button>
+		<button type=button id=SC2_show_hide_other class=SC2_ndo_buttons value="none">A few other calculators</button>
 		<div id=SC2_other_calcs>
 			Ancesters to The Wheel Maker:<br>
 			<a id=a1 href="D-SC.1.html">D-SC 1</a><br>
@@ -1096,24 +1099,24 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 	<!--================================================================-->
 	<div id=SC2_right_side>
 		<div id=SC2_list_container><h4 id=SC2_sample_list_hdr class=SC2_theme_standard>Choose Sample
-			<button type=button id=SC2_X_close_load_sample class=SC2>Done</button></h4>
+			<button type=button id=SC2_X_close_load_sample>Done</button></h4>
 			<select id=SC2_sample_wheel_list class=SC2 size=10><!--//Populated onload--></select>
 		</div>
 
 		<div id=SC2_header_opts class="SC2 SC2_DO_theme">
-			<button type=button id=SC2_show_wheel_opts class="SC2 SC2_open_close_toolbar" value=none>+</button>
+			<button type=button id=SC2_show_wheel_opts class=SC2_open_close_toolbar value=none>+</button>
 			<div id=SC2_select_wheel_opts>
 				<div id=SC2_rename_box>
 					<select id=SC2_CURRENT_WHEEL class=SC2><!-- Populated onload --></select><br>
 					<input type=text id=SC2_WHEEL_NAME value="" tabindex=-1>
 				</div>
-				<button type=button id=SC2_rename_wheel class=SC2>Rename</button>
+				<button type=button id=SC2_rename_wheel>Rename</button>
 			</div>
 			<div id=SC2_wheel_opts class=SC2>
 				<label id=SC2_auto_copy_container>Auto Copy<input type=checkbox id=SC2_auto_copy class=SC2></label>
-				<button type=button id=SC2_load_sample       class=SC2>Load Sample</button>
-				<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
-				<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
+				<button type=button id=SC2_load_sample>Load Sample</button>
+				<button type=button id=SC2_undo_sample_clear>Undo</button>
+				<button type=button id=SC2_clear_settings>Clear</button>
 				<label id=SC2_max_wheels_label>Max:<input type=text id=SC2_max_wheels></label>
 			</div>
 		</div>
@@ -1146,25 +1149,25 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 		</div><!--//end SC2_wheel_container_container-->
 
 		<div id=SC2_scale_rotate_container class=SC2_theme_standard>
-			<button type=button id=SC2_show_hide_scale class="SC2 SC2_open_close_toolbar" value=none>+</button>
+			<button type=button id=SC2_show_hide_scale class=SC2_open_close_toolbar value=none>+</button>
 			<div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
 				<div class=SC2_rotate_scale_containers>
-					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_mode>Scale:</button>
+					<button type=button class=SC2_mini_button id=SC2_SCALE_mode>Scale:</button>
 					<div id=SC2_SCALE_user_input_tab class=SC2_theme_standard>
 						<input type=text id=SC2_SCALE_user>mm (Wheel Window Size)
 					</div>
-					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_down>-</button>
+					<button type=button class=SC2_mini_button id=SC2_SCALE_down>-</button>
 					<input type=range id=SC2_SCALE_slider class=SC2 min=0 max=2000>
-					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_up>+</button>
+					<button type=button class=SC2_mini_button id=SC2_SCALE_up>+</button>
 					<input type=text id=SC2_SCALE_text>%
 					<input type=text id=SC2_SCALE_step class=SC2_slider_step>
 				</div>
-				<button type=button id=SC2_reset_scale_rotate class=SC2>Reset</button>
+				<button type=button id=SC2_reset_scale_rotate>Reset</button>
 				<div class=SC2_rotate_scale_containers>
 					<label>Rotate:</label>
-					<button type=button class="SC2 SC2_mini_button" id=SC2_ROTATE_down>-</button>
+					<button type=button class=SC2_mini_button id=SC2_ROTATE_down>-</button>
 					<input type=range id=SC2_ROTATE_slider class=SC2 min=0 max=360>
-					<button type=button class="SC2 SC2_mini_button" id=SC2_ROTATE_up>+</button>
+					<button type=button class=SC2_mini_button id=SC2_ROTATE_up>+</button>
 					<input type=text id=SC2_ROTATE_text>&deg;
 					<input type=text id=SC2_ROTATE_step class=SC2_slider_step>
 				</div>
@@ -1174,7 +1177,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
 
 	<br><br><br>
-	<button type=button id=SC2_show_hide_notes class="SC2 SC2_ndo_buttons" value=none>Notes etc.</button>
+	<button type=button id=SC2_show_hide_notes class=SC2_ndo_buttons value=none>Notes etc.</button>
 	<select id=SC2_TOPIC_select class=SC2>
 		<option value=0 selected>Choose a Help Topic</option>
 		<optgroup id=SC2_TOPIC_list label=""><!-- Populated onload --></optgroup>
@@ -1463,14 +1466,14 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Saved Settings</a></th>
 				<td><p>In general, all information generated and used by this program internally, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage.
 					<p>To clear all wheel data &amp; display options stored by this web browser on this device, click the following button:<br>
-					<button type=button id=SC2_DELETE_ALL_DATA class=SC2>DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
+					<button type=button id=SC2_DELETE_ALL_DATA>DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
 					<p>Your browser's cache is not affected by this option, and may retain some information.
 					<p>Additionally, any wheels saved via Export Data is naturally unaffected by this option.
 				</td>
 			</tr>
 			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Export Data</a></th>
 				<td><p>Generates a JSON string of all wheel & display data that can then be saved in a text file for backup.</p>
-					<p><button id=SC2_EXPORT class=SC2>Export Wheels &amp; Display Settings</button></p>
+					<p><button type=button id=SC2_EXPORT>Export Wheels &amp; Display Settings</button></p>
 				</td>
 			</tr>
 			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Import Data</a></th><td>
@@ -1478,7 +1481,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<p>For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
 				<p>In the Import window that opens by clicking the following button, there is an option to load &amp; import
 				a sample set of wheels. These wheels are for example only, and do not contain accurate values for any actual known wheel.
-				<p><button id=SC2_IMPORT class=SC2>Import Wheels &amp; Display Settings</button>
+				<p><button type=button id=SC2_IMPORT>Import Wheels &amp; Display Settings</button>
 			</td></tr>
 
 			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Contact</a></th>
