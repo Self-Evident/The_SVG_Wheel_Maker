@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//============================================-->
-<script>var VERSION = "v2.43 2019-07-10 6pm"</script>
-<!--//============================================-->
+<!--//===============================================-->
+<script>var VERSION = "v2.44 2019-07-12 5:35pm"</script>
+<!--//===============================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -89,7 +89,16 @@ button.SC2_ndo_buttons {
 }
 
 input.SC2:focus, select.SC2:focus, button.SC2:focus { box-shadow: 0 0 3pt 1pt #006060 }
-input[type=text].SC2   { width: 3.3rem; text-align: center; font: 1rem courier; }
+
+#SC2_CONTAINER input[type=text] {
+	padding, 0;
+	height: 1.33rem;
+	width: 3.3rem;
+	text-align: center;
+	font: 1rem courier;
+	border: solid 1px gray;
+	border-radius: 0;
+}
 
 input[type=checkbox]:hover { box-shadow: 0 0 0pt 1pt black; }
 
@@ -574,9 +583,8 @@ input[type=range].SC2::-ms-thumb {
 
 table.SC2_DO { margin: 0 0 .2rem 0; }
 
-table.SC2_DO input.SC2_do_size_input { width: 2.5rem; }
-table.SC2_DO input.SC2_do_color_input { width: 5rem; }
-table.SC2_DO input.SC2_color { width: 5.5rem; }
+table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
+table.SC2_DO input.SC2_do_color_input { width: 5.5rem; }
 
 #SC2_rim  { fill: none; stroke: #999; }
 .SC2_axis {             stroke: #999; stroke-width: 1; stroke-dasharray: 3,3; }
@@ -717,7 +725,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<button id=SC2_import_sample_set class="SC2 SC2_imex_btns">Load Sample Wheel Set</button>
 			<button id=SC2_close_import   class="SC2 SC2_imex_btns">Cancel and Return to Wheel</button>
 		<p class=SC2><label><input type=checkbox id=SC2_PRESERVE_INDEX class=SC2> Preserve Index.</label>
-			<label id=SC2_import_index_label>Place imported wheels beginning at index <input type=text id=SC2_IMPORT_INDEX class=SC2 value=1></label>
+			<label id=SC2_import_index_label>Place imported wheels beginning at index <input type=text id=SC2_IMPORT_INDEX value=1></label>
 		<textarea id=SC2_IMPORT_INPUT class="SC2 SC2_IMEX_DATA"></textarea>
 	</div>
 
@@ -756,32 +764,32 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					</td>
 				</tr>
 	
-				<tr><td class=SC2_thv>ERD</td><td><input type=text id=SC2_ERD class=SC2 maxlength=5></td></tr>
+				<tr><td class=SC2_thv>ERD</td><td><input type=text id=SC2_ERD maxlength=5></td></tr>
 				<tr><td class=SC2_thv>Rim Holes</td>
 					<td><select id=SC2_NR class=SC2><!-- Populated onload --></select></td>
 				</tr>
 				<tr><td></td><td>Side 1 &nbsp;Side 2</td></tr>
 				<tr>
 					<td class=SC2_thv>Flange Holes</td>
-					<td><input type=text id=SC2_NF1 class=SC2 maxlength=2> <input type=text id=SC2_NF2 class=SC2 maxlength=2></td>
+					<td><input type=text id=SC2_NF1 maxlength=2> <input type=text id=SC2_NF2 maxlength=2></td>
 				</tr>
 				<tr>
 					<td class=SC2_thv>PCD</td>
-					<td><input type=text id=SC2_PCD1 class=SC2 maxlength=5> <input type=text id=SC2_PCD2 class=SC2 maxlength=5></td>
+					<td><input type=text id=SC2_PCD1 maxlength=5> <input type=text id=SC2_PCD2 maxlength=5></td>
 				</tr>
 	
 				<tr id=SC1_flange_to_opts>
 					<td colspan=2>
 						<button type=button id=SC2_show_FL_to_LN class="SC2 SC2_mini_button" value=none>+</button>
-						<b>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 class=SC2 maxlength=5> <input type=text id=SC2_FTC2 class=SC2 maxlength=5>&nbsp;
-						<div id=SC2_FL_to_LN>Flange-to-LN&boxur;<input type=text id=SC2_FTL1 class=SC2 maxlength=5> <input type=text id=SC2_FTL2 class=SC2 maxlength=5>&nbsp;<br>
-						OLD&nbsp; &nbsp; &nbsp; &boxUR;<input type=text id=SC2_OLD class=SC2 maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
+						<b>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 maxlength=5> <input type=text id=SC2_FTC2 maxlength=5>&nbsp;
+						<div id=SC2_FL_to_LN>Flange-to-LN&boxur;<input type=text id=SC2_FTL1 maxlength=5> <input type=text id=SC2_FTL2 maxlength=5>&nbsp;<br>
+						OLD&nbsp; &nbsp; &nbsp; &boxUR;<input type=text id=SC2_OLD maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
 					</td>
 				</tr>
 	
 				<tr>
-					<td class=SC2_thv><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked class=SC2> OC Rim</td>
-					<td><input type=text id=SC2_OSB1 class=SC2 maxlength=4> <input type=text id=SC2_OSB2 class=SC2 maxlength=4></td>
+					<td class=SC2_thv><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked> OC Rim</td>
+					<td><input type=text id=SC2_OSB1 maxlength=4> <input type=text id=SC2_OSB2 maxlength=4></td>
 				</tr>
 				<tr>
 					<td class=SC2_thv>Cross</td>  <!-- Populated onload -->
@@ -789,7 +797,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</tr>
 				<tr>
 					<td class=SC2_thv>SHD</td>
-					<td><input type=text id=SC2_SHD class=SC2 maxlength=4></td>
+					<td><input type=text id=SC2_SHD maxlength=4></td>
 				</tr>
 				<tr>
 					<td class=SC2_thv>Lace Option</td>
@@ -903,8 +911,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					See <button type=button id=SC2_see_notes class=SC2>Notes</button>
 					for more information.)
 				</td></tr>
-				<tr class=SC2_lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  class="SC2" maxlength=4></td></tr>
-				<tr class=SC2_lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input type=text id=SC2_SDB class="SC2" maxlength=4></td></tr>
+				<tr class=SC2_lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  maxlength=4></td></tr>
+				<tr class=SC2_lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input type=text id=SC2_SDB maxlength=4></td></tr>
 			
 				<tr class=SC2_separator><td colspan=3></td></tr>
 				<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
@@ -929,28 +937,28 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<tr class=SC2_separator><td colspan=3></td></tr>
 				<tr>
 					<td>Length Adjust.</td>
-					<td><input type=text id=SC2_SL_ADJ1 class=SC2 readonly tabindex="-1"></td>
-					<td><input type=text id=SC2_SL_ADJ2 class=SC2 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_SL_ADJ1 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_SL_ADJ2 readonly tabindex="-1"></td>
 				</tr>
 				<tr>
 					<td>Spoke Ratio</td>
-					<td><input type=text id=SC2_spoke_ratio1 class=SC2 readonly tabindex="-1"></td>
-					<td><input type=text id=SC2_spoke_ratio2 class=SC2 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_spoke_ratio1 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_spoke_ratio2 readonly tabindex="-1"></td>
 				</tr>
 				<tr>
 					<td>Bracing Angles</td>
-					<td><input type=text id=SC2_brace_angle1 class=SC2 readonly tabindex="-1">&deg;</td>
-					<td><input type=text id=SC2_brace_angle2 class=SC2 readonly tabindex="-1">&deg;</td>
+					<td><input type=text id=SC2_brace_angle1 readonly tabindex="-1">&deg;</td>
+					<td><input type=text id=SC2_brace_angle2 readonly tabindex="-1">&deg;</td>
 				</tr>
 				<tr>
 					<td>Tension Ratio</td>
-					<td><input type=text id=SC2_tension_ratio1 class=SC2 readonly tabindex="-1">%</td>
-					<td><input type=text id=SC2_tension_ratio2 class=SC2 readonly tabindex="-1">%</td>
+					<td><input type=text id=SC2_tension_ratio1 readonly tabindex="-1">%</td>
+					<td><input type=text id=SC2_tension_ratio2 readonly tabindex="-1">%</td>
 				</tr>
 				<tr>
 					<td>Tension</td>
-					<td><input type=text id=SC2_TENSION1 class=SC2 readonly tabindex="-1"></td>
-					<td><input type=text id=SC2_TENSION2 class=SC2 ></td>
+					<td><input type=text id=SC2_TENSION1 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_TENSION2></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=3></td></tr>
 				</tbody>
@@ -971,18 +979,18 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<tr class=SC2_th2>
 					<td></td>
 					<td colspan=2>Side 1</td>
-					<td><input type=checkbox id=SC2_SHOW_SIDE1 class=SC2></td>
+					<td><input type=checkbox id=SC2_SHOW_SIDE1></td>
 				</tr>
 				<tr>
 					<td>1</td>
-					<td><input type=text id=SC2_SPOKE_COLOR1 class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_SPOKE_LINE_SIZE1 class="SC2 SC2_do_size_input"></td>
-					<td><input type=checkbox id=SC2_SPOKE_SHOW1 class=SC2></td>
+					<td><input type=text id=SC2_SPOKE_COLOR1     class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_SPOKE_LINE_SIZE1 class=SC2_do_size_input></td>
+					<td><input type=checkbox id=SC2_SPOKE_SHOW1  class=SC2></td>
 				</tr>
 				<tr>
 					<td>2</td>
-					<td><input type=text id=SC2_SPOKE_COLOR2 class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_SPOKE_LINE_SIZE2 class="SC2 SC2_do_size_input"></td>
+					<td><input type=text id=SC2_SPOKE_COLOR2     class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_SPOKE_LINE_SIZE2 class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_SPOKE_SHOW2  class=SC2></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
@@ -993,21 +1001,21 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</tr>
 				<tr>
 					<td>3</td>
-					<td><input type=text id=SC2_SPOKE_COLOR3 class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_SPOKE_LINE_SIZE3 class="SC2 SC2_do_size_input"></td>
-					<td><input type=checkbox id=SC2_SPOKE_SHOW3 class=SC2></td>
+					<td><input type=text id=SC2_SPOKE_COLOR3     class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_SPOKE_LINE_SIZE3 class=SC2_do_size_input></td>
+					<td><input type=checkbox id=SC2_SPOKE_SHOW3  class=SC2></td>
 				</tr>
 				<tr>
 					<td>4</td>
-					<td><input type=text id=SC2_SPOKE_COLOR4 class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_SPOKE_LINE_SIZE4 class="SC2 SC2_do_size_input"></td>
-					<td><input type=checkbox id=SC2_SPOKE_SHOW4 class=SC2></td>
+					<td><input type=text id=SC2_SPOKE_COLOR4     class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_SPOKE_LINE_SIZE4 class=SC2_do_size_input></td>
+					<td><input type=checkbox id=SC2_SPOKE_SHOW4  class=SC2></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4><hr class=SC2></td></tr>
 				<tr>
 					<td>Axes</td>
-					<td><input type=text id=SC2_AXES_COLOR class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_AXES_LINE_SIZE  class="SC2 SC2_do_size_input"></td>
+					<td><input type=text id=SC2_AXES_COLOR     class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_AXES_LINE_SIZE class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_AXES_SHOW  class=SC2></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
@@ -1024,20 +1032,20 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<tr class=SC2_th1><td></td><td>Color</td><td>Size</td><td>Show?</td></tr>
 				<tr>
 					<td>Rim</td>
-					<td><input type=text id=SC2_RIM_COLOR class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_RIM_LINE_SIZE class="SC2 SC2_do_size_input"></td>
+					<td><input type=text id=SC2_RIM_COLOR     class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_RIM_LINE_SIZE class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_RIM_SHOW  class=SC2></td>
 				</tr>
 				<tr>
 					<td>F1</td>
-					<td><input type=text id=SC2_F1_COLOR class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_F1_LINE_SIZE class="SC2 SC2_do_size_input"></td>
+					<td><input type=text id=SC2_F1_COLOR     class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_F1_LINE_SIZE class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_F1_SHOW  class=SC2></td>
 				</tr>
 				<tr>
 					<td>F2</td>
-					<td><input type=text id=SC2_F2_COLOR class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_F2_LINE_SIZE class="SC2 SC2_do_size_input"></td>
+					<td><input type=text id=SC2_F2_COLOR     class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_F2_LINE_SIZE class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_F2_SHOW  class=SC2></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
@@ -1049,20 +1057,20 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</tr>
 				<tr>
 					<td>Rim</td>
-					<td><input type=text id=SC2_HOLES_RIM_COLOR class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_HOLES_RIM_SIZE class="SC2 SC2_do_size_input"></td>
+					<td><input type=text id=SC2_HOLES_RIM_COLOR    class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_HOLES_RIM_SIZE     class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_HOLES_RIM_SHOW class=SC2></td>
 				</tr>
 				<tr>
 					<td>F1</td>
-					<td><input type=text id=SC2_HOLES_F1_COLOR class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_HOLES_F1_SIZE class="SC2 SC2_do_size_input"></td>
+					<td><input type=text id=SC2_HOLES_F1_COLOR    class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_HOLES_F1_SIZE     class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_HOLES_F1_SHOW class=SC2></td>
 				</tr>
 				<tr>
 					<td>F2</td>
-					<td><input type=text id=SC2_HOLES_F2_COLOR class="SC2 SC2_color"></td>
-					<td><input type=text id=SC2_HOLES_F2_SIZE class="SC2 SC2_do_size_input"></td>
+					<td><input type=text id=SC2_HOLES_F2_COLOR    class=SC2_do_color_input></td>
+					<td><input type=text id=SC2_HOLES_F2_SIZE     class=SC2_do_size_input></td>
 					<td><input type=checkbox id=SC2_HOLES_F2_SHOW class=SC2></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
@@ -1101,7 +1109,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<div id=SC2_select_wheel_opts>
 				<div id=SC2_rename_box>
 					<select id=SC2_CURRENT_WHEEL class=SC2><!-- Populated onload --></select><br>
-					<input type=text id=SC2_WHEEL_NAME class=SC2 value="" tabindex=-1>
+					<input type=text id=SC2_WHEEL_NAME value="" tabindex=-1>
 				</div>
 				<button type=button id=SC2_rename_wheel class=SC2>Rename</button>
 			</div>
@@ -1110,7 +1118,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<button type=button id=SC2_load_sample       class=SC2>Load Sample</button>
 				<button type=button id=SC2_undo_sample_clear class=SC2>Undo</button>
 				<button type=button id=SC2_clear_settings    class=SC2>Clear</button>
-				<label id=SC2_max_wheels_label>Max:<input type=text id=SC2_max_wheels class=SC2></label>
+				<label id=SC2_max_wheels_label>Max:<input type=text id=SC2_max_wheels></label>
 			</div>
 		</div>
 
@@ -1147,13 +1155,13 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				<div class=SC2_rotate_scale_containers>
 					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_mode>Scale:</button>
 					<div id=SC2_SCALE_user_input_tab class=SC2_theme_standard>
-						<input type=text class=SC2 id=SC2_SCALE_user>mm (Wheel Window Size)
+						<input type=text id=SC2_SCALE_user>mm (Wheel Window Size)
 					</div>
 					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_down>-</button>
 					<input type=range id=SC2_SCALE_slider class=SC2 min=0 max=2000>
 					<button type=button class="SC2 SC2_mini_button" id=SC2_SCALE_up>+</button>
-					<input type=text  id=SC2_SCALE_text class=SC2>%
-					<input type=text  id=SC2_SCALE_step class="SC2 SC2_slider_step">
+					<input type=text id=SC2_SCALE_text>%
+					<input type=text id=SC2_SCALE_step class=SC2_slider_step>
 				</div>
 				<button type=button id=SC2_reset_scale_rotate class=SC2>Reset</button>
 				<div class=SC2_rotate_scale_containers>
@@ -1161,8 +1169,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<button type=button class="SC2 SC2_mini_button" id=SC2_ROTATE_down>-</button>
 					<input type=range id=SC2_ROTATE_slider class=SC2 min=0 max=360>
 					<button type=button class="SC2 SC2_mini_button" id=SC2_ROTATE_up>+</button>
-					<input type=text  id=SC2_ROTATE_text   class=SC2>&deg;
-					<input type=text  id=SC2_ROTATE_step   class="SC2 SC2_slider_step">
+					<input type=text id=SC2_ROTATE_text>&deg;
+					<input type=text id=SC2_ROTATE_step class=SC2_slider_step>
 				</div>
 			</div>
 		</div><!--//end SC2_scale_rotate_container-->
