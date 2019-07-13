@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//==============================================-->
-<script>var VERSION = "v2.48 2019-07-12 7:50pm"</script>
-<!--//==============================================-->
+<!--//===============================================-->
+<script>var VERSION = "v2.49 2019-07-13 3:25am"</script>
+<!--//===============================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -58,12 +58,11 @@ body { overflow-y: scroll; }
 
 #SC2_CONTAINER button {
 	border: solid 1px #444;
-	padding: 0px 5px 1px 4px;
+	padding: 1px 5px 1px 4px;
 	background:	linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC);
 	border-radius: 4px;
 	height: 22px;
 }
-#SC2_CONTAINER p > button, #SC2_CONTAINER div > button { padding: 1px 5px 1px 4px; }
 
 #SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
 #SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); }
@@ -121,13 +120,14 @@ input[type=checkbox]:hover { box-shadow: 0 0 0pt 1pt black; }
 select.SC2 {
 	display: inline-block;
 	vertical-align: middle;
-	padding: 0 0 0 .3rem;
 	width: 3.3rem;
 	font-size: .9rem;
 	height: 1.4rem;
 	border: solid 1px #7a7a7a;
 }
-select.SC2 option { padding-left: .5rem }
+
+#SC2_CONTAINER select.SC2 { padding: 0 0 0 .3rem; }
+
 select.SC2:hover { border-color: black; }
 
 /* Removes that annoying dotted onfocus outline of FF selects */
@@ -222,11 +222,11 @@ select.SC2:-moz-focusring {
 
 .SC2_theta { display: inline-block; width: .5rem; }
 
-table.SC2 tr td input.SC2_ph_inputs { margin: 0 0 0 0; width: 3.5rem; }
+#SC2_CONTAINER input.SC2_ph_inputs { margin: 0 0 0 0; width: 3.5rem; }
 
-select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
+#SC2_CONTAINER select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2em 0; }
 
-.SC2_rot_labels { font-size: .92rem; text-align: center; }
+#SC2_CONTAINER .SC2_rot_labels { font-size: .92rem; text-align: center; }
 
 #SC2_LACE_OPT   { margin: .5rem 0 .5rem 0; }
 
@@ -274,13 +274,12 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	padding: 0 0 0 0;
 	border: solid 1px transparent;
 }
-#SC2_CURRENT_WHEEL {
+#SC2_CONTAINER #SC2_CURRENT_WHEEL {
 	width  : 11.5rem;
 	margin : 0;
 	padding: 1px 0 0 0;
 	font-family: arial, sans-serif;
 }
-#SC2_CURRENT_WHEEL option { text-align: left; padding-left: .2rem;}
 
 #SC2_CONTAINER #SC2_WHEEL_NAME {
 	position: absolute;
@@ -297,17 +296,15 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	visibility : hidden; /** Visible during rename only. **/
 }
 
-
 #SC2_wheel_opts {
 	display: inline-block;
 	vertical-align: middle;
 	margin: 0 .2em 0 0;
-	padding: 1px 0 0 0;
+	padding: 2px 0 0 0;
 	border: solid 1px transparent;
 	height: 100%;
 	float: right;
  }
-
 
 #SC2_wheel_opts button { font-size: .75em; }
 
@@ -332,7 +329,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 #SC2_CONTAINER #SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; }
 #SC2_max_wheels_label {display: inline-block;  margin: 0 0 0 .5rem; border: solid 1px transparent; padding: 0 0 0 0; font-size: .9rem; }
 
-#SC2_undo_sample_clear { margin: 2px .3em 0 .3em }
+#SC2_undo_sample_clear { margin: 0 .3em 0 .3em }
 
 
 #SC2_list_container {
@@ -394,6 +391,7 @@ select.SC2_auto_angles { padding: 0; width: 8.8rem; margin: 0 0 .2rem 0; }
 	margin: 0 0 .2rem 0;
 }
 
+
 table.SC2 td { padding: 0 0 0 0; }
 table.SC2 th { height: 1.8rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
@@ -432,19 +430,32 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	position: relative;
 	display: inline-block;
 	height: 2rem;
-	padding: 0;
+	padding: 1px 0 0 0;
 	margin: 0;
 	border: solid 1px #444;
 	border-radius : 8px;
 }
 
+
+
+
+
+
 #SC2_CONTAINER #SC2_SCALE_mode {
+	display: inline-block;
 	width: 4.5rem;
+	height: 1.5em;
+	font-size: 1em;
 	font-weight: bold;
-	font-size: 1rem;
-	padding: 1px 0 0 .1rem;
+	padding: 0px 0 0 .1rem;
 	text-align: left;
+	vertical-align: text-top;
+	margin: -2px 0 0 .3em;
 }
+
+
+
+
 
 #SC2_SCALE_user_input_tab {
 	position: absolute;
@@ -477,7 +488,7 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 
 #SC2_scale_rotate_options {
 	display: inline-block;
-	padding: 1px 0 0 0;
+	padding: 2px 0 0 0;
 	margin: 0;
 	font-family: arial, sans-serif;
 	text-align: left;
@@ -488,18 +499,9 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 	width: 636px;
 }
 
-.SC2_rotate_scale_containers label { display: inline-block; vertical-align: middle; font-weight: bold; }
+#SC2_scale_rotate_options label { display: inline-block; vertical-align: middle; font-weight: bold; }
 
-.SC2_rotate_scale_containers {
-	display: inline-block;
-	padding: 0;
-	margin : 0;
-	text-align: center;
-	vertical-align: bottom;
-	border: solid 1px transparent;
-}
-
-#SC2_CONTAINER #SC2_reset_scale_rotate { margin: 0rem .6rem 1px .6rem; }
+#SC2_CONTAINER #SC2_reset_scale_rotate { margin: 0 .6rem 0 .6rem; }
 
 #SC2_SCALE_text, #SC2_ROTATE_text { width: 2.9rem; }
 
@@ -630,7 +632,15 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 
 #SC2_assumes { font-weight: bold }
 
-#SC2_other_calcs   { font-family: arial; text-align: left; margin: 0; }
+#SC2_other_calcs   {
+	font-family: arial, sans-serif;
+	text-align: left;
+	margin: .1em 0 0 0;
+	padding: .3em .3em 0 .3em;
+	border: solid 1px #7a7a7a;
+	border-radius: 8px; 
+}
+
 #SC2_other_calcs a { min-width: 75%; padding-left: .3em ;}
 
 #SC2_MSG_HEADER {
@@ -686,10 +696,10 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 	margin-top: 0;
 }
 
-td div.SC2_PHH_data { text-align: right; }
-td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
+#SC2_CONTAINER .SC2_PHH_data { text-align: right; }
+#SC2_CONTAINER .SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 
-.SC2_show_adv_opts { float: left; margin-left: .3rem; }
+#SC2_CONTAINER .SC2_show_adv_opts { float: left; margin-left: .3rem; }
 #SC2_eso_opts p { padding-top: .3rem; }
 
 .SC2_DO_theme { background-color: rgb(175,198,205); }
@@ -752,9 +762,9 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			<div id=SC2_message><br></div>
 			<button type=button id=SC2_ACCEPT_MSG>I Accept</button>
 		</div>
-
+		
 		<button type=button id=SC2_WHEEL_OR_DISPLAY class=SC2_ndo_buttons value="wheel">Show Display Settings</button>
-
+		
 		<div id=SC2_WHEEL_SETTINGS_container><!--===========-->
 			<table id=SC2_WHEEL_SETTINGS class="SC2 SC2_type_theme">
 				<tr><th colspan=2>Wheel Settings</th></tr>
@@ -770,7 +780,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 						</select>
 					</td>
 				</tr>
-	
+				
 				<tr><td class=SC2_thv>ERD</td><td><input type=text id=SC2_ERD maxlength=5></td></tr>
 				<tr><td class=SC2_thv>Rim Holes</td>
 					<td><select id=SC2_NR class=SC2><!-- Populated onload --></select></td>
@@ -784,7 +794,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					<td class=SC2_thv>PCD</td>
 					<td><input type=text id=SC2_PCD1 maxlength=5> <input type=text id=SC2_PCD2 maxlength=5></td>
 				</tr>
-	
+				
 				<tr id=SC1_flange_to_opts>
 					<td colspan=2>
 						<button type=button id=SC2_show_FL_to_LN class=SC2_mini_button value=none>+</button>
@@ -793,7 +803,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 						OLD&nbsp; &nbsp; &nbsp; &boxUR;<input type=text id=SC2_OLD maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
 					</td>
 				</tr>
-	
+				
 				<tr>
 					<td class=SC2_thv><label><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked> </label>OC Rim</td>
 					<td><input type=text id=SC2_OSB1 maxlength=4> <input type=text id=SC2_OSB2 maxlength=4></td>
@@ -816,8 +826,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					</td>
 				</tr>
 			</table><!--//end Wheel Settings -->
-	
-	
+
+
 			<table id=SC2_ADVANCED_SETTINGS class="SC2 SC2_type_theme">
 				<tr class=SC2_separator><td></td></tr>
 				<tbody id=SC2_PHH_options>
@@ -826,7 +836,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</td></tr>
 				<tr id=SC2_phh_opts>
 					<td>
-						<p>Auto-Angles	<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles"><!-- Populated onload --></select>
+						Auto-Angles	<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles"><!-- Populated onload --></select>
 						<div class=SC2_PHH_data>PH Angles
 						&#9484;<input type=text id=SC2_PHHA1 class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
 						<input type=text id=SC2_PHHA2 class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span><br>
@@ -883,10 +893,10 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 						</div>
 					</td>
 				</tr>
-				<tr><td><hr></td></tr>
 				</tbody>
-	
+				
 				<tbody id=SC2_ESO_options>
+				<tr><td><hr></td></tr>
 				<tr><td><button type=button id=SC2_show_eso_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
 				<tr id=SC2_eso_opts>
 					<td class=SC2_rot_labels>
@@ -894,10 +904,11 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 						<p>Rim Rotated <input type=text id=SC2_ROTR class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
 					</td>
 				</tr>
+				</tbody>
 				<tr class=SC2_separator><td></td></tr>
 			</table><!--//end Advanced Settings -->
-	
-	
+
+
 			<table id=SC2_SPOKE_LENGTHS class="SC2 SC2_type_theme">
 				<tr><th>Spoke Lengths</th></tr>
 				<tr>
@@ -907,8 +918,8 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 					</td>
 				</tr>
 			</table>
-	
-	
+
+
 			<button type=button id=SC2_show_hide_advanced class=SC2_ndo_buttons value=none>Advanced Build Info</button>
 			<table id=SC2_advanced_info class="SC2 SC2_type_theme">
 				<tbody id=SC2_adv_info_tbody>
@@ -920,7 +931,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 				</td></tr>
 				<tr class=SC2_lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  maxlength=4></td></tr>
 				<tr class=SC2_lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input type=text id=SC2_SDB maxlength=4></td></tr>
-			
+				
 				<tr class=SC2_separator><td colspan=3></td></tr>
 				<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
 				<tr>
@@ -972,7 +983,7 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 			</table>
 		</div><!--end SC2_WHEEL_SETTINGS_container -->
 
-		
+
 
 
 		<div id=SC2_DISPLAY_SETTINGS><!-- ==========-->
@@ -1159,26 +1170,22 @@ td div.SC2_PH_data_1 { text-align: right; padding-right: 2rem; }
 		<div id=SC2_scale_rotate_container class=SC2_theme_standard>
 			<button type=button id=SC2_show_hide_scale class=SC2_open_close_toolbar value=none>+</button>
 			<div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
-				<div class=SC2_rotate_scale_containers>
-					<button type=button class=SC2_mini_button id=SC2_SCALE_mode>Scale:</button>
-					<div id=SC2_SCALE_user_input_tab class=SC2_theme_standard>
-						<input type=text id=SC2_SCALE_user>mm (Wheel Window Size)
-					</div>
-					<button type=button class=SC2_mini_button id=SC2_SCALE_down>-</button>
-					<input type=range id=SC2_SCALE_slider class=SC2 min=0 max=2000>
-					<button type=button class=SC2_mini_button id=SC2_SCALE_up>+</button>
-					<input type=text id=SC2_SCALE_text>%
-					<input type=text id=SC2_SCALE_step class=SC2_slider_step>
+				<button type=button id=SC2_SCALE_mode>Scale:</button>
+				<div id=SC2_SCALE_user_input_tab class=SC2_theme_standard>
+					<input type=text id=SC2_SCALE_user>mm (Wheel Window Size)
 				</div>
+				<button type=button class=SC2_mini_button id=SC2_SCALE_down>-</button>
+				<input type=range id=SC2_SCALE_slider class=SC2 min=0 max=2000>
+				<button type=button class=SC2_mini_button id=SC2_SCALE_up>+</button>
+				<input type=text id=SC2_SCALE_text>%
+				<input type=text id=SC2_SCALE_step class=SC2_slider_step>
 				<button type=button id=SC2_reset_scale_rotate>Reset</button>
-				<div class=SC2_rotate_scale_containers>
-					<label>Rotate:</label>
-					<button type=button class=SC2_mini_button id=SC2_ROTATE_down>-</button>
-					<input type=range id=SC2_ROTATE_slider class=SC2 min=0 max=360>
-					<button type=button class=SC2_mini_button id=SC2_ROTATE_up>+</button>
-					<input type=text id=SC2_ROTATE_text>&deg;
-					<input type=text id=SC2_ROTATE_step class=SC2_slider_step>
-				</div>
+				<label>Rotate:</label>
+				<button type=button class=SC2_mini_button id=SC2_ROTATE_down>-</button>
+				<input type=range id=SC2_ROTATE_slider class=SC2 min=0 max=360>
+				<button type=button class=SC2_mini_button id=SC2_ROTATE_up>+</button>
+				<input type=text id=SC2_ROTATE_text>&deg;
+				<input type=text id=SC2_ROTATE_step class=SC2_slider_step>
 			</div>
 		</div><!--//end SC2_scale_rotate_container-->
 	</div><!--//end SC2_right_side ========================================-->
@@ -1563,16 +1570,16 @@ MSGS.clear_all += "Are you sure?\n\n";
 
 
 var nonD_CALCS = [
-	["Sheldon's SpoCalc"           , "https://www.sheldonbrown.com/rinard/spocalc.htm"],
-	["Mr. Rabbit's SpokeChart v2-0", "http://www.mrrabbit.net/wheelsbyflemingapplications.php"],
-	["Bike School"                 , "https://www.bikeschool.com/index.php/resources/spoke-calculator"],
-	["Pro Wheel Builder"           , "http://www.prowheelbuilder.com/spokelengthcalculator"],
-	["Edd"                         , "https://leonard.io/edd/"],
-	["Sapim"                       , "http://www.sapim.be/spoke-calculator"],
-	["DT Swiss"                    , "https://spokes-calculator.dtswiss.com/en/"],
-	["Wheel Pro"                   , "http://www.wheelpro.co.uk/spokecalc/"],
-	["Bike Tech Tools"             , "https://biketechtools.com/spoke-length-calculator"],
-	["FreeSpoke"                   , "http://www.kstoerz.com/freespoke/fullcalc"],
+	["Sheldon's SpoCalc", "https://www.sheldonbrown.com/rinard/spocalc.htm"],
+	["Mr. Rabbit's SpokeChart (xls)<br>(link near bottom of page)", "http://www.mrrabbit.net/wheelsbyflemingapplications.php"],
+	["Bike School"      , "https://www.bikeschool.com/index.php/resources/spoke-calculator"],
+	["Pro Wheel Builder", "http://www.prowheelbuilder.com/spokelengthcalculator"],
+	["Edd"              , "https://leonard.io/edd/"],
+	["Sapim"            , "http://www.sapim.be/spoke-calculator"],
+	["DT Swiss"         , "https://spokes-calculator.dtswiss.com/en/"],
+	["Wheel Pro"        , "http://www.wheelpro.co.uk/spokecalc/"],
+	["Bike Tech Tools"  , "https://biketechtools.com/spoke-length-calculator"],
+	["FreeSpoke"        , "http://www.kstoerz.com/freespoke/fullcalc"],
 ];
 
 
@@ -2005,7 +2012,7 @@ var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".8
 var AUTO_ROT_OPTS_CUSTOM = '<option value="1.5">+1 1/2 Hole</option> <option value="1.375">+1 3/8 Hole</option> <option value="1.25">+1 1/4 Hole</option> <option value="1.125">+1 1/8 Hole</option> ' + AUTO_ROT_OPTS_COMMON + ' <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option>';
 
 
-var SAMPLE_WHEELS = {"wheels":{"2":{"WHEEL_NAME":"Sample Standard","WHEEL_TYPE":"standard","ERD":"577","NR":"24","NF1":"12","NF2":"12","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"0","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"3":{"WHEEL_NAME":"Sample Triplet","WHEEL_TYPE":"triplet","ERD":"577","NR":"24","NF1":"8","NF2":"16","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"22.5","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"4":{"WHEEL_NAME":"Sample PHR","WHEEL_TYPE":"phr","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":".25","PHRA":"3.75","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"215","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"5":{"WHEEL_NAME":"Sample PHH","WHEEL_TYPE":"phh","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"6":{"WHEEL_NAME":"Skip-Hole Triplet","WHEEL_TYPE":"custom","ERD":"577","NR":"36","NF1":"18","NF2":"18","PCD1":"38","PCD2":"50","FTC1":"37.3","FTC2":"17.2","OLD":"","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"20","PHHA2":"20","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"10","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":false,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"7":{"WHEEL_NAME":"SSR rear","WHEEL_TYPE":"phh_phr","ERD":"588","NR":"24","NF1":"12","NF2":"12","PCD1":"47","PCD2":"47","FTC1":"30","FTC2":"18","OLD":"","OSB_linked":false,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"auto","ROTF":"20.07","RIM_AUTO_ANGLES":"off","PHRA":"-5.07","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"25","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"8":{"WHEEL_NAME":"540 - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"45","PCD2":"50","FTC1":"35","FTC2":"18","OLD":"130","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"1","SX2":"0","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"off","PHHA1":"5.625","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213.75","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"9":{"WHEEL_NAME":"540 - front","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"40","PCD2":"40","FTC1":"32","FTC2":"32","OLD":"100","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"0","SX2":"0","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213","ROTATE_step":"0.25","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"10":{"WHEEL_NAME":"Prima - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"60","PCD2":"76","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"1","SX2":"1","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".375","PHHA1":"16.875","PHHA2":"16.875","AUTO_ROT":".5","ROTF":"22.5","RIM_AUTO_ANGLES":"off","PHRA":"1.98","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",}}}
+var SAMPLE_WHEELS = {"wheels":{"2":{"WHEEL_NAME":"Sample Standard","WHEEL_TYPE":"standard","ERD":"577","NR":"24","NF1":"12","NF2":"12","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"0","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"3":{"WHEEL_NAME":"Sample Triplet","WHEEL_TYPE":"triplet","ERD":"577","NR":"24","NF1":"8","NF2":"16","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"22.5","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"4":{"WHEEL_NAME":"Sample PHR","WHEEL_TYPE":"phr","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":".25","PHRA":"3.75","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"215","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"5":{"WHEEL_NAME":"Sample PHH","WHEEL_TYPE":"phh","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"6":{"WHEEL_NAME":"Skip-Hole Triplet","WHEEL_TYPE":"custom","ERD":"577","NR":"36","NF1":"18","NF2":"18","PCD1":"38","PCD2":"50","FTC1":"37.3","FTC2":"17.2","OLD":"","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"20","PHHA2":"20","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"10","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":false,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"7":{"WHEEL_NAME":"SSR rear","WHEEL_TYPE":"phh_phr","ERD":"588","NR":"24","NF1":"12","NF2":"12","PCD1":"47","PCD2":"47","FTC1":"30","FTC2":"18","OLD":"","OSB_linked":false,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"auto","ROTF":"20.07","RIM_AUTO_ANGLES":"off","PHRA":"-5.07","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"25","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"8":{"WHEEL_NAME":"540 - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"45","PCD2":"50","FTC1":"35","FTC2":"18","OLD":"130","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"1","SX2":"0","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"off","PHHA1":"5.625","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213.75","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"9":{"WHEEL_NAME":"540 - front","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"40","PCD2":"40","FTC1":"32","FTC2":"32","OLD":"100","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"0","SX2":"0","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213","ROTATE_step":"0.25","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"10":{"WHEEL_NAME":"Prima - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"60","PCD2":"76","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"1","SX2":"1","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".375","PHHA1":"16.875","PHHA2":"16.875","AUTO_ROT":".5","ROTF":"22.5","RIM_AUTO_ANGLES":"off","PHRA":"1.98","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",}}}
 
 
 
@@ -2585,6 +2592,9 @@ function Show_Hide_all_Topics(show, init) {
 
 
 function Show_Hide_PH_Hub_Rim_Options(phh, phr, eso) {
+
+	if (phh && phr) { $PHR_FROT_DIVIDER.style.display = ""; }
+	else            { $PHR_FROT_DIVIDER.style.display = "none"; }
 
 	if (phh || phr) {
 		Show_Hide($ADVANCED_SETTINGS, true);
@@ -3958,18 +3968,15 @@ function Set_Auto_Rot() {
 	//Set_Auto_Rot() should only be available in phh, phr, or custom modes.
 
 	var NR  = $NR.value*1;
-	$PHR_FROT_DIVIDER.innerHTML = '<hr>';
-
 
 	//"Linked to PH Rim" Auto-Rotation option only available ...
 	if (($WHEEL_TYPE.value == "phh_phr") || ($WHEEL_TYPE.value == "custom")) {
-		$AUTO_ROT_LINKED.disabled = false;
-	}
-	else {
-		$AUTO_ROT_LINKED.disabled = true;
-		if ($AUTO_ROT.value == "auto") { $AUTO_ROT.value = "off"; } //Set to "Manual" to preserve existing PH value.
-		$PHR_FROT_DIVIDER.innerHTML = '<hr>';
-	}
+		   $AUTO_ROT_LINKED.disabled = false; }
+	else { $AUTO_ROT_LINKED.disabled = true; }
+
+
+	if ($AUTO_ROT.value == "auto") { $PHR_FROT_DIVIDER.innerHTML = '&#x1f517;'; }
+	else                           { $PHR_FROT_DIVIDER.innerHTML = '<hr>'; }
 
 
 	if ($AUTO_ROT.value == "off")  {
@@ -3980,7 +3987,6 @@ function Set_Auto_Rot() {
 		Validate_Input($PHRA, false, true);
 		if (NR < 1) { var rotf = 0; }
 		else        { var rotf = (360/NR - $PHRA.value); }
-		$PHR_FROT_DIVIDER.innerHTML = '&#x1f517;';
 	}
 	else { //0, .25, .50, .75, 1.0, ...etc
 		if (NR > 0) { var n_holes = NR;           }
@@ -5192,7 +5198,7 @@ function Add_Contact_Info() {
 	var $ADMIN_LINK = E_('admin_link');
 	var issues = 'mai' + 'lto' + ':d' + 'spokecalculat' + 'or.ne' + 't';
 	issues = issues.replace(":d", ":d@");
-	$ADMIN_LINK.innerHTML = "d&#064;" + "spokecalculat" + "or&#046;ne" + "<span style='display:none;'>XXXXX</span>" + "t";
+	$ADMIN_LINK.innerHTML = "d&#064;" + "spokecalculat" + "or&#046;ne" + "<span style='display:none;'>x</span>" + "t";
 	$ADMIN_LINK.addEventListener("mouseover", function(){ this.href = issues; });
 	$ADMIN_LINK.addEventListener("focus"    , function(){ this.href = issues; });
 }//end Add_Contact_Info()
