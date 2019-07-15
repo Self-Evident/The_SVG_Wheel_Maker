@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//===============================================-->
-<script>var VERSION = "v2.49 2019-07-13 3:25am"</script>
+<script>var VERSION = "v2.50 2019-07-14 9:05pm"</script>
 <!--//===============================================-->
 
 <template id=SC2_LICENSE>
@@ -62,6 +62,7 @@ body { overflow-y: scroll; }
 	background:	linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC);
 	border-radius: 4px;
 	height: 22px;
+	color: black;
 }
 
 #SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
@@ -86,10 +87,6 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER #SC2_show_hide_advanced { margin-top:  .5em; }
 #SC2_CONTAINER #SC2_show_hide_other    { margin: 1.5em 0 0 0; }
 
-#SC2_CONTAINER input:focus, 
-#SC2_CONTAINER select:focus, 
-#SC2_CONTAINER button:focus { box-shadow: 0 0 3pt 1pt #006060 }
-
 #SC2_CONTAINER input[type=text] {
 	padding, 0;
 	height: 1.33rem;
@@ -99,19 +96,30 @@ body { overflow-y: scroll; }
 	font-family: courier, monospace;
 	border: solid 1px gray;
 	border-radius: 0;
+	color: #000;
 }
 
-input[type=checkbox]:hover { box-shadow: 0 0 0pt 1pt black; }
 
+#SC2_CONTAINER input:focus, 
+#SC2_CONTAINER select:focus, 
+#SC2_CONTAINER button:focus { box-shadow: 0 0 3pt 1pt #006060 }
 
+#SC2_CONTAINER input[type=text]:hover { box-shadow: 0 0 0pt .8pt #006060; }
+#SC2_CONTAINER input[type=checkbox]:hover { box-shadow: 0 0 0pt 1pt black; }
+#SC2_CONTAINER input:disabled:hover { box-shadow: none; }
 
-#SC2_CONTAINER input[readonly] {
+#SC2_CONTAINER input:disabled {
 	border: solid .05rem #077;
 	border-radius: 4px;
-	background-color: rgba(255,255,255, .8);
+	background-color: rgba(255,255,255, .6);
+	color: #000;
+	font-weight: normal;
+	font-size: 1rem;
 }
 
-#SC2_CONTAINER input[disabled], select.SC2:disabled {
+#SC2_WHEEL_SETTINGS    input:disabled, /* Must come after general input:disabled styles. Avoids most  */
+#SC2_ADVANCED_SETTINGS input:disabled, /* Advanced Build Info inputs, which are used as outputs only. */
+#SC2_CONTAINER         select:disabled {
 	color			: #555;
 	background-color: rgba(255,255,255, .6);
 	border: solid 1px #7a7a7a;
@@ -124,6 +132,7 @@ select.SC2 {
 	font-size: .9rem;
 	height: 1.4rem;
 	border: solid 1px #7a7a7a;
+	background-color: white;
 }
 
 #SC2_CONTAINER select.SC2 { padding: 0 0 0 .3rem; }
@@ -155,7 +164,7 @@ select.SC2:-moz-focusring {
 	margin: auto;
 	text-align: left;
 	padding: 1rem 0 0 0;
-	visibility: hidden;  /* visibility & opacity changed at end of onload. */
+	visibility: hidden;  /* Set to visible at end of onload. */
 	display: block;
 	width: 930px;
 }
@@ -544,7 +553,7 @@ input[type=range].SC2::-ms-thumb {
 
 
 #SC2_adv_hdr { border-bottom: solid 2px #333; }
-#SC2_adv_r1c1 { width: 8rem }
+#SC2_adv_r1c1 { width: 42.5%; }
 #SC2_adv_r1c2 { }
 #SC2_adv_r1c2 { }
 
@@ -566,7 +575,7 @@ input[type=range].SC2::-ms-thumb {
 	padding: 0 0 0 0;
 }
 
-#SC2_see_notes { border-radius: 5px; }
+#SC2_CONTAINER #SC2_see_notes { border-radius: 5px;}
 
 #SC2_notes td { padding: .2rem .2rem .5rem .5rem; border: solid 1px #555; }
 #SC2_notes th { padding: .2rem .5rem .2rem .5rem; border: solid 1px #555; }
@@ -607,28 +616,24 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 .SC2_th1  { height: 1.0rem; text-decoration: underline; font-weight: bold; }
 .SC2_th2  { height: 1.8rem; text-decoration: underline; }
 
-#SC2_CONTAINER div.SC2_lengths { display: inline-block; margin: .3rem .3rem; vertical-align: top; }
-
-#SC2_CONTAINER span.SC2_lengths {
+#SC2_CONTAINER div.SC2_lengths {
 	display: inline-block;
+	margin: .3rem .3rem;
+	width: 5rem;
+	min-height: 1.5rem;
 	padding: 2px 0 0 0;
 	border: solid .05rem #077;
 	border-radius: 4px;
 	background-color: rgba(255,255,255, .8);
-	width: 5rem;
 	font: bold 1.1rem courier, monospace;
-	min-height: 1.5rem;
 }
 
 
-table#SC2_advanced_info.SC2 { border-spacing: 2px; display: inline-block; }
+#SC2_CONTAINER select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
+
 #SC2_advanced_info td { font-size: .9rem; text-align: left; padding-left: .2rem; }
-
-select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
-
-#SC2_advanced_info .SC2_lesser_settings td, td.SC2_lesser_settings { font-size: .8em; padding-left: .5rem; }
+#SC2_advanced_info .SC2_lesser_settings td { font-size: .8em; padding-left: .5rem; }
 #SC2_advanced_info .SC2_lesser_settings td input { width: 2rem; font-size: .9rem; }
-
 
 #SC2_assumes { font-weight: bold }
 
@@ -913,8 +918,8 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 				<tr><th>Spoke Lengths</th></tr>
 				<tr>
 					<td>
-						<div class=SC2_lengths><span id=SC2_SL1 class=SC2_lengths></span></div>
-						<div class=SC2_lengths><span id=SC2_SL2 class=SC2_lengths></span></div>
+						<div class=SC2_lengths id=SC2_SL1></div>
+						<div class=SC2_lengths id=SC2_SL2></div>
 					</td>
 				</tr>
 			</table>
@@ -955,27 +960,27 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 				<tr class=SC2_separator><td colspan=3></td></tr>
 				<tr>
 					<td>Length Adjust.</td>
-					<td><input type=text id=SC2_SL_ADJ1 readonly tabindex="-1"></td>
-					<td><input type=text id=SC2_SL_ADJ2 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_SL_ADJ1 disabled tabindex="-1"></td>
+					<td><input type=text id=SC2_SL_ADJ2 disabled tabindex="-1"></td>
 				</tr>
 				<tr>
 					<td>Spoke Ratio</td>
-					<td><input type=text id=SC2_spoke_ratio1 readonly tabindex="-1"></td>
-					<td><input type=text id=SC2_spoke_ratio2 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_spoke_ratio1 disabled tabindex="-1"></td>
+					<td><input type=text id=SC2_spoke_ratio2 disabled tabindex="-1"></td>
 				</tr>
 				<tr>
 					<td>Bracing Angles</td>
-					<td><input type=text id=SC2_brace_angle1 readonly tabindex="-1">&deg;</td>
-					<td><input type=text id=SC2_brace_angle2 readonly tabindex="-1">&deg;</td>
+					<td><input type=text id=SC2_brace_angle1 disabled tabindex="-1">&deg;</td>
+					<td><input type=text id=SC2_brace_angle2 disabled tabindex="-1">&deg;</td>
 				</tr>
 				<tr>
 					<td>Tension Ratio</td>
-					<td><input type=text id=SC2_tension_ratio1 readonly tabindex="-1">%</td>
-					<td><input type=text id=SC2_tension_ratio2 readonly tabindex="-1">%</td>
+					<td><input type=text id=SC2_tension_ratio1 disabled tabindex="-1">%</td>
+					<td><input type=text id=SC2_tension_ratio2 disabled tabindex="-1">%</td>
 				</tr>
 				<tr>
 					<td>Tension</td>
-					<td><input type=text id=SC2_TENSION1 readonly tabindex="-1"></td>
+					<td><input type=text id=SC2_TENSION1 disabled tabindex="-1"></td>
 					<td><input type=text id=SC2_TENSION2></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=3></td></tr>
@@ -1425,7 +1430,7 @@ select.SC2_elbows_laced { padding-left: 0px; font-size: .9rem; width: 4.1rem; }
 			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Elbows Laced</a></th>
 				<td>Specify if the spokes are laced elbows In, Out, or Center.  This affects the bracing angle and tension ratio.  It also affects spoke length a tiny amount. The differences between "Center" and "In" or "Out" are determined by Flange Width and Spoke Diameter at Bend.
 					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by most spoke length calculators.  However, except for specially made hubs and spokes (eg: straight pull), spokes can not actually be laced "center".
-					<p>So, if "Center" is used to approximate a common wheel where the spokes are acually laced alternately in/out/in/out (default), the other Advanced values (Length Adjust, Bracing Angles, etc) are just rough approximations.
+					<p>"Center" can be used to approximate a common wheel where the spokes are acually laced alternately in/out/in/out (default).  In that case, the other Advanced values (Length Adjust, Bracing Angles, etc) are just rough approximations.  Or, you can toggle between laced in & laced out to see the difference, as half of the spokes are laced one way or the other.
 					<p>A lot of other superfluous details are left out, because it gets complicated and doesn't really matter. So, go ride!
 				</td>
 			</tr>
@@ -2877,7 +2882,7 @@ function Output_Spoke_Lengths(side) {
 
 
 function Spoke_Length_Calculator(f) {
-	//Tradtional method for basic wheel lacings. Not currently used within except for dev.
+	//Tradtional method for basic wheel lacings. Not currently used except for dev.
 	//Not valid for some paired-hole, some skip-hole, and maybe other configurations.
 	//That is, this function only calcs one length, based on spoke 1 (laced to holes 1 in rim & hub),
 	//and some lacing patterns produce two spoke lengths per side (or more for really esoteric patterns).
@@ -2935,7 +2940,7 @@ function Create_Spoke_Holes($hole_group, base_id, N, scale, shd, side, offset) {
 	for (var sh = 1; sh <= N; sh++) {
 		var full_id = base_id + sh;
 		var classes = base_id;
-		
+
 		cx = Math.sin( (a_current/180) * Math.PI) * scale;
 		cy = Math.cos( (a_current/180) * Math.PI) * scale;
 		
@@ -5169,11 +5174,6 @@ function Init_Display_NR_SX(display_options, imported) {
 	Load_Settings(display_options, imported);
 
 	if (imported) { Save_Settings("display"); }
-	else {
-		//Reduce the visually jarring, if brief,  jumping around of page elements during page load.
-		$CONTAINER.style['visibility'] = "visible";
-		$CONTAINER.style.opacity = '1';
-	}
 
 	Init_Show_Hide_Options();
 
@@ -5254,6 +5254,12 @@ function Init() {
 	$PRIOR_FOCUS = D.activeElement;
 
 	$SC2_VERSION.innerHTML = VERSION;
+
+	//$CONTAINER set to hidden in <style> sheet. This reduces the visually jarring, 
+	//if brief, jumping around of page elements during page load, as some page elements
+	//are ultimately hidden, depending on various settings.
+	$CONTAINER.style['visibility'] = "visible";
+	$CONTAINER.style.opacity = '1';
 }//end Init()
 
 
