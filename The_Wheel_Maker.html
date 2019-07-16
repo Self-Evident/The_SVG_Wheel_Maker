@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//===============================================-->
-<script>var VERSION = "v2.50 2019-07-14 9:05pm"</script>
+<script>var VERSION = "v2.51 2019-07-15 8pm"</script>
 <!--//===============================================-->
 
 <template id=SC2_LICENSE>
@@ -1006,40 +1006,40 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</tr>
 				<tr>
 					<td>1</td>
-					<td><input type=text id=SC2_SPOKE_COLOR1     class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_SPOKE_LINE_SIZE1 class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_SPOKE_SHOW1 class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_SPOKE_COLOR1></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_SPOKE_LINE_SIZE1></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_SPOKE_SHOW1></label></td>
 				</tr>
 				<tr>
 					<td>2</td>
-					<td><input type=text id=SC2_SPOKE_COLOR2     class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_SPOKE_LINE_SIZE2 class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_SPOKE_SHOW2 class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_SPOKE_COLOR2></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_SPOKE_LINE_SIZE2></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_SPOKE_SHOW2></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 				<tr>
 					<td></td>
 					<td colspan=2 class=SC2_th2>Side 2</td>
-					<td><label><input type=checkbox id=SC2_SHOW_SIDE2 class=SC2></label></td>
+					<td><label><input type=checkbox class=SC2 id=SC2_SHOW_SIDE2></label></td>
 				</tr>
 				<tr>
 					<td>3</td>
-					<td><input type=text id=SC2_SPOKE_COLOR3     class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_SPOKE_LINE_SIZE3 class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_SPOKE_SHOW3 class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_SPOKE_COLOR3></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_SPOKE_LINE_SIZE3></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_SPOKE_SHOW3></label></td>
 				</tr>
 				<tr>
 					<td>4</td>
-					<td><input type=text id=SC2_SPOKE_COLOR4     class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_SPOKE_LINE_SIZE4 class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_SPOKE_SHOW4 class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_SPOKE_COLOR4></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_SPOKE_LINE_SIZE4></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_SPOKE_SHOW4></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4><hr></td></tr>
 				<tr>
 					<td>Axes</td>
-					<td><input type=text id=SC2_AXES_COLOR     class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_AXES_LINE_SIZE class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_AXES_SHOW class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_AXES_COLOR></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_AXES_LINE_SIZE></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_AXES_SHOW></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 			</table>
@@ -1055,46 +1055,46 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<tr class=SC2_th1><td class=SC2_DO_group_col></td><td>Color</td><td>Size</td><td>Show?</td></tr>
 				<tr>
 					<td>Rim</td>
-					<td><input type=text id=SC2_RIM_COLOR     class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_RIM_LINE_SIZE class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_RIM_SHOW class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_RIM_COLOR></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_RIM_LINE_SIZE></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_RIM_SHOW></label></td>
 				</tr>
 				<tr>
 					<td>F1</td>
-					<td><input type=text id=SC2_F1_COLOR     class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_F1_LINE_SIZE class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_F1_SHOW class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_F1_COLOR></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_F1_LINE_SIZE></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_F1_SHOW></label></td>
 				</tr>
 				<tr>
 					<td>F2</td>
-					<td><input type=text id=SC2_F2_COLOR     class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_F2_LINE_SIZE class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_F2_SHOW class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_F2_COLOR></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_F2_LINE_SIZE></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_F2_SHOW></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 
 				<tr>
 					<td></td>
 					<td colspan=2 class=SC2_th2>Spoke Holes</td>
-					<td><label><input type=checkbox id=SC2_HOLES_SHOW_ALL class=SC2></label></td>
+					<td><label><input type=checkbox class=SC2 id=SC2_HOLES_SHOW_ALL></label></td>
 				</tr>
 				<tr>
 					<td>Rim</td>
-					<td><input type=text id=SC2_HOLES_RIM_COLOR    class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_HOLES_RIM_SIZE     class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_HOLES_RIM_SHOW class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_HOLES_RIM_COLOR></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_HOLES_RIM_SIZE></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_HOLES_RIM_SHOW></label></td>
 				</tr>
 				<tr>
 					<td>F1</td>
-					<td><input type=text id=SC2_HOLES_F1_COLOR    class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_HOLES_F1_SIZE     class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_HOLES_F1_SHOW class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_HOLES_F1_COLOR></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_HOLES_F1_SIZE></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_HOLES_F1_SHOW></label></td>
 				</tr>
 				<tr>
 					<td>F2</td>
-					<td><input type=text id=SC2_HOLES_F2_COLOR    class=SC2_do_color_input></td>
-					<td><input type=text id=SC2_HOLES_F2_SIZE     class=SC2_do_size_input></td>
-					<td><label><input type=checkbox id=SC2_HOLES_F2_SHOW class=SC2></label></td>
+					<td><input type=text class=SC2_do_color_input id=SC2_HOLES_F2_COLOR></td>
+					<td><input type=text class=SC2_do_size_input  id=SC2_HOLES_F2_SIZE></td>
+					<td><label><input type=checkbox class=SC2     id=SC2_HOLES_F2_SHOW></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 			</table>
@@ -1182,15 +1182,15 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<button type=button class=SC2_mini_button id=SC2_SCALE_down>-</button>
 				<input type=range id=SC2_SCALE_slider class=SC2 min=0 max=2000>
 				<button type=button class=SC2_mini_button id=SC2_SCALE_up>+</button>
-				<input type=text id=SC2_SCALE_text>%
-				<input type=text id=SC2_SCALE_step class=SC2_slider_step>
+				<input type=text id=SC2_SCALE_text maxlength=5>%
+				<input type=text id=SC2_SCALE_step class=SC2_slider_step maxlength=6>
 				<button type=button id=SC2_reset_scale_rotate>Reset</button>
 				<label>Rotate:</label>
 				<button type=button class=SC2_mini_button id=SC2_ROTATE_down>-</button>
 				<input type=range id=SC2_ROTATE_slider class=SC2 min=0 max=360>
 				<button type=button class=SC2_mini_button id=SC2_ROTATE_up>+</button>
-				<input type=text id=SC2_ROTATE_text>&deg;
-				<input type=text id=SC2_ROTATE_step class=SC2_slider_step>
+				<input type=text id=SC2_ROTATE_text maxlength=5>&deg;
+				<input type=text id=SC2_ROTATE_step class=SC2_slider_step maxlength=6>
 			</div>
 		</div><!--//end SC2_scale_rotate_container-->
 	</div><!--//end SC2_right_side ========================================-->
@@ -2054,6 +2054,29 @@ function Normalize_Event(event) {
 
 
 
+function Number_Input_Only(event, allow_fp) {
+	//Restrict input to digits & a few special keys.
+	var e = Normalize_Event(event);
+
+	//Allow control & alt keys
+	if (e.ctrlKey || e.altKey) {return;}
+
+	//Allow floating point #'s?    period(main keyboard)=110; period(keypad)=190
+	if (allow_fp  &&  ((e.key_code == 110) || (e.key_code == 190))) { return; }
+
+	//Allow: 
+	//backspace=8; tab=9; enter=13; end=35; home=36; arrows are 37-40; insert=45; delete=46;
+	//keyboard top row numbers (0-9)=48-57; keypad numbers (0-9)=96-105;
+	if ( !(  (e.key_code ==   8) || (e.key_code ==   9)  || (e.key_code ==  13)  || 
+			((e.key_code >=  35) && (e.key_code <=  40)) || 
+			((e.key_code >=  45) && (e.key_code <=  57)) ||
+			((e.key_code >=  96) && (e.key_code <= 105)) ))
+	{ e.preventDefault ? e.preventDefault() : (e.returnValue = false); }
+}//end Number_Input_Only()
+
+
+
+
 function Pad10(number, pad_str) {
 	if (typeof pad_str == "undefined") { pad_str = "&nbsp; "; }
 	if ((number * 1) < 10) { var pad = pad_str; } else { var pad = ""; }
@@ -2545,7 +2568,8 @@ function Show_Hide_Class(classname, show, what, style) {
 	
 
 
-function Show_Hide($what, show, save, style, value) {
+function Show_Hide($what, show, save, style, value, save_what) {
+	//save_what is either "wheel", else "display".
 	if (typeof value == 'undefined') { value = ""; }
 
 	if (style == 'visibility') {
@@ -2557,7 +2581,10 @@ function Show_Hide($what, show, save, style, value) {
 		else 	  { $what.style.display = "none" }
 	}
 
-	if (save) { Save_Settings("display"); }
+	if (save) {
+		if (save_what !== "wheel") { save_what = "display"; }
+		Save_Settings(save_what);
+	}
 }//end Show_Hide()
 
 
@@ -3234,7 +3261,6 @@ function Set_Styles_Spokes_and_Axis() {
 
 
 function Set_Styles_Rim_etc() {
-
 	Make_Rim(); //Rim line size affects displayed rim radius.
 
 	$FLANGE1.style['stroke'] = $F1_COLOR.value;
@@ -4354,6 +4380,23 @@ function Topic_Select_Focus(event) {
 
 
 
+function Assign_Number_Keydown_Events() {
+	var $inputs = [$ERD, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $FTL[1], $FTL[2], $OLD, $OSB[1], $OSB[2], $SHD, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $ROTF, $PHRA, $PHRD, $ROTR, $FW, $SDB, $TENSION[2], $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $AXES_LINE_SIZE, $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $HOLES_RIM_SIZE, $HOLES_F1_SIZE, $HOLES_F2_SIZE, $MAX_WHEELS, $SCALE_user, $SCALE_text, $SCALE_step, $ROTATE_text, $ROTATE_step];
+
+	var $only_ints = [$NF[1], $NF[2], $MAX_WHEELS];
+
+	for (var i = 0; i < $inputs.length; i++) {
+		if ($only_ints.includes($inputs[i])) { var allow_fp = false; } else { var allow_fp = true; }
+
+		(function(fp) {
+			$inputs[i].addEventListener("keydown", function(event){ Number_Input_Only(event, fp); });
+		})(allow_fp); //(allow_fp) passed to functin(fp)...
+	}
+}//end Assign_Number_Keydown_Events()
+
+
+
+
 function Assign_Events() {
 	//Most, except for some assigned during Build_Choose_Topic_List().
 
@@ -4800,10 +4843,12 @@ function Assign_Events() {
 		$HOLES_RIM_SHOW.checked = this.checked;
 		$HOLES_F1_SHOW.checked  = this.checked;
 		$HOLES_F2_SHOW.checked  = this.checked;
-		Show_Hide_Class( RIM_HOLES   , this.checked, 'wheel');
-		Show_Hide_Class( HUB_HOLES[1], this.checked, 'wheel');
-		Show_Hide_Class( HUB_HOLES[2], this.checked, 'wheel');
+		Show_Hide_Class( RIM_HOLES   , this.checked);
+		Show_Hide_Class( HUB_HOLES[1], this.checked);
+		Show_Hide_Class( HUB_HOLES[2], this.checked);
+		Save_Settings("wheel");
 	});
+
 
 	$HOLES_RIM_COLOR.addEventListener("change", function() { Set_Style_by_Class( RIM_HOLES, "fill" , this.value, save); });
 	$HOLES_RIM_SHOW .addEventListener("change", function() {
@@ -4817,17 +4862,19 @@ function Assign_Events() {
 		Save_Settings("wheel");
 	});
 
+
 	$HOLES_F1_COLOR.addEventListener("change", function() { Set_Style_by_Class( HUB_HOLES[1], "fill" , this.value, save); });
 	$HOLES_F1_SHOW .addEventListener("change", function() {
 		Show_Hide_Class( HUB_HOLES[1], this.checked, 'wheel');
 		Show_All_Holes_Checked();
-		});
+	});
 	
 	$HOLES_F1_SIZE.addEventListener("change", function() { //$HOLES_F1_SIZE is diameter
 		if (!Validate_Input(this)) { return false; }
 		Set_Attribute_by_Class( HUB_HOLES[1], 'r', this.value/2); //set *radius* of holes (this.value/2)
 		Save_Settings("wheel");
 	});
+
 
 	$HOLES_F2_COLOR.addEventListener("change", function() { Set_Style_by_Class( HUB_HOLES[2], "fill" , this.value, save); });
 	$HOLES_F2_SHOW .addEventListener("change", function() {
@@ -5209,6 +5256,7 @@ function Add_Contact_Info() {
 function Init() {
 
 	Assign_Events(); //Most, except for some assigned during Build_Choose_Topic_List().
+	Assign_Number_Keydown_Events();
 	
 	$COPY_LICENSE.innerHTML += $LICENSE.innerHTML;
 
@@ -5246,12 +5294,10 @@ function Init() {
 	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
 	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
 
-	//##### Enable disclaimer msg on first load & resets?
-	$ACCEPT_MSG.ENABLED = false; //##### true; //#####
+	//Disclaimer message for first load & resets.
+	$ACCEPT_MSG.ENABLED = false; //true enables disclaimer message.
+	//Uncomment the next line if $ACCEPT_MSG.ENABLED above is set to true.
 	//##### Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus after accepted.
-	$ERD.focus();
-
-	$PRIOR_FOCUS = D.activeElement;
 
 	$SC2_VERSION.innerHTML = VERSION;
 
@@ -5260,6 +5306,9 @@ function Init() {
 	//are ultimately hidden, depending on various settings.
 	$CONTAINER.style['visibility'] = "visible";
 	$CONTAINER.style.opacity = '1';
+
+	$ERD.focus();
+	$PRIOR_FOCUS = D.activeElement;
 }//end Init()
 
 
