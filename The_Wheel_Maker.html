@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//===============================================-->
-<script>var VERSION = "v2.51 2019-07-15 8pm"</script>
+<script>var VERSION = "v2.52 2019-07-22 2:20am"</script>
 <!--//===============================================-->
 
 <template id=SC2_LICENSE>
@@ -43,6 +43,7 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER p { margin: .4rem 0; }
 #SC2_CONTAINER pre { font-family: courier, monospace; text-align: left; }
 #SC2_CONTAINER hr {margin: .5rem 0; }
+#SC2_CONTAINER textarea { font-family: courier, mono; }
 
 #SC2_CONTAINER a {
 	display: inline-block;
@@ -66,7 +67,7 @@ body { overflow-y: scroll; }
 }
 
 #SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
-#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
 #SC2_CONTAINER button:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 0px 6px 1px 3px; }
 
 #SC2_CONTAINER button::-moz-focus-inner { border: 0 }
@@ -102,10 +103,11 @@ body { overflow-y: scroll; }
 
 #SC2_CONTAINER input:focus, 
 #SC2_CONTAINER select:focus, 
-#SC2_CONTAINER button:focus { box-shadow: 0 0 3pt 1pt #006060 }
+#SC2_CONTAINER button:focus  { box-shadow:       0 0 3pt 1pt #006060; }
+#SC2_CONTAINER button:active { box-shadow: inset 0 2px 3px rgba(0, 96, 96, 0.7); }
 
-#SC2_CONTAINER input[type=text]:hover { box-shadow: 0 0 0pt .8pt #006060; }
-#SC2_CONTAINER input[type=checkbox]:hover { box-shadow: 0 0 0pt 1pt black; }
+#SC2_CONTAINER input[type=text]:hover     { box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
+#SC2_CONTAINER input[type=checkbox]:hover { box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
 #SC2_CONTAINER input:disabled:hover { box-shadow: none; }
 
 #SC2_CONTAINER input:disabled {
@@ -117,42 +119,43 @@ body { overflow-y: scroll; }
 	font-size: 1rem;
 }
 
+ 
 #SC2_WHEEL_SETTINGS    input:disabled, /* Must come after general input:disabled styles. Avoids most  */
 #SC2_ADVANCED_SETTINGS input:disabled, /* Advanced Build Info inputs, which are used as outputs only. */
+#SC2_IMPORT_container  input:disabled,
 #SC2_CONTAINER         select:disabled {
 	color			: #555;
 	background-color: rgba(255,255,255, .6);
 	border: solid 1px #7a7a7a;
 }
 
-select.SC2 {
+#SC2_CONTAINER select {
 	display: inline-block;
 	vertical-align: middle;
 	width: 3.3rem;
+	padding: 0 0 0 .3rem;
 	font-size: .9rem;
 	height: 1.4rem;
 	border: solid 1px #7a7a7a;
 	background-color: white;
 }
 
-#SC2_CONTAINER select.SC2 { padding: 0 0 0 .3rem; }
-
-select.SC2:hover { border-color: black; }
+#SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
 
 /* Removes that annoying dotted onfocus outline of FF selects */
-select.SC2:-moz-focusring {
+#SC2_CONTAINER select:-moz-focusring {
 	color: transparent;
 	text-shadow: 0 0 0 #000;
 }
 
 
 
-#SC2_disable_page {
-    position: fixed;
+#SC2_CONTAINER #SC2_disable_page {
+    position: absolute;
     z-index: 998;
     background: #EEE;
     display: none;
-    opacity: .3;
+    opacity: .5;
     width: 100%;
     height: 100%;
 }
@@ -200,11 +203,17 @@ select.SC2:-moz-focusring {
 	border-radius: 4px;
 }
 
-#SC2_CONTAINER .SC2_imex_btns { height: 2rem; font-size: 1rem; padding: 0 1em ; border-radius: 6px; margin: .5rem 0 0 1rem; }
+#SC2_CONTAINER button.SC2_imex_btns {
+	height : 2rem;
+	margin : .5rem 0 0 1rem;
+	padding: 0 .5em;
+	font-size: 1rem;
+	border-radius: 6px;
+}
 
-.SC2_IMEX_DATA { border: solid 1px black; padding: .3rem; margin-top: .5rem; font-family: courier, monospace; word-break: break-all;}
+#SC2_CONTAINER .SC2_IMEX_DATA { border: solid 1px black; padding: .3rem; margin-top: .5rem; font-family: courier, monospace; word-break: break-all;}
 
-#SC2_EXPORT_OUTPUT { }
+#SC2_EXPORT_OUTPUT { font-family: courier, mono; }
 
 #SC2_IMPORT_INPUT  {
 	width: 100%;
@@ -219,9 +228,7 @@ select.SC2:-moz-focusring {
 
 .SC2_disabled { color: #777; }
 
-#SC2_IMPORT_INDEX:disabled { border: solid 1px #ccc; color: #ccc; }
-
-#SC2_WHEEL_TYPE { margin: 0 0 .3rem .2rem; padding-left: .1rem; width: 11rem; }
+#SC2_CONTAINER #SC2_WHEEL_TYPE { margin: 0 0 .3rem .2rem; padding-left: .1rem; width: 11rem; }
 
 #SC1_flange_to_opts { text-align: right }
 
@@ -332,8 +339,14 @@ select.SC2:-moz-focusring {
 #SC2_CONTAINER #SC2_show_wheel_opts { border-top-right-radius:0; border-bottom-right-radius:0; }
 
 
-#SC2_auto_copy_container { font-size: .9rem; padding: 2px .6rem 0 .2rem; border: 0; }
-#SC2_auto_copy { margin: 0 0 0 2px; }
+#SC2_auto_copy_container {
+	display: inline-block;
+	margin: 0 1em 0 0;
+	padding: 2px 0 0 .2rem;
+	vertical-align: bottom;
+	font-size: .9rem;
+}
+#SC2_auto_copy { display: inline-block; margin: 0 0 .3em 2px; vertical-align: bottom; }
 
 #SC2_CONTAINER #SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; }
 #SC2_max_wheels_label {display: inline-block;  margin: 0 0 0 .5rem; border: solid 1px transparent; padding: 0 0 0 0; font-size: .9rem; }
@@ -344,8 +357,8 @@ select.SC2:-moz-focusring {
 #SC2_list_container {
 	text-align: center;
 	position: absolute;
-	left: 15.3rem;
-	top: .3rem;
+	left: 16.5rem;
+	top: .2rem;
 	display: inline-block;
 	border: solid 1px #444;
 	width: 14rem;
@@ -368,13 +381,13 @@ select.SC2:-moz-focusring {
 }
 
 #SC2_X_close_load_sample {
-	float:right;
+	float :right;
 	height: 1.3rem;
 	margin: -.1rem .15rem 0 0;
 	padding: 1px 3px 0 3px;
 }
 
-#SC2_sample_wheel_list {
+#SC2_CONTAINER #SC2_sample_wheel_list {
 	margin: 0;
 	display: inline-block;
 	border: solid 2px transparent;
@@ -387,7 +400,7 @@ select.SC2:-moz-focusring {
 #SC2_sample_wheel_list:focus { border: solid 2px teal; box-shadow: 0 0 3pt 1pt #006060 }
 
 
-#SC2_CONTAINER table.SC2 {
+#SC2_CONTAINER table {
 	display: inline-table;
 	width: 100%;
 	font-family: arial, sans-serif;
@@ -401,10 +414,10 @@ select.SC2:-moz-focusring {
 }
 
 
-table.SC2 td { padding: 0 0 0 0; }
-table.SC2 th { height: 1.8rem; font-size: 1.1rem; border-bottom: solid 2px #333}
+#SC2_CONTAINER table td { padding: 0 0 0 0; }
+#SC2_CONTAINER table th { height: 1.8rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
-table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-weight: bold; }
+#SC2_CONTAINER table .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-weight: bold; }
 
 .SC2_separator { padding: 0; height: .3rem; }
 
@@ -518,32 +531,36 @@ table.SC2 .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-
 
 #SC2_DISPLAY_SETTINGS  { vertical-align: top; border: 0; width: 100%; }
 
-input[type=range].SC2 {
+#SC2_CONTAINER input[type=range] {
 	-webkit-appearance: none;
 	outline: 0;
 	border: solid 1px transparent;
-	margin: 0 0 0 0;
+	margin: 0 0 1.5px 0;
 	display: inline-block;
 	vertical-align: middle;
 	width: 4.5rem;
 	height: .5rem;
 }
-input[type=range].SC2:hover { }
+#SC2_CONTAINER input[type=range]:hover { border: solid 1px #888; box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
+
+#SC2_CONTAINER input[type=range]::-moz-focus-outer { border: 0; } /* Removes that annoying dotted onfocus outline. */
 
 /*FF*/
-input[type=range].SC2::-moz-range-track { background-color: rgba(255,255,255,.8); height: 3px; }
-input[type=range].SC2::-moz-range-thumb {
-	width: 16px;
-	height: 20px;
-	background: white;  /**148,180,188,**/
-	border: solid 1px #666;
-	border-radius: 5px;
+#SC2_CONTAINER input[type=range]::-moz-range-track { background-color: rgba(255,255,255,1); height: 4px; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb {
+	width: 12px;
+	height: 21px;
+	background: white;
+	border: solid 1px #777;
+	border-radius: 6.5px;
+	padding: 3px 0 0 0;
 }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { border: solid 1px #444; background-color: #DDD; }
 
 /*IE*/
-input[type=range].SC2::-ms-fill-lower { background-color: rgba(255,255,255,.8); height: 5px; }
-input[type=range].SC2::-ms-fill-upper { background-color: rgba(255,255,255,.8); height: 5px; }
-input[type=range].SC2::-ms-thumb {
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: rgba(255,255,255,1); height: 5px; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: rgba(255,255,255,1); height: 5px; }
+#SC2_CONTAINER input[type=range]::-ms-thumb {
 	border-radius: 5px;
 	border: solid 1px #666;
 	background: rgba(255,255,255,.8);  /**148,180,188,**/
@@ -559,17 +576,22 @@ input[type=range].SC2::-ms-thumb {
 
 #SC2_show_hide_notes { width: 16rem; margin: 0 0 0 0; }
 
-#SC2_TOPIC_select { height: 2rem; min-width: 16rem; font-size: 1rem; margin-bottom: .25rem; border-radius: 8px;}
+#SC2_CONTAINER #SC2_TOPIC_select { height: 2rem; min-width: 16rem; font-size: 1rem;
+	margin-bottom: .25rem;
+	margin-top: -2px;
+	border-radius: 8px;
+}
 
 .SC2_help_topic { cursor: pointer; }
 
-#SC2_notes p { margin-top: .5rem; }
+#SC2_CONTAINER #SC2_notes p { margin-top: .5rem; }
 
-#SC2_notes  {
+#SC2_CONTAINER #SC2_notes  {
 	display: table;
 	width: 100%; 
 	vertical-align: top;
 	border: solid 0px black;
+	border-collapse	: collapse;
 	font-family: arial, sans-serif;
 	text-align: left;
 	padding: 0 0 0 0;
@@ -577,18 +599,18 @@ input[type=range].SC2::-ms-thumb {
 
 #SC2_CONTAINER #SC2_see_notes { border-radius: 5px;}
 
-#SC2_notes td { padding: .2rem .2rem .5rem .5rem; border: solid 1px #555; }
-#SC2_notes th { padding: .2rem .5rem .2rem .5rem; border: solid 1px #555; }
-#SC2_notes th.SC2_th1 { font-size: 1.2rem; text-decoration: none; }
-#SC2_notes th.SC2 { width: 9.2rem; }
+#SC2_CONTAINER #SC2_notes td { padding: .2rem .2rem .5rem .5rem; border: solid 1px #555; }
+#SC2_CONTAINER #SC2_notes th { padding: .2rem .5rem .2rem .5rem; border: solid 1px #555; }
+#SC2_CONTAINER #SC2_notes th.SC2_th1 { font-size: 1.2rem; text-decoration: none; }
+#SC2_CONTAINER #SC2_notes th { width: 9.2rem; }
 
-#SC2_notes .SC2_lacing_examples { border: solid 1px #777; display: inline-block; margin: .3rem 0 .3rem 0; padding: .4rem; }
-#SC2_notes .SC2_lacing_examples p { margin: 0 0 .5rem 0; }
+#SC2_CONTAINER #SC2_notes .SC2_lacing_examples { border: solid 1px #777; display: inline-block; margin: .3rem 0 .3rem 0; padding: .4rem; }
+#SC2_CONTAINER #SC2_notes .SC2_lacing_examples p { margin: 0 0 .5rem 0; }
 
 #SC2_notes_container { width: 100%; border: 0; min-height: 30rem; }
 
 
-.SC2_list_option_in_text {
+#SC2_CONTAINER .SC2_list_option_in_text {
 	display: inline-block;
 	width: 9rem;
 	border: solid 1px gray;
@@ -689,7 +711,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 }
 
 
-#SC2_ACCEPT_MSG { font-size: 1.2rem; margin: 1rem 0; padding: 0 1em; height: 2em; }
+#SC2_CONTAINER #SC2_ACCEPT_MSG { font: bold 1.2rem arial,san-serif; margin: 1rem 0; padding: .4em 1em 1em 1em; height: 2em; }
 
 #SC2_DELETE_ALL_DATA {  }
 
@@ -732,7 +754,6 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 <div id=SC2_CONTAINER><!--====================================================-->
 	<div id=SC2_disable_page></div><!--Used to cover page for "modal" mode.-->
-
 	<div id=SC2_IMPORT_container class=SC2_imex_containers>
 		<button type=button id=SC2_X_import class=SC2_X_imex_windows>X</button>
 		<p>Copy/Paste your previously saved data to the area below, then click "Import Data".</p>
@@ -748,7 +769,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			<button type=button id=SC2_close_import      class=SC2_imex_btns>Cancel and Return to Wheel</button>
 		<p><label><input type=checkbox id=SC2_PRESERVE_INDEX> Preserve Index.</label>
 			<label id=SC2_import_index_label>Place imported wheels beginning at index <input type=text id=SC2_IMPORT_INDEX value=1></label>
-		<textarea id=SC2_IMPORT_INPUT class="SC2 SC2_IMEX_DATA"></textarea>
+		<textarea id=SC2_IMPORT_INPUT class=SC2_IMEX_DATA></textarea>
 	</div>
 
 	<div id=SC2_EXPORT_container class=SC2_imex_containers>
@@ -771,11 +792,11 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 		<button type=button id=SC2_WHEEL_OR_DISPLAY class=SC2_ndo_buttons value="wheel">Show Display Settings</button>
 		
 		<div id=SC2_WHEEL_SETTINGS_container><!--===========-->
-			<table id=SC2_WHEEL_SETTINGS class="SC2 SC2_type_theme">
+			<table id=SC2_WHEEL_SETTINGS class=SC2_type_theme>
 				<tr><th colspan=2>Wheel Settings</th></tr>
 				<tr>
 					<td colspan=2><b>Type</b>
-						<select id=SC2_WHEEL_TYPE class=SC2>
+						<select id=SC2_WHEEL_TYPE>
 							<option value="standard">Standard</option>
 							<option value="triplet" >Triplet</option>
 							<option value="phr"     >Paired-Hole Rim (PHR)</option>
@@ -788,7 +809,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				
 				<tr><td class=SC2_thv>ERD</td><td><input type=text id=SC2_ERD maxlength=5></td></tr>
 				<tr><td class=SC2_thv>Rim Holes</td>
-					<td><select id=SC2_NR class=SC2><!-- Populated onload --></select></td>
+					<td><select id=SC2_NR><!-- Populated onload --></select></td>
 				</tr>
 				<tr><td></td><td>Side 1 &nbsp;Side 2</td></tr>
 				<tr>
@@ -815,7 +836,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</tr>
 				<tr>
 					<td class=SC2_thv>Cross</td>  <!-- Populated onload -->
-					<td><select id=SC2_SX1 class=SC2></select> <select id=SC2_SX2 class=SC2></select></td>
+					<td><select id=SC2_SX1></select> <select id=SC2_SX2></select></td>
 				</tr>
 				<tr>
 					<td class=SC2_thv>SHD</td>
@@ -824,7 +845,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<tr>
 					<td class=SC2_thv>Lace Option</td>
 					<td>
-						<select id=SC2_LACE_OPT class=SC2>
+						<select id=SC2_LACE_OPT>
 							<option value="-1">&nbsp;2</option>
 							<option value=" 1" selected>&nbsp;1</option>
 						</select>
@@ -833,7 +854,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			</table><!--//end Wheel Settings -->
 
 
-			<table id=SC2_ADVANCED_SETTINGS class="SC2 SC2_type_theme">
+			<table id=SC2_ADVANCED_SETTINGS class=SC2_type_theme>
 				<tr class=SC2_separator><td></td></tr>
 				<tbody id=SC2_PHH_options>
 				<tr><td><button type=button id=SC2_show_phh_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button>
@@ -841,7 +862,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td></tr>
 				<tr id=SC2_phh_opts>
 					<td>
-						Auto-Angles	<select id=SC2_HUB_AUTO_ANGLES class="SC2 SC2_auto_angles"><!-- Populated onload --></select>
+						Auto-Angles	<select id=SC2_HUB_AUTO_ANGLES class="SC2_auto_angles"><!-- Populated onload --></select>
 						<div class=SC2_PHH_data>PH Angles
 						&#9484;<input type=text id=SC2_PHHA1 class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
 						<input type=text id=SC2_PHHA2 class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span><br>
@@ -850,8 +871,8 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 						<input type=text id=SC2_PHHD2 class=SC2_ph_inputs maxlength=6><span class=SC2_theta> </span>
 						</div>
 						<p>Hub Flange Rotations</p>
-						<div class=SC2>Auto-Rotate
-							<select id=SC2_AUTO_ROT class="SC2 SC2_auto_angles">
+						<div>Auto-Rotate
+							<select id=SC2_AUTO_ROT class="SC2_auto_angles">
 								<optgroup id=SC2_AUTO_ROT_OPTS label=""><!-- Populated onload --></optgroup>
 								<option value="auto" id=SC2_auto_rot_linked>Linked to PH Rim</option>
 								<option value="off">Manual</option>
@@ -871,7 +892,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td></tr>
 				<tr id=SC2_phr_opts>
 					<td>Auto-Angles
-						<select id=SC2_RIM_AUTO_ANGLES class="SC2 SC2_auto_angles">
+						<select id=SC2_RIM_AUTO_ANGLES class="SC2_auto_angles">
 							<option value="2">2 x Even</option>
 							<option value="1.75" >+3/4 Even</option>
 							<option value="1.5"  >+1/2 Even</option>
@@ -905,7 +926,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<tr><td><button type=button id=SC2_show_eso_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
 				<tr id=SC2_eso_opts>
 					<td class=SC2_rot_labels>
-						<p><label>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING class=SC2> (rear wheel)</label>
+						<p><label>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING> (rear wheel)</label>
 						<p>Rim Rotated <input type=text id=SC2_ROTR class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
 					</td>
 				</tr>
@@ -914,7 +935,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			</table><!--//end Advanced Settings -->
 
 
-			<table id=SC2_SPOKE_LENGTHS class="SC2 SC2_type_theme">
+			<table id=SC2_SPOKE_LENGTHS class=SC2_type_theme>
 				<tr><th>Spoke Lengths</th></tr>
 				<tr>
 					<td>
@@ -926,7 +947,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 
 			<button type=button id=SC2_show_hide_advanced class=SC2_ndo_buttons value=none>Advanced Build Info</button>
-			<table id=SC2_advanced_info class="SC2 SC2_type_theme">
+			<table id=SC2_advanced_info class=SC2_type_theme>
 				<tbody id=SC2_adv_info_tbody>
 				<tr><td id=SC2_adv_r1c1></td><td id=SC2_adv_r1c2></td><td id=SC2_adv_r1c3></td></tr>
 				<tr class=SC2_separator><td colspan=3 id=SC2_adv_hdr>
@@ -942,14 +963,14 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<tr>
 					<td>Elbows Laced</td>
 					<td>
-						<select id=SC2_ELBOWS1 class="SC2 SC2_elbows_laced">
+						<select id=SC2_ELBOWS1 class="SC2_elbows_laced">
 							<option value="-1">In</option>
 							<option value="0" >Center</option>
 							<option value="1" >Out</option>
 						</select>
 					</td>
 					<td>
-						<select id=SC2_ELBOWS2 class="SC2 SC2_elbows_laced">
+						<select id=SC2_ELBOWS2 class="SC2_elbows_laced">
 							<option value="-1">In</option>
 							<option value="0" >Center</option>
 							<option value="1" >Out</option>
@@ -992,7 +1013,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 
 		<div id=SC2_DISPLAY_SETTINGS><!-- ==========-->
-			<table class="SC2 SC2_DO SC2_DO_theme">
+			<table class="SC2_DO SC2_DO_theme">
 				<tr>
 					<th colspan=4>Spokes
 						<button type=button id=SC2_reset_options_spokes class=SC2_reset_button>Reset</button>
@@ -1008,43 +1029,43 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<td>1</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_SPOKE_COLOR1></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_SPOKE_LINE_SIZE1></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_SPOKE_SHOW1></label></td>
+					<td><label><input type=checkbox id=SC2_SPOKE_SHOW1></label></td>
 				</tr>
 				<tr>
 					<td>2</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_SPOKE_COLOR2></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_SPOKE_LINE_SIZE2></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_SPOKE_SHOW2></label></td>
+					<td><label><input type=checkbox id=SC2_SPOKE_SHOW2></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 				<tr>
 					<td></td>
 					<td colspan=2 class=SC2_th2>Side 2</td>
-					<td><label><input type=checkbox class=SC2 id=SC2_SHOW_SIDE2></label></td>
+					<td><label><input type=checkbox id=SC2_SHOW_SIDE2></label></td>
 				</tr>
 				<tr>
 					<td>3</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_SPOKE_COLOR3></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_SPOKE_LINE_SIZE3></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_SPOKE_SHOW3></label></td>
+					<td><label><input type=checkbox id=SC2_SPOKE_SHOW3></label></td>
 				</tr>
 				<tr>
 					<td>4</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_SPOKE_COLOR4></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_SPOKE_LINE_SIZE4></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_SPOKE_SHOW4></label></td>
+					<td><label><input type=checkbox id=SC2_SPOKE_SHOW4></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4><hr></td></tr>
 				<tr>
 					<td>Axes</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_AXES_COLOR></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_AXES_LINE_SIZE></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_AXES_SHOW></label></td>
+					<td><label><input type=checkbox id=SC2_AXES_SHOW></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 			</table>
 
-			<table class="SC2 SC2_DO SC2_DO_theme">
+			<table class="SC2_DO SC2_DO_theme">
 				<tr>
 					<th colspan=4>
 						Rim &amp; Flanges
@@ -1057,44 +1078,44 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<td>Rim</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_RIM_COLOR></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_RIM_LINE_SIZE></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_RIM_SHOW></label></td>
+					<td><label><input type=checkbox id=SC2_RIM_SHOW></label></td>
 				</tr>
 				<tr>
 					<td>F1</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_F1_COLOR></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_F1_LINE_SIZE></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_F1_SHOW></label></td>
+					<td><label><input type=checkbox id=SC2_F1_SHOW></label></td>
 				</tr>
 				<tr>
 					<td>F2</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_F2_COLOR></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_F2_LINE_SIZE></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_F2_SHOW></label></td>
+					<td><label><input type=checkbox id=SC2_F2_SHOW></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 
 				<tr>
 					<td></td>
 					<td colspan=2 class=SC2_th2>Spoke Holes</td>
-					<td><label><input type=checkbox class=SC2 id=SC2_HOLES_SHOW_ALL></label></td>
+					<td><label><input type=checkbox id=SC2_HOLES_SHOW_ALL></label></td>
 				</tr>
 				<tr>
 					<td>Rim</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_HOLES_RIM_COLOR></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_HOLES_RIM_SIZE></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_HOLES_RIM_SHOW></label></td>
+					<td><label><input type=checkbox id=SC2_HOLES_RIM_SHOW></label></td>
 				</tr>
 				<tr>
 					<td>F1</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_HOLES_F1_COLOR></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_HOLES_F1_SIZE></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_HOLES_F1_SHOW></label></td>
+					<td><label><input type=checkbox id=SC2_HOLES_F1_SHOW></label></td>
 				</tr>
 				<tr>
 					<td>F2</td>
 					<td><input type=text class=SC2_do_color_input id=SC2_HOLES_F2_COLOR></td>
 					<td><input type=text class=SC2_do_size_input  id=SC2_HOLES_F2_SIZE></td>
-					<td><label><input type=checkbox class=SC2     id=SC2_HOLES_F2_SHOW></label></td>
+					<td><label><input type=checkbox id=SC2_HOLES_F2_SHOW></label></td>
 				</tr>
 				<tr class=SC2_separator><td colspan=4></td></tr>
 			</table>
@@ -1124,20 +1145,20 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	<div id=SC2_right_side>
 		<div id=SC2_list_container><h4 id=SC2_sample_list_hdr class=SC2_theme_standard>Choose Sample
 			<button type=button id=SC2_X_close_load_sample>Done</button></h4>
-			<select id=SC2_sample_wheel_list class=SC2 size=10><!--//Populated onload--></select>
+			<select id=SC2_sample_wheel_list size=10><!--//Populated onload--></select>
 		</div>
 
-		<div id=SC2_header_opts class="SC2 SC2_DO_theme">
+		<div id=SC2_header_opts class=SC2_DO_theme>
 			<button type=button id=SC2_show_wheel_opts class=SC2_open_close_toolbar value=none>+</button>
 			<div id=SC2_select_wheel_opts>
 				<div id=SC2_rename_box>
-					<select id=SC2_CURRENT_WHEEL class=SC2><!-- Populated onload --></select><br>
+					<select id=SC2_CURRENT_WHEEL><!-- Populated onload --></select><br>
 					<input type=text id=SC2_WHEEL_NAME value="" tabindex=-1>
 				</div>
 				<button type=button id=SC2_rename_wheel>Rename</button>
 			</div>
-			<div id=SC2_wheel_opts class=SC2>
-				<label id=SC2_auto_copy_container>Auto Copy<input type=checkbox id=SC2_auto_copy class=SC2></label>
+			<div id=SC2_wheel_opts>
+				<label id=SC2_auto_copy_container>Auto Copy<input type=checkbox id=SC2_auto_copy></label>
 				<button type=button id=SC2_load_sample>Load Sample</button>
 				<button type=button id=SC2_undo_sample_clear>Undo</button>
 				<button type=button id=SC2_clear_settings>Clear</button>
@@ -1174,20 +1195,20 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 		<div id=SC2_scale_rotate_container class=SC2_theme_standard>
 			<button type=button id=SC2_show_hide_scale class=SC2_open_close_toolbar value=none>+</button>
-			<div id=SC2_scale_rotate_options class="SC2 SC2_DO_theme">
+			<div id=SC2_scale_rotate_options class=SC2_DO_theme>
 				<button type=button id=SC2_SCALE_mode>Scale:</button>
 				<div id=SC2_SCALE_user_input_tab class=SC2_theme_standard>
 					<input type=text id=SC2_SCALE_user>mm (Wheel Window Size)
 				</div>
 				<button type=button class=SC2_mini_button id=SC2_SCALE_down>-</button>
-				<input type=range id=SC2_SCALE_slider class=SC2 min=0 max=2000>
+				<input type=range id=SC2_SCALE_slider min=0 max=2000>
 				<button type=button class=SC2_mini_button id=SC2_SCALE_up>+</button>
 				<input type=text id=SC2_SCALE_text maxlength=5>%
 				<input type=text id=SC2_SCALE_step class=SC2_slider_step maxlength=6>
 				<button type=button id=SC2_reset_scale_rotate>Reset</button>
 				<label>Rotate:</label>
 				<button type=button class=SC2_mini_button id=SC2_ROTATE_down>-</button>
-				<input type=range id=SC2_ROTATE_slider class=SC2 min=0 max=360>
+				<input type=range id=SC2_ROTATE_slider min=0 max=360>
 				<button type=button class=SC2_mini_button id=SC2_ROTATE_up>+</button>
 				<input type=text id=SC2_ROTATE_text maxlength=5>&deg;
 				<input type=text id=SC2_ROTATE_step class=SC2_slider_step maxlength=6>
@@ -1197,14 +1218,14 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 
 	<br><br><br>
-	<button type=button id=SC2_show_hide_notes class=SC2_ndo_buttons value=none>Notes etc.</button>
-	<select id=SC2_TOPIC_select class=SC2>
+	<button type=button id=SC2_show_hide_notes class=SC2_ndo_buttons value=none>Show/Hide Notes</button>
+	<select id=SC2_TOPIC_select>
 		<option value=0 selected>Choose a Help Topic</option>
 		<optgroup id=SC2_TOPIC_list label=""><!-- Populated onload --></optgroup>
 	</select>
 	<div id=SC2_notes_container>
 		<table id=SC2_notes>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Disclaimer</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Disclaimer</a></th>
 				<td>
 					<div id=SC2_responsibility>
 						<p id=SC2_assumes>In all cases, the user assumes full responsibility for any use of this program.  It may work.  It may not.  I don't know.  I hope it does, but THERE ARE NO GUARENTEES.
@@ -1217,14 +1238,14 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Wheel</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Wheel</a></th>
 				<td><p>
 					<p>All wheels with saved settings are marked with two colons (::) after the wheel number in the Wheel select list.
 					<p>Wheel names can be blank.  You can click [Rename] and delete the name, except for the " :: " indicator.
 				</td>
 			</tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Auto Copy</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Auto Copy</a></th>
 				<td>
 					<p>Values for the current wheel can be copied to a blank wheel (one that has no settings):
 					<ul>
@@ -1236,7 +1257,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Max</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Max</a></th>
 				<td><p>Number of slots in the "Wheel" select list.
 					<p>Note that if you have 10 wheels, and change "Max" to 5, wheels above 5 are not lost.
 					   If you change "Max" back to 10, all existing wheels up to 10 will be listed.
@@ -1244,49 +1265,49 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Load Sample</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Load Sample</a></th>
 				<td>Loads a complete set of values and builds a sample wheel.</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Clear</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Clear</a></th>
 				<td>Clears and removes the saved settings for the current wheel.</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Undo</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Undo</a></th>
 				<td><p>This will undo the most recent "Load Sample", or the most recent "Clear",
 					but only if no wheel settings have been changed since clicking either button.
 					<p>
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Wheel Settings</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Wheel Settings</a></th>
 				<td><p><b>All measured settings are mm (millimeters), except those that aren't (like angles).</b></td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Type</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Type</a></th>
 				<td><p>Determines the base type of wheel: Standard, Triplet, Paired-Hole Rim, Paired-Hole Hub, Paired-Hole Rim with Paired-Hole Hub, Custom.
 					<p>Each "Type" has various restrictions on hole count, spoke cross, Lace Type, etc, depending on the nature of the type.  Never-the-less, this does not guarantee that the generated wheel will be realistic or practical.
 					<p>When changing the Type, some wheel values - such as Rim Holes, Flange Holes, and Spoke Cross - may automatically be adjusted to fit the contraints of the new Type. For example, if the current wheel is set to "Triplet" with 21 Rim Holes, and then Type is changed to "Standard", Rim Holes will be adjusted to 24, along with cooresponding changes to Flange Holes.
 					<p>Custom removes most restrictions on the various wheel values.  Subsequently, there's a greater possibilty to enter values that will produce an impractical, or even impossible, wheel.  It may be obvious. Hopefully. But maybe not...
 				</td>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>ERD</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>ERD</a></th>
 				<td>The "<b>E</b>ffective <b>R</b>im <b>D</b>iameter".<br>
 					<p>A picture could say a thousand words, so, <a href='https://duckduckgo.com/?q=bicycle+effective+rim+diamter&t=ffsb&iax=images&ia=images' target=_blank>here are a few.</a>
 					<p>Note that the display Scale (bottom of wheel image) is based on the ERD (Wheel Settings) &amp; Rim size (Display Settings). For example, if Scale is set to 100, changing the ERD will not change the overall size of the image on screen, as the wheel will automatically scale to fit the wheel window.
 				</td>
 			</tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Rim Holes</a></th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>Rim Holes</a></th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Flange Holes</a></th><td>
+			<tr><th><a class=SC2_help_topic tabindex=0>Flange Holes</a></th><td>
 				Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.
 				<p>Note that the number of holes for Side 1 must be less than or equal to Side 2. This is due to some unsolved programming hangup that I <span class=SC2_strike>can't</span> have yet to solve.
 				<p>If your build has fewer spokes on the drive side, which would normally be "Side 2", simply "flip" the wheel.  That is, enter drive side values for "Side 1", and non-drive side for "Side 2".
 			</td></tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>PCD</a></th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>PCD</a></th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Flange-to-Ctr</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Flange-to-Ctr</a></th>
 				<td><p>"Flange to Center", or "FTC", or "Center to Flange", or "CTF", etc.
 					<p>The distance the flange is offset from the hub center.
 					<p>Since it's highly impractical to actually measure anything from the hub center (since it's never marked), to obtain these values, subtract the Flange-to-LN from 1/2 the OLD.
@@ -1295,7 +1316,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Flange-to-LN</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Flange-to-LN</a></th>
 				<td>
 					<p>"Flange to Locknut", or "Locknut to Flange.
 					<p>The distance from the outer face of the locknut to the center of the flange's width (thickness).
@@ -1304,14 +1325,14 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>OLD</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>OLD</a></th>
 				<td><p>"Over Locknut Distance", or "Over Locknut Dimension".
 					<p>The distance between the axle "locknuts" outer faces. Now, not all axles have actual "locknuts", but they will have an outer surface before the end of each axle end that fits between the dropouts.
 					<p>As with most things, <a href='https://duckduckgo.com/?q=bicycle+hub+measure+over+locknut+distance&iar=images&iax=images&ia=images' target=_blank>see the internet</a> for more information.
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>OC Rim</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>OC Rim</a></th>
 				<td>"Off-Center" Rim.<br>
 					May also be referred to as "OSB", "Offset Spoke bed", "asymetrical", or similar terms.
 					<p>The spoke holes in the rim are "off-center", or "off-set", to one side.
@@ -1321,16 +1342,16 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<p>The OC settings can also be used for unusal rims, such as Shimano's 540 series, where the spoke holes are actually in the sides of the rim.  In this case, "Linked" should be <i>unchecked</i>, as both values should be positive.
 				</td>
 			</tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Cross</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Cross</a></th>
 				<td>"Spoke Cross" value.  Number of spokes each spoke crosses on the same side of wheel.
 					<p>In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.  Additionally, the cross must be zero if the number of holes in the flange is odd (not even).
 					<p>In Custom mode, if the number of flange holes is odd, cross can be non-zero, but all spokes on that side will be laced the same direction.  Spokes on the opposite flange will be laced in the opposite direction if they are also odd, otherwise they will be laced normally.
 				</td>
 			</tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>SHD</a></th><td>"Spoke Hole Diameter". Like Flange-to-Ctr &amp; OC, this value only affects final spoke length, and not the wheel as displayed.  To change the displayed hole size, see [Display Setttings]</td></tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Lace Option</a></th><td>Asymetrical lacings, such as triplets, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>SHD</a></th><td>"Spoke Hole Diameter". Like Flange-to-Ctr &amp; OC, this value only affects final spoke length, and not the wheel as displayed.  To change the displayed hole size, see [Display Setttings]</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>Lace Option</a></th><td>Asymetrical lacings, such as triplets, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Paired-Hole (PH) Hubs &amp; Rims</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Paired-Hole (PH) Hubs &amp; Rims</a></th>
 				<td>
 					<p>A <u>PH Angle</u> is formed by lines passing thru the center of paired spoke holes and extending to the axial center of the hub. For example: the angle between two radial spokes.
 					<p>A <u>PH Distance</u> is the straight-line distance between the center of paired spoke holes (not along the arc of the rim or hub flange).  In geometry, this distance is called a chord.
@@ -1345,7 +1366,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Hub Auto-Angles</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Hub Auto-Angles</a></th>
 				<td><p>Determines if the angle between paired holes (PH) is automatically calculated, or user provided.				
 					<p><ul>
 						<li><span class=SC2_list_option_in_text>Even (Normal)</span> Normal angles (non-PH hub), with evenly spaced holes around the flange.
@@ -1355,7 +1376,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Hub Flange Rotations</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Hub Flange Rotations</a></th>
 				<td><p>In addition to, and seperate from, the paired-holes on each flange, the flanges can be "rotated" relative to each other.  (Not physically rotated of course, but the holes drilled in positions as though the flanges had been rotated.) "Even (Normal)" means a normal hub, such that the holes in each flange are evenly spaced between them. "1/2 Hole" aligns the holes of each flange.
 					<p><ul>
 						<li><span class=SC2_list_option_in_text>...</span> A few rotation values relative to "Normal".
@@ -1367,7 +1388,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Rim Auto-Angles</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Rim Auto-Angles</a></th>
 				<td><p>Determines if angles between paired holes (PH) are automatically calculated, or user provided.				
 					<p><ul>
 						<li><span class=SC2_list_option_in_text>Even (Normal)</span> Normal angles (non-PH rim), with evenly spaced holes around the rim.
@@ -1378,7 +1399,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Prima Lacing</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Prima Lacing</a></th>
 				<td><p>When checked, this option changes the lacing method as indicated below.
 				
 					<p>This lacing method should only be used with a paired-hole rim.
@@ -1414,7 +1435,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			</tr>
 
 			<tr id=SC2_notes_advanced_build_info>
-				<th class=SC2><a class=SC2_help_topic id=SC2_notes_advanced_build_info_label tabindex=0>Advanced Build Info</a></th>
+				<th><a class=SC2_help_topic id=SC2_notes_advanced_build_info_label>Advanced Build Info</a></th>
 				<td>
 					<p><b>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.</b>
 					<p>Basically, this section does not directly affect the "Spoke Lengths" provided above. Instead, it
@@ -1424,10 +1445,10 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Flange Width</a></th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Spoke Diameter at the Bend</a></th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>Flange Width</a></th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>Spoke Diameter at the Bend</a></th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Elbows Laced</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Elbows Laced</a></th>
 				<td>Specify if the spokes are laced elbows In, Out, or Center.  This affects the bracing angle and tension ratio.  It also affects spoke length a tiny amount. The differences between "Center" and "In" or "Out" are determined by Flange Width and Spoke Diameter at Bend.
 					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by most spoke length calculators.  However, except for specially made hubs and spokes (eg: straight pull), spokes can not actually be laced "center".
 					<p>"Center" can be used to approximate a common wheel where the spokes are acually laced alternately in/out/in/out (default).  In that case, the other Advanced values (Length Adjust, Bracing Angles, etc) are just rough approximations.  Or, you can toggle between laced in & laced out to see the difference, as half of the spokes are laced one way or the other.
@@ -1435,11 +1456,11 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Length Adjust.</a></th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td></tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Spoke Ratio</a></th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td></tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Bracing Angles</a></th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td></tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Tension Ratio</a></th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td></tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Tension</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Length Adjust.</a></th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>Spoke Ratio</a></th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>Bracing Angles</a></th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>Tension Ratio</a></th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>Tension</a></th>
 				<td>Enter a spoke tension value under Side 2 to see the cooresponding tension value for Side 1 spokes, based on the Tension Ratio.
 				<p>The spoke tensions between Side 1 and Side 2 of a wheel are interdependent.
 					That is, you can't change the tension on one side without affecting the other.*
@@ -1448,17 +1469,17 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Display Settings</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Display Settings</a></th>
 				<td><p><b>Display Options affect the wheel as displayed only, and have no effect on spoke length calculations.</b></td>
 			</tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Rim Size</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Rim Size</a></th>
 				<td>
-					Rim Size affects the displayed scale, and- as indicated above, has no effect on spoke length calculations.
+					Rim Size affects the displayed scale, but - as indicated above, has no effect on spoke length calculations.
 					<p>When set to <span id=SC2_spokes_recessed1>_</span> or less, the "center" of the "rim" will be the ERD, and traces thru the rim spoke holes.
 					<p>When set more than <span id=SC2_spokes_recessed2>_</span>, the "rim" expands away from the rim holes, to simulate an actual rim, where the spoke ends (and the ERD) are slightly within the inner diameter of the rim.
 				</td>
 			</tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Scale</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Scale</a></th>
 				<td><p>The Scale setting is like a "zoom" view setting - higher values increase the displayed size of the wheel (the portion within the wheel window).
 					<p>There are two Scale modes: "w", and "u".
 					<p>[Scale: w] (wheel - default)
@@ -1471,7 +1492,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<p>Changing the scale re-centers the wheel within the window.
 				</td>
 			</tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Colors</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Colors</a></th>
 				<td>Colors can be specified using common
 					<a href="https://www.w3schools.com/Colors/colors_names.asp" target="_blank">html/css color names</a>
 					(black, gray, red, blue, green, skyblue, etc.),
@@ -1479,11 +1500,11 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>ETC</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>ETC</a></th>
 				<td><p><b>Import/Export wheel data, and general information.</b></td>
 			</tr>
 			
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Saved Settings</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Saved Settings</a></th>
 				<td><p>In general, all information generated and used by this program internally, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage.
 					<p>To clear all wheel data &amp; display options stored by this web browser on this device, click the following button:<br>
 					<button type=button id=SC2_DELETE_ALL_DATA>DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
@@ -1491,12 +1512,12 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<p>Additionally, any wheels saved via Export Data is naturally unaffected by this option.
 				</td>
 			</tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Export Data</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Export Data</a></th>
 				<td><p>Generates a JSON string of all wheel & display data that can then be saved in a text file for backup.</p>
 					<p><button type=button id=SC2_EXPORT>Export Wheels &amp; Display Settings</button></p>
 				</td>
 			</tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Import Data</a></th><td>
+			<tr><th><a class=SC2_help_topic tabindex=0>Import Data</a></th><td>
 				<p>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.
 				<p>For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
 				<p>In the Import window that opens by clicking the following button, there is an option to load &amp; import
@@ -1504,15 +1525,15 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<p><button type=button id=SC2_IMPORT>Import Wheels &amp; Display Settings</button>
 			</td></tr>
 
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Contact</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Contact</a></th>
 				<td><p>Please report any issues to <a id=SC2_admin_link href="/">...</a>.
 					<p>Or, if you have a github account, at <a href="https://github.com/Self-Evident/The_Wheel_Maker/issues" target="_blank">github.com/Self-Evident/The_Wheel_Maker/issues</a>.
 				</td>
 			</tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Copyright</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0>Copyright</a></th>
 				<td><pre id=SC2_COPY_LICENSE></pre></td>
 			</tr>
-			<tr><th class=SC2><a class=SC2_help_topic tabindex=0>Version</a></th><td id=SC2_VERSION></td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0>Version</a></th><td id=SC2_VERSION></td></tr>
 		</table>
 	</div><!--//end SC2_notes_container =============-->
 
@@ -1606,7 +1627,7 @@ var TOOLBAR_OPEN_R      = _NS_ + "toolbar_open_R";
 
 
 //Assign all necessary element references here.
-var $PRIOR_FOCUS = ""; //Used to return focus to input that had error. Set onfocus() of the inputs.
+var $PRIOR_FOCUS = D.activeElement; //Used to return focus to input that had error. Set onfocus() of the inputs.
 
 var $DISABLE_PAGE = E_('disable_page');
 
@@ -2017,7 +2038,7 @@ var AUTO_ROT_OPTS_COMMON = '<option value="1">+1 Hole</option> <option value=".8
 var AUTO_ROT_OPTS_CUSTOM = '<option value="1.5">+1 1/2 Hole</option> <option value="1.375">+1 3/8 Hole</option> <option value="1.25">+1 1/4 Hole</option> <option value="1.125">+1 1/8 Hole</option> ' + AUTO_ROT_OPTS_COMMON + ' <option value="-.125">-1/8 Hole</option> <option value="-.25">-1/4 Hole</option> <option value="-.375">-3/8 Hole</option> <option value="-.5">-1/2 Hole</option>';
 
 
-var SAMPLE_WHEELS = {"wheels":{"2":{"WHEEL_NAME":"Sample Standard","WHEEL_TYPE":"standard","ERD":"577","NR":"24","NF1":"12","NF2":"12","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"0","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"3":{"WHEEL_NAME":"Sample Triplet","WHEEL_TYPE":"triplet","ERD":"577","NR":"24","NF1":"8","NF2":"16","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"22.5","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"4":{"WHEEL_NAME":"Sample PHR","WHEEL_TYPE":"phr","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":".25","PHRA":"3.75","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"215","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"5":{"WHEEL_NAME":"Sample PHH","WHEEL_TYPE":"phh","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"6":{"WHEEL_NAME":"Skip-Hole Triplet","WHEEL_TYPE":"custom","ERD":"577","NR":"36","NF1":"18","NF2":"18","PCD1":"38","PCD2":"50","FTC1":"37.3","FTC2":"17.2","OLD":"","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"20","PHHA2":"20","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"10","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":false,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"7":{"WHEEL_NAME":"SSR rear","WHEEL_TYPE":"phh_phr","ERD":"588","NR":"24","NF1":"12","NF2":"12","PCD1":"47","PCD2":"47","FTC1":"30","FTC2":"18","OLD":"","OSB_linked":false,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"auto","ROTF":"20.07","RIM_AUTO_ANGLES":"off","PHRA":"-5.07","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"25","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"8":{"WHEEL_NAME":"540 - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"45","PCD2":"50","FTC1":"35","FTC2":"18","OLD":"130","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"1","SX2":"0","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"off","PHHA1":"5.625","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213.75","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"9":{"WHEEL_NAME":"540 - front","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"40","PCD2":"40","FTC1":"32","FTC2":"32","OLD":"100","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"0","SX2":"0","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213","ROTATE_step":"0.25","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"10":{"WHEEL_NAME":"Prima - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"60","PCD2":"76","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"1","SX2":"1","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".375","PHHA1":"16.875","PHHA2":"16.875","AUTO_ROT":".5","ROTF":"22.5","RIM_AUTO_ANGLES":"off","PHRA":"1.98","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",}}}
+var SAMPLE_WHEELS = {"wheels":{"1":{"WHEEL_NAME":"Sample Standard","WHEEL_TYPE":"standard","ERD":"577","NR":"24","NF1":"12","NF2":"12","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"0","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"2":{"WHEEL_NAME":"Sample Triplet","WHEEL_TYPE":"triplet","ERD":"577","NR":"24","NF1":"8","NF2":"16","PCD1":"38.5","PCD2":"50.6","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"22.5","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"3":{"WHEEL_NAME":"Sample PHR","WHEEL_TYPE":"phr","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"120","HUB_AUTO_ANGLES":"1","PHHA1":"30","PHHA2":"30","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":".25","PHRA":"3.75","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"215","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"4":{"WHEEL_NAME":"Sample PHH","WHEEL_TYPE":"phh","ERD":"580","NR":"24","NF1":"12","NF2":"12","PCD1":"70","PCD2":"80","FTC1":"30","FTC2":"30","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"2","SX2":"2","SHD":"","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"15","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"5":{"WHEEL_NAME":"Skip-Hole Triplet","WHEEL_TYPE":"custom","ERD":"577","NR":"36","NF1":"18","NF2":"18","PCD1":"38","PCD2":"50","FTC1":"37.3","FTC2":"17.2","OLD":"","OSB_linked":true,"OSB1":"0","OSB2":"0","SX1":"0","SX2":"3","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"20","PHHA2":"20","AUTO_ROT":"0","ROTF":"0","RIM_AUTO_ANGLES":"1","PHRA":"10","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#B77","SPOKE_COLOR2":"#877","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#377","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":false,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"30","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"6":{"WHEEL_NAME":"SSR rear","WHEEL_TYPE":"phh_phr","ERD":"588","NR":"24","NF1":"12","NF2":"12","PCD1":"47","PCD2":"47","FTC1":"30","FTC2":"18","OLD":"","OSB_linked":false,"OSB1":"0","OSB2":"0","SX1":"2","SX2":"2","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".5","PHHA1":"15","PHHA2":"15","AUTO_ROT":"auto","ROTF":"20.07","RIM_AUTO_ANGLES":"off","PHRA":"-5.07","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"25","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"180","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"7":{"WHEEL_NAME":"540 - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"45","PCD2":"50","FTC1":"35","FTC2":"18","OLD":"130","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"1","SX2":"0","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"off","PHHA1":"5.625","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213.75","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"8":{"WHEEL_NAME":"540 - front","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"40","PCD2":"40","FTC1":"32","FTC2":"32","OLD":"100","OSB_linked":false,"OSB1":"7","OSB2":"7","SX1":"0","SX2":"0","SHD":"2.6","LACE_OPT":"-1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":"1","PHHA1":"45","PHHA2":"45","AUTO_ROT":"auto","ROTF":"22.5","RIM_AUTO_ANGLES":"0","PHRA":"0","ROTR":"0","PRIMA_LACING":false,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"213","ROTATE_step":"0.25","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",},"9":{"WHEEL_NAME":"Prima - rear","WHEEL_TYPE":"custom","ERD":"580","NR":"16","NF1":"8","NF2":"8","PCD1":"60","PCD2":"76","FTC1":"37.7","FTC2":"17.1","OLD":"","OSB_linked":false,"OSB1":"","OSB2":"","SX1":"1","SX2":"1","SHD":"2.6","LACE_OPT":"1","FW":"3","SDB":"2","ELBOWS1":"0","ELBOWS2":"0","TENSION2":"110","HUB_AUTO_ANGLES":".375","PHHA1":"16.875","PHHA2":"16.875","AUTO_ROT":".5","ROTF":"22.5","RIM_AUTO_ANGLES":"off","PHRA":"1.98","ROTR":"0","PRIMA_LACING":true,"SPOKE_COLOR1":"#477","SPOKE_COLOR2":"#477","SPOKE_COLOR3":"#355","SPOKE_COLOR4":"#355","SPOKE_LINE_SIZE1":"2","SPOKE_LINE_SIZE2":"2","SPOKE_LINE_SIZE3":"2","SPOKE_LINE_SIZE4":"2","SPOKE_SHOW1":true,"SPOKE_SHOW2":true,"SPOKE_SHOW3":true,"SPOKE_SHOW4":true,"RIM_SHOW":true,"F1_SHOW":true,"F2_SHOW":true,"RIM_LINE_SIZE":"35","F1_LINE_SIZE":"1","F2_LINE_SIZE":"1","AXES_LINE_SIZE":"1","RIM_COLOR":"#BBB","F1_COLOR":"#AAA","F2_COLOR":"#777","HOLES_RIM_COLOR":"black","HOLES_RIM_SIZE":"4","HOLES_RIM_SHOW":true,"HOLES_F1_COLOR":"#066","HOLES_F1_SIZE":"4","HOLES_F1_SHOW":true,"HOLES_F2_COLOR":"#044","HOLES_F2_SIZE":"4","HOLES_F2_SHOW":true,"AXES_COLOR":"#999","AXES_SHOW":true,"ROTATE_text":"0","ROTATE_step":"5","SCALE_text":"100","SCALE_step":"20","SCALE_mode":"wheel","SCALE_user":"642",}}}
 
 
 
@@ -2299,7 +2320,7 @@ function Validate_Wheel_Settings(misc, save) {
 
 
 function Load_Samples(sample_index) {
-	if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { return; }
+	if (!$ACCEPT_MSG.disabled && $ACCEPT_MSG.value != "true") { return; }
 
 	Init_NR_SX();
 
@@ -2480,7 +2501,7 @@ function Build_Choose_Topic_List() {
 	var help_topics = document.getElementsByClassName(_NS_ + "help_topic");
 	for (var x = 0; x < help_topics.length; x++) {
 		HELP_TOPICS[x] = [];
-		HELP_TOPICS[x][1] = help_topics[x]; //The <a class=SC2_help_topic> $element
+		HELP_TOPICS[x][1] = help_topics[x]; //The <a class=SC2_help_topic tabindex=0> $element
 		HELP_TOPICS[x][2] = help_topics[x].parentElement.parentElement; //The <tr> around the topic.
 	}
 
@@ -3001,7 +3022,7 @@ function Generate_Spoke_Hole_Info_Click_Events() {
 		var attribute_list = "id = " + id + "<br>x = " + Round(x,2) + "<br>y = " + Round(y,2) + "<br>angle = " + degrees + "&deg;";
 		attribute_list += "<br>" + MSGS.data1;
 		(function($spoke_hole, attribute_list) {
-			$spoke_hole.onclick = function() { Show_Message(false, attribute_list); $PRIOR_FOCUS = ""; }
+			$spoke_hole.onclick = function() { Show_Message(false, attribute_list); }
 		})(spoke_holes[item], attribute_list);
 	}
 }//end Generate_Spoke_Hole_Info_Click_Events()
@@ -3369,7 +3390,6 @@ function Show_Message($input, msg, init, width) {
 		$MSG_BOX.style['left'] = (window.pageXOffset + 50) + "px";
 		$CLOSE_MSG.style['visibility'] = "hidden";
 		$ACCEPT_MSG.style['display']   = "";
-		$ACCEPT_MSG.focus();
 	}
 	else {
 		$CLOSE_MSG.style['visibility'] = "";
@@ -3382,10 +3402,11 @@ function Show_Message($input, msg, init, width) {
 
 
 
-function Close_Message() {
+function Close_Message($focus_on_close) {
+	if (!$focus_on_close) { $focus_on_close = $PRIOR_FOCUS; }
 	$MSG_BOX.style['visibility'] = "hidden";
 	$MESSAGE_DIV.innerHTML = "";
-	if ($PRIOR_FOCUS) { $PRIOR_FOCUS.focus(); }
+	$focus_on_close.focus();
 	$MSG_BOX.style['text-align'] = ""; //Restore values to style sheet from those
 	$MSG_BOX.style['top']        = ""; //used for the init msg/disclaimer.
 	$MSG_BOX.style['left']       = "";
@@ -4183,12 +4204,10 @@ function Set_Modal_Mode(enable, $modal_window) {
 	}
 
 	//But keep these tabbable, 'cause we need 'em...
-	var dont_disable = [$PERFORM_IMPORT, $IMPORT_SAMPLE_SET, $PRESERVE_INDEX, $IMPORT_INDEX, $X_IMPORT, $X_EXPORT, $CLOSE_IMPORT, $COPY_TO_CLIPBOARD, $CLOSE_EXPORT, $CLOSE_MSG, $X_CLOSE_LOAD_SAMPLE, $SAMPLE_WHEEL_LIST];
+	var dont_disable = [$PERFORM_IMPORT, $IMPORT_SAMPLE_SET, $PRESERVE_INDEX, $IMPORT_INDEX, $X_IMPORT, $X_EXPORT, $CLOSE_IMPORT, $COPY_TO_CLIPBOARD, $CLOSE_EXPORT, $CLOSE_MSG, $ACCEPT_MSG, $X_CLOSE_LOAD_SAMPLE, $SAMPLE_WHEEL_LIST];
 	for (var dd = 0; dd < dont_disable.length; dd++) { dont_disable[dd].tabIndex = ""; }
 
-	if (enable) { window.scroll(0,0); }
-	else if ($modal_window == $LIST_CONTAINER) {;} //focus() handled by Close_Load_Sample().
-	else { $CURRENT_WHEEL.focus(); }
+	if (enable) { setTimeout(function() {window.scroll(0,0);} ,10); }
 }//end Set_Modal_Mode()
 
 
@@ -4346,9 +4365,11 @@ function Stop_Scale_Rotate_Repeats($slider) {
 
 
 
-function Check_if_Disclaimer_Accepted(target) {
+function Check_if_Disclaimer_Accepted($target) {
 	//Disclaimer - check cookies to see if already accepted.
 	//Why? I don't know, it was really late, and seemed like a good idea at the time...
+	
+	if ($ACCEPT_MSG.disabled) { if ($target){$target.focus()};  return; }
 	
 	$ACCEPT_MSG.value = "false"; //initialize [I Accept] button value.
 	var COOKIES = D.cookie.split("; ");
@@ -4361,11 +4382,10 @@ function Check_if_Disclaimer_Accepted(target) {
 	}
 
 	//Set inital focus or show disclaimer
-	if (!$ACCEPT_MSG.ENABLED || $ACCEPT_MSG.value == "true") { target.focus(); }
+	if ($ACCEPT_MSG.value == "true") { if ($target){$target.focus()} }
 	else {
 		Set_Modal_Mode(true);
-		$ACCEPT_MSG.disabled = false;
-		Show_Message(target, MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init');
+		Show_Message('', MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init');
 	}
 }//end Check_if_Disclaimer_Accepted()
 
@@ -4405,10 +4425,9 @@ function Assign_Events() {
 	var save = true; //Just for clarity below, as some functions have an option to save settings.
 
 	//Save current value (as .prior_value) onfocus for <input type=text>s in case of error in new value.
-	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $MAX_WHEELS, $TENSION[2], $SCALE_text, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_text, $IMPORT_INDEX];
+	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $MAX_WHEELS, $TENSION[2], $SCALE_text, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_text, $IMPORT_INDEX, $IMPORT_INPUT, $PERFORM_IMPORT];
 	for (var x = 0; x < settings.length; x++) {
 		settings[x].addEventListener("focus", function() {
-			if ($ACCEPT_MSG.ENABLED && $ACCEPT_MSG.value != "true") { $ACCEPT_MSG.focus(); }
 			$PRIOR_FOCUS = this;
 			this.prior_value = this.value; //also set in Build_Wheel() and in Calc_Spoke_Lengths().
 		});
@@ -4434,9 +4453,7 @@ function Assign_Events() {
 
 	$CURRENT_WHEEL.addEventListener("keypress", function(event) {
 		Normalize_Event(event);
-		//Yes, both blur() & focus() are needed...
 		if(event.key_code == 13) {
-			D.activeElement.blur();
 			$WHEEL_NAME.style['visibility'] = "visible";
 			$WHEEL_NAME.focus();
 		}
@@ -4445,11 +4462,7 @@ function Assign_Events() {
 
 	$WHEEL_NAME.addEventListener("keypress", function(event) {
 		Normalize_Event(event);
-		//Yes, both blur() & focus() are needed...
-		if(event.key_code == 13) {
-			D.activeElement.blur();
-			$CURRENT_WHEEL.focus();
-		}
+		if(event.key_code == 13) { $CURRENT_WHEEL.focus(); }
 	});
 
 
@@ -5063,6 +5076,7 @@ function Assign_Events() {
 		Reset_Scale_Rotate();
 		Reset_OPTIONS_SPOKES();
 		Reset_OPTIONS_RIM_ETC();
+		$IMPORT_INPUT.value = "";
 		
 		Init_Show_Hide_Options(true);
 		
@@ -5072,10 +5086,9 @@ function Assign_Events() {
 		document.cookie = $ACCEPT_MSG.id + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=.' + domain;
 		$ACCEPT_MSG.value = false;
 		
-		if ($ACCEPT_MSG.ENABLED) { Show_Message('', MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init'); }
-		else                     { $ERD.focus(); }
-		
 		$CURRENT_WHEEL.value = 1;
+
+		Check_if_Disclaimer_Accepted();
 	}); //end $DELETE_ALL_DATA on click
 
 
@@ -5117,11 +5130,10 @@ function Assign_Events() {
 		Import_Index_Enable_Disable();
 		Auto_Size_Input();
 		$IMPORT_INPUT.focus();
-		setTimeout(function() {window.scroll(0,0);} ,10);
 	});
 
 
-	$CLOSE_IMPORT.addEventListener("click", function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); });
+	$CLOSE_IMPORT.addEventListener("click", function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); $TOPIC_select.focus(); });
 	$X_IMPORT.addEventListener("click", function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); });
 	$X_EXPORT.addEventListener("click", function() { Set_Modal_Mode(false, $EXPORT_CONTAINER); $EXPORT_OUTPUT.innerHTML = ""; });
 
@@ -5273,11 +5285,11 @@ function Init() {
 
 	Build_Load_Sample_List();
 
-	Build_Choose_Topic_List();              //MUST COME BEFORE Init_Show_Hide_Options(), which is called from Init_Display_NR_SX().
+	Build_Choose_Topic_List();              //1) MUST COME BEFORE Init_Show_Hide_Options() (called from Init_Display_NR_SX()).
 
-	Init_Display_NR_SX(LS_DISPLAY_OPTIONS); //MUST COME AFTER Build_Choose_Topic_List();
+	Init_Display_NR_SX(LS_DISPLAY_OPTIONS); //2) MUST COME AFTER Build_Choose_Topic_List();
 
-	Build_Select_Wheel_List();              //MUST COME AFTER Init_Display_NR_SX().  Needs $MAX_WHEELS.
+	Build_Select_Wheel_List();              //3) MUST COME AFTER Init_Display_NR_SX().  Needs $MAX_WHEELS.
 
 	Enable_Disable_Undo_Clear();
  
@@ -5292,12 +5304,7 @@ function Init() {
 	Add_Contact_Info();
 
 	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
-	$SPOKES_RECESSED1.innerHTML = SPOKES_RECESSED*2;
-
-	//Disclaimer message for first load & resets.
-	$ACCEPT_MSG.ENABLED = false; //true enables disclaimer message.
-	//Uncomment the next line if $ACCEPT_MSG.ENABLED above is set to true.
-	//##### Check_if_Disclaimer_Accepted($ERD); //(option) is where to set focus after accepted.
+	$SPOKES_RECESSED2.innerHTML = SPOKES_RECESSED*2;
 
 	$SC2_VERSION.innerHTML = VERSION;
 
@@ -5307,8 +5314,10 @@ function Init() {
 	$CONTAINER.style['visibility'] = "visible";
 	$CONTAINER.style.opacity = '1';
 
-	$ERD.focus();
-	$PRIOR_FOCUS = D.activeElement;
+	//Disclaimer message for first load & resets.
+	$ACCEPT_MSG.disabled = true; //##### false enables disclaimer message. 
+
+	Check_if_Disclaimer_Accepted(); //(option) is where to set focus after accepted.
 }//end Init()
 
 
