@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//===============================================-->
-<script>var VERSION = "v2.52 2019-07-22 2:20am"</script>
+<script>var VERSION = "v2.53 2019-07-24 2am"</script>
 <!--//===============================================-->
 
 <template id=SC2_LICENSE>
@@ -89,7 +89,7 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER #SC2_show_hide_other    { margin: 1.5em 0 0 0; }
 
 #SC2_CONTAINER input[type=text] {
-	padding, 0;
+	padding: 0;
 	height: 1.33rem;
 	width: 3.3rem;
 	text-align: center;
@@ -348,8 +348,8 @@ body { overflow-y: scroll; }
 }
 #SC2_auto_copy { display: inline-block; margin: 0 0 .3em 2px; vertical-align: bottom; }
 
-#SC2_CONTAINER #SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; }
-#SC2_max_wheels_label {display: inline-block;  margin: 0 0 0 .5rem; border: solid 1px transparent; padding: 0 0 0 0; font-size: .9rem; }
+#SC2_CONTAINER #SC2_max_wheels { width: 2rem; height: 1.2rem; display: inline-block; margin: 0; font-size: .9rem; padding: 2px 0 0 0; vertical-align: bottom; }
+#SC2_max_wheels_label {display: inline-block;  margin: 0 0 0 .5rem; border: solid 1px transparent; padding: 0; font-size: .9rem; vertical-align: bottom; }
 
 #SC2_undo_sample_clear { margin: 0 .3em 0 .3em }
 
@@ -465,14 +465,15 @@ body { overflow-y: scroll; }
 
 #SC2_CONTAINER #SC2_SCALE_mode {
 	display: inline-block;
-	width: 4.5rem;
+	width: 1.2rem;
 	height: 1.5em;
 	font-size: 1em;
 	font-weight: bold;
-	padding: 0px 0 0 .1rem;
+	padding: 0;
 	text-align: left;
 	vertical-align: text-top;
-	margin: -2px 0 0 .3em;
+	margin: -2px .5em 0 0;
+	text-align: center;
 }
 
 
@@ -583,6 +584,7 @@ body { overflow-y: scroll; }
 }
 
 .SC2_help_topic { cursor: pointer; }
+.SC2_help_link  { cursor: help; }
 
 #SC2_CONTAINER #SC2_notes p { margin-top: .5rem; }
 
@@ -793,9 +795,9 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 		
 		<div id=SC2_WHEEL_SETTINGS_container><!--===========-->
 			<table id=SC2_WHEEL_SETTINGS class=SC2_type_theme>
-				<tr><th colspan=2>Wheel Settings</th></tr>
+				<tr><th colspan=2 class=SC2_help_link help_topic=wheel_settings>Wheel Settings</th></tr>
 				<tr>
-					<td colspan=2><b>Type</b>
+					<td colspan=2><b class=SC2_help_link help_topic=wheel_type>Type</b>
 						<select id=SC2_WHEEL_TYPE>
 							<option value="standard">Standard</option>
 							<option value="triplet" >Triplet</option>
@@ -807,43 +809,43 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					</td>
 				</tr>
 				
-				<tr><td class=SC2_thv>ERD</td><td><input type=text id=SC2_ERD maxlength=5></td></tr>
-				<tr><td class=SC2_thv>Rim Holes</td>
+				<tr><td class="SC2_thv SC2_help_link" help_topic=erd>ERD</td><td><input type=text id=SC2_ERD maxlength=5></td></tr>
+				<tr><td class="SC2_thv SC2_help_link" help_topic=rim_holes>Rim Holes</td>
 					<td><select id=SC2_NR><!-- Populated onload --></select></td>
 				</tr>
 				<tr><td></td><td>Side 1 &nbsp;Side 2</td></tr>
 				<tr>
-					<td class=SC2_thv>Flange Holes</td>
+					<td class="SC2_thv SC2_help_link" help_topic=flange_holes>Flange Holes</td>
 					<td><input type=text id=SC2_NF1 maxlength=2> <input type=text id=SC2_NF2 maxlength=2></td>
 				</tr>
 				<tr>
-					<td class=SC2_thv>PCD</td>
+					<td class="SC2_thv SC2_help_link" help_topic=pcd>PCD</td>
 					<td><input type=text id=SC2_PCD1 maxlength=5> <input type=text id=SC2_PCD2 maxlength=5></td>
 				</tr>
 				
 				<tr id=SC1_flange_to_opts>
 					<td colspan=2>
 						<button type=button id=SC2_show_FL_to_LN class=SC2_mini_button value=none>+</button>
-						<b>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 maxlength=5> <input type=text id=SC2_FTC2 maxlength=5>&nbsp;
-						<div id=SC2_FL_to_LN>Flange-to-LN&boxur;<input type=text id=SC2_FTL1 maxlength=5> <input type=text id=SC2_FTL2 maxlength=5>&nbsp;<br>
+						<b class=SC2_help_link help_topic=ftc>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 maxlength=5> <input type=text id=SC2_FTC2 maxlength=5>&nbsp;
+						<div id=SC2_FL_to_LN class=SC2_help_link help_topic=ftl>Flange-to-LN&boxur;<input type=text id=SC2_FTL1 maxlength=5> <input type=text id=SC2_FTL2 maxlength=5>&nbsp;<br>
 						OLD&nbsp; &nbsp; &nbsp; &boxUR;<input type=text id=SC2_OLD maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
 					</td>
 				</tr>
 				
 				<tr>
-					<td class=SC2_thv><label><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked> </label>OC Rim</td>
+					<td class=SC2_thv><label><span class=SC2_smaller>Linked</span> <input type=checkbox id=SC2_OSB_linked> </label><span class=SC2_help_link help_topic=oc_rim>OC Rim</span></td>
 					<td><input type=text id=SC2_OSB1 maxlength=4> <input type=text id=SC2_OSB2 maxlength=4></td>
 				</tr>
 				<tr>
-					<td class=SC2_thv>Cross</td>  <!-- Populated onload -->
+					<td class="SC2_thv SC2_help_link" help_topic=cross>Cross</td>  <!-- Populated onload -->
 					<td><select id=SC2_SX1></select> <select id=SC2_SX2></select></td>
 				</tr>
 				<tr>
-					<td class=SC2_thv>SHD</td>
+					<td class="SC2_thv SC2_help_link" help_topic=shd>SHD</td>
 					<td><input type=text id=SC2_SHD maxlength=4></td>
 				</tr>
 				<tr>
-					<td class=SC2_thv>Lace Option</td>
+					<td class="SC2_thv SC2_help_link" help_topic=lace_option>Lace Option</td>
 					<td>
 						<select id=SC2_LACE_OPT>
 							<option value="-1">&nbsp;2</option>
@@ -858,27 +860,27 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<tr class=SC2_separator><td></td></tr>
 				<tbody id=SC2_PHH_options>
 				<tr><td><button type=button id=SC2_show_phh_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button>
-					<b>Paired-Hole Hub</b>
+					<b class=SC2_help_link help_topic=phhr>Paired-Hole Hub</b>
 				</td></tr>
 				<tr id=SC2_phh_opts>
 					<td>
-						Auto-Angles	<select id=SC2_HUB_AUTO_ANGLES class="SC2_auto_angles"><!-- Populated onload --></select>
-						<div class=SC2_PHH_data>PH Angles
+						<span class=SC2_help_link help_topic=hub_auto_angles>Auto-Angles<span>	<select id=SC2_HUB_AUTO_ANGLES class="SC2_auto_angles"><!-- Populated onload --></select>
+						<div class=SC2_PHH_data><span class=SC2_help_link help_topic=phhr>PH Angles</span>
 						&#9484;<input type=text id=SC2_PHHA1 class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
 						<input type=text id=SC2_PHHA2 class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span><br>
-						PH Distances
+						<span class=SC2_help_link help_topic=phhr>PH Distances</span>
 						&#9492;<input type=text id=SC2_PHHD1 class=SC2_ph_inputs maxlength=6><span class=SC2_theta> </span>
 						<input type=text id=SC2_PHHD2 class=SC2_ph_inputs maxlength=6><span class=SC2_theta> </span>
 						</div>
-						<p>Hub Flange Rotations</p>
-						<div>Auto-Rotate
+						<p class=SC2_help_link help_topic=flange_rotations>Hub Flange Rotations</p>
+						<div><span class=SC2_help_link>Auto-Rotate</span>
 							<select id=SC2_AUTO_ROT class="SC2_auto_angles">
 								<optgroup id=SC2_AUTO_ROT_OPTS label=""><!-- Populated onload --></optgroup>
 								<option value="auto" id=SC2_auto_rot_linked>Linked to PH Rim</option>
 								<option value="off">Manual</option>
 							</select><br>
 						</div>
-						<div class="SC2_rot_labels SC2_PH_data_1">Flanges Rotated
+						<div class="SC2_rot_labels SC2_PH_data_1"><span class=SC2_help_link>Flanges Rotated</span>
 							<input type=text id=SC2_ROTF class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
 						</div>
 					</td>
@@ -888,10 +890,10 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				
 				<tbody id=SC2_PHR_options>
 				<tr><td><button type=button id=SC2_show_phr_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button>
-					<b>Paired-Hole Rim</b>
+					<b class=SC2_help_link help_topic=phhr>Paired-Hole Rim</b>
 				</td></tr>
 				<tr id=SC2_phr_opts>
-					<td>Auto-Angles
+					<td><span class=SC2_help_link help_topic=>Auto-Angles</span>
 						<select id=SC2_RIM_AUTO_ANGLES class="SC2_auto_angles">
 							<option value="2">2 x Even</option>
 							<option value="1.75" >+3/4 Even</option>
@@ -926,7 +928,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<tr><td><button type=button id=SC2_show_eso_opts class="SC2_mini_button SC2_show_adv_opts" value=none>+</button><b>Esoteric Options</b></td></tr>
 				<tr id=SC2_eso_opts>
 					<td class=SC2_rot_labels>
-						<p><label>Prima Lacing <input type=checkbox id=SC2_PRIMA_LACING> (rear wheel)</label>
+						<p><span class=SC2_help_link help_topic=prima_lacing>Prima Lacing</span> <label><input type=checkbox id=SC2_PRIMA_LACING> (rear wheel)</label>
 						<p>Rim Rotated <input type=text id=SC2_ROTR class=SC2_ph_inputs maxlength=6><span class=SC2_theta>&deg;</span>
 					</td>
 				</tr>
@@ -955,13 +957,13 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					See <button type=button id=SC2_see_notes>Notes</button>
 					for more information.)
 				</td></tr>
-				<tr class=SC2_lesser_settings><td colspan=2>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  maxlength=4></td></tr>
-				<tr class=SC2_lesser_settings><td colspan=2>Spoke diameter at bend:     </td><td><input type=text id=SC2_SDB maxlength=4></td></tr>
+				<tr class=SC2_lesser_settings><td colspan=2 class=SC2_help_link help_topic=flange_width>Flange width at spoke holes:</td><td><input type=text id=SC2_FW  maxlength=4></td></tr>
+				<tr class=SC2_lesser_settings><td colspan=2 class=SC2_help_link help_topic=sdb>Spoke diameter at bend:     </td><td><input type=text id=SC2_SDB maxlength=4></td></tr>
 				
 				<tr class=SC2_separator><td colspan=3></td></tr>
 				<tr><td></td><td>&nbsp; Side 1</td><td>&nbsp; Side 2</td></tr>
 				<tr>
-					<td>Elbows Laced</td>
+					<td class=SC2_help_link help_topic=elbows_laced>Elbows Laced</td>
 					<td>
 						<select id=SC2_ELBOWS1 class="SC2_elbows_laced">
 							<option value="-1">In</option>
@@ -980,27 +982,27 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			
 				<tr class=SC2_separator><td colspan=3></td></tr>
 				<tr>
-					<td>Length Adjust.</td>
+					<td class=SC2_help_link help_topic=length_adjust>Length Adjust.</td>
 					<td><input type=text id=SC2_SL_ADJ1 disabled tabindex="-1"></td>
 					<td><input type=text id=SC2_SL_ADJ2 disabled tabindex="-1"></td>
 				</tr>
 				<tr>
-					<td>Spoke Ratio</td>
+					<td class=SC2_help_link help_topic=spoke_ratio>Spoke Ratio</td>
 					<td><input type=text id=SC2_spoke_ratio1 disabled tabindex="-1"></td>
 					<td><input type=text id=SC2_spoke_ratio2 disabled tabindex="-1"></td>
 				</tr>
 				<tr>
-					<td>Bracing Angles</td>
+					<td class=SC2_help_link help_topic=bracing_angles>Bracing Angles</td>
 					<td><input type=text id=SC2_brace_angle1 disabled tabindex="-1">&deg;</td>
 					<td><input type=text id=SC2_brace_angle2 disabled tabindex="-1">&deg;</td>
 				</tr>
 				<tr>
-					<td>Tension Ratio</td>
+					<td class=SC2_help_link help_topic=tension_ratio>Tension Ratio</td>
 					<td><input type=text id=SC2_tension_ratio1 disabled tabindex="-1">%</td>
 					<td><input type=text id=SC2_tension_ratio2 disabled tabindex="-1">%</td>
 				</tr>
 				<tr>
-					<td>Tension</td>
+					<td class=SC2_help_link help_topic=tension>Tension</td>
 					<td><input type=text id=SC2_TENSION1 disabled tabindex="-1"></td>
 					<td><input type=text id=SC2_TENSION2></td>
 				</tr>
@@ -1158,11 +1160,11 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<button type=button id=SC2_rename_wheel>Rename</button>
 			</div>
 			<div id=SC2_wheel_opts>
-				<label id=SC2_auto_copy_container>Auto Copy<input type=checkbox id=SC2_auto_copy></label>
+				<div id=SC2_auto_copy_container><span class=SC2_help_link help_topic=auto_copy>Auto Copy</span><label>&nbsp;<input type=checkbox id=SC2_auto_copy>&nbsp;</label></div>
 				<button type=button id=SC2_load_sample>Load Sample</button>
 				<button type=button id=SC2_undo_sample_clear>Undo</button>
 				<button type=button id=SC2_clear_settings>Clear</button>
-				<label id=SC2_max_wheels_label>Max:<input type=text id=SC2_max_wheels></label>
+				<div id=SC2_max_wheels_label class=SC2_help_link help_topic=max_wheels>Max:<input type=text id=SC2_max_wheels></div>
 			</div>
 		</div>
 
@@ -1196,7 +1198,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 		<div id=SC2_scale_rotate_container class=SC2_theme_standard>
 			<button type=button id=SC2_show_hide_scale class=SC2_open_close_toolbar value=none>+</button>
 			<div id=SC2_scale_rotate_options class=SC2_DO_theme>
-				<button type=button id=SC2_SCALE_mode>Scale:</button>
+				<label class=SC2_help_link help_topic=scale>Scale:</label><button type=button id=SC2_SCALE_mode></button>
 				<div id=SC2_SCALE_user_input_tab class=SC2_theme_standard>
 					<input type=text id=SC2_SCALE_user>mm (Wheel Window Size)
 				</div>
@@ -1225,7 +1227,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	</select>
 	<div id=SC2_notes_container>
 		<table id=SC2_notes>
-			<tr><th><a class=SC2_help_topic tabindex=0>Disclaimer</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=disclaimer>Disclaimer</a></th>
 				<td>
 					<div id=SC2_responsibility>
 						<p id=SC2_assumes>In all cases, the user assumes full responsibility for any use of this program.  It may work.  It may not.  I don't know.  I hope it does, but THERE ARE NO GUARENTEES.
@@ -1238,14 +1240,14 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Wheel</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=wheel>Wheel</a></th>
 				<td><p>
 					<p>All wheels with saved settings are marked with two colons (::) after the wheel number in the Wheel select list.
 					<p>Wheel names can be blank.  You can click [Rename] and delete the name, except for the " :: " indicator.
 				</td>
 			</tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Auto Copy</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=auto_copy>Auto Copy</a></th>
 				<td>
 					<p>Values for the current wheel can be copied to a blank wheel (one that has no settings):
 					<ul>
@@ -1257,7 +1259,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Max</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=max_wheels>Max</a></th>
 				<td><p>Number of slots in the "Wheel" select list.
 					<p>Note that if you have 10 wheels, and change "Max" to 5, wheels above 5 are not lost.
 					   If you change "Max" back to 10, all existing wheels up to 10 will be listed.
@@ -1265,49 +1267,52 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Load Sample</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=load_sample>Load Sample</a></th>
 				<td>Loads a complete set of values and builds a sample wheel.</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Clear</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=clear>Clear</a></th>
 				<td>Clears and removes the saved settings for the current wheel.</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Undo</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=undo>Undo</a></th>
 				<td><p>This will undo the most recent "Load Sample", or the most recent "Clear",
 					but only if no wheel settings have been changed since clicking either button.
 					<p>
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Wheel Settings</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=wheel_settings>Wheel Settings</a></th>
 				<td><p><b>All measured settings are mm (millimeters), except those that aren't (like angles).</b></td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Type</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=wheel_type>Type</a></th>
 				<td><p>Determines the base type of wheel: Standard, Triplet, Paired-Hole Rim, Paired-Hole Hub, Paired-Hole Rim with Paired-Hole Hub, Custom.
 					<p>Each "Type" has various restrictions on hole count, spoke cross, Lace Type, etc, depending on the nature of the type.  Never-the-less, this does not guarantee that the generated wheel will be realistic or practical.
 					<p>When changing the Type, some wheel values - such as Rim Holes, Flange Holes, and Spoke Cross - may automatically be adjusted to fit the contraints of the new Type. For example, if the current wheel is set to "Triplet" with 21 Rim Holes, and then Type is changed to "Standard", Rim Holes will be adjusted to 24, along with cooresponding changes to Flange Holes.
 					<p>Custom removes most restrictions on the various wheel values.  Subsequently, there's a greater possibilty to enter values that will produce an impractical, or even impossible, wheel.  It may be obvious. Hopefully. But maybe not...
 				</td>
-			<tr><th><a class=SC2_help_topic tabindex=0>ERD</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=erd>ERD</a></th>
 				<td>The "<b>E</b>ffective <b>R</b>im <b>D</b>iameter".<br>
 					<p>A picture could say a thousand words, so, <a href='https://duckduckgo.com/?q=bicycle+effective+rim+diamter&t=ffsb&iax=images&ia=images' target=_blank>here are a few.</a>
 					<p>Note that the display Scale (bottom of wheel image) is based on the ERD (Wheel Settings) &amp; Rim size (Display Settings). For example, if Scale is set to 100, changing the ERD will not change the overall size of the image on screen, as the wheel will automatically scale to fit the wheel window.
 				</td>
 			</tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Rim Holes</a></th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=rim_holes>Rim Holes</a></th><td>Number of spoke holes in the Rim. Most of the time, this will be the same as the number of spokes.</td></tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Flange Holes</a></th><td>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=flange_holes>Flange Holes</a></th><td>
 				Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.
 				<p>Note that the number of holes for Side 1 must be less than or equal to Side 2. This is due to some unsolved programming hangup that I <span class=SC2_strike>can't</span> have yet to solve.
 				<p>If your build has fewer spokes on the drive side, which would normally be "Side 2", simply "flip" the wheel.  That is, enter drive side values for "Side 1", and non-drive side for "Side 2".
 			</td></tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>PCD</a></th><td>"Pitch Circle Diameter" - diameter of circle running thru the spoke hole centers in the flange. Also referred to as the hub or flange diameter.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=pcd>PCD</a></th><td>"Pitch Circle Diameter" -  Also referred to as the hub or flange diameter.
+					<p>The diameter of circle running thru the spoke hole centers in the flange.
+					<p>It is NOT the outer diameter of the hub flange.
+			</td></tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Flange-to-Ctr</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=ftc>Flange-to-Ctr</a></th>
 				<td><p>"Flange to Center", or "FTC", or "Center to Flange", or "CTF", etc.
 					<p>The distance the flange is offset from the hub center.
 					<p>Since it's highly impractical to actually measure anything from the hub center (since it's never marked), to obtain these values, subtract the Flange-to-LN from 1/2 the OLD.
@@ -1316,7 +1321,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Flange-to-LN</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=ftl>Flange-to-LN</a></th>
 				<td>
 					<p>"Flange to Locknut", or "Locknut to Flange.
 					<p>The distance from the outer face of the locknut to the center of the flange's width (thickness).
@@ -1325,14 +1330,14 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>OLD</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=old>OLD</a></th>
 				<td><p>"Over Locknut Distance", or "Over Locknut Dimension".
 					<p>The distance between the axle "locknuts" outer faces. Now, not all axles have actual "locknuts", but they will have an outer surface before the end of each axle end that fits between the dropouts.
 					<p>As with most things, <a href='https://duckduckgo.com/?q=bicycle+hub+measure+over+locknut+distance&iar=images&iax=images&ia=images' target=_blank>see the internet</a> for more information.
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>OC Rim</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=oc_rim>OC Rim</a></th>
 				<td>"Off-Center" Rim.<br>
 					May also be referred to as "OSB", "Offset Spoke bed", "asymetrical", or similar terms.
 					<p>The spoke holes in the rim are "off-center", or "off-set", to one side.
@@ -1342,16 +1347,16 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<p>The OC settings can also be used for unusal rims, such as Shimano's 540 series, where the spoke holes are actually in the sides of the rim.  In this case, "Linked" should be <i>unchecked</i>, as both values should be positive.
 				</td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Cross</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=cross>Cross</a></th>
 				<td>"Spoke Cross" value.  Number of spokes each spoke crosses on the same side of wheel.
 					<p>In Standard and Triplet modes, spoke crossings are automatically set to common values for a given rim hole count, but can be changed if desired.  Additionally, the cross must be zero if the number of holes in the flange is odd (not even).
 					<p>In Custom mode, if the number of flange holes is odd, cross can be non-zero, but all spokes on that side will be laced the same direction.  Spokes on the opposite flange will be laced in the opposite direction if they are also odd, otherwise they will be laced normally.
 				</td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>SHD</a></th><td>"Spoke Hole Diameter". Like Flange-to-Ctr &amp; OC, this value only affects final spoke length, and not the wheel as displayed.  To change the displayed hole size, see [Display Setttings]</td></tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Lace Option</a></th><td>Asymetrical lacings, such as triplets, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=shd>SHD</a></th><td>"Spoke Hole Diameter". Like Flange-to-Ctr &amp; OC, this value only affects final spoke length, and not the wheel as displayed.  To change the displayed hole size, see [Display Setttings]</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=lace_option>Lace Option</a></th><td>Asymetrical lacings, such as triplets, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.</td></tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Paired-Hole (PH) Hubs &amp; Rims</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=phhr>Paired-Hole (PH) Hubs &amp; Rims</a></th>
 				<td>
 					<p>A <u>PH Angle</u> is formed by lines passing thru the center of paired spoke holes and extending to the axial center of the hub. For example: the angle between two radial spokes.
 					<p>A <u>PH Distance</u> is the straight-line distance between the center of paired spoke holes (not along the arc of the rim or hub flange).  In geometry, this distance is called a chord.
@@ -1366,7 +1371,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Hub Auto-Angles</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=hub_auto_angles>Hub Auto-Angles</a></th>
 				<td><p>Determines if the angle between paired holes (PH) is automatically calculated, or user provided.				
 					<p><ul>
 						<li><span class=SC2_list_option_in_text>Even (Normal)</span> Normal angles (non-PH hub), with evenly spaced holes around the flange.
@@ -1376,7 +1381,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Hub Flange Rotations</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=flange_rotations>Hub Flange Rotations</a></th>
 				<td><p>In addition to, and seperate from, the paired-holes on each flange, the flanges can be "rotated" relative to each other.  (Not physically rotated of course, but the holes drilled in positions as though the flanges had been rotated.) "Even (Normal)" means a normal hub, such that the holes in each flange are evenly spaced between them. "1/2 Hole" aligns the holes of each flange.
 					<p><ul>
 						<li><span class=SC2_list_option_in_text>...</span> A few rotation values relative to "Normal".
@@ -1388,7 +1393,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Rim Auto-Angles</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=rim_auto_angles>Rim Auto-Angles</a></th>
 				<td><p>Determines if angles between paired holes (PH) are automatically calculated, or user provided.				
 					<p><ul>
 						<li><span class=SC2_list_option_in_text>Even (Normal)</span> Normal angles (non-PH rim), with evenly spaced holes around the rim.
@@ -1399,7 +1404,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Prima Lacing</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=prima_lacing>Prima Lacing</a></th>
 				<td><p>When checked, this option changes the lacing method as indicated below.
 				
 					<p>This lacing method should only be used with a paired-hole rim.
@@ -1435,7 +1440,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			</tr>
 
 			<tr id=SC2_notes_advanced_build_info>
-				<th><a class=SC2_help_topic id=SC2_notes_advanced_build_info_label>Advanced Build Info</a></th>
+				<th><a class=SC2_help_topic id=SC2_notes_advanced_build_info_label tabindex=0 help_topic=adv_build_info>Advanced Build Info</a></th>
 				<td>
 					<p><b>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.</b>
 					<p>Basically, this section does not directly affect the "Spoke Lengths" provided above. Instead, it
@@ -1445,10 +1450,10 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Flange Width</a></th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Spoke Diameter at the Bend</a></th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=flange_width>Flange Width</a></th><td>The flange width at spoke holes affects bracing angles and tension ratio. It is often about 3mm. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=sdb>Spoke Diameter at the Bend</a></th><td>Spoke diameter just before the "J" bend, where it goes into the hub. This is usually 2mm, but can be other values. The value affects bracing angles &amp; tension ratio. Also, it only matters if spokes are not laced "Center" (not entirely true, but true enough for now).</td></tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Elbows Laced</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=elbows_laced>Elbows Laced</a></th>
 				<td>Specify if the spokes are laced elbows In, Out, or Center.  This affects the bracing angle and tension ratio.  It also affects spoke length a tiny amount. The differences between "Center" and "In" or "Out" are determined by Flange Width and Spoke Diameter at Bend.
 					<p>Geometrically, "Center" is the mid-point of the flange thickness, and is the position used for general spoke length calculations by most spoke length calculators.  However, except for specially made hubs and spokes (eg: straight pull), spokes can not actually be laced "center".
 					<p>"Center" can be used to approximate a common wheel where the spokes are acually laced alternately in/out/in/out (default).  In that case, the other Advanced values (Length Adjust, Bracing Angles, etc) are just rough approximations.  Or, you can toggle between laced in & laced out to see the difference, as half of the spokes are laced one way or the other.
@@ -1456,11 +1461,11 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Length Adjust.</a></th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td></tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Spoke Ratio</a></th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td></tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Bracing Angles</a></th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td></tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Tension Ratio</a></th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td></tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Tension</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=length_adjust>Length Adjust.</a></th><td>How much the spoke length is affected by lacing choice (elbows in/out). In general, not enough to worry about.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=spoke_ratio>Spoke Ratio</a></th><td>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=bracing_angles>Bracing Angles</a></th><td>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=tension_ratio>Tension Ratio</a></th><td>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%. This value is based on the spoke ratio and bracing angles.  Note that a change in the bracing angle on either side will affect the ratio listed for Side 1.</td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=tension>Tension</a></th>
 				<td>Enter a spoke tension value under Side 2 to see the cooresponding tension value for Side 1 spokes, based on the Tension Ratio.
 				<p>The spoke tensions between Side 1 and Side 2 of a wheel are interdependent.
 					That is, you can't change the tension on one side without affecting the other.*
@@ -1469,30 +1474,30 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Display Settings</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=display_settings>Display Settings</a></th>
 				<td><p><b>Display Options affect the wheel as displayed only, and have no effect on spoke length calculations.</b></td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Rim Size</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=rim_size>Rim Size</a></th>
 				<td>
 					Rim Size affects the displayed scale, but - as indicated above, has no effect on spoke length calculations.
 					<p>When set to <span id=SC2_spokes_recessed1>_</span> or less, the "center" of the "rim" will be the ERD, and traces thru the rim spoke holes.
 					<p>When set more than <span id=SC2_spokes_recessed2>_</span>, the "rim" expands away from the rim holes, to simulate an actual rim, where the spoke ends (and the ERD) are slightly within the inner diameter of the rim.
 				</td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Scale</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=scale>Scale</a></th>
 				<td><p>The Scale setting is like a "zoom" view setting - higher values increase the displayed size of the wheel (the portion within the wheel window).
 					<p>There are two Scale modes: "w", and "u".
-					<p>[Scale: w] (wheel - default)
+					<p>Scale:[w] (wheel - default)
 					<p>
 					At 100%, the displayed wheel is scaled to fit the display window (regardless of ERD).<br>
 					At 200%, the displayed wheel's diameter is twice the window size,<br>
 					At 300%, the displayed wheel's diameter is thrice the window size, etc...<br>
-					<p>[Scale: u] (user)
-					<p>Similar to [Scale: w], except the size that the wheel window represents is fixed by the user defined value, and does not change with the wheel's ERD.
+					<p>Scale:[u] (user)
+					<p>Similar to [Scale: w], except the size that the wheel window represents (100%) is fixed by the user defined value and does not change with the wheel's ERD.
 					<p>Changing the scale re-centers the wheel within the window.
 				</td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Colors</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=colors>Colors</a></th>
 				<td>Colors can be specified using common
 					<a href="https://www.w3schools.com/Colors/colors_names.asp" target="_blank">html/css color names</a>
 					(black, gray, red, blue, green, skyblue, etc.),
@@ -1500,11 +1505,11 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>ETC</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=etc>ETC</a></th>
 				<td><p><b>Import/Export wheel data, and general information.</b></td>
 			</tr>
 			
-			<tr><th><a class=SC2_help_topic tabindex=0>Saved Settings</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=saved_settings>Saved Settings</a></th>
 				<td><p>In general, all information generated and used by this program internally, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage.
 					<p>To clear all wheel data &amp; display options stored by this web browser on this device, click the following button:<br>
 					<button type=button id=SC2_DELETE_ALL_DATA>DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
@@ -1512,12 +1517,12 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<p>Additionally, any wheels saved via Export Data is naturally unaffected by this option.
 				</td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Export Data</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=export_data>Export Data</a></th>
 				<td><p>Generates a JSON string of all wheel & display data that can then be saved in a text file for backup.</p>
 					<p><button type=button id=SC2_EXPORT>Export Wheels &amp; Display Settings</button></p>
 				</td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Import Data</a></th><td>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=import_data>Import Data</a></th><td>
 				<p>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.
 				<p>For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
 				<p>In the Import window that opens by clicking the following button, there is an option to load &amp; import
@@ -1525,15 +1530,15 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<p><button type=button id=SC2_IMPORT>Import Wheels &amp; Display Settings</button>
 			</td></tr>
 
-			<tr><th><a class=SC2_help_topic tabindex=0>Contact</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=contact>Contact</a></th>
 				<td><p>Please report any issues to <a id=SC2_admin_link href="/">...</a>.
 					<p>Or, if you have a github account, at <a href="https://github.com/Self-Evident/The_Wheel_Maker/issues" target="_blank">github.com/Self-Evident/The_Wheel_Maker/issues</a>.
 				</td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Copyright</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=copyright>Copyright</a></th>
 				<td><pre id=SC2_COPY_LICENSE></pre></td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0>Version</a></th><td id=SC2_VERSION></td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 help_topic=version>Version</a></th><td id=SC2_VERSION></td></tr>
 		</table>
 	</div><!--//end SC2_notes_container =============-->
 
@@ -1566,6 +1571,7 @@ var SAVE_UNDO = true;  //used onclick of $LOAD_SAMPLE, and onchange of $SAMPLE_W
 var HEADER_OPTS_WIDTH = parseInt(window.getComputedStyle(E_('wheel_container_container'), null ).getPropertyValue("width")) + "px";
 
 var HELP_TOPICS = []; //Populated during Init(), via Build_Choose_Topic_List(), and used by the $TOPIC_select change event.
+
 
 //Various messeges
 var MSGS = {};
@@ -2272,7 +2278,7 @@ function Load_Settings(what, imp_def) {
 		Calc_Flange_Offset($FTL[1], $FTC[1]);
 		Calc_Flange_Offset($FTL[2], $FTC[2]);
 		Enable_Disable_FTL();
-		$SCALE_mode.innerHTML = "Scale: " + $SCALE_mode.value.substr(0,1);
+		$SCALE_mode.innerHTML = $SCALE_mode.value.substr(0,1);
 		$SCALE_slider.value = $SCALE_text.value;
 		$SCALE_slider.setAttribute('step', $SCALE_step.value);
 		$ROTATE_slider.value = $ROTATE_text.value
@@ -2436,7 +2442,7 @@ function Load_DEFAULT_VALUES_Scale_Rotate() {
 	$G_WHEEL.setAttribute('transform', " rotate(" + $ROTATE_text.value + ")");
 	$SCALE_mode.value   = DEFAULT_VALUES.SCALE_mode;
 	$SCALE_user.value   = DEFAULT_VALUES.SCALE_user;
-	$SCALE_mode.innerHTML = "Scale: " + $SCALE_mode.value.substr(0,1); //Must come after $SCALE_mode.value is set.
+	$SCALE_mode.innerHTML = $SCALE_mode.value.substr(0,1); //Must come after $SCALE_mode.value is set.
 	$SCALE_step.value   = DEFAULT_VALUES.SCALE_step;
 	$SCALE_text.value   = DEFAULT_VALUES.SCALE_text;
 	$SCALE_slider.value = $SCALE_text.value
@@ -2500,9 +2506,11 @@ function Build_Choose_Topic_List() {
 	//Grab & index help topics...
 	var help_topics = document.getElementsByClassName(_NS_ + "help_topic");
 	for (var x = 0; x < help_topics.length; x++) {
+		var topic = help_topics[x].getAttribute('help_topic');
 		HELP_TOPICS[x] = [];
-		HELP_TOPICS[x][1] = help_topics[x]; //The <a class=SC2_help_topic tabindex=0> $element
+		HELP_TOPICS[x][1] = help_topics[x]; //The <a class=SC2_help_topic> $element
 		HELP_TOPICS[x][2] = help_topics[x].parentElement.parentElement; //The <tr> around the topic.
+		HELP_TOPICS[x][3] = topic;
 	}
 
 	//Sort the topics...
@@ -2524,8 +2532,8 @@ function Build_Choose_Topic_List() {
 	//Populate <select>...
 	var topic_list = '';
 	for (var x = 0; x < HELP_TOPICS.length; x++) {
-		//The value is it's selectedIndex. value 0 is the "placeholder" <option>Choose a Help Topic</option>.
-		topic_list += "\n<option value=" + (x+1) + ">" +  HELP_TOPICS[x][1].innerHTML + "</option>"
+		//Value/index 0 is the "placeholder" <option>Choose a Help Topic</option>, listed in the HTML.
+		topic_list += "\n<option value='" + HELP_TOPICS[x][3] + "'>" +  HELP_TOPICS[x][1].innerHTML + "</option>"
 	}
 
 	$TOPIC_list.innerHTML = topic_list + "\n";
@@ -3724,25 +3732,23 @@ function Setup_Viewbox() {
 
 
 
-function Scroll_Into_View(target, extra, min_visible) {
-	//Only scroll if target display is !=none, and
+function Scroll_Into_View($target, extra, min_visible) {
+	//Only scroll if $target display is !=none, and
 	//if the top of the element is not visible in the window.
 	
 	//Scroll min_visible of element into view, if less than min_visible is visible.
 	if (typeof min_visible == "undefined") { min_visible = 150 }
 
-	if (target.style['display'] == "none") { return; }
+	if ($target.style['display'] == "none") { return; }
 
-	var rect = target.getBoundingClientRect(); //left, top, right, bottom, x, y, width, height
+	var rect = $target.getBoundingClientRect(); //left, top, right, bottom, x, y, width, height
 
 	//window contents scroll down if off the top...
     if (rect.top < extra) { window.scrollBy(0, rect.top - extra); return; }
 
-	var viewable_amount = window.innerHeight - rect.top;
-
 	//window contents scroll up if off the bottom...
+	var viewable_amount = window.innerHeight - rect.top;
     if (viewable_amount < min_visible) { window.scrollBy(0, min_visible - viewable_amount); }
-
 }//end Scroll_Into_View() {
 
 
@@ -4400,6 +4406,19 @@ function Topic_Select_Focus(event) {
 
 
 
+function Topic_Select_Change() {
+		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_all_Topics(false); } //Only really need to hide the last viewed topic, but this is easier.
+		var selected = $TOPIC_select.selectedIndex - 1;  //HELP_TOPICS doesn't include the first <option>, "Choose a Help Topic".
+		if ($TOPIC_select.selectedIndex < 1) {Save_Settings("display"); return; } //The first <option> is just a "placeholer" <option>.
+		$NOTES_CONTAINER.style.display = "";
+		HELP_TOPICS[selected][2].style.display = "";
+		Scroll_Into_View(HELP_TOPICS[selected][1], 50,100); // [x][1]=<a> element, [x][2]=<a>'s parent element
+		if ($SHOW_HIDE_NOTES.value != "none") { HELP_TOPICS[selected][1].focus(); }
+}//end Topic_Select_Change()
+
+
+
+
 function Assign_Number_Keydown_Events() {
 	var $inputs = [$ERD, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $FTL[1], $FTL[2], $OLD, $OSB[1], $OSB[2], $SHD, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $ROTF, $PHRA, $PHRD, $ROTR, $FW, $SDB, $TENSION[2], $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $AXES_LINE_SIZE, $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $HOLES_RIM_SIZE, $HOLES_F1_SIZE, $HOLES_F2_SIZE, $MAX_WHEELS, $SCALE_user, $SCALE_text, $SCALE_step, $ROTATE_text, $ROTATE_step];
 
@@ -4441,6 +4460,16 @@ function Assign_Events() {
 		D.addEventListener('mousemove', Drag_Wheel);
 		e.preventDefault();
 	});
+
+
+	//Assign events for help links.
+	var help_links = document.getElementsByClassName(_NS_ + "help_link");
+	for (var x = 0; x < help_links.length; x++) {
+		help_links[x].addEventListener("click", function() {
+			$TOPIC_select.value = this.getAttribute('help_topic');
+			Topic_Select_Change();
+		});
+	}//
 
 
 	$WHEEL_OR_DISPLAY.addEventListener("click", function() {
@@ -4953,7 +4982,7 @@ function Assign_Events() {
 		if (this.value != DEFAULT_VALUES.SCALE_mode)
 			 { this.value = DEFAULT_VALUES.SCALE_mode }
 		else { this.value = 'user' }
-		this.innerHTML = "Scale: " + this.value.substr(0,1);
+		this.innerHTML = this.value.substr(0,1);
 		Setup_Viewbox();
 		Save_Settings("wheel");
 		Show_Hide($SCALE_user_input_tab, (this.value == 'user'),false , 'display', 'inline-block');
@@ -5027,15 +5056,7 @@ function Assign_Events() {
 		if (event.key_code == 13) { HELP_TOPICS[this.selectedIndex - 1][1].focus(); }
 	});
 
-	$TOPIC_select.addEventListener('change', function(){
-		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_all_Topics(false); } //Only really need to hide the last viewed topic, but this is easier.
-		var selected = this.selectedIndex - 1;  //HELP_TOPICS doesn't include the first <option>, "Choose a Help Topic".
-		if (this.selectedIndex < 1) {Save_Settings("display"); return; } //The first <option> is just a "placeholer" <option>.
-		$NOTES_CONTAINER.style.display = "";
-		HELP_TOPICS[selected][2].style.display = "";
-		Scroll_Into_View(HELP_TOPICS[selected][1], 50,100); //[x][0] index, [x][1] innerHTML, [x][2] element
-		if ($SHOW_HIDE_NOTES.value != "none") { HELP_TOPICS[selected][1].focus(); }
-	});
+	$TOPIC_select.addEventListener('change', function(){ Topic_Select_Change(); });
 
 
 	$CLOSE_MSG.addEventListener("blur" , function() { Close_Message() });
@@ -5284,13 +5305,9 @@ function Init() {
 	$SDB.value = DEFAULT_VALUES.SDB;
 
 	Build_Load_Sample_List();
-
 	Build_Choose_Topic_List();              //1) MUST COME BEFORE Init_Show_Hide_Options() (called from Init_Display_NR_SX()).
-
 	Init_Display_NR_SX(LS_DISPLAY_OPTIONS); //2) MUST COME AFTER Build_Choose_Topic_List();
-
 	Build_Select_Wheel_List();              //3) MUST COME AFTER Init_Display_NR_SX().  Needs $MAX_WHEELS.
-
 	Enable_Disable_Undo_Clear();
  
 	var saved_settings_found = Load_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
@@ -5317,7 +5334,7 @@ function Init() {
 	//Disclaimer message for first load & resets.
 	$ACCEPT_MSG.disabled = true; //##### false enables disclaimer message. 
 
-	Check_if_Disclaimer_Accepted(); //(option) is where to set focus after accepted.
+	Check_if_Disclaimer_Accepted(); //(option), if present, is where to set focus after Accepted.
 }//end Init()
 
 
