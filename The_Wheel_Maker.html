@@ -4,9 +4,9 @@
 
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
-<!--//===============================================-->
-<script>var VERSION = "v2.53 2019-07-24 2am"</script>
-<!--//===============================================-->
+<!--//================================================-->
+<script>var VERSION = "v2.54 2019-07-24 11:45pm"</script>
+<!--//================================================-->
 
 <template id=SC2_LICENSE>
 Copyright © 2017-2018 https://github.com/Self-Evident
@@ -1223,7 +1223,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	<button type=button id=SC2_show_hide_notes class=SC2_ndo_buttons value=none>Show/Hide Notes</button>
 	<select id=SC2_TOPIC_select>
 		<option value=0 selected>Choose a Help Topic</option>
-		<optgroup id=SC2_TOPIC_list label=""><!-- Populated onload --></optgroup>
+		<optgroup id=SC2_TOPIC_options label=""><!-- Populated onload --></optgroup>
 	</select>
 	<div id=SC2_notes_container>
 		<table id=SC2_notes>
@@ -1234,7 +1234,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					</div>
 					<div>
 						<p>Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
-						<p>That is, just because the program many generate a theoretical wheel on screen from a given set of values, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim &amp; hub values than the other modes.  And while it may often be obvious when values produce an unrealistic wheel, again, there are no guarantees.
+						<p>That is, just because the program may generate a theoretical wheel on screen from a given set of values, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  And while it may often be obvious when values produce an unrealistic wheel, again, there are no guarantees.
 						<p>For additional information, please refer to geometry. And physics.
 					</div>
 				</td>
@@ -1791,7 +1791,7 @@ var $SHOW_HIDE_SCALE = E_('show_hide_scale'); //<button> to show/hide scale & ro
 var $SHOW_HIDE_NOTES = E_('show_hide_notes'); //<button> to show/hide Notes.
 
 var $TOPIC_select    = E_('TOPIC_select'); //<select>
-var $TOPIC_list      = E_('TOPIC_list');   //<options>
+var $TOPIC_options   = E_('TOPIC_options');   //<options>
 
 var $SCALE_ROTATE_OPTIONS = E_('scale_rotate_options');
 
@@ -2507,23 +2507,25 @@ function Build_Choose_Topic_List() {
 	var help_topics = document.getElementsByClassName(_NS_ + "help_topic");
 	for (var x = 0; x < help_topics.length; x++) {
 		var topic = help_topics[x].getAttribute('help_topic');
-		HELP_TOPICS[x] = [];
-		HELP_TOPICS[x][1] = help_topics[x]; //The <a class=SC2_help_topic> $element
-		HELP_TOPICS[x][2] = help_topics[x].parentElement.parentElement; //The <tr> around the topic.
-		HELP_TOPICS[x][3] = topic;
+		HELP_TOPICS[x]     = [];
+		HELP_TOPICS[x][0]  = topic;
+		HELP_TOPICS[x][1]  = help_topics[x]; //The <a class=SC2_help_topic> $element
+		HELP_TOPICS[topic] = help_topics[x]; //Create HELP_TOPICS.topic_key from HELP_TOPICS[x][1].
 	}
 
-	//Sort the topics...
+	//Sort the topics by text value, eg: "Lace Option", not by key, eg:"lace_option"
 	HELP_TOPICS.sort( function(a, b) { return a[1].innerHTML.localeCompare(b[1].innerHTML); } );
 
 	//Add some event handlers...
-	for (var topic = 0; topic < help_topics.length; topic++) {
+	for (var topic = 0; topic < HELP_TOPICS.length; topic++) {
 		HELP_TOPICS[topic][1].addEventListener("click",    function(event){ Topic_Select_Focus(event); });
 		HELP_TOPICS[topic][1].addEventListener("keypress", function(event){ Topic_Select_Focus(event); });
 
-		(function(t) { //This part needs to come after the HELP_TOPICS.sort()...
+		//On focus of help topic title in help list, set select list to same...
+		//This needs to come after the HELP_TOPICS.sort()...
+		(function(t) {
 			HELP_TOPICS[t][1].addEventListener("focus", function(event){ 
-				$TOPIC_select.selectedIndex = t + 1;
+				$TOPIC_select.value = HELP_TOPICS[t][0];
 				Save_Settings("display");
 			});
 		})(topic);
@@ -2533,10 +2535,10 @@ function Build_Choose_Topic_List() {
 	var topic_list = '';
 	for (var x = 0; x < HELP_TOPICS.length; x++) {
 		//Value/index 0 is the "placeholder" <option>Choose a Help Topic</option>, listed in the HTML.
-		topic_list += "\n<option value='" + HELP_TOPICS[x][3] + "'>" +  HELP_TOPICS[x][1].innerHTML + "</option>"
+		topic_list += "\n<option value='" + HELP_TOPICS[x][0] + "'>" +  HELP_TOPICS[x][1].innerHTML + "</option>"
 	}
 
-	$TOPIC_list.innerHTML = topic_list + "\n";
+	$TOPIC_options.innerHTML = topic_list + "\n";
 }//end Build_Choose_Topic_List()
 
 
@@ -2645,7 +2647,7 @@ function Show_Hide_all_Topics(show, init) {
 	Show_Hide($NOTES_CONTAINER, show, save, "display", display);
 
 	for (var x=0; x < HELP_TOPICS.length; x++) { 
-		HELP_TOPICS[x][2].style.display = display;
+		HELP_TOPICS[x][1].parentElement.parentElement.style.display = display;
 	}
 }//end Show_Hide_all_Topics()
 
@@ -3952,7 +3954,7 @@ function Init_Show_Hide_Options(reset) {
 
 	if ($TOPIC_select.selectedIndex > 0) { //0 is just the "Choose a Help Topic" <option>
 		$NOTES_CONTAINER.style.display = ""; //Show notes container...
-		HELP_TOPICS[$TOPIC_select.selectedIndex-1][2].style.display = ""; //...show topic container.
+		HELP_TOPICS[$TOPIC_select.value].parentElement.parentElement.style.display = ""; //...show topic container.
 	}
 }//end Init_Show_Hide_Options()
 
@@ -4407,13 +4409,13 @@ function Topic_Select_Focus(event) {
 
 
 function Topic_Select_Change() {
-		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_all_Topics(false); } //Only really need to hide the last viewed topic, but this is easier.
-		var selected = $TOPIC_select.selectedIndex - 1;  //HELP_TOPICS doesn't include the first <option>, "Choose a Help Topic".
-		if ($TOPIC_select.selectedIndex < 1) {Save_Settings("display"); return; } //The first <option> is just a "placeholer" <option>.
-		$NOTES_CONTAINER.style.display = "";
-		HELP_TOPICS[selected][2].style.display = "";
-		Scroll_Into_View(HELP_TOPICS[selected][1], 50,100); // [x][1]=<a> element, [x][2]=<a>'s parent element
-		if ($SHOW_HIDE_NOTES.value != "none") { HELP_TOPICS[selected][1].focus(); }
+	if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_all_Topics(false); } //Only really need to hide the last viewed topic, but this is easier.
+	if ($TOPIC_select.selectedIndex < 1) {Save_Settings("display"); return; } //The first <option> is just a "placeholer" <option>.
+	$NOTES_CONTAINER.style.display = "";
+	var $topic_title = HELP_TOPICS[$TOPIC_select.value];
+	$topic_title.parentElement.parentElement.style.display = ""; //Show the <tr> around the topic.
+	Scroll_Into_View($topic_title, 50,50);
+	if ($SHOW_HIDE_NOTES.value != "none") { $topic_title.focus(); }
 }//end Topic_Select_Change()
 
 
@@ -5052,8 +5054,7 @@ function Assign_Events() {
 
 	$TOPIC_select.addEventListener('keypress', function(event){
 		Normalize_Event(event);
-		//HELP_TOPICS doesn't include the first <option>, "Choose a Help Topic".
-		if (event.key_code == 13) { HELP_TOPICS[this.selectedIndex - 1][1].focus(); }
+		if (event.key_code == 13) { HELP_TOPICS[$TOPIC_select.value].focus(); }
 	});
 
 	$TOPIC_select.addEventListener('change', function(){ Topic_Select_Change(); });
@@ -5154,9 +5155,9 @@ function Assign_Events() {
 	});
 
 
-	$CLOSE_IMPORT.addEventListener("click", function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); $TOPIC_select.focus(); });
-	$X_IMPORT.addEventListener("click", function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); });
-	$X_EXPORT.addEventListener("click", function() { Set_Modal_Mode(false, $EXPORT_CONTAINER); $EXPORT_OUTPUT.innerHTML = ""; });
+	$CLOSE_IMPORT.addEventListener("click", function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); $IMPORT.focus(); });
+	$X_IMPORT.addEventListener("click",     function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); $IMPORT.focus(); });
+	$X_EXPORT.addEventListener("click",     function() { Set_Modal_Mode(false, $EXPORT_CONTAINER); $EXPORT_OUTPUT.innerHTML = ""; });
 
 	$PRESERVE_INDEX.addEventListener("click", function() { Import_Index_Enable_Disable(); });
 
