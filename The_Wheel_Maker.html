@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//================================================-->
-<script>var VERSION = "v2.58 2019-07-28  2:15am"</script>
+<script>var VERSION = "v2.59 2019-07-29  2:50am"</script>
 <!--//================================================-->
 
 <template id=SC2_LICENSE>
@@ -64,6 +64,7 @@ body { overflow-y: scroll; }
 	border-radius: 4px;
 	height: 22px;
 	color: black;
+	outline: none;
 }
 
 #SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
@@ -103,7 +104,7 @@ body { overflow-y: scroll; }
 
 #SC2_CONTAINER input:focus, 
 #SC2_CONTAINER select:focus, 
-#SC2_CONTAINER button:focus  { box-shadow:       0 0 3pt 1pt #006060; }
+#SC2_CONTAINER button:focus  { box-shadow:       0 0 3pt 2pt #006060; }
 #SC2_CONTAINER button:active { box-shadow: inset 0 2px 3px rgba(0, 96, 96, 0.7); }
 
 #SC2_CONTAINER input[type=text]:hover     { box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
@@ -671,6 +672,33 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 #SC2_other_calcs a { min-width: 75%; padding-left: .3em ;}
 
+
+#SC2_DIE_opts_container {
+	position: relative;
+	display: inline-block;
+	margin : 0 0 1em 0;
+	padding: 0;
+	border : solid 1px #444;
+	border-radius: 8px;
+}
+#SC2_DIE_opts_container.SC2_DIE_opts_open { width: 100%; }
+
+#SC2_CONTAINER #SC2_show_hide_DIE_opts { margin: 0; border: 0; }
+
+#SC2_DIE_opts {
+	position: absolute;
+	top: 2.5px;
+	right: .2em;
+	XXXXXmargin: 0 .8em 0 1em;
+	padding: 0 0 0 0;
+	display: inline-block;
+	border:0; 
+}
+
+#SC2_DIE_opts button         { height: 2em;}
+#SC2_DIE_opts .SC2_help_link { display: inline-block; width: 1.4em; margin: 0 0 0 .1em; text-align: right; }
+
+
 #SC2_MSG_HEADER {
 	margin			: auto;
 	text-align		: center;
@@ -762,7 +790,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 		<p>Copy/Paste your previously saved data to the area below, then click "Import Data".</p>
 		<p>If "Preserve Index" is checked, imported wheels will be restored to the same "slots" (or indexes) from which they were saved.
 		   That is, when saved, if the wheel list had wheels in slots: 2-5-7-9, they will be restored to the same.
-		   <p>However, if "Preserve Index is not checked, they will be restored to slots: 1-2-3-4.<br>
+		<p>However, if "Preserve Index is not checked, they will be restored to slots: 1-2-3-4.<br>
 		   (Or, starting at the "beginning at index" specified below.)
 		<p>Also, the import may set "Max" lower than the highest index of the current wheel list. If so,
 			you will need to increase "Max" in order to access those wheels.
@@ -778,8 +806,8 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	<div id=SC2_EXPORT_container class=SC2_imex_containers>
 		<button type=button id=SC2_X_export class=SC2_X_imex_windows>X</button>
 		<p>Copy and paste the text below into a blank text file in your favorite text editor.
-		   Do not edit the data unless you <i>really</i> know what you're doing!</p>
-		<p>
+		<p>The data can be used to restore the saved wheels &amp; display settings at a later time.
+		<br><br>
 		<button type=button id=SC2_copy_to_clipboard class=SC2_imex_btns>Copy to Clipboard</button>
 		<button type=button id=SC2_close_export      class=SC2_imex_btns>Return to Wheel</button>
 		<div id=SC2_EXPORT_OUTPUT class=SC2_IMEX_DATA></div>
@@ -1129,9 +1157,6 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			</table>
 		</div><!--//end Display Options ====================-->
 
-
-
-
 		<button type=button id=SC2_show_hide_other class=SC2_ndo_buttons value="none">A few other calculators</button>
 		<div id=SC2_other_calcs>
 			Ancesters to The Wheel Maker:<br>
@@ -1225,7 +1250,19 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	</div><!--//end SC2_right_side ========================================-->
 
 
+
+
 	<br><br><br>
+	<div id=SC2_DIE_opts_container class=SC2_theme_standard>
+	<button type=button id=SC2_show_hide_DIE_opts class="SC2_ndo_buttons SC2_DIE_opts_open" value="none">Import / Export / Delete</button>
+		<div id=SC2_DIE_opts>
+			<label class=SC2_help_link data-help_topic=import_data>&#x1f6c8;</label><button type=button id=SC2_IMPORT>Import Wheels &amp; Display Settings</button>
+			<label class=SC2_help_link data-help_topic=export_data>&#x1f6c8;</label><button type=button id=SC2_EXPORT>Export Wheels &amp; Display Settings</button>
+			<label class=SC2_help_link data-help_topic=delete_settings>&#x1f6c8;</label><button type=button id=SC2_DELETE_ALL_DATA>Delete All Current Settings</button>
+		</div>
+	</div><br>
+
+
 	<button type=button id=SC2_show_hide_notes class=SC2_ndo_buttons value=none>Show/Hide Notes</button>
 	<select id=SC2_TOPIC_select>
 		<option value=0 selected>Choose a Help Topic</option>
@@ -1371,6 +1408,8 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<td><p>Asymetrical lacings, such as triplets, can generally produce two possible patterns (and spoke lengths).  The two patterns depend on which direction Spoke 1 is laced in relation to Hole 0.  Just try it &amp; see.
 			</td></tr>
 			
+			<tr><th class=SC2_help_divider colspan=2></th></tr>
+
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=phhr>Paired-Hole (PH) Hubs &amp; Rims</a></th>
 				<td>
 					<p>A <u>PH Angle</u> is formed by lines passing thru the center of paired spoke holes and extending to the axial center of the hub. For example: the angle between two radial spokes.
@@ -1504,9 +1543,9 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<p>*Actually, adjusting the tension of <i>any</i> spoke also affects the tension of <i>every other</i> spoke a little bit.
 				</td>
 			</tr>
-			
+
 			<tr><th class=SC2_help_divider colspan=2></th></tr>
-			
+
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=display_settings>Display Settings</a></th>
 				<td><p><b>Display Options affect the wheel as displayed only, and have no effect on spoke length calculations.</b></td>
 			</tr>
@@ -1560,26 +1599,25 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=etc>ETC</a></th>
 				<td><p><b>Import/Export wheel data, and general information.</b></td>
 			</tr>
-			
-			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=saved_settings>Saved Settings</a></th>
+			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=current_settings>Current Settings</a></th>
 				<td><p>In general, all information generated and used by this program internally, such as wheel data and display options, is saved locally, to this device only, in your web browser's localStorage.
-					<p>To clear all wheel data &amp; display options stored by this web browser on this device, click the following button:<br>
-					<button type=button id=SC2_DELETE_ALL_DATA>DELETE ALL SAVED WHEEL AND DISPLAY SETTINGS</button>
+				</td>
+			</tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=delete_settings>Delete Current Settings</a></th>
+				<td><p>To clear all current wheel data &amp; display options stored by this web browser on this device, click the [Delete&nbsp;All&nbsp;Current&nbsp;Settings] button in the [Import&nbsp;/&nbsp;Export&nbsp;/&nbsp;Delete] section.
 					<p>Your browser's cache is not affected by this option, and may retain some information.
 					<p>Additionally, any wheels saved via Export Data is naturally unaffected by this option.
 				</td>
 			</tr>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=export_data>Export Data</a></th>
-				<td><p>Generates a JSON string of all wheel & display data that can then be saved in a text file for backup.</p>
-					<p><button type=button id=SC2_EXPORT>Export Wheels &amp; Display Settings</button></p>
+				<td><p>Generates a JSON string of all wheel & display data that can then be saved in a text file for backup.
 				</td>
 			</tr>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=import_data>Import Data</a></th><td>
+				<p>Import previously Exported wheel & display settings.
 				<p>Importing previously Exported data may override some or all wheels currently listed in the Wheel select list.
 				<p>For example, say you currently have wheels saved in slots 1,2,3, &amp; 4 in the Wheel list. You then perform an Import that only contains wheels for slots 1,2, &amp; 3.  In that case, wheels 1,2, &amp; 3 will be overwritten, but existing wheel 4 will remain unchanged.
-				<p>In the Import window that opens by clicking the following button, there is an option to load &amp; import
-				a sample set of wheels. These wheels are for example only, and do not contain accurate values for any actual known wheel.
-				<p><button type=button id=SC2_IMPORT>Import Wheels &amp; Display Settings</button>
+				<p>In the Import window, there is an option to load &amp; import a sample set of wheels. These wheels are for example only, and do not contain accurate values for any actual known wheel.
 			</td></tr>
 
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=contact>Contact</a></th>
@@ -1958,6 +1996,10 @@ var $SC2_VERSION = E_('VERSION');
 var $LICENSE      = E_('LICENSE');
 var $COPY_LICENSE = E_('COPY_LICENSE');
 
+var $DIE_opts_container = E_('DIE_opts_container');
+var $SHOW_HIDE_DIE_opts = E_('show_hide_DIE_opts');
+var $DIE_opts = E_('DIE_opts');
+
 var $EXPORT            = E_('EXPORT'); //<button>
 var $EXPORT_CONTAINER  = E_('EXPORT_container');
 var $EXPORT_OUTPUT     = E_('EXPORT_OUTPUT'); //<div> of data
@@ -2080,6 +2122,7 @@ var DEFAULT_OPTIONS = {
 	'show_phh_opts'     : "table-row", //none or table-row
 	'show_phr_opts'     : "table-row", //none or table-row
 	'show_eso_opts'     : "none", //none or table-row
+	'show_hide_DIE_opts': "none", //none or ""
 	'show_hide_advanced': "none", //none or inline-block
 	'show_hide_other'   : "none", //  "			"
 	'show_hide_notes'   : "none", //  "			"
@@ -2262,8 +2305,6 @@ function Load_Clear_or_Get_Settings(defaults, action) {
 			if ($setting.type == "checkbox") { settings[id] = $setting.checked; }
 			else 							 { settings[id] = $setting.value;   }
 		}
-		
-		if ($setting.tagName == "SELECT" && $setting.selectedIndex < 0) { $setting.selectedIndex = 0; }
 	}
 
 	return settings;
@@ -4008,6 +4049,7 @@ function Init_Show_Hide_Options(reset) {
 	$PHR_OPTS        .style.display = $SHOW_PHR_OPTS.value;
 	$ESO_OPTS        .style.display = $SHOW_ESO_OPTS.value;
 	$ADVANCED_INFO   .style.display = $SHOW_HIDE_ADVANCED.value;
+	$DIE_opts        .style.display = $SHOW_HIDE_DIE_opts.value
 	$OTHER_CALCS	 .style.display = $SHOW_HIDE_OTHER.value;
 	$NOTES_CONTAINER .style.display = $SHOW_HIDE_NOTES.value;
 
@@ -4021,6 +4063,9 @@ function Init_Show_Hide_Options(reset) {
 	Set_Show_Button_Text($SHOW_HIDE_SCALE, "+", "&#215;", TOOLBAR_OPEN_R);
 	if ($SHOW_WHEEL_OPTS.value == "none") { $HEADER_OPTS.style.width = ""; }
 	else                                  { $HEADER_OPTS.style.width = HEADER_OPTS_WIDTH; }
+
+	if ($SHOW_HIDE_DIE_opts.value == "none") { $DIE_opts_container.classList.remove(_NS_ + "DIE_opts_open"); }
+	else                      { $DIE_opts_container.classList.add(_NS_ + "DIE_opts_open"); }
 
 	if ($SHOW_HIDE_NOTES.value !== "") { $SHOW_HIDE_NOTES.value = "none"; }
 	else                               { $SHOW_HIDE_NOTES.value = ""; }
@@ -5156,6 +5201,13 @@ function Assign_Events() {
 		D.cookie = $ACCEPT_MSG.id + "=true; expires=" + expires.toUTCString() + '; path=/; domain=.' + domain;
 		Set_Modal_Mode(false);
 		Close_Message();
+	});
+
+
+	$SHOW_HIDE_DIE_opts.addEventListener('click', function() {
+		Show_Hide_Options(this, $DIE_opts , "");
+		if (this.value == "none") { $DIE_opts_container.classList.remove(_NS_ + "DIE_opts_open"); }
+		else                      { $DIE_opts_container.classList.add(_NS_ + "DIE_opts_open"); }
 	});
 
 
