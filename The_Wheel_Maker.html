@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//================================================-->
-<script>var VERSION = "v2.59 2019-07-29  2:50am"</script>
+<script>var VERSION = "v2.60 2019-07-30  4:30pm"</script>
 <!--//================================================-->
 
 <template id=SC2_LICENSE>
@@ -236,6 +236,7 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER button.SC2_mini_button { width: 1rem; padding: 0; line-height: 1rem; }
 
 #SC2_FL_to_LN { background-color: rgba(255,255,255,.4); }
+#SC2_OLD_label { display: inline-block; width: 8em; }
 
 .SC2_theta { display: inline-block; width: .5rem; }
 
@@ -689,8 +690,8 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	position: absolute;
 	top: 2.5px;
 	right: .2em;
-	XXXXXmargin: 0 .8em 0 1em;
-	padding: 0 0 0 0;
+	margin: 0;
+	padding: 0;
 	display: inline-block;
 	border:0; 
 }
@@ -708,7 +709,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 #SC2_msg_box {
 	vertical-align: top;
-	width: 18rem;
+	max-width: 45em;
 	position: absolute;
 	top		: 6rem;
 	left	: 2rem;
@@ -718,12 +719,14 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	padding			: .5rem .5rem .5rem .5rem;
 	background-color: white;
 	font-family		: arial, sans-serif;
-	text-align		: center;
 	visibility		: hidden;  /** toggled in Show_Message() **/
 	max-height: 30rem;
 	overflow-y: auto;
 	box-shadow: 0 0 10pt 3pt red;
+	resize: both;
 }
+
+
 
 
 #SC2_close_msg {
@@ -856,8 +859,8 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<td colspan=2>
 						<button type=button id=SC2_show_FL_to_LN class=SC2_mini_button value=none>+</button>
 						<b class=SC2_help_link data-help_topic=ftc>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 maxlength=5> <input type=text id=SC2_FTC2 maxlength=5>&nbsp;
-						<div id=SC2_FL_to_LN class=SC2_help_link data-help_topic=ftl>Flange-to-LN&boxur;<input type=text id=SC2_FTL1 maxlength=5> <input type=text id=SC2_FTL2 maxlength=5>&nbsp;<br>
-						OLD&nbsp; &nbsp; &nbsp; &boxUR;<input type=text id=SC2_OLD maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
+						<div id=SC2_FL_to_LN><span class=SC2_help_link data-help_topic=ftl>Flange-to-LN&boxur;</span><input type=text id=SC2_FTL1 maxlength=5> <input type=text id=SC2_FTL2 maxlength=5>&nbsp;<br>
+						<span id=SC2_OLD_label class=SC2_help_link data-help_topic=old>OLD&nbsp; &nbsp; &nbsp;</span> &boxUR;<input type=text id=SC2_OLD maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
 					</td>
 				</tr>
 				
@@ -1262,7 +1265,6 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 		</div>
 	</div><br>
 
-
 	<button type=button id=SC2_show_hide_notes class=SC2_ndo_buttons value=none>Show/Hide Notes</button>
 	<select id=SC2_TOPIC_select>
 		<option value=0 selected>Choose a Help Topic</option>
@@ -1272,7 +1274,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 		<table id=SC2_notes>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=disclaimer>Disclaimer</a></th>
 				<td>
-					<p id=SC2_responsibility>
+					<p class=SC2_responsibility>
 						<b>In all cases, the user assumes full responsibility for any use of this program.  It may work.  It may not.  I don't know.  I hope it does, but THERE ARE NO GUARENTEES.</b>
 					</p>
 					<div>
@@ -1466,17 +1468,17 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 					<ul>
 						<li><p>In a paired-hole rim, "Prima Lacing" spokes match up something like this:</p>
 						<div class=SC2_lacing_examples>
-						<span class=SC2_mono>F1_F2_____________F2_F1_____________F1_F2_____________F2_F1_____________</span> ...etc...
+						<span class=SC2_mono>F1_F2_____________F2_F1_____________F1_F2_____________F2_F1</span> ...etc...
 						</div>
 					
 						<li><p>Whereas normally laced spokes in a paired-hole rim match up like this:</p>
 						<div class=SC2_lacing_examples>
-						<span class=SC2_mono>F1_F2_____________F1_F2_____________F1_F2_____________F1_F2_____________</span> ...etc...
+						<span class=SC2_mono>F1_F2_____________F1_F2_____________F1_F2_____________F1_F2</span> ...etc...
 						</div>
 					
 						<li><p>And of course, normally laced spokes in a normal rim:</p>
 						<div class=SC2_lacing_examples>
-						<span class=SC2_mono>F1_______F2_______F1_______F2_______F1_______F2_______F1_______F2_______</span> ...etc...
+						<span class=SC2_mono>F1_______F2_______F1_______F2_______F1_______F2_______F1_______F2</span> ...etc...
 						</div>
 					</ul>
 
@@ -1495,8 +1497,8 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 			<tr><th class=SC2_help_divider colspan=2></th></tr>
 
-			<tr id=SC2_notes_advanced_build_info>
-				<th><a class=SC2_help_topic id=SC2_notes_advanced_build_info_label tabindex=0 data-help_topic=adv_build_info>Advanced Build Info</a></th>
+			<tr>
+				<th><a class=SC2_help_topic tabindex=0 data-help_topic=adv_build_info>Advanced Build Info</a></th>
 				<td>
 					<p><b>The "Advanced Build Info" section is largely academic, and can be ignored for most practical spoke length calculations.</b>
 					<p>Basically, this section does not directly affect the "Spoke Lengths" provided above. Instead, it
@@ -1552,8 +1554,8 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=rim_size>Rim Size</a></th>
 				<td>
 					<p>Rim Size affects the scale of the displayed wheel, but has no effect on spoke length calculations.
-					<p>When set to <span id=SC2_spokes_recessed1>_</span> or less, the "center" of the "rim" will be the ERD, and traces thru the rim spoke holes.
-					<p>When set more than <span id=SC2_spokes_recessed2>_</span>, the "rim" expands away from the rim holes, to simulate an actual rim, where the spoke ends (and the ERD) are slightly within the inner diameter of the rim.
+					<p>When set to twice the value of "Spokes Recessed" (Display Settings), the "center" of the rim width will be the ERD, and traces thru the rim spoke holes.
+					<p>When set more than twice value of "Spokes Recessed", the "rim" expands away from the rim holes, to simulate an actual rim, where the spoke ends (and the ERD) are slightly within the inner diameter of the rim.
 				</td>
 			</tr>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=recessed>Recessed</a></th>
@@ -1621,14 +1623,14 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			</td></tr>
 
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=contact>Contact</a></th>
-				<td><p>Please report any issues to <a id=SC2_admin_link href="/">...</a>.
+				<td><p>Please report any issues to <a class=SC2_admin_link href="/">...</a>.
 					<p>Or, if you have a github account, at <a href="https://github.com/Self-Evident/The_Wheel_Maker/issues" target="_blank">github.com/Self-Evident/The_Wheel_Maker/issues</a>.
 				</td>
 			</tr>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=copyright>Copyright</a></th>
-				<td><pre id=SC2_COPY_LICENSE></pre></td>
+				<td><pre class=SC2_COPY_LICENSE></pre></td>
 			</tr>
-			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=version>Version</a></th><td id=SC2_VERSION></td></tr>
+			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=version>Version</a></th><td class=SC2_VERSION></td></tr>
 		</table>
 	</div><!--//end SC2_notes_container =============-->
 
@@ -1723,18 +1725,15 @@ var TOOLBAR_OPEN_R      = _NS_ + "toolbar_open_R";
 
 
 //Assign all necessary element references here.
-var $PRIOR_FOCUS = D.activeElement; //Used to return focus to input that had error. Set onfocus() of the inputs.
+var $PRIOR_FOCUS = D.activeElement; //Used to return focus to input that had error. Set on blur of the inputs.
 
 var $DISABLE_PAGE = E_('disable_page');
 
-var $RESPONSIBILITY   = E_('responsibility');
 var $WHEEL_OR_DISPLAY = E_('WHEEL_OR_DISPLAY');
 
 var $CONTAINER		= E_('CONTAINER');
 var $WHEEL_SETTINGS_container = E_('WHEEL_SETTINGS_container');
 var $WHEEL_SETTINGS = E_('WHEEL_SETTINGS');
-
-var $SHOW_ADV_SETTINGS = E_('SHOW_ADV_SETTINGS'); //<button>
 
 var $CURRENT_WHEEL  = E_('CURRENT_WHEEL'); //1, 2, 3, etc...
 var $WHEEL_NAME     = E_('WHEEL_NAME');
@@ -1991,10 +1990,7 @@ var $Y_axis2 = E_('y-axis2');
 
 var $DELETE_ALL_DATA = E_('DELETE_ALL_DATA');
 
-var $SC2_VERSION = E_('VERSION');
-
-var $LICENSE      = E_('LICENSE');
-var $COPY_LICENSE = E_('COPY_LICENSE');
+var $LICENSE = E_('LICENSE');
 
 var $DIE_opts_container = E_('DIE_opts_container');
 var $SHOW_HIDE_DIE_opts = E_('show_hide_DIE_opts');
@@ -2017,9 +2013,6 @@ var $CLOSE_IMPORT       = E_('close_import');      //<button>
 var $PRESERVE_INDEX     = E_('PRESERVE_INDEX');
 var $IMPORT_INDEX_LABEL = E_('import_index_label'); //also container.
 var $IMPORT_INDEX       = E_('IMPORT_INDEX'); //Import starting at this index/slot.
-
-var $SPOKES_RECESSED1   = E_('spokes_recessed1');
-var $SPOKES_RECESSED2   = E_('spokes_recessed2');
 //end assignment of element references.
 
 
@@ -2179,7 +2172,7 @@ function Normalize_Event(event) {
 
 function Get_Ancestor($element, ancestor_tag) {
 	ancestor_tag = ancestor_tag.toLowerCase();
-	while ($element.tagName) {//.tagName needed as parent of HTML, HTMLDocument, has no tag name.
+	while ($element.tagName) {//.tagName needed as parent of <HTML>, HTMLDocument, has no tag name.
 		if ($element.tagName.toLowerCase() === ancestor_tag) { return $element; }
 		$element = $element.parentNode;
 	}
@@ -2619,8 +2612,12 @@ function Build_Choose_Topic_List() {
 		var topic = help_topics[x].getAttribute("data-help_topic");
 		HELP_TOPICS[x]     = [];
 		HELP_TOPICS[x][0]  = topic;
-		HELP_TOPICS[x][1]  = help_topics[x]; //The <a class=SC2_help_topic> $element
+		HELP_TOPICS[x][1]  = help_topics[x]; //The <a class=SC2_help_topic>Topic Title</a>
 		HELP_TOPICS[topic] = help_topics[x]; //Create HELP_TOPICS.topic_key from HELP_TOPICS[x][1].
+
+		HELP_TOPICS[x][2]  = Get_Ancestor(HELP_TOPICS[x][1], 'tr') //The containing <tr>
+		HELP_TOPICS[topic].content = Get_Ancestor(HELP_TOPICS[x][1],'th').nextElementSibling; //The <td>topic content</td>
+		HELP_TOPICS[topic].title   = help_topics[x].innerHTML;
 	}
 
 	//Sort the topics by text value, eg: "Lace Option", not by key, eg:"lace_option"
@@ -3486,12 +3483,37 @@ function Build_Wheel(save) {
 
 
 
-function Show_Message($input, msg, init, width) {
+function Show_Message($input, msg, init, width, event) {
 	//$input: input element with invalid input.
+
+	$MSG_BOX.style['width']     = ''; //Resets to style sheet values from any size changes made by user resizing.
+	$MSG_BOX.style['height']    = '';
+	$MSG_BOX.style['max-width'] = ''; //Reset in case browser resized.
+	$MSG_BOX.style['top']       = '';
+	$MSG_BOX.style['left']      = '';
+
+	var client_width = D.getElementsByTagName('body')[0].clientWidth;
+	if (client_width < 700) { $MSG_BOX.style['max-width'] = (client_width - 50) + "px"; }
+
+	if (event && event.type == "click") {
+	
+		//Keep $MSG_BOX within bounds of $CONTAINER. Mostly.
+		var rect = event.target.getBoundingClientRect(); //left, top, right, bottom, x, y, width, height.  IE & Edge don't have x or y.
+		var rect_container = $CONTAINER.getBoundingClientRect();
+		var rel_x = event.clientX - rect_container.left;
+		var rel_y = event.clientY - rect_container.top;
+		var topic = event.target.getAttribute("data-help_topic");
+
+		msg  = "<b>" + HELP_TOPICS[topic].title + "</b><br>"
+		msg += HELP_TOPICS[topic].content.innerHTML;
+		$MSG_BOX.style['top']  = (rel_y + 20) + "px";
+		$MSG_BOX.style['left'] = (rel_x - 30) + "px";
+	}
+
 
 	if ($input) { //Position $MSG_BOX just below $input.
 		var coords = $input.getBoundingClientRect();
-		$MSG_BOX.style['top']  = Round(coords.top)  + window.pageYOffset + "px";
+		$MSG_BOX.style['top']  = (Round(coords.top)  + window.pageYOffset + 20) + "px";
 	}
 
 	if ((typeof msg) == 'undefined') { msg = "" }
@@ -3526,13 +3548,12 @@ function Show_Message($input, msg, init, width) {
 
 
 function Close_Message($focus_on_close) {
-	if (!$focus_on_close) { $focus_on_close = $PRIOR_FOCUS; }
 	$MSG_BOX.style['visibility'] = "hidden";
 	$MESSAGE_DIV.innerHTML = "";
-	$focus_on_close.focus();
 	$MSG_BOX.style['text-align'] = ""; //Restore values to style sheet from those
 	$MSG_BOX.style['top']        = ""; //used for the init msg/disclaimer.
 	$MSG_BOX.style['left']       = "";
+	$PRIOR_FOCUS.focus();	
 }//end Close_Message() {
 
 
@@ -4051,7 +4072,6 @@ function Init_Show_Hide_Options(reset) {
 	$ADVANCED_INFO   .style.display = $SHOW_HIDE_ADVANCED.value;
 	$DIE_opts        .style.display = $SHOW_HIDE_DIE_opts.value
 	$OTHER_CALCS	 .style.display = $SHOW_HIDE_OTHER.value;
-	$NOTES_CONTAINER .style.display = $SHOW_HIDE_NOTES.value;
 
 	$SCALE_ROTATE_OPTIONS.style.display = $SHOW_HIDE_SCALE.value;
 
@@ -4065,7 +4085,7 @@ function Init_Show_Hide_Options(reset) {
 	else                                  { $HEADER_OPTS.style.width = HEADER_OPTS_WIDTH; }
 
 	if ($SHOW_HIDE_DIE_opts.value == "none") { $DIE_opts_container.classList.remove(_NS_ + "DIE_opts_open"); }
-	else                      { $DIE_opts_container.classList.add(_NS_ + "DIE_opts_open"); }
+	else                                     { $DIE_opts_container.classList.add(_NS_ + "DIE_opts_open"); }
 
 	if ($SHOW_HIDE_NOTES.value !== "") { $SHOW_HIDE_NOTES.value = "none"; }
 	else                               { $SHOW_HIDE_NOTES.value = ""; }
@@ -4076,6 +4096,8 @@ function Init_Show_Hide_Options(reset) {
 	if ($TOPIC_select.selectedIndex > 0) { //0 is just the "Choose a Help Topic" <option>
 		$NOTES_CONTAINER.style.display = ""; //Show notes container...
 		Get_Ancestor(HELP_TOPICS[$TOPIC_select.value], 'tr').style.display = ""; //...show topic container.
+	} else {
+		$NOTES_CONTAINER .style.display = $SHOW_HIDE_NOTES.value;
 	}
 }//end Init_Show_Hide_Options()
 
@@ -4514,7 +4536,10 @@ function Check_if_Disclaimer_Accepted($target) {
 	if ($ACCEPT_MSG.value == "true") { if ($target){$target.focus()} }
 	else {
 		Set_Modal_Mode(true);
-		Show_Message('', MSGS['notice'] + $RESPONSIBILITY.innerHTML, 'init');
+		var responsi_out = document.getElementsByClassName(_NS_ + "responsibility");
+		responsi_out[0].innerHTML
+		
+		Show_Message('', MSGS['notice'] + responsi_out[0].innerHTML, 'init');
 	}
 }//end Check_if_Disclaimer_Accepted()
 
@@ -4542,40 +4567,58 @@ function Topic_Select_Change() {
 
 
 
-function Assign_Number_Keydown_Events() {
-	var $inputs = [$ERD, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $FTL[1], $FTL[2], $OLD, $OSB[1], $OSB[2], $SHD, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $ROTF, $PHRA, $PHRD, $ROTR, $FW, $SDB, $TENSION[2], $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $AXES_LINE_SIZE, $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $HOLES_RIM_SIZE, $HOLES_F1_SIZE, $HOLES_F2_SIZE, $MAX_WHEELS, $SCALE_user, $SCALE_text, $SCALE_step, $ROTATE_text, $ROTATE_step];
+function Assign_Most_Keydown_Focus_Blur_Events() {
+
+	var $number_inputs = [$ERD, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $FTL[1], $FTL[2], $OLD, $OSB[1], $OSB[2], $SHD, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $ROTF, $PHRA, $PHRD, $ROTR, $FW, $SDB, $TENSION[2], $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $AXES_LINE_SIZE, $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $HOLES_RIM_SIZE, $HOLES_F1_SIZE, $HOLES_F2_SIZE, $MAX_WHEELS, $SCALE_user, $SCALE_text, $SCALE_step, $ROTATE_text, $ROTATE_step];
 
 	var $only_ints = [$NF[1], $NF[2], $MAX_WHEELS];
 
-	for (var i = 0; i < $inputs.length; i++) {
-		if ($only_ints.includes($inputs[i])) { var allow_fp = false; } else { var allow_fp = true; }
+	for (var i = 0; i < $number_inputs.length; i++) {
+		if ($only_ints.includes($number_inputs[i])) { var allow_fp = false; } else { var allow_fp = true; }
 
 		(function(fp) {
-			$inputs[i].addEventListener("keydown", function(event){ Number_Input_Only(event, fp); });
+			$number_inputs[i].addEventListener("keydown", function(event){ Number_Input_Only(event, fp); });
 		})(allow_fp); //(allow_fp) passed to functin(fp)...
 	}
-}//end Assign_Number_Keydown_Events()
+
+
+	/////////////////////////////
+	// On blur, set $PRIOR_FOCUS.  Used when msg_box is closed.
+	// On focus, save current value as .prior_value. Used in case of error in new value. For text inputs.
+	//
+	// Ignore most elements in import/export/"load sample" modes & in msg_box.
+	
+	var $inputs_etc = [
+		/* textarea       */ $IMPORT_INPUT,
+		/* input range    */ $ROTATE_slider, $SCALE_slider,
+		/* select         */ $AUTO_ROT, $CURRENT_WHEEL, $ELBOWS[1], $ELBOWS[2], $HUB_AUTO_ANGLES, $LACE_OPT, $NR, $RIM_AUTO_ANGLES, $SX[1], $SX[2], $TOPIC_select, $WHEEL_TYPE,
+		/* input checkbox */ $AUTO_COPY, $AXES_SHOW, $F1_SHOW, $F2_SHOW, $HOLES_F1_SHOW, $HOLES_F2_SHOW, $HOLES_RIM_SHOW, $HOLES_SHOW_ALL, $OSB_linked, $PRIMA_LACING, $RIM_SHOW, $SHOW_SIDE[1], $SHOW_SIDE[2], $SPOKE_SHOW[1], $SPOKE_SHOW[2], $SPOKE_SHOW[3], $SPOKE_SHOW[4],
+		/* button         */ $CLEAR_SETTINGS, $DELETE_ALL_DATA, $EXPORT, $IMPORT, $LOAD_SAMPLE, $RENAME_WHEEL, $RESET_OPTIONS_RIM_ETC, $RESET_OPTIONS_SPOKES, $RESET_SCALE, $ROTATE_down, $ROTATE_up, $SCALE_down, $SCALE_up, $SCALE_mode, $SEE_NOTES, $SHOW_ESO_OPTS, $SHOW_FL_to_LN, $SHOW_HIDE_ADVANCED, $SHOW_HIDE_DIE_opts, $SHOW_HIDE_NOTES, $SHOW_HIDE_OTHER, $SHOW_HIDE_SCALE, $SHOW_PHH_OPTS, $SHOW_PHR_OPTS, $SHOW_WHEEL_OPTS, $UNDO_SAMPLE_CLEAR, $WHEEL_OR_DISPLAY,
+		/* input text     */ $AXES_COLOR, $AXES_LINE_SIZE, $BRACE_ANGLE[1], $BRACE_ANGLE[2], $ERD, $F1_COLOR, $F2_COLOR, $F1_LINE_SIZE, $F2_LINE_SIZE, $FTC[1], $FTC[2], $FTL[1], $FTL[2], $FW, $HOLES_F1_COLOR, $HOLES_F1_SIZE, $HOLES_F2_COLOR, $HOLES_F2_SIZE, $HOLES_RIM_COLOR, $HOLES_RIM_SIZE, $IMPORT_INDEX, $MAX_WHEELS, $NF[1], $NF[2], $OLD, $OSB[1], $OSB[2], $PCD[1], $PCD[2], $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $RIM_COLOR, $RIM_HOLES_RECESSED, $RIM_LINE_SIZE, $ROTATE_step, $ROTATE_text, $ROTF, $ROTR, $SCALE_step, $SCALE_text, $SCALE_user, $SDB, $SHD, $SPOKE_COLOR[1], $SPOKE_COLOR[2], $SPOKE_COLOR[3], $SPOKE_COLOR[4], $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $TENSION[2], $WHEEL_NAME];
+
+	for (var x = 0; x < $inputs_etc.length; x++) {
+		$inputs_etc[x].addEventListener("blur", function() { $PRIOR_FOCUS = this } );
+
+		var type = $inputs_etc[x].type.toLowerCase();
+
+		if ((type == "text") || (type == 'textarea')) {
+			//prior_value is also set in Build_Wheel() and in Calc_Spoke_Lengths().
+			$inputs_etc[x].addEventListener("focus", function() { this.prior_value = this.value; }); 
+		}
+	}
+}//end Assign_Most_Keydown_Focus_Blur_Events()
 
 
 
 
 function Assign_Events() {
-	//Most, except for some assigned during Build_Choose_Topic_List().
+	//Most, except for those assigned during Build_Choose_Topic_List(), Assign_Most_Keydown_Focus_Blur_Events(), Add_Contact_Info().
 
-	D.addEventListener("keydown", function(event){Scroll_Blur(event)} );
+	D.addEventListener("keydown", function(event) { Scroll_Blur(event) } );
 
 	var save = true; //Just for clarity below, as some functions have an option to save settings.
 
-	//Save current value (as .prior_value) onfocus for <input type=text>s in case of error in new value.
-	var settings = [$WHEEL_TYPE, $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $ROTF, $ERD, $NR, $NF[1], $NF[2], $PCD[1], $PCD[2], $FTC[1], $FTC[2], $OSB[1], $OSB[2], $SHD, $FW, $SDB, $MAX_WHEELS, $TENSION[2], $SCALE_text, $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $RIM_LINE_SIZE, $F1_LINE_SIZE, $F2_LINE_SIZE, $AXES_LINE_SIZE, $HOLES_RIM_SIZE, $ROTATE_text, $IMPORT_INDEX, $IMPORT_INPUT, $PERFORM_IMPORT];
-	for (var x = 0; x < settings.length; x++) {
-		settings[x].addEventListener("focus", function() {
-			$PRIOR_FOCUS = this;
-			this.prior_value = this.value; //also set in Build_Wheel() and in Calc_Spoke_Lengths().
-		});
-	}
 
-	
 	D.addEventListener("mouseup",  function(e){ D.removeEventListener('mousemove', Drag_Wheel); });
 	$SVG_WHEEL.addEventListener("mousedown", function(e){
 		$SVG_WHEEL.clientX = e.clientX;
@@ -4588,10 +4631,7 @@ function Assign_Events() {
 	//Assign events for help links.
 	var help_links = document.getElementsByClassName(_NS_ + "help_link");
 	for (var x = 0; x < help_links.length; x++) {
-		help_links[x].addEventListener("click", function() {
-			$TOPIC_select.value = this.getAttribute("data-help_topic");
-			Topic_Select_Change();
-		});
+		help_links[x].addEventListener("click", function(event) { Show_Message('', '', '', '', event); });
 	}//
 
 
@@ -4951,10 +4991,13 @@ function Assign_Events() {
 
 	$SEE_NOTES.addEventListener("click", function() {
 		//First, if $NOTES are hidden, show 'em, then scroll to Advanced Build Info notes...
-		if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_Options($SHOW_HIDE_NOTES, $NOTES_CONTAINER, ""); }
+		$SHOW_HIDE_NOTES.value = "";
 		Show_Hide_all_Topics(true);
-		$NOTES_ADVANCED_BUILD_INFO.scrollIntoView();
-		$ADVANCED_NOTES_LABEL.focus();
+		Set_Show_Button_Text($SHOW_HIDE_NOTES, "Show all Notes", "Close Notes");
+		$TOPIC_select.value = 'adv_build_info';
+		Topic_Select_Change();
+		HELP_TOPICS[$TOPIC_select.value].focus()
+		Save_Settings("display");
 	});
 
 	$SHOW_HIDE_SCALE.addEventListener("click", function() {
@@ -5413,12 +5456,12 @@ function Init_Display_NR_SX(display_options, imported) {
 
 function Add_Contact_Info() {
 	//A probably futile attempt to protect contact info from bots.  Uses html, css, & js obfuscation.
-	var $ADMIN_LINK = E_('admin_link');
-	var issues = 'mai' + 'lto' + ':d' + 'spokecalculat' + 'or.ne' + 't';
-	issues = issues.replace(":d", ":d@");
-	$ADMIN_LINK.innerHTML = "d&#064;" + "spokecalculat" + "or&#046;ne" + "<span style='display:none;'>x</span>" + "t";
-	$ADMIN_LINK.addEventListener("mouseover", function(){ this.href = issues; });
-	$ADMIN_LINK.addEventListener("focus"    , function(){ this.href = issues; });
+	var admin_links = document.getElementsByClassName(_NS_ + "admin_link");
+	var contact = 'mai' + 'lto' + ':d' + 'spokecalculat' + 'or.ne' + 't';
+	contact = contact.replace(":d", ":d@");
+	admin_links[0].innerHTML = "d&#064;" + "spokecalculat" + "or&#046;ne" + "<span style='display:none;'>x</span>" + "t";
+	admin_links[0].addEventListener("mouseover", function(){ this.href = contact; });
+	admin_links[0].addEventListener("focus"    , function(){ this.href = contact; });
 }//end Add_Contact_Info()
 
 
@@ -5427,9 +5470,7 @@ function Add_Contact_Info() {
 function Init() {
 
 	Assign_Events(); //Most, except for some assigned during Build_Choose_Topic_List().
-	Assign_Number_Keydown_Events();
-	
-	$COPY_LICENSE.innerHTML += $LICENSE.innerHTML;
+	Assign_Most_Keydown_Focus_Blur_Events();
 
 	//These options are not saved. Always load page with Wheel Settings visable & enabled.
 	$DISPLAY_SETTINGS.style.display = "none";
@@ -5456,12 +5497,15 @@ function Init() {
 
 	$WHEEL_NAME.current = $WHEEL_NAME.value;
 
+
 	Add_Contact_Info();
 
-	$SPOKES_RECESSED1.innerHTML = $RIM_HOLES_RECESSED.value;
-	$SPOKES_RECESSED2.innerHTML = $RIM_HOLES_RECESSED.value;
+	var copy_license_out = document.getElementsByClassName(_NS_ + "COPY_LICENSE");
+	copy_license_out[0].innerHTML = $LICENSE.innerHTML;
 
-	$SC2_VERSION.innerHTML = "<p>" + VERSION;
+	var version_out = document.getElementsByClassName(_NS_ + "VERSION");
+	version_out[0].innerHTML = "<p>" + VERSION;
+	
 
 	//$CONTAINER set to hidden in <style> sheet. This reduces the visually jarring, 
 	//if brief, jumping around of page elements during page load, as some page elements
