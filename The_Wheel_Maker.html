@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//================================================-->
-<script>var VERSION = "v2.62 2019-07-31 05:20pm"</script>
+<script>var VERSION = "v2.63 2019-07-31 07:20pm"</script>
 <!--//================================================-->
 
 <template id=SC2_LICENSE>
@@ -2123,6 +2123,7 @@ var DEFAULT_VALUES = {
 
 
 var DEFAULT_OPTIONS = {
+	'WHEEL_OR_DISPLAY'  : 'wheel',
 	'max_wheels'        : 10,
 	'show_wheel_opts'   : "none", //none or table-row
 	'show_phh_opts'     : "table-row", //none or table-row
@@ -4076,6 +4077,8 @@ function Init_Show_Hide_Options(reset) {
 	//First reset button values
 	if (reset) { Load_Clear_or_Get_Settings(DEFAULT_OPTIONS, "load"); }
 
+	//Now set cooresponding display settings...
+	
 	$WHEEL_OPTS      .style.display = $SHOW_WHEEL_OPTS.value;
 	$FL_to_LN        .style.display = $SHOW_FL_to_LN.value;
 	$PHH_OPTS        .style.display = $SHOW_PHH_OPTS.value;
@@ -4084,7 +4087,6 @@ function Init_Show_Hide_Options(reset) {
 	$ADVANCED_INFO   .style.display = $SHOW_HIDE_ADVANCED.value;
 	$DIE_opts        .style.display = $SHOW_HIDE_DIE_opts.value
 	$OTHER_CALCS	 .style.display = $SHOW_HIDE_OTHER.value;
-
 	$SCALE_ROTATE_OPTIONS.style.display = $SHOW_HIDE_SCALE.value;
 
 	Set_Show_Button_Text($SHOW_WHEEL_OPTS, "+", "&minus;");
@@ -4099,8 +4101,6 @@ function Init_Show_Hide_Options(reset) {
 	if ($SHOW_HIDE_DIE_opts.value == "none") { $DIE_opts_container.classList.remove(_NS_ + "DIE_opts_open"); }
 	else                                     { $DIE_opts_container.classList.add(_NS_ + "DIE_opts_open"); }
 
-	if ($SHOW_HIDE_NOTES.value !== "") { $SHOW_HIDE_NOTES.value = "none"; }
-	else                               { $SHOW_HIDE_NOTES.value = ""; }
 	Set_Show_Button_Text($SHOW_HIDE_NOTES, "Show all Notes", "Close Notes");
 
 	Show_Hide_all_Topics($SHOW_HIDE_NOTES.value == "", "init");
@@ -4111,6 +4111,8 @@ function Init_Show_Hide_Options(reset) {
 	} else {
 		$NOTES_CONTAINER .style.display = $SHOW_HIDE_NOTES.value;
 	}
+
+	Wheel_or_Display_Settings();
 }//end Init_Show_Hide_Options()
 
 
@@ -4464,11 +4466,16 @@ function Import_Index_Enable_Disable() {
 
 
 
-function Wheel_or_Display_Settings(button, new_value, show_or_hide, Wheel_or_Display) {
-	button.value = new_value;
-	Show_Hide($DISPLAY_SETTINGS, show_or_hide);
-	Show_Hide($WHEEL_SETTINGS_container, !show_or_hide);
-	$WHEEL_OR_DISPLAY.innerHTML = "Show " + Wheel_or_Display + " Settings";
+function Wheel_or_Display_Settings() {
+	var $btn = $WHEEL_OR_DISPLAY;
+	
+	var show_wheel_settings = ($btn.value == "wheel");
+
+	if (show_wheel_settings) { $btn.innerHTML = "Show Display Settings"; }
+	else                     { $btn.innerHTML = "Show Wheel Settings"; }
+
+	Show_Hide($WHEEL_SETTINGS_container,  show_wheel_settings);
+	Show_Hide($DISPLAY_SETTINGS,         !show_wheel_settings);
 }//end Wheel_or_Display_Settings()
 
 
@@ -4648,8 +4655,9 @@ function Assign_Events() {
 
 
 	$WHEEL_OR_DISPLAY.addEventListener("click", function() {
-		if (this.value == "wheel") { Wheel_or_Display_Settings(this, "display", true , "Wheel")  ; }
-		else                       { Wheel_or_Display_Settings(this, "wheel"  , false, "Display"); }
+		if (this.value == "wheel") { this.value = "display"; } else { this.value = "wheel"; }
+		Wheel_or_Display_Settings();
+		Save_Settings("display");
 	});
 
 
@@ -5302,7 +5310,7 @@ function Assign_Events() {
 		
 		Init_Show_Hide_Options(true);
 		
-		Wheel_or_Display_Settings($WHEEL_OR_DISPLAY, "wheel", false, "Display");
+		Wheel_or_Display_Settings(); 
 		
 		var domain = window.location.hostname;
 		document.cookie = $ACCEPT_MSG.id + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=.' + domain;

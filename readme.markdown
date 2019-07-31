@@ -48,6 +48,6 @@ And finally, for the icing on this cake, it has options for customizing the disp
 
 Like every spoke length calculator, this is a simple utility, and can not determine the validity of every possible combination of rim and hub values.
 
-That is, just because the program many generate spoke lengths and a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim & hub values than the other modes/wheel types.  And while it may be obvious when values produce an unrealistic wheel, again, there are no guarantees.
+That is, just because the program may generate spoke lengths and a theoretical wheel on screen from a given set of inputs, does not guarantee that such a wheel is realistically practical, or even possible. Or even that all required spokes lengths are listed.  The preceding will more likely become evident in Custom mode, as it has fewer restrictions on rim & hub values than the other modes/wheel types.  And while it may be obvious when values produce an unrealistic wheel, again, there are no guarantees.
 
 For additional information, please refer to geometry. And [Sheldon](https://www.sheldonbrown.com/).
