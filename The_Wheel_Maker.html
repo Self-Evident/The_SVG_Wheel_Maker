@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//================================================-->
-<script>var VERSION = "v2.60 2019-07-30  4:30pm"</script>
+<script>var VERSION = "v2.61 2019-07-31 12:35am"</script>
 <!--//================================================-->
 
 <template id=SC2_LICENSE>
@@ -1351,9 +1351,12 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 			</tr>
 			
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=flange_holes>Flange Holes</a></th><td>
-				<p>Number of spoke holes in the Flange. Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. One notable exception is a triplet laced wheel.  Additionally, if the number of flange holes is odd (not even), the spoke cross for that side must be, and is automatically set to, zero.
-				<p>Note that the number of holes for Side 1 must be less than or equal to Side 2. This is due to some unsolved programming hangup that I <span class=SC2_strike>can't</span> have yet to solve.
+				<p>Number of spoke holes in the Flange.
+				<p>Normally, the number of holes in each hub flange is 1/2 of the number of holes in the rim, and 1/2 the spoke count. But, there are exceptions.  One notable exception is a triplet laced wheel (ex: 24 total spokes laced 8:16).
+				<p>Now, regardless of other lace patterns, if the number of flange holes on a side is odd (7, 9, 11, etc.), then the spoke cross for that side is automatically set to zero - unless in Custom mode.  In custom mode, the odd side can have a non-zero spoke cross, but the spokes on that side will be laced all the same direction.
+				<p>Note that the only other restriction in custom mode is that the number of holes for Side 1 must be less than or equal to Side 2. (This is due to an unresolved programming issues.)  And, while not actually restricted to this, the Side 1 hole count should also be a factor of both Side 2 and the Rim Hole counts (similar to triplets). For example, with 32 total spokes, and 16 on Side 2, Side one should have 16, or 8, etc., holes.  
 				<p>If your build has fewer spokes on the drive side, which would normally be "Side 2", simply "flip" the wheel.  That is, enter drive side values for "Side 1", and non-drive side for "Side 2".
+				<p>If the number of Side 1 spokes is less than Side 2, 
 			</td></tr>
 			
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=pcd>PCD</a></th>
@@ -1606,13 +1609,13 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				</td>
 			</tr>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=delete_settings>Delete Current Settings</a></th>
-				<td><p>To clear all current wheel data &amp; display options stored by this web browser on this device, click the [Delete&nbsp;All&nbsp;Current&nbsp;Settings] button in the [Import&nbsp;/&nbsp;Export&nbsp;/&nbsp;Delete] section.
+				<td><p>To clear all current wheel data &amp; display options stored by this web page, in this browser, on this device, click the [Delete&nbsp;All&nbsp;Current&nbsp;Settings] button in the [Import&nbsp;/&nbsp;Export&nbsp;/&nbsp;Delete] section.
 					<p>Your browser's cache is not affected by this option, and may retain some information.
 					<p>Additionally, any wheels saved via Export Data is naturally unaffected by this option.
 				</td>
 			</tr>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=export_data>Export Data</a></th>
-				<td><p>Generates a JSON string of all wheel & display data that can then be saved in a text file for backup.
+				<td><p>Generates a <a href="https://duckduckgo.com/?q=json" target="_blank">JSON</a> string of all wheel & display data that can then be saved in a text file for backup.
 				</td>
 			</tr>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=import_data>Import Data</a></th><td>
@@ -1686,7 +1689,7 @@ MSGS.before_import   = 'before import: ';
 MSGS.after_import    = ' after import: ';
 MSGS.clear_all  = "Clear all current and saved settings?\n\n";
 MSGS.clear_all += "This will delete all* cookies and localStorage created\n";
-MSGS.clear_all += "by this web page and this web browser on this device.\n\n";
+MSGS.clear_all += "by this web page in this web browser, on this device.\n\n";
 MSGS.clear_all += "*(Those that begin with \""+_NS_+"\".)\n\n";
 MSGS.clear_all += "Are you sure?\n\n";
 
@@ -3483,20 +3486,13 @@ function Build_Wheel(save) {
 
 
 
-function Show_Message($input, msg, init, width, event) {
+function Show_Message($input, msg, init, event) {
 	//$input: input element with invalid input.
-
-	$MSG_BOX.style['width']     = ''; //Resets to style sheet values from any size changes made by user resizing.
-	$MSG_BOX.style['height']    = '';
-	$MSG_BOX.style['max-width'] = ''; //Reset in case browser resized.
-	$MSG_BOX.style['top']       = '';
-	$MSG_BOX.style['left']      = '';
 
 	var client_width = D.getElementsByTagName('body')[0].clientWidth;
 	if (client_width < 700) { $MSG_BOX.style['max-width'] = (client_width - 50) + "px"; }
 
 	if (event && event.type == "click") {
-	
 		//Keep $MSG_BOX within bounds of $CONTAINER. Mostly.
 		var rect = event.target.getBoundingClientRect(); //left, top, right, bottom, x, y, width, height.  IE & Edge don't have x or y.
 		var rect_container = $CONTAINER.getBoundingClientRect();
@@ -3522,15 +3518,11 @@ function Show_Message($input, msg, init, width, event) {
 		msg = MSGS['invalid'] + ' "' + $input.value + '"<br>' + msg;
 	}
 	
-	if (width) { $MSG_BOX.style.width = width; }
-	else       { $MSG_BOX.style.width = ''   ; }
-
 	$MESSAGE_DIV.innerHTML = msg;
 	$MSG_BOX.style['visibility'] = "visible";
 
 	if (init == "init") {
 		//Set a couple styles just for init. Reset in Close_Message().
-		$MSG_BOX.style['text-align'] = "left";
 		$MSG_BOX.style['top']  = (window.pageYOffset + 50) + "px";
 		$MSG_BOX.style['left'] = (window.pageXOffset + 50) + "px";
 		$CLOSE_MSG.style['visibility'] = "hidden";
@@ -3542,17 +3534,24 @@ function Show_Message($input, msg, init, width, event) {
 		//setTimeout needed when changing wheel "Type", if there's a msg. I don't know why.
 		setTimeout(function() { $CLOSE_MSG.focus() },55);
 	}
+
+	//Must come after the click event code above. Set_Modal_Mode() sets <a> tabindexes to -1,
+	//but we need any <a> links in the msg text to be tabable.
+	//Modal mode will be closed in Close_Message();
+	Set_Modal_Mode(true);
 }//end Show_Message()
 
 
 
 
-function Close_Message($focus_on_close) {
+function Close_Message() {
+	Set_Modal_Mode(false);
 	$MSG_BOX.style['visibility'] = "hidden";
 	$MESSAGE_DIV.innerHTML = "";
-	$MSG_BOX.style['text-align'] = ""; //Restore values to style sheet from those
-	$MSG_BOX.style['top']        = ""; //used for the init msg/disclaimer.
+	 //Return to style sheet values from some used/set in Show_Messege().
+	$MSG_BOX.style['top']        = "";
 	$MSG_BOX.style['left']       = "";
+	$MSG_BOX.style['max-width']  = "";
 	$PRIOR_FOCUS.focus();	
 }//end Close_Message() {
 
@@ -4631,7 +4630,7 @@ function Assign_Events() {
 	//Assign events for help links.
 	var help_links = document.getElementsByClassName(_NS_ + "help_link");
 	for (var x = 0; x < help_links.length; x++) {
-		help_links[x].addEventListener("click", function(event) { Show_Message('', '', '', '', event); });
+		help_links[x].addEventListener("click", function(event) { Show_Message('', '', '', event); });
 	}//
 
 
@@ -5233,7 +5232,6 @@ function Assign_Events() {
 	$TOPIC_select.addEventListener('change', function(){ Topic_Select_Change(); });
 
 
-	$CLOSE_MSG.addEventListener("blur" , function() { Close_Message() });
 	$CLOSE_MSG.addEventListener("click", function() { Close_Message() });
 
 
