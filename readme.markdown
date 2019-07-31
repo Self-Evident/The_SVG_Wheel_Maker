@@ -9,6 +9,7 @@
 - [Disclaimer](#disclaimer)
 
 
+![Screenshot](http://spokecalculator.net/screenshots/basic_standard.png)
 
 --------------------------------------------------------------------------------
 ## <a name=demo></a>Demo
