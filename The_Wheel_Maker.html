@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//================================================-->
-<script>var VERSION = "v2.64 2019-08-16  5:45pm"</script>
+<script>var VERSION = "v2.65 2019-08-17  9:52pm"</script>
 <!--//================================================-->
 
 <template id=SC2_LICENSE>
@@ -146,17 +146,13 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
 
 /* Removes that annoying dotted onfocus outline of FF selects */
-#SC2_CONTAINER select:-moz-focusring {
-	color: transparent;
-	text-shadow: 0 0 0 #000;
-}
-
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #000; }
 
 
 #SC2_CONTAINER #SC2_disable_page {
     position: absolute;
     z-index: 998;
-    background: #EEE;
+    background: #555;
     display: none;
     opacity: .5;
     width: 100%;
@@ -421,7 +417,7 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER table td { padding: 0 0 0 0; }
 #SC2_CONTAINER table th { height: 1.8rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
-#SC2_CONTAINER table .SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-weight: bold; }
+#SC2_CONTAINER td.SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-weight: bold; }
 
 .SC2_separator { padding: 0; height: .3rem; }
 
@@ -456,7 +452,7 @@ body { overflow-y: scroll; }
 	position: relative;
 	display: inline-block;
 	height: 2rem;
-	padding: 1px 0 0 0;
+	padding: 1px .1rem 0 0;
 	margin: 0;
 	border: solid 1px #444;
 	border-radius : 8px;
@@ -573,11 +569,15 @@ body { overflow-y: scroll; }
 
 #SC2_show_hide_notes { width: 16rem; margin: 0 0 0 0; }
 
-#SC2_CONTAINER #SC2_TOPIC_select { height: 2rem; min-width: 16rem; font-size: 1rem;
+#SC2_CONTAINER .SC2_SELECTS_large { 
+	height: 2rem;
+	min-width: 16rem; font-size: 1rem;
 	margin-bottom: .25rem;
 	margin-top: -2px;
 	border-radius: 8px;
 }
+
+#SC2_CONTAINER #SC2_THEME_select { float: right; margin-top: 0; }
 
 .SC2_help_topic { cursor: pointer; }
 .SC2_help_link  { cursor: help; }
@@ -665,7 +665,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	border-radius: 8px; 
 }
 
-#SC2_other_calcs a { min-width: 75%; padding-left: .3em ;}
+#SC2_other_calcs a { width: 100%; padding-left: .3em; }
 
 
 #SC2_DIE_opts_container {
@@ -764,13 +764,108 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 #SC2_CONTAINER #SC2_notes .SC2_help_divider { border: 0; }
 
 /** Wheel type themes **/
-.SC2_theme_standard { background-color: rgb(175,198,205); }
-.SC2_theme_triplet  { background-color: rgb(210,223,227); }
-.SC2_theme_phh      { background-color: rgb(200,214,240); }
-.SC2_theme_phr      { background-color: rgb(227,214,254); }
-.SC2_theme_phh_phr  { background-color: rgb(245,192,245); }
-.SC2_theme_custom   { background-color: #FAB; }
+.SC2_theme_standard { background-color: rgb(175,198,205); } /* #afc6cd */
+.SC2_theme_triplet  { background-color: rgb(210,223,227); } /* #d2dfe3 */
+.SC2_theme_phh      { background-color: rgb(200,214,240); } /* #c8d6f0 */
+.SC2_theme_phr      { background-color: rgb(227,214,254); } /* #e3d6fe */
+.SC2_theme_phh_phr  { background-color: rgb(245,192,245); } /* #f5c0f5 */
+.SC2_theme_custom   { background-color: #FAB; } /* Long time ago when ... */
 </style>
+
+
+
+
+
+
+<template id=SC2_theme_default><!--//theme_template-->
+body { }
+#SC2_CONTAINER .SC2_thv { }
+#SC2_CONTAINER #SC2_FL_to_LN { }
+#SC2_CONTAINER { }
+#SC2_CONTAINER #SC2_disable_page { }
+#SC2_CONTAINER input[type=text]  { }
+#SC2_CONTAINER select            { }
+#SC2_CONTAINER button        { }
+#SC2_CONTAINER button:focus  { }
+#SC2_CONTAINER button:hover  { }
+#SC2_CONTAINER button:active { }
+
+#SC2_CONTAINER a { }
+
+#SC2_CONTAINER input:focus, 
+#SC2_CONTAINER select:focus  { }
+
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #000; }
+
+#SC2_CONTAINER #SC2_notes  { }
+#SC2_other_calcs { }
+#SC2_other_calcs a { }
+
+#SC2_CONTAINER input:disabled { }
+
+#SC2_CONTAINER div.SC2_lengths { }
+
+.SC2_th1 { }
+.SC2_DO_theme       { background-color: ; }
+.SC2_theme_standard { background-color: ; }
+.SC2_theme_triplet  { background-color: ; }
+.SC2_theme_phh      { background-color: ; }
+.SC2_theme_phr      { background-color: ; }
+.SC2_theme_phh_phr  { background-color: ; }
+.SC2_theme_custom   { background-color: ; color: ; }
+</template><!--//end theme_default  theme_template-->
+
+
+
+
+<template id=SC2_theme_darkgreen>
+body { background-color: black; }
+#SC2_CONTAINER .SC2_thv { font-weight: normal; }
+#SC2_CONTAINER #SC2_FL_to_LN { background-color: rgba(7,7,7,.4); }
+#SC2_CONTAINER { color: #0d0 }
+#SC2_CONTAINER #SC2_disable_page { background: black; opacity: .5; }
+#SC2_CONTAINER input[type=text]  { border: solid 1px #0d0; background-color: black; color: #0d0; }
+#SC2_CONTAINER select            { border: solid 1px #0d0; background-color: black; color: #0d0; }
+#SC2_CONTAINER button        { background: linear-gradient(to bottom, #444, #000, #000, #444); color: #0d0; border: solid 1px #444; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt rgba(0,255,0,.7); }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt #0f0; color: #0d0; }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #000, #444, #000); padding: 0px 6px 1px 3px; box-shadow: outset 0 2px 1px rgba(0, 255, 0, .8); }
+
+#SC2_CONTAINER a { background-color: #333; color: #0d0 }
+
+#SC2_CONTAINER input:focus, 
+#SC2_CONTAINER select:focus  { box-shadow: 0 0 3pt 2pt #0f0; color: #0d0; }
+
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #0d0; }
+
+#SC2_CONTAINER #SC2_notes  { color: #0D0; }
+#SC2_other_calcs { color: #0D0; }
+#SC2_other_calcs a { width: 100%; padding-left: .3em; }
+
+#SC2_CONTAINER input:disabled { border: solid .05rem #0a0; border-radius: 4px; color: #090 }
+
+#SC2_CONTAINER div.SC2_lengths { border: solid .05rem #0d0; background-color: rgba(55,55,55, .8); }
+
+.SC2_th1 { font-weight: normal; }
+
+.SC2_DO_theme       { background-color: inherit; }
+.SC2_theme_standard { background-color: black; }
+.SC2_theme_triplet  { background-color: #122; }
+.SC2_theme_phh      { background-color: #013; }
+.SC2_theme_phr      { background-color: #324; }
+.SC2_theme_phh_phr  { background-color: #404; }
+.SC2_theme_custom   { background-color: #401; color: #ccc; }
+</template><!--//end theme_darkgreen-->
+
+
+
+
+<style id=SC2_THEME_current><!-- Populated onload --></style>
+
+
+
+
+
 
 
 
@@ -817,6 +912,9 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 		<button type=button id=SC2_ACCEPT_MSG>I Accept</button>
 	</div>
 
+
+
+
 	<div id=SC2_left_side><!--==========================================-->
 		<button type=button id=SC2_WHEEL_OR_DISPLAY class=SC2_ndo_buttons value="wheel">Show Display Settings</button>
 		
@@ -828,8 +926,8 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 						<select id=SC2_WHEEL_TYPE>
 							<option value="standard">Standard</option>
 							<option value="triplet" >Triplet</option>
-							<option value="phr"     >Paired-Hole Rim (PHR)</option>
 							<option value="phh"     >Paired-Hole Hub (PHH)</option>
+							<option value="phr"     >Paired-Hole Rim (PHR)</option>
 							<option value="phh_phr" >PHH &amp; PHR</option>
 							<option value="custom"  >Custom</option>
 						</select>
@@ -853,7 +951,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<tr id=SC1_flange_to_opts>
 					<td colspan=2>
 						<button type=button id=SC2_show_FL_to_LN class=SC2_mini_button value=none>+</button>
-						<b class=SC2_help_link data-help_topic=ftc>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 maxlength=5> <input type=text id=SC2_FTC2 maxlength=5>&nbsp;
+						<b class="SC2_thv SC2_help_link" data-help_topic=ftc>Flange-to-Ctr</b>&boxdr;<input type=text id=SC2_FTC1 maxlength=5> <input type=text id=SC2_FTC2 maxlength=5>&nbsp;
 						<div id=SC2_FL_to_LN><span class=SC2_help_link data-help_topic=ftl>Flange-to-LN&boxur;</span><input type=text id=SC2_FTL1 maxlength=5> <input type=text id=SC2_FTL2 maxlength=5>&nbsp;<br>
 						<span id=SC2_OLD_label class=SC2_help_link data-help_topic=old>OLD&nbsp; &nbsp; &nbsp;</span> &boxUR;<input type=text id=SC2_OLD maxlength=5>&boxUL; &nbsp; &nbsp;&nbsp;</div>
 					</td>
@@ -1162,7 +1260,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 
 
-		<button type=button id=SC2_show_hide_other class=SC2_ndo_buttons value="none">A few other calculators</button>
+		<button type=button id=SC2_show_hide_other class=SC2_ndo_buttons value="none">A Few Other Calculators</button>
 		<div id=SC2_other_calcs>
 			Ancesters to The Wheel Maker:<br>
 			<a id=a1 href="D-SC.1.html">D-SC 1</a><br>
@@ -1261,10 +1359,18 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 
 	<br><br><br>
 	<button type=button id=SC2_show_hide_notes class=SC2_ndo_buttons value=none>Show/Hide Notes</button>
-	<select id=SC2_TOPIC_select>
+	<select id=SC2_TOPIC_select class=SC2_SELECTS_large>
 		<option value=0 selected>Choose a Help Topic</option>
 		<optgroup id=SC2_TOPIC_options label=""><!-- Populated onload --></optgroup>
 	</select>
+	
+	
+	<select id=SC2_THEME_select class=SC2_SELECTS_large style="position: absolute; right: 0px">
+		<option value=theme_default>Theme: Default</option>
+		<option value=theme_darkgreen>Theme: Dark Green</option>
+	</select>
+	
+	
 	<div id=SC2_notes_container>
 		<table id=SC2_notes>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=disclaimer>Disclaimer</a></th>
@@ -1351,12 +1457,11 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 				<p>Now, regardless of other lace patterns, if the number of flange holes on a side is odd (7, 9, 11, etc.), then the spoke cross for that side is automatically set to zero - unless in Custom mode.  In custom mode, the odd side can have a non-zero spoke cross, but the spokes on that side will be laced all the same direction.
 				<p>Note that the only other restriction in custom mode is that the number of holes for Side 1 must be less than or equal to Side 2. (This is due to an unresolved programming issues.)  And, while not actually restricted to this, the Side 1 hole count should also be a factor of both Side 2 and the Rim Hole counts (similar to triplets). For example, with 32 total spokes, and 16 on Side 2, Side one should have 16, or 8, etc., holes.  
 				<p>If your build has fewer spokes on the drive side, which would normally be "Side 2", simply "flip" the wheel.  That is, enter drive side values for "Side 1", and non-drive side for "Side 2".
-				<p>If the number of Side 1 spokes is less than Side 2, 
 			</td></tr>
 			
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=pcd>PCD</a></th>
 				<td><p>"Pitch Circle Diameter" -  Also referred to as the hub or flange diameter.
-					<p>The diameter of circle running thru the spoke hole centers in the flange.
+					<p>The diameter of the circle running thru the spoke hole centers in the flange.
 					<p>It is NOT the outer diameter of the hub flange.
 			</td></tr>
 
@@ -1702,7 +1807,6 @@ MSGS.clear_all += "Are you sure?\n\n";
 
 var nonD_CALCS = [
 	["Sheldon's SpoCalc", "https://www.sheldonbrown.com/rinard/spocalc.htm"],
-	["Mr. Rabbit's SpokeChart (xls)<br>(link near bottom of page)", "http://www.mrrabbit.net/wheelsbyflemingapplications.php"],
 	["Bike School"      , "https://www.bikeschool.com/index.php/resources/spoke-calculator"],
 	["Pro Wheel Builder", "http://www.prowheelbuilder.com/spokelengthcalculator"],
 	["Edd"              , "https://leonard.io/edd/"],
@@ -1711,6 +1815,8 @@ var nonD_CALCS = [
 	["Wheel Pro"        , "http://www.wheelpro.co.uk/spokecalc/"],
 	["Bike Tech Tools"  , "https://biketechtools.com/spoke-length-calculator"],
 	["FreeSpoke"        , "http://www.kstoerz.com/freespoke/fullcalc"],
+	["Grin Technologies","https://www.ebikes.ca/tools/spoke-calc.html"],
+	["Mr. Rabbit's SpokeChart (xls)<br>(link near bottom of page)", "http://www.mrrabbit.net/wheelsbyflemingapplications.php"],
 ];
 
 
@@ -1886,9 +1992,6 @@ var $SHOW_HIDE_OTHER = E_('show_hide_other'); //<button> to show/hide other calc
 var $SHOW_HIDE_SCALE = E_('show_hide_scale'); //<button> to show/hide scale & rotation options.
 var $SHOW_HIDE_NOTES = E_('show_hide_notes'); //<button> to show/hide Notes.
 
-var $TOPIC_select    = E_('TOPIC_select'); //<select>
-var $TOPIC_options   = E_('TOPIC_options');   //<options>
-
 var $SCALE_ROTATE_OPTIONS = E_('scale_rotate_options');
 
 var $SCALE_user_input_tab = E_('SCALE_user_input_tab');
@@ -2001,6 +2104,12 @@ var $Y_axis2 = E_('y-axis2');
 var $DELETE_ALL_DATA = E_('DELETE_ALL_DATA');
 
 var $LICENSE = E_('LICENSE');
+
+var $TOPIC_select  = E_('TOPIC_select');  //<select>
+var $TOPIC_options = E_('TOPIC_options'); //<options>
+
+var $THEME_select  = E_('THEME_select');  //<select>
+var $THEME_current = E_('THEME_current'); //<style>
 
 var $DIE_opts_container = E_('DIE_opts_container');
 var $SHOW_HIDE_DIE_opts = E_('show_hide_DIE_opts');
@@ -2139,6 +2248,7 @@ var DEFAULT_OPTIONS = {
 	'show_hide_scale'   : "none", //  "			"
 	'show_FL_to_LN'     : "none", //none or block
 	'TOPIC_select'      : "0", //the selectedIndex
+	'THEME_select'      : "theme_default",
  }
 /*************************************************/
 
@@ -3855,7 +3965,7 @@ function Set_Scale() {
 	//Visible height of container's content, inside borders & excluding scrollbars.
 	var client_H = $WHEEL_CONTAINER.clientHeight;
 
-	//Vertically & horizontally center the wheel (the scroll bars)...
+	//Position the wheel or set scroll bars...
 	if (scale < 100) { //Center wheel in window.
 		//The displayed wheel size is smaller than $WHEEL_CONTAINER.
 		//Horizontal center handled by css.
@@ -3863,6 +3973,7 @@ function Set_Scale() {
 		$SVG_WHEEL.style.marginTop = (client_H/2 - (client_H * (scale/100) / 2)) + "px";
 	}
 	else { //scale >= 100
+		//Set the scroll bars so the wheel is in the same relative position within the window.
 		$SVG_WHEEL.style.marginTop = 0;
 		var new_scrolls = Scroll_Position("px", $SCROLL_X.value, $SCROLL_Y.value);
 		$WHEEL_CONTAINER.scrollLeft = new_scrolls.scrollLeft;
@@ -3885,10 +3996,13 @@ function Setup_Viewbox() {
 	if (erd < pcd1 || erd < pcd2) { //for absurd erd to pcd sizes...
 		if (pcd1 > pcd2) { erd = pcd1; } else { erd = pcd2; }
 	}
-	var erd_plus =  erd + $HOLES_RIM_SIZE.value*1 + 5; //The + 5 adds a small margin between the wheel & edges.
+	
+	var margin = 1.5; //Adds a small margin between the wheel & edges with Scale:[w] at 100%.
+	
+	var erd_plus =  erd + $HOLES_RIM_SIZE.value*1 + margin;
 	var recess = $RIM_HOLES_RECESSED.value * 1; //Amount spoke is "recessed" into rim, similar to a real wheel.
 
-	var view_box_size = erd - recess*2 + rim*2 + 5; //The + 5 adds a small margin between the wheel & edges.
+	var view_box_size = erd - recess*2 + rim*2 + margin;
 	if (view_box_size < erd_plus) { var view_box_size = erd_plus; }
 
 	//Setup viewBox & <svg wheel> sizes.
@@ -4089,7 +4203,7 @@ function Setup_Type_and_Build(init) {
 
 
 
-function Init_Show_Hide_Options(reset) {
+function Init_Show_Hide_Theme(reset) {
 	//First reset button values
 	if (reset) { Load_Clear_or_Get_Settings(DEFAULT_OPTIONS, "load"); }
 
@@ -4129,8 +4243,10 @@ function Init_Show_Hide_Options(reset) {
 		$NOTES_CONTAINER.style.display = $SHOW_HIDE_NOTES.value;
 	}
 
+	$THEME_current.innerHTML = E_($THEME_select.value).innerHTML;
+
 	Wheel_or_Display_Settings();
-}//end Init_Show_Hide_Options()
+}//end Init_Show_Hide_Theme()
 
 
 
@@ -4502,10 +4618,9 @@ function Step_Up_Down_Repeater(scale_or_rotate, $slider, $text, min_max, up_down
 	//For mousedown events.  keydown events auto-repeat.
 
 	Step_Up_Down(scale_or_rotate, $slider, $text, min_max, up_down, step);
-	
-	clearTimeout($slider.timeout);    //Just in case...
-	clearInterval($slider.interval);  //      "
-	
+
+	Stop_Scale_Rotate_Repeats($slider); //Just in case...
+
 	$slider.timeout = setTimeout(function() { //Delay start of repeat....
 		$slider.interval = setInterval(function() { //repeat...
 			Step_Up_Down(scale_or_rotate, $slider, $text, min_max, up_down, step);
@@ -5316,6 +5431,9 @@ function Assign_Events() {
 	$TOPIC_select.addEventListener('change', function(){ Topic_Select_Change(); });
 
 
+	$THEME_select.addEventListener('change', function(){ $THEME_current.innerHTML = E_($THEME_select.value).innerHTML; Save_Settings("display"); });
+
+
 	$CLOSE_MSG.addEventListener("click", function() { Close_Message() });
 
 
@@ -5362,7 +5480,7 @@ function Assign_Events() {
 		Reset_OPTIONS_RIM_ETC();
 		$IMPORT_INPUT.value = "";
 		
-		Init_Show_Hide_Options(true);
+		Init_Show_Hide_Theme(true);
 		
 		Wheel_or_Display_Settings(); 
 		
@@ -5518,7 +5636,7 @@ function Init_Display_NR_SX(display_options, imported) {
 
 	if (imported) { Save_Settings("display"); }
 
-	Init_Show_Hide_Options();
+	Init_Show_Hide_Theme();
 
 	//Temp <select> lists until any saved settings loaded. NR & SX will then be rebuilt in Setup_Type_and_Build().
 	Init_NR_SX();
@@ -5566,7 +5684,7 @@ function Init() {
 	$SDB.value = DEFAULT_VALUES.SDB;
 
 	Build_Load_Sample_List();
-	Build_Choose_Topic_List();              //1) Must come BEFORE Init_Show_Hide_Options() (called from Init_Display_NR_SX()).
+	Build_Choose_Topic_List();              //1) Must come BEFORE Init_Show_Hide_Theme() (called from Init_Display_NR_SX()).
 	Init_Display_NR_SX(LS_DISPLAY_OPTIONS); //2) Must come AFTER  Build_Choose_Topic_List();
 	Build_Select_Wheel_List();              //3) Must come AFTER  Init_Display_NR_SX().  Needs $MAX_WHEELS.
 	Enable_Disable_Undo_Clear();
