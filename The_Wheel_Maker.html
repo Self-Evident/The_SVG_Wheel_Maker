@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//================================================-->
-<script>var VERSION = "v2.65 2019-08-17  9:52pm"</script>
+<script>var VERSION = "v2.66 2019-08-19  1:10am"</script>
 <!--//================================================-->
 
 <template id=SC2_LICENSE>
@@ -42,10 +42,10 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER ul { padding-left: 1.5rem; }
 #SC2_CONTAINER p { margin: .4rem 0; }
 #SC2_CONTAINER pre { font-family: courier, monospace; text-align: left; }
-#SC2_CONTAINER hr {margin: .5rem 0; }
+#SC2_CONTAINER hr { margin: .5rem 0; }
 #SC2_CONTAINER textarea { font-family: courier, mono; }
 
-#SC2_CONTAINER .SC2_separator hr {margin: .2em 0 .3rem 0; }
+#SC2_CONTAINER .SC2_separator hr {margin: .5rem .8rem .5rem .5rem; }
 
 #SC2_CONTAINER a {
 	display: inline-block;
@@ -54,24 +54,14 @@ body { overflow-y: scroll; }
 	padding: 1px;
 	margin: 0 0 .2em 0;
 	text-decoration: none;
-	background-color: #EEE;
 }
-#SC2_CONTAINER a:focus { background-color: #ccc; text-decoration: none; box-shadow: 0 0 3pt 1pt #006060; }
-#SC2_CONTAINER a:hover { background-color: #ccc; text-decoration: none; }
 
 #SC2_CONTAINER button {
-	border: solid 1px #444;
 	padding: 1px 5px 1px 4px;
-	background:	linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC);
 	border-radius: 4px;
 	height: 22px;
-	color: black;
 	outline: none;
 }
-
-#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); }
-#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
-#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #EEE, #ddd, #ddd, #EEE); padding: 0px 6px 1px 3px; }
 
 #SC2_CONTAINER button::-moz-focus-inner { border: 0 }
 
@@ -88,7 +78,7 @@ body { overflow-y: scroll; }
 	border-radius: 8px;
 }
 
-#SC2_CONTAINER #SC2_show_hide_advanced { margin-top:  .5em; }
+#SC2_CONTAINER #SC2_show_hide_advanced { margin-top: .5em; }
 #SC2_CONTAINER #SC2_show_hide_other    { margin: 1.5em 0 0 0; }
 
 #SC2_CONTAINER input[type=text] {
@@ -98,39 +88,17 @@ body { overflow-y: scroll; }
 	text-align: center;
 	font-size: 1rem;
 	font-family: courier, monospace;
-	border: solid 1px gray;
 	border-radius: 0;
-	color: #000;
 }
 
-
-#SC2_CONTAINER input:focus, 
-#SC2_CONTAINER select:focus, 
-#SC2_CONTAINER button:focus  { box-shadow:       0 0 3pt 2pt #006060; }
-#SC2_CONTAINER button:active { box-shadow: inset 0 2px 3px rgba(0, 96, 96, 0.7); }
-
-#SC2_CONTAINER input[type=text]:hover     { box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
-#SC2_CONTAINER input[type=checkbox]:hover { box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
 #SC2_CONTAINER input:disabled:hover { box-shadow: none; }
 
 #SC2_CONTAINER input:disabled {
-	border: solid .05rem #077;
 	border-radius: 4px;
-	background-color: rgba(255,255,255, .6);
-	color: #000;
 	font-weight: normal;
 	font-size: 1rem;
 }
 
- 
-#SC2_WHEEL_SETTINGS    input:disabled, /* Must come after general input:disabled styles. Avoids most  */
-#SC2_ADVANCED_SETTINGS input:disabled, /* Advanced Build Info inputs, which are used as outputs only. */
-#SC2_IMPORT_container  input:disabled,
-#SC2_CONTAINER         select:disabled {
-	color			: #555;
-	background-color: rgba(255,255,255, .6);
-	border: solid 1px #7a7a7a;
-}
 
 #SC2_CONTAINER select {
 	display: inline-block;
@@ -139,21 +107,14 @@ body { overflow-y: scroll; }
 	padding: 0 0 0 .3rem;
 	font-size: .9rem;
 	height: 1.4rem;
-	border: solid 1px #7a7a7a;
-	background-color: white;
 }
-
-#SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
-
-/* Removes that annoying dotted onfocus outline of FF selects */
-#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #000; }
 
 
 #SC2_CONTAINER #SC2_disable_page {
+    display: none;
     position: absolute;
     z-index: 998;
-    background: #555;
-    display: none;
+    background: #EEE;
     opacity: .5;
     width: 100%;
     height: 100%;
@@ -188,9 +149,6 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER .SC2_imex_containers {
 	position: absolute;
 	top: 2.5rem;
-	border: solid 1px teal;
-	box-shadow: 0 0 10pt 4pt teal;
-	background-color: white;
 	display: none;
 	margin: 0 0 0 1rem;
 	padding: .5rem;
@@ -202,6 +160,7 @@ body { overflow-y: scroll; }
 	border-radius: 4px;
 }
 
+
 #SC2_CONTAINER button.SC2_imex_btns {
 	height : 2rem;
 	margin : .5rem 0 0 1rem;
@@ -210,9 +169,9 @@ body { overflow-y: scroll; }
 	border-radius: 6px;
 }
 
-#SC2_CONTAINER .SC2_IMEX_DATA { border: solid 1px black; padding: .3rem; margin-top: .5rem; font-family: courier, monospace; word-break: break-all;}
+#SC2_CONTAINER .SC2_IMEX_DATA { padding: .3rem; margin-top: .5rem; font-family: courier, monospace; word-break: break-all;}
 
-#SC2_EXPORT_OUTPUT { font-family: courier, mono; }
+#SC2_CONTAINER #SC2_EXPORT_OUTPUT { font-family: courier, mono; border: inherit; }
 
 #SC2_IMPORT_INPUT  {
 	width: 100%;
@@ -417,7 +376,7 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER table td { padding: 0 0 0 0; }
 #SC2_CONTAINER table th { height: 1.8rem; font-size: 1.1rem; border-bottom: solid 2px #333}
 
-#SC2_CONTAINER td.SC2_thv { text-align: right; padding: 0 0 0 3px; width: 7.8rem; font-weight: bold; }
+#SC2_CONTAINER table .SC2_thv { text-align: right; width: 7.8rem; }
 
 .SC2_separator { padding: 0; height: .3rem; }
 
@@ -527,39 +486,23 @@ body { overflow-y: scroll; }
 #SC2_CONTAINER input[type=range] {
 	-webkit-appearance: none;
 	outline: 0;
-	border: solid 1px transparent;
 	margin: 0 0 1.5px 0;
 	display: inline-block;
 	vertical-align: middle;
 	width: 4.4rem;
-	height: .5rem;
+	height: 1.4rem;
 }
-#SC2_CONTAINER input[type=range]:hover { border: solid 1px #888; box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
 
 #SC2_CONTAINER input[type=range]::-moz-focus-outer { border: 0; } /* Removes that annoying dotted onfocus outline. */
 
 /*FF*/
-#SC2_CONTAINER input[type=range]::-moz-range-track { background-color: rgba(255,255,255,1); height: 4px; }
-#SC2_CONTAINER input[type=range]::-moz-range-thumb {
-	width: 12px;
-	height: 21px;
-	background: white;
-	border: solid 1px #777;
-	border-radius: 6.5px;
-	padding: 3px 0 0 0;
-}
-#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { border: solid 1px #444; background-color: #DDD; }
+#SC2_CONTAINER input[type=range]::-moz-range-track { height: 4px; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb { height: 21px; width: 12px; border-radius: 6px; padding: 3px 0 0 0; }
 
 /*IE*/
-#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: rgba(255,255,255,1); height: 5px; }
-#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: rgba(255,255,255,1); height: 5px; }
-#SC2_CONTAINER input[type=range]::-ms-thumb {
-	border-radius: 5px;
-	border: solid 1px #666;
-	background: rgba(255,255,255,.8);  /**148,180,188,**/
-	height: 20px;
-	width: 12px;
-}
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { height: 4px; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { height: 4px; }
+#SC2_CONTAINER input[type=range]::-ms-thumb      { height: 20px; width: 12px; border-radius: 6px; }
 
 
 #SC2_adv_hdr { border-bottom: solid 2px #333; }
@@ -588,7 +531,7 @@ body { overflow-y: scroll; }
 	display: table;
 	width: 100%; 
 	vertical-align: top;
-	border: solid 0px black;
+	border: 0;
 	border-collapse	: collapse;
 	font-family: arial, sans-serif;
 	text-align: left;
@@ -642,9 +585,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	width: 5rem;
 	min-height: 1.5rem;
 	padding: 2px 0 0 0;
-	border: solid .05rem #077;
 	border-radius: 4px;
-	background-color: rgba(255,255,255, .8);
 	font: bold 1.1rem courier, monospace;
 }
 
@@ -708,19 +649,14 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	top		: 6rem;
 	left	: 2rem;
 	z-index : 998;
-	border	: solid 1px red;
 	border-radius	: 5px;
 	padding			: .5rem .5rem .5rem .5rem;
-	background-color: white;
 	font-family		: arial, sans-serif;
 	visibility		: hidden;  /** toggled in Show_Message() **/
 	max-height: 30rem;
 	overflow-y: auto;
-	box-shadow: 0 0 10pt 3pt red;
 	resize: both;
 }
-
-
 
 
 #SC2_close_msg {
@@ -755,98 +691,177 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 #SC2_CONTAINER .SC2_show_adv_opts { float: left; margin-left: .3rem; }
 #SC2_eso_opts p { padding-top: .3rem; }
 
-.SC2_DO_theme { background-color: rgb(175,198,205); }
-
 .SC2_mono   { font-family: mono; }
 .SC2_strike { text-decoration: line-through; }
 .SC2_smaller { font-size: .8rem; font-weight: normal; }
 
 #SC2_CONTAINER #SC2_notes .SC2_help_divider { border: 0; }
+</style>
 
-/** Wheel type themes **/
+
+
+<!-- The default theme is contained within a <style>, but all other themes are in <templete>s.
+	 This way, the default is loaded even if there is an error loading a theme onload.
+	 Also, other themes don't have to contain all themed styles, if only changing a few.
+	 Finally, <style id=SC2_THEME_current> must come after the <style> for the default theme for this to work.
+-->
+
+<style class=SC2_theme id=SC2_theme_default data-SC2_theme_desc="Default"><!--//theme_template-->
+body { }
+#SC2_CONTAINER { }
+#SC2_CONTAINER hr { border: ; }
+#SC2_CONTAINER table .SC2_thv { font-weight: bold; }
+#SC2_CONTAINER #SC2_FL_to_LN { background-color: rgba(255,255,255,.4); }
+#SC2_CONTAINER #SC2_disable_page { background: #EEE; opacity: .5; }
+
+#SC2_CONTAINER a       { background-color: #EEE; }
+#SC2_CONTAINER a:focus { background-color: #CCC; box-shadow: 0 0 3pt 1pt #006060; }
+#SC2_CONTAINER a:hover { background-color: #DDD; }
+
+#SC2_CONTAINER button        { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); border: solid 1px #444; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); box-shadow:       0 0 3pt 2pt #006060;}
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); box-shadow: 0 0 3pt 1pt rgba(0,96,96,.7); }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #EEE, #DDD, #DDD, #EEE); box-shadow: inset 0 2px 3px rgba(0, 96, 96, 0.7); }
+
+#SC2_CONTAINER input,       #SC2_CONTAINER select       { background-color: white; border: solid 1px #7a7a7a; }
+#SC2_CONTAINER input:focus, #SC2_CONTAINER select:focus { box-shadow: 0 0 3pt 2pt #006060; }
+#SC2_CONTAINER input:hover, #SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 1pt #008080; }
+
+#SC2_CONTAINER     input:disabled { color: #555; border: solid 1px #7a7a7a; background-color: rgba(255,255,255, .5); }
+#SC2_advanced_info input:disabled { color: #000; border: solid .05rem #077; }
+
+/* Remove that annoying dotted onfocus outline of FF selects */
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #000; }
+
+#SC2_CONTAINER input[type=range] { background-color: inherit; border: solid 0px transparent; }
+
+/*FF*/
+#SC2_CONTAINER input[type=range]::-moz-range-track       { background-color: #FFF; border: 0; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb       { background-color: #FFF; border: solid 1px #777; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { background-color: #DDD; border: solid 1px #444; }
+
+/*IE*/
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: #FFF; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: #FFF; }
+#SC2_CONTAINER input[type=range]::-ms-thumb      { background-color: #FFF; border: solid 1px #666; }
+
+.SC2_th1 { }
+#SC2_CONTAINER div.SC2_lengths      { background-color: rgba(255,255,255, .8); border: solid .05rem #077; }
+#SC2_CONTAINER .SC2_imex_containers { background-color: white; border: solid 1px teal; box-shadow: 0 0 10pt 4pt teal; }
+#SC2_CONTAINER .SC2_IMEX_DATA       { border: solid 1px black; }
+#SC2_CONTAINER #SC2_msg_box         { background-color: #FFF;  border: solid 1px #F00; box-shadow: 0 0 10pt 3pt #F00; }
+
+.SC2_DO_theme       { background-color: rgb(175,198,205); } /* #afc6cd */
 .SC2_theme_standard { background-color: rgb(175,198,205); } /* #afc6cd */
 .SC2_theme_triplet  { background-color: rgb(210,223,227); } /* #d2dfe3 */
 .SC2_theme_phh      { background-color: rgb(200,214,240); } /* #c8d6f0 */
 .SC2_theme_phr      { background-color: rgb(227,214,254); } /* #e3d6fe */
 .SC2_theme_phh_phr  { background-color: rgb(245,192,245); } /* #f5c0f5 */
 .SC2_theme_custom   { background-color: #FAB; } /* Long time ago when ... */
-</style>
+</style><!--//end theme_default  theme_template-->
 
 
 
-
-
-
-<template id=SC2_theme_default><!--//theme_template-->
-body { }
-#SC2_CONTAINER .SC2_thv { }
-#SC2_CONTAINER #SC2_FL_to_LN { }
+<template class=SC2_theme id=SC2_theme_plain data-SC2_theme_desc="Plain">
+body { background-color: #f8f8f8; }
 #SC2_CONTAINER { }
-#SC2_CONTAINER #SC2_disable_page { }
-#SC2_CONTAINER input[type=text]  { }
-#SC2_CONTAINER select            { }
-#SC2_CONTAINER button        { }
-#SC2_CONTAINER button:focus  { }
-#SC2_CONTAINER button:hover  { }
-#SC2_CONTAINER button:active { }
+#SC2_CONTAINER hr { border: ; }
+#SC2_CONTAINER table .SC2_thv { font-weight: bold; }
+#SC2_CONTAINER #SC2_FL_to_LN { background-color: rgba(255,255,255,.4); }
+#SC2_CONTAINER #SC2_disable_page { background: #EEE; opacity: .5; }
 
-#SC2_CONTAINER a { }
+#SC2_CONTAINER a       { background-color: #DDD; color: #000; }
+#SC2_CONTAINER a:focus { background-color: #BBB; box-shadow: 0 0 3pt 1pt #777; }
+#SC2_CONTAINER a:hover { background-color: #CCC; }
 
-#SC2_CONTAINER input:focus, 
-#SC2_CONTAINER select:focus  { }
+#SC2_CONTAINER button        { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); border: solid 1px #444; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #CCC, #FFF, #FFF, #CCC); box-shadow:       0 0 3pt 2pt #777; }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #eee, #FFF, #FFF, #eee); box-shadow:       0 0 3pt 2pt #999; }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #EEE, #DDD, #DDD, #EEE); box-shadow: inset 0 2px 3px #777; }
 
+#SC2_CONTAINER input,       #SC2_CONTAINER select       { background-color: white; border: solid 1px #7a7a7a; }
+#SC2_CONTAINER input:focus, #SC2_CONTAINER select:focus { box-shadow: 0 0 3pt 2pt #606060; }
+#SC2_CONTAINER input:hover, #SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 1pt #808080; }
+
+#SC2_CONTAINER     input:disabled { color: #555; border: solid 1px #888; background-color: #eee; }
+#SC2_advanced_info input:disabled { color: #000; }
+
+/* Remove that annoying dotted onfocus outline of FF selects */
 #SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #000; }
 
-#SC2_CONTAINER #SC2_notes  { }
-#SC2_other_calcs { }
-#SC2_other_calcs a { }
+#SC2_CONTAINER input[type=range] { background-color: inherit; border: solid 0px transparent; }
 
-#SC2_CONTAINER input:disabled { }
+/*FF*/
+#SC2_CONTAINER input[type=range]::-moz-range-track       { background-color: #BBB; border: 0; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb       { background-color: #FFF; border: solid 1px #777; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { background-color: #DDD; border: solid 1px #444; }
 
-#SC2_CONTAINER div.SC2_lengths { }
+/*IE*/
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: #BBB; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: #BBB; }
+#SC2_CONTAINER input[type=range]::-ms-thumb      { background-color: #FFF; border: solid 1px #666; }
 
 .SC2_th1 { }
-.SC2_DO_theme       { background-color: ; }
-.SC2_theme_standard { background-color: ; }
-.SC2_theme_triplet  { background-color: ; }
-.SC2_theme_phh      { background-color: ; }
-.SC2_theme_phr      { background-color: ; }
-.SC2_theme_phh_phr  { background-color: ; }
-.SC2_theme_custom   { background-color: ; color: ; }
-</template><!--//end theme_default  theme_template-->
+#SC2_CONTAINER div.SC2_lengths      { background-color: #eee; border: solid .05rem #777; }
+#SC2_CONTAINER .SC2_imex_containers { background-color: white; border: solid 1px teal; box-shadow: 0 0 10pt 4pt #555; }
+#SC2_CONTAINER .SC2_IMEX_DATA       { border: solid 1px black; }
+#SC2_CONTAINER #SC2_msg_box         { background-color: #FFF;  border: solid 1px #000; box-shadow: 0 0 10pt 3pt #000; }
+
+.SC2_DO_theme       { background-color: white; }
+.SC2_theme_standard { background-color: white; }
+.SC2_theme_triplet  { background-color: white; }
+.SC2_theme_phh      { background-color: white; }
+.SC2_theme_phr      { background-color: white; }
+.SC2_theme_phh_phr  { background-color: white; }
+.SC2_theme_custom   { background-color: white; }
+</template><!--//end theme_plain-->
 
 
 
-
-<template id=SC2_theme_darkgreen>
+<template class=SC2_theme id=SC2_theme_darkwhite data-SC2_theme_desc="Dark White">
 body { background-color: black; }
-#SC2_CONTAINER .SC2_thv { font-weight: normal; }
+#SC2_CONTAINER { color: #FFF; }
+#SC2_CONTAINER hr { border: solid 1px #555; }
+#SC2_CONTAINER table .SC2_thv { font-weight: normal; }
 #SC2_CONTAINER #SC2_FL_to_LN { background-color: rgba(7,7,7,.4); }
-#SC2_CONTAINER { color: #0d0 }
 #SC2_CONTAINER #SC2_disable_page { background: black; opacity: .5; }
-#SC2_CONTAINER input[type=text]  { border: solid 1px #0d0; background-color: black; color: #0d0; }
-#SC2_CONTAINER select            { border: solid 1px #0d0; background-color: black; color: #0d0; }
-#SC2_CONTAINER button        { background: linear-gradient(to bottom, #444, #000, #000, #444); color: #0d0; border: solid 1px #444; }
-#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt rgba(0,255,0,.7); }
-#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt #0f0; color: #0d0; }
-#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #000, #444, #000); padding: 0px 6px 1px 3px; box-shadow: outset 0 2px 1px rgba(0, 255, 0, .8); }
 
-#SC2_CONTAINER a { background-color: #333; color: #0d0 }
+#SC2_CONTAINER a       { background-color: #181818; color: #FFF; }
+#SC2_CONTAINER a:focus { background-color: #333; box-shadow: 0 0 3pt 1pt #FFF; color: #FFF; }
+#SC2_CONTAINER a:hover { background-color: #444; color: #FFF; }
 
-#SC2_CONTAINER input:focus, 
-#SC2_CONTAINER select:focus  { box-shadow: 0 0 3pt 2pt #0f0; color: #0d0; }
+#SC2_CONTAINER button        { background: linear-gradient(to bottom, #444, #000, #000, #444); color: #FFF; border: solid 1px #444; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt rgba(255,255,255,.7); }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt #FFF; color: #FFF; }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #000, #444, #000); box-shadow: inset 0 2px 1px rgba(255,255,255, .8); }
 
-#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #0d0; }
+#SC2_CONTAINER input,       #SC2_CONTAINER select       { background-color: black; color: #FFF; border: solid 1px #DDD; }
+#SC2_CONTAINER input:focus, #SC2_CONTAINER select:focus { box-shadow: 0 0 3pt 2pt #CCC; color: #FFF; }
+#SC2_CONTAINER input:hover, #SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 2pt #FFF; }
 
-#SC2_CONTAINER #SC2_notes  { color: #0D0; }
-#SC2_other_calcs { color: #0D0; }
-#SC2_other_calcs a { width: 100%; padding-left: .3em; }
+#SC2_CONTAINER     input:disabled { background-color: rgba(0,0,0, .4); color: #DDD; border: solid 1px #999; }
+#SC2_advanced_info input:disabled { }
 
-#SC2_CONTAINER input:disabled { border: solid .05rem #0a0; border-radius: 4px; color: #090 }
+/* Remove that annoying dotted onfocus outline of FF selects */
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #DDD; }
 
-#SC2_CONTAINER div.SC2_lengths { border: solid .05rem #0d0; background-color: rgba(55,55,55, .8); }
+#SC2_CONTAINER input[type=range] { background-color: inherit; border: solid 0px transparent; }
+
+/*FF*/
+#SC2_CONTAINER input[type=range]::-moz-range-track       { background-color: #000; border: solid 1px #FFF; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb       { background-color: #000; border: solid 1px #777; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { background-color: #DDD; border: solid 1px #444; }
+
+/*IE*/
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: #000; border: solid 1px #FFF; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: #000; border: solid 1px #FFF; }
+#SC2_CONTAINER input[type=range]::-ms-thumb      { background-color: #000; border: solid 1px #FFF; }
 
 .SC2_th1 { font-weight: normal; }
+#SC2_CONTAINER div.SC2_lengths      { background-color: rgba(55,55,55, .5); border: solid .05rem #DDD; }
+#SC2_CONTAINER .SC2_imex_containers { background-color: black;   border: solid 1px #FFF; box-shadow: 0 0 10pt 4pt #FFF; }
+#SC2_CONTAINER .SC2_IMEX_DATA       { background-color: inherit; border: solid 1px #FFF; color: inherit; }
+#SC2_CONTAINER #SC2_msg_box         { background-color: #000;    border: solid 1px #FFF; box-shadow: 0 0 10pt 3pt #FFF; }
 
 .SC2_DO_theme       { background-color: inherit; }
 .SC2_theme_standard { background-color: black; }
@@ -855,23 +870,298 @@ body { background-color: black; }
 .SC2_theme_phr      { background-color: #324; }
 .SC2_theme_phh_phr  { background-color: #404; }
 .SC2_theme_custom   { background-color: #401; color: #ccc; }
+</template><!--//end theme_darkwhite-->
+
+
+
+<template class=SC2_theme id=SC2_theme_darkgreen data-SC2_theme_desc="Dark Green">
+body { background-color: black; }
+#SC2_CONTAINER { color: #0D0; }
+#SC2_CONTAINER hr { border: solid 1px #555; }
+#SC2_CONTAINER table .SC2_thv { font-weight: normal; }
+#SC2_CONTAINER #SC2_FL_to_LN { background-color: rgba(7,7,7,.4); }
+#SC2_CONTAINER #SC2_disable_page { background: black; opacity: .5; }
+
+#SC2_CONTAINER a       { background-color: #222; color: #0D0; }
+#SC2_CONTAINER a:focus { background-color: #333; box-shadow: 0 0 3pt 1pt #0D0; color: #0D0; }
+#SC2_CONTAINER a:hover { background-color: #444; color: #0D0; }
+
+#SC2_CONTAINER button        { background: linear-gradient(to bottom, #444, #000, #000, #444); color: #0D0; border: solid 1px #444; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt rgba(0,255,0,.7); }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt #0F0; color: #0D0; }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #000, #444, #000); box-shadow: inset 0 2px 1px rgba(0, 255, 0, .8); }
+
+#SC2_CONTAINER input,       #SC2_CONTAINER select       { background-color: black; color: #0D0; border: solid 1px #0D0; }
+#SC2_CONTAINER input:focus, #SC2_CONTAINER select:focus { box-shadow: 0 0 3pt 2pt #0D0; color: #0D0; }
+#SC2_CONTAINER input:hover, #SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 2pt #0F0; }
+
+#SC2_CONTAINER     input:disabled { background-color: rgba(0,0,0, .4); color: #090; border: solid 1px #0A0; }
+#SC2_advanced_info input:disabled { }
+
+/* Remove that annoying dotted onfocus outline of FF selects */
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #0D0; }
+
+#SC2_CONTAINER input[type=range] { background-color: inherit; border: solid 0px transparent; }
+
+/*FF*/
+#SC2_CONTAINER input[type=range]::-moz-range-track       { background-color: #000; border: solid 1px #0F0; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb       { background-color: #000; border: solid 1px #777; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { background-color: #DDD; border: solid 1px #444; }
+
+/*IE*/
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: #000; border: solid 1px #0F0; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: #000; border: solid 1px #0F0; }
+#SC2_CONTAINER input[type=range]::-ms-thumb      { background-color: #000; border: solid 1px #0F0; }
+
+.SC2_th1 { font-weight: normal; }
+#SC2_CONTAINER div.SC2_lengths      { background-color: rgba(55,55,55, .8); border: solid .05rem #0D0; }
+#SC2_CONTAINER .SC2_imex_containers { background-color: black;   border: solid 1px #0F0; box-shadow: 0 0 10pt 4pt #0F0; }
+#SC2_CONTAINER .SC2_IMEX_DATA       { background-color: inherit; border: solid 1px #0F0; color: inherit; }
+#SC2_CONTAINER #SC2_msg_box         { background-color: #000;    border: solid 1px #0F0; box-shadow: 0 0 10pt 3pt #0F0;}
+
+.SC2_DO_theme       { background-color: inherit; }
+.SC2_theme_standard { background-color: black; }
+.SC2_theme_triplet  { background-color: #122; }
+.SC2_theme_phh      { background-color: #013; }
+.SC2_theme_phr      { background-color: #213; }
+.SC2_theme_phh_phr  { background-color: #303; }
+.SC2_theme_custom   { background-color: #2a0000; }
 </template><!--//end theme_darkgreen-->
 
 
 
+<template class=SC2_theme id=SC2_theme_darkred data-SC2_theme_desc="Dark Red">
+body { background-color: black; }
+#SC2_CONTAINER { color: #F00; }
+#SC2_CONTAINER hr { border: solid 1px #555; }
+#SC2_CONTAINER table .SC2_thv { font-weight: normal; }
+#SC2_CONTAINER #SC2_FL_to_LN { background-color: rgba(7,7,7,.4); }
+#SC2_CONTAINER #SC2_disable_page { background: black; opacity: .5; }
 
+#SC2_CONTAINER a       { background-color: #181818; color: #F00; }
+#SC2_CONTAINER a:focus { background-color: #333; box-shadow: 0 0 3pt 1pt #F00; color: #F00; }
+#SC2_CONTAINER a:hover { background-color: #444; color: #F00; }
+
+#SC2_CONTAINER button        { background: linear-gradient(to bottom, #444, #000, #000, #444); color: #F00; border: solid 1px #444; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt rgba(255,0,0,.7); }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt #F00; color: #F00; }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #000, #444, #000); box-shadow: inset 0 2px 1px rgba(255,0,0, .8); }
+
+#SC2_CONTAINER input,       #SC2_CONTAINER select       { background-color: black; color: #F00; border: solid 1px #D00; }
+#SC2_CONTAINER input:focus, #SC2_CONTAINER select:focus { box-shadow: 0 0 3pt 2pt #C00; color: #F00; }
+#SC2_CONTAINER input:hover, #SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 2pt #F00; }
+
+#SC2_CONTAINER     input:disabled { background-color: rgba(0,0,0, .4); color: #D00; border: solid 1px #900; }
+#SC2_advanced_info input:disabled { }
+
+/* Remove that annoying dotted onfocus outline of FF selects */
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #D00; }
+
+#SC2_CONTAINER input[type=range] { background-color: inherit; border: solid 0px transparent; }
+
+/*FF*/
+#SC2_CONTAINER input[type=range]::-moz-range-track       { background-color: #000; border: solid 1px #F00; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb       { background-color: #000; border: solid 1px #777; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { background-color: #DDD; border: solid 1px #444; }
+
+/*IE*/
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: #000; border: solid 1px #F00; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: #000; border: solid 1px #F00; }
+#SC2_CONTAINER input[type=range]::-ms-thumb      { background-color: #000; border: solid 1px #F00; }
+
+.SC2_th1 { font-weight: normal; }
+#SC2_CONTAINER div.SC2_lengths      { background-color: rgba(55,55,55, .5); border: solid .05rem #D00; }
+#SC2_CONTAINER .SC2_imex_containers { background-color: black;   border: solid 1px #F00; box-shadow: 0 0 10pt 4pt #F00; }
+#SC2_CONTAINER .SC2_IMEX_DATA       { background-color: inherit; border: solid 1px #F00; color: inherit; }
+#SC2_CONTAINER #SC2_msg_box         { background-color: #000;    border: solid 1px #F00; box-shadow: 0 0 10pt 3pt #F00; }
+
+.SC2_DO_theme       { background-color: inherit; }
+.SC2_theme_standard { background-color: black; }
+.SC2_theme_triplet  { background-color: #122; }
+.SC2_theme_phh      { background-color: #013; }
+.SC2_theme_phr      { background-color: #324; }
+.SC2_theme_phh_phr  { background-color: #404; }
+.SC2_theme_custom   { background-color: #401; color: #ccc; }
+</template><!--//end theme_darkred-->
+
+
+
+<template class=SC2_theme id=SC2_theme_darkamber data-SC2_theme_desc="Dark Amber">
+body { background-color: black; }
+#SC2_CONTAINER { color: #FB0; }
+#SC2_CONTAINER hr { border: solid 1px #555; }
+#SC2_CONTAINER table .SC2_thv { font-weight: normal; }
+#SC2_CONTAINER #SC2_FL_to_LN { background-color: rgba(7,7,7,.4); }
+#SC2_CONTAINER #SC2_disable_page { background: black; opacity: .5; }
+
+#SC2_CONTAINER a       { background-color: #222; color: #FB0; }
+#SC2_CONTAINER a:focus { background-color: #333; box-shadow: 0 0 3pt 1pt #c80; color: #FB0; }
+#SC2_CONTAINER a:hover { background-color: #444; color: #FB0; }
+
+#SC2_CONTAINER button        { background: linear-gradient(to bottom, #444, #000, #000, #444); color: #FB0; border: solid 1px #444; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt rgba(255,176,0,.7); }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt #FB0; color: #FB0; }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #000, #444, #000); box-shadow: inset 0 2px 1px #FB0; }
+
+#SC2_CONTAINER input,       #SC2_CONTAINER select       { background-color: black; color: #FB0; border: solid 1px #FB0; }
+#SC2_CONTAINER input:focus, #SC2_CONTAINER select:focus { box-shadow: 0 0 3pt 2pt #c80; color: #FB0; }
+#SC2_CONTAINER input:hover, #SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 2pt #FB0; }
+
+#SC2_CONTAINER     input:disabled { background-color: rgba(0,0,0, .4); color: #ea0; border: solid 1px #c80; }
+#SC2_advanced_info input:disabled { }
+
+/* Remove that annoying dotted onfocus outline of FF selects */
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #FB0; }
+
+#SC2_CONTAINER input[type=range] { background-color: inherit; border: solid 0px transparent; }
+
+/*FF*/
+#SC2_CONTAINER input[type=range]::-moz-range-track       { background-color: #000; border: solid 1px #FB0; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb       { background-color: #000; border: solid 1px #777; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { background-color: #DDD; border: solid 1px #444; }
+
+/*IE*/
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: #000; border: solid 1px #FB0; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: #000; border: solid 1px #FB0; }
+#SC2_CONTAINER input[type=range]::-ms-thumb      { background-color: #000; border: solid 1px #FB0; }
+
+.SC2_th1 { font-weight: normal; }
+#SC2_CONTAINER div.SC2_lengths      { background-color: rgba(55,55,55, .5); border: solid .05rem #FB0; }
+#SC2_CONTAINER .SC2_imex_containers { background-color: black;   border: solid 1px #FB0; box-shadow: 0 0 10pt 4pt #FB0; }
+#SC2_CONTAINER .SC2_IMEX_DATA       { background-color: inherit; border: solid 1px #FB0; color: inherit; }
+#SC2_CONTAINER #SC2_msg_box         { background-color: #000;    border: solid 1px #FB0; box-shadow: 0 0 10pt 3pt #FB0; }
+
+.SC2_DO_theme       { background-color: inherit; }
+.SC2_theme_standard { background-color: black; }
+.SC2_theme_triplet  { background-color: #122; }
+.SC2_theme_phh      { background-color: #013; }
+.SC2_theme_phr      { background-color: #324; }
+.SC2_theme_phh_phr  { background-color: #404; }
+.SC2_theme_custom   { background-color: #401; color: #ccc; }
+</template><!--//end theme_darkamber-->
+
+
+
+<template class=SC2_theme id=SC2_theme_darkyellow data-SC2_theme_desc="Dark Yellow">
+body { background-color: black; }
+#SC2_CONTAINER { color: #DD0; }
+#SC2_CONTAINER hr { border: solid 1px #555; }
+#SC2_CONTAINER table .SC2_thv { font-weight: normal; }
+#SC2_CONTAINER #SC2_FL_to_LN { background-color: rgba(7,7,7,.4); }
+#SC2_CONTAINER #SC2_disable_page { background: black; opacity: .5; }
+
+#SC2_CONTAINER a       { background-color: #222; color: #DD0 }
+#SC2_CONTAINER a:focus { background-color: #333; box-shadow: 0 0 3pt 1pt #aa0; color: #DD0}
+#SC2_CONTAINER a:hover { background-color: #444; color: #DD0 }
+
+#SC2_CONTAINER button        { background: linear-gradient(to bottom, #444, #000, #000, #444); color: #DD0; border: solid 1px #444; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt rgba(255,255,0,.7); }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #444, #000, #444); box-shadow: 0 0 3pt 3pt #DD0; color: #DD0; }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #000, #444, #000); box-shadow: inset 0 2px 1px rgba(255,255,0, .8); }
+
+#SC2_CONTAINER input,       #SC2_CONTAINER select       { background-color: black; color: #DD0; border: solid 1px #DD0; }
+#SC2_CONTAINER input:focus, #SC2_CONTAINER select:focus { box-shadow: 0 0 3pt 2pt #cc0; color: #DD0; }
+#SC2_CONTAINER input:hover, #SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 2pt #DD0; }
+
+#SC2_CONTAINER     input:disabled { background-color: rgba(0,0,0, .4); color: #CC0; border: solid 1px #bb0; }
+#SC2_advanced_info input:disabled { }
+
+/* Remove that annoying dotted onfocus outline of FF selects */
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #DD0; }
+
+#SC2_CONTAINER input[type=range] { background-color: inherit; border: solid 0px transparent; }
+
+/*FF*/
+#SC2_CONTAINER input[type=range]::-moz-range-track       { background-color: #000; border: solid 1px #DD0; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb       { background-color: #000; border: solid 1px #777; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { background-color: #DDD; border: solid 1px #444; }
+
+/*IE*/
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: #000; border: solid 1px #DD0; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: #000; border: solid 1px #DD0; }
+#SC2_CONTAINER input[type=range]::-ms-thumb      { background-color: #000; border: solid 1px #DD0; }
+
+.SC2_th1 { font-weight: normal; }
+#SC2_CONTAINER div.SC2_lengths      { background-color: rgba(55,55,55, .5); border: solid .05rem #DD0; }
+#SC2_CONTAINER .SC2_imex_containers { background-color: black;   border: solid 1px #DD0; box-shadow: 0 0 10pt 4pt #DD0; }
+#SC2_CONTAINER .SC2_IMEX_DATA       { background-color: inherit; border: solid 1px #DD0; color: inherit; }
+#SC2_CONTAINER #SC2_msg_box         { background-color: #000;    border: solid 1px #DD0; box-shadow: 0 0 10pt 3pt #DD0; }
+
+.SC2_DO_theme       { background-color: inherit; }
+.SC2_theme_standard { background-color: black; }
+.SC2_theme_triplet  { background-color: #122; }
+.SC2_theme_phh      { background-color: #013; }
+.SC2_theme_phr      { background-color: #324; }
+.SC2_theme_phh_phr  { background-color: #404; }
+.SC2_theme_custom   { background-color: #401; color: #ccc; }
+</template><!--//end theme_darkyellow-->
+
+
+
+<template class=SC2_theme id=SC2_theme_bluescreen data-SC2_theme_desc="Blue Screen">
+body { background-color: #00F; }
+#SC2_CONTAINER { color: #FFF; }
+#SC2_CONTAINER hr { border: solid 1px #555; }
+#SC2_CONTAINER table .SC2_thv { font-weight: normal; }
+#SC2_CONTAINER #SC2_FL_to_LN { background-color: #00D; }
+#SC2_CONTAINER #SC2_disable_page { background: blue; opacity: .5; }
+
+#SC2_CONTAINER a       { background-color: #00D; color: #FF0 }
+#SC2_CONTAINER a:focus { background-color: #00B; box-shadow: 0 0 3pt 1pt #aa0; }
+#SC2_CONTAINER a:hover { background-color: #009; }
+
+#SC2_CONTAINER button        { background: linear-gradient(to bottom, #00A, #00E, #00A); color: #FFF; border: solid 1px #777; }
+#SC2_CONTAINER button:focus  { background: linear-gradient(to bottom, #00A, #00E, #00A); box-shadow: 0 0 3pt 3pt #DD0; }
+#SC2_CONTAINER button:hover  { background: linear-gradient(to bottom, #00A, #00E, #00A); box-shadow: 0 0 3pt 3pt #FF0; color: #FF0; }
+#SC2_CONTAINER button:active { background: linear-gradient(to bottom, #00E, #00A, #00E); box-shadow: inset 0 2px 1px rgba(255,255,0, .8); }
+
+#SC2_CONTAINER input,       #SC2_CONTAINER select       { background-color: black; color: #FF0; border: solid 1px #FF0; }
+#SC2_CONTAINER input:focus, #SC2_CONTAINER select:focus { box-shadow: 0 0 3pt 2pt #cc0; color: #FF0; }
+#SC2_CONTAINER input:hover, #SC2_CONTAINER select:hover { box-shadow: 0 0 3pt 2pt #FF0; }
+
+#SC2_CONTAINER     input:disabled { background-color: rgba(0,0,0, .4); color: #CC0; border: solid 1px #bb0; }
+#SC2_advanced_info input:disabled { }
+
+/* Remove that annoying dotted onfocus outline of FF selects */
+#SC2_CONTAINER select:-moz-focusring { color: transparent; text-shadow: 0 0 0 #FF0; }
+
+#SC2_CONTAINER input[type=range] { background-color: inherit; border: solid 0px transparent; }
+
+/*FF*/
+#SC2_CONTAINER input[type=range]::-moz-range-track       { background-color: #000; border: solid 1px #CC0; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb       { background: linear-gradient(to bottom, #00A, #00E, #00A); border: solid 1px #CCC; }
+#SC2_CONTAINER input[type=range]::-moz-range-thumb:hover { background-color: #DDD; border: solid 1px #444; }
+
+/*IE*/
+#SC2_CONTAINER input[type=range]::-ms-fill-lower { background-color: #000; border: solid 1px #FF0; }
+#SC2_CONTAINER input[type=range]::-ms-fill-upper { background-color: #000; border: solid 1px #FF0; }
+#SC2_CONTAINER input[type=range]::-ms-thumb      { background-color: #000; border: solid 1px #FF0; }
+
+.SC2_th1 { font-weight: normal; }
+#SC2_CONTAINER div.SC2_lengths      { background-color: rgba(55,55,55, .8); border: solid .05rem #FF0; }
+#SC2_CONTAINER .SC2_imex_containers { background-color: blue;    border: solid 1px #DD0; box-shadow: 0 0 10pt 4pt #DD0; }
+#SC2_CONTAINER .SC2_IMEX_DATA       { background-color: inherit; border: solid 1px #DD0; color: inherit; }
+#SC2_CONTAINER #SC2_msg_box         { background-color: #00F;    border: solid 1px #DD0; box-shadow: 0 0 10pt 3pt #FF0; }
+
+.SC2_DO_theme       { background-color: inherit; }
+.SC2_theme_standard { background-color: blue; }
+.SC2_theme_triplet  { background-color: blue; }
+.SC2_theme_phh      { background-color: blue; }
+.SC2_theme_phr      { background-color: blue; }
+.SC2_theme_phh_phr  { background-color: blue; }
+.SC2_theme_custom   { background-color: blue; }
+</template><!--//end theme_bluescreen-->
+
+
+
+
+<!--MUST come after the default theme, which is in a <style>, and not a <template>.-->
 <style id=SC2_THEME_current><!-- Populated onload --></style>
 
 
 
 
-
-
-
-
-
 <noscript><h2>Sorry, javascript is required for <br> The Wheel Maker & Spoke Length Calculator.</h2></noscript>
-
 
 
 
@@ -1331,10 +1621,10 @@ body { background-color: black; }
 			</div><!--//end SC2_wheel_container-->
 		</div><!--//end SC2_wheel_container_container-->
 
-		<div id=SC2_scale_rotate_container class=SC2_theme_standard>
+		<div id=SC2_scale_rotate_container class=SC2_DO_theme>
 			<button type=button id=SC2_show_hide_scale class=SC2_open_close_toolbar value=none>+</button>
 			<div id=SC2_scale_rotate_options class=SC2_DO_theme><label class=SC2_help_link data-help_topic=scale>Scale:</label><button type=button id=SC2_SCALE_mode></button>
-				<div id=SC2_SCALE_user_input_tab class=SC2_theme_standard>
+				<div id=SC2_SCALE_user_input_tab class=SC2_DO_theme>
 					<input type=text id=SC2_SCALE_user>mm (Wheel Window Size)
 				</div>
 				<button type=button class=SC2_mini_button id=SC2_SCALE_down>-</button>
@@ -1363,13 +1653,7 @@ body { background-color: black; }
 		<option value=0 selected>Choose a Help Topic</option>
 		<optgroup id=SC2_TOPIC_options label=""><!-- Populated onload --></optgroup>
 	</select>
-	
-	
-	<select id=SC2_THEME_select class=SC2_SELECTS_large style="position: absolute; right: 0px">
-		<option value=theme_default>Theme: Default</option>
-		<option value=theme_darkgreen>Theme: Dark Green</option>
-	</select>
-	
+	<select id=SC2_THEME_select class=SC2_SELECTS_large><!-- Populated onload --></select>
 	
 	<div id=SC2_notes_container>
 		<table id=SC2_notes>
@@ -1633,7 +1917,7 @@ body { background-color: black; }
 				<td><p>The (Side 1):(Side 2) spoke ratio. Usually 1:1, but is 1:2 for triplets, and can be other ratios in custom mode.</td>
 			</tr>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=bracing_angles>Bracing Angles</a></th>
-				<td><p>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometricallly, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td>
+				<td><p>The lateral angle the spoke makes going from the rim to the hub.  This is affected by the flange-to-center width, OC rims, PCD, ERD, and spoke cross. Geometrically, this value is also affected by the spoke hole diameter, but only by a tiny amount. Even less.</td>
 			</tr>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=tension_ratio>Tension Ratio</a></th>
 				<td><p>The theoretical spoke tension ratio (Side 1):(Side 2).  Side 2 is defined as 100%.
@@ -4243,7 +4527,8 @@ function Init_Show_Hide_Theme(reset) {
 		$NOTES_CONTAINER.style.display = $SHOW_HIDE_NOTES.value;
 	}
 
-	$THEME_current.innerHTML = E_($THEME_select.value).innerHTML;
+	if (E_($THEME_select.value)) { $THEME_current.innerHTML = E_($THEME_select.value).innerHTML; }
+	else { $THEME_select.selectedIndex = 0; } //default theme loaded by default, even if above fails.
 
 	Wheel_or_Display_Settings();
 }//end Init_Show_Hide_Theme()
@@ -5510,13 +5795,14 @@ function Assign_Events() {
 		
 		Set_Modal_Mode(true, $EXPORT_CONTAINER);
 		
-		$COPY_TO_CLIPBOARD.focus();
+		$CLOSE_EXPORT.focus();
 	});
 
 
 	$CLOSE_EXPORT.addEventListener("click", function() {
 		$EXPORT_OUTPUT.innerHTML = "";
 		Set_Modal_Mode(false, $EXPORT_CONTAINER);
+		 $EXPORT.focus();
 	});
 
 
@@ -5531,13 +5817,13 @@ function Assign_Events() {
 		$PRESERVE_INDEX.checked = true;
 		Import_Index_Enable_Disable();
 		Auto_Size_Input();
-		$IMPORT_INPUT.focus();
+		$CLOSE_IMPORT.focus();
 	});
 
 
 	$CLOSE_IMPORT.addEventListener("click", function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); $IMPORT.focus(); });
 	$X_IMPORT.addEventListener("click",     function() { Set_Modal_Mode(false, $IMPORT_CONTAINER); $IMPORT.focus(); });
-	$X_EXPORT.addEventListener("click",     function() { Set_Modal_Mode(false, $EXPORT_CONTAINER); $EXPORT_OUTPUT.innerHTML = ""; });
+	$X_EXPORT.addEventListener("click",     function() { Set_Modal_Mode(false, $EXPORT_CONTAINER); $EXPORT_OUTPUT.innerHTML = ""; $EXPORT.focus(); });
 
 	$PRESERVE_INDEX.addEventListener("click", function() { Import_Index_Enable_Disable(); });
 
@@ -5672,9 +5958,19 @@ function Init() {
 	Assign_Events(); //Most, except for some assigned during Build_Choose_Topic_List(), and some others.
 	Assign_Most_Keydown_Focus_Blur_Events();
 
-	//These options are not saved. Always load page with Wheel Settings visable & enabled.
-	$DISPLAY_SETTINGS.style.display = "none";
+	//This option is not saved.
 	$LIST_CONTAINER.style.display = "none";
+
+	//Populate $THEME_select.
+	var themes = document.getElementsByClassName(_NS_ + "theme");
+	var nsl = _NS_.length;
+	var theme_options = "";
+	for (var t = 0; t < themes.length; t++) {
+		var name = themes[t].id.substr(nsl);	
+		var desc = themes[t].getAttribute('data-SC2_theme_desc');
+		theme_options += "<option value=" + name + ">Theme: " + desc + "</option>\n";
+	}
+	$THEME_select.innerHTML = theme_options;
 
 	Load_DEFAULT_VALUES_Spokes();
 	Load_DEFAULT_VALUES_Rim_etc();
@@ -5705,7 +6001,7 @@ function Init() {
 
 	var version_out = document.getElementsByClassName(_NS_ + "VERSION");
 	version_out[0].innerHTML = "<p>" + VERSION;
-	
+
 
 	//$CONTAINER set to hidden in <style> sheet. This reduces the visually jarring, 
 	//if brief, jumping around of page elements during page load, as some page elements
