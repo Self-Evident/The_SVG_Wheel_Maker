@@ -5,7 +5,7 @@
 <title>The Wheel Maker &amp; Spoke Length Calculator</title>
 
 <!--//================================================-->
-<script>var VERSION = "v2.66 2019-08-19  1:10am"</script>
+<script>var VERSION = "v2.67 2019-08-20  7:00pm"</script>
 <!--//================================================-->
 
 <template id=SC2_LICENSE>
@@ -514,13 +514,14 @@ body { overflow-y: scroll; }
 
 #SC2_CONTAINER .SC2_SELECTS_large { 
 	height: 2rem;
-	min-width: 16rem; font-size: 1rem;
+	width: 16rem;
+	font-size: 1rem;
 	margin-bottom: .25rem;
 	margin-top: -2px;
 	border-radius: 8px;
 }
 
-#SC2_CONTAINER #SC2_THEME_select { float: right; margin-top: 0; }
+#SC2_CONTAINER #SC2_THEME_select { float: right; margin-top: 0; width: 9rem; }
 
 .SC2_help_topic { cursor: pointer; }
 .SC2_help_link  { cursor: help; }
@@ -706,7 +707,7 @@ table.SC2_DO input.SC2_do_size_input  { width: 2.5rem; }
 	 Finally, <style id=SC2_THEME_current> must come after the <style> for the default theme for this to work.
 -->
 
-<style class=SC2_theme id=SC2_theme_default data-SC2_theme_desc="Default"><!--//theme_template-->
+<style class=SC2_theme id=SC2_theme_default data-SC2_theme_desc="Default Theme"><!--//theme_template-->
 body { }
 #SC2_CONTAINER { }
 #SC2_CONTAINER hr { border: ; }
@@ -1650,11 +1651,16 @@ body { background-color: #00F; }
 	<br><br><br>
 	<button type=button id=SC2_show_hide_notes class=SC2_ndo_buttons value=none>Show/Hide Notes</button>
 	<select id=SC2_TOPIC_select class=SC2_SELECTS_large>
-		<option value=0 selected>Choose a Help Topic</option>
+		<option value=0 selected>Help Topics, alphabetical.</option>
 		<optgroup id=SC2_TOPIC_options label=""><!-- Populated onload --></optgroup>
 	</select>
+	<select id=SC2_TOPIC_select_2 class=SC2_SELECTS_large>
+		<option value=0 selected>Help Topics, grouped by subject.</option>
+		<optgroup id=SC2_TOPIC_options_2 label=""><!-- Populated onload --></optgroup>
+	</select>
+
 	<select id=SC2_THEME_select class=SC2_SELECTS_large><!-- Populated onload --></select>
-	
+
 	<div id=SC2_notes_container>
 		<table id=SC2_notes>
 			<tr><th><a class=SC2_help_topic tabindex=0 data-help_topic=disclaimer>Disclaimer</a></th>
@@ -2042,8 +2048,8 @@ body { background-color: #00F; }
 <script>(function(){
 /******************************************************************************/
 var D = document;
-function E(id)  { return document.getElementById(id); }
-function E_(id) { return document.getElementById(_NS_ + id); }
+function E(id)  { return D.getElementById(id); }
+function E_(id) { return D.getElementById(_NS_ + id); }
 
 var _NS_ = "SC2_"; //"Namespace" prefix used for <element> id's & class names.
 
@@ -2059,7 +2065,8 @@ var SAVE_UNDO = true;  //used onclick of $LOAD_SAMPLE, and onchange of $SAMPLE_W
 
 var HEADER_OPTS_WIDTH = parseInt(window.getComputedStyle(E_('wheel_container_container'), null ).getPropertyValue("width")) + "px";
 
-var HELP_TOPICS = []; //Populated during Init(), via Build_Choose_Topic_List(), and used by the $TOPIC_select change event.
+var HELP_INDEX  = {}; //Populated during Init(), via Build_Topic_Select(), and used by the $TOPIC_select[x] change events.
+
 
 
 //Various messeges
@@ -2389,8 +2396,13 @@ var $DELETE_ALL_DATA = E_('DELETE_ALL_DATA');
 
 var $LICENSE = E_('LICENSE');
 
-var $TOPIC_select  = E_('TOPIC_select');  //<select>
-var $TOPIC_options = E_('TOPIC_options'); //<options>
+var $TOPIC_select  = [];
+	$TOPIC_select[1]  = E_('TOPIC_select');   //<select>
+	$TOPIC_select[2]  = E_('TOPIC_select_2'); //<select>
+
+var $TOPIC_options = [];
+	$TOPIC_options[1] = E_('TOPIC_options');   //<options>
+	$TOPIC_options[2] = E_('TOPIC_options_2'); //<options>
 
 var $THEME_select  = E_('THEME_select');  //<select>
 var $THEME_current = E_('THEME_current'); //<style>
@@ -3052,51 +3064,42 @@ function Scroll_Blur(event) {
 
 
 
-function Build_Choose_Topic_List() {
-	//Populate "Choose a Topic" <select> list.
-	//HELP_TOPICS is global,  also used by the $TOPIC_select change event
+function Index_Help_Topics() {
+	//Populate the global HELP_INDEX{}
 
-	//Grab & index help topics...
-	var help_topics = document.getElementsByClassName(_NS_ + "help_topic");
+	//Grab the help topics...
+	var help_topics = D.getElementsByClassName(_NS_ + "help_topic");
+
+	//Now index 'em...
 	for (var x = 0; x < help_topics.length; x++) {
-		var topic = help_topics[x].getAttribute("data-help_topic");
-		HELP_TOPICS[x]     = [];
-		HELP_TOPICS[x][0]  = topic;
-		HELP_TOPICS[x][1]  = help_topics[x]; //The <a class=SC2_help_topic>Topic Title</a>
-		HELP_TOPICS[topic] = help_topics[x]; //Create HELP_TOPICS.topic_key from HELP_TOPICS[x][1].
-
-		HELP_TOPICS[x][2]  = Get_Ancestor(HELP_TOPICS[x][1], 'tr') //The containing <tr>
-		HELP_TOPICS[topic].content = Get_Ancestor(HELP_TOPICS[x][1],'th').nextElementSibling; //The <td>topic content</td>
-		HELP_TOPICS[topic].title   = help_topics[x].innerHTML;
+		var topic_key = help_topics[x].getAttribute("data-help_topic"); //"some_topic_key"
+		HELP_INDEX[topic_key]         = help_topics[x];
 	}
+}//end Index_Help_Topics()
 
-	//Sort the topics by text value, eg: "Lace Option", not by key, eg:"lace_option"
-	HELP_TOPICS.sort( function(a, b) { return a[1].innerHTML.localeCompare(b[1].innerHTML); } );
 
-	//Add some event handlers...
-	for (var topic = 0; topic < HELP_TOPICS.length; topic++) {
-		HELP_TOPICS[topic][1].addEventListener("click",    function(event){ Topic_Select_Focus(event); });
-		HELP_TOPICS[topic][1].addEventListener("keypress", function(event){ Topic_Select_Focus(event); });
 
-		//On focus of help topic title in help list, set select list to same...
-		//This needs to come after the HELP_TOPICS.sort()...
-		(function(t) {
-			HELP_TOPICS[t][1].addEventListener("focus", function(event){ 
-				$TOPIC_select.value = HELP_TOPICS[t][0];
-				Save_Settings("display");
-			});
-		})(topic);
+
+function Build_Topic_Select(list) {
+	//Populate "Choose a Topic" <select> list.
+	//HELP_INDEX is global,  also used by the $TOPIC_select[list] change events
+
+	var topics = Object.keys(HELP_INDEX);
+
+	
+	if (list == 1) {
+		//Sort the topics alphabetically by text value, not key.  eg: by "Lace Option", not "lace_option".
+		topics.sort( function(a, b) { return HELP_INDEX[a].innerHTML.localeCompare(HELP_INDEX[b].innerHTML); } );
 	}
 
 	//Populate <select>...
-	var topic_list = '';
-	for (var x = 0; x < HELP_TOPICS.length; x++) {
-		//Value/index 0 is the "placeholder" <option>Choose a Help Topic</option>, listed in the HTML.
-		topic_list += "\n<option value='" + HELP_TOPICS[x][0] + "'>" +  HELP_TOPICS[x][1].innerHTML + "</option>"
+	var option_list = '';
+	for (var x = 0; x < topics.length; x++) {
+		option_list += "\n<option value='" +topics[x] + "'>" +  HELP_INDEX[topics[x]].innerHTML + "</option>"
 	}
 
-	$TOPIC_options.innerHTML = topic_list + "\n";
-}//end Build_Choose_Topic_List()
+	$TOPIC_options[list].innerHTML = option_list + "\n";
+}//end Build_Topic_Select()
 
 
 
@@ -3205,8 +3208,8 @@ function Show_Hide_all_Topics(show, init) {
 	Set_Style_by_Class(_NS_ + "help_divider", "display", display);
 	Show_Hide($NOTES_CONTAINER, show, save, "display", display, "display");
 
-	for (var x=0; x < HELP_TOPICS.length; x++) { 
-		Get_Ancestor(HELP_TOPICS[x][1], 'tr').style.display = display;
+	for (var topic in HELP_INDEX) {
+		Get_Ancestor(HELP_INDEX[topic], 'tr').style.display = display;
 	}
 }//end Show_Hide_all_Topics()
 
@@ -3913,14 +3916,13 @@ function Show_Message($input, msg, init, event) {
 
 	if (event && event.type == "click") {
 		//Keep $MSG_BOX within bounds of $CONTAINER. Mostly.
-		var rect = event.target.getBoundingClientRect(); //left, top, right, bottom, x, y, width, height.  IE & Edge don't have x or y.
-		var rect_container = $CONTAINER.getBoundingClientRect();
-		var rel_x = event.clientX - rect_container.left;
-		var rel_y = event.clientY - rect_container.top;
-		var topic = event.target.getAttribute("data-help_topic");
+		var rect = $CONTAINER.getBoundingClientRect();
+		var rel_x = event.clientX - rect.left;
+		var rel_y = event.clientY - rect.top;
 
-		msg  = "<b>" + HELP_TOPICS[topic].title + "</b><br>"
-		msg += HELP_TOPICS[topic].content.innerHTML;
+		var topic = event.target.getAttribute("data-help_topic");
+		msg  = "<b>" + HELP_INDEX[topic].innerHTML + "</b><br>"; //Topic Title
+		msg += Get_Ancestor(HELP_INDEX[topic],'th').nextElementSibling.innerHTML; //The <td>Topic content...</td>
 		$MSG_BOX.style['top']  = (rel_y + 20) + "px";
 		$MSG_BOX.style['left'] = (rel_x - 30) + "px";
 	}
@@ -4304,7 +4306,7 @@ function Scroll_Into_View($target, extra, min_visible) {
 	//if the top of the element is not visible in the window.
 	
 	//Scroll min_visible of element into view, if less than min_visible is visible.
-	if (typeof min_visible == "undefined") { min_visible = 150 }
+	if (typeof min_visible == "undefined") { min_visible = 200; }
 
 	if ($target.style['display'] == "none") { return; }
 
@@ -4360,7 +4362,7 @@ function Set_phh_Lace_Opt() {
 
 
 function Set_Wheel_Type_Theme(wheel_type) {
-	var items = document.querySelectorAll('.' + _NS_ + 'type_theme');
+	var items = D.querySelectorAll('.' + _NS_ + 'type_theme');
 	for (var i = 0; i < items.length; i++) {
 		items[i].classList.remove(_NS_ + "theme_standard");
 		items[i].classList.remove(_NS_ + "theme_triplet");
@@ -4487,7 +4489,7 @@ function Setup_Type_and_Build(init) {
 
 
 
-function Init_Show_Hide_Theme(reset) {
+function Init_Show_Hide_Etc(reset) {
 	//First reset button values
 	if (reset) { Load_Clear_or_Get_Settings(DEFAULT_OPTIONS, "load"); }
 
@@ -4519,19 +4521,21 @@ function Init_Show_Hide_Theme(reset) {
 
 	Show_Hide_all_Topics($SHOW_HIDE_NOTES.value == "", "init");
 
-	if ($TOPIC_select.selectedIndex > 0) { //0 is just the "Choose a Help Topic" <option>
-		$NOTES_CONTAINER.style.display = ""; //Show notes container...
-		Get_Ancestor(HELP_TOPICS[$TOPIC_select.value], 'tr').style.display = ""; //...show topic container.
+	if ($TOPIC_select[1].selectedIndex > 0) { //0 is just the "Choose a Help Topic" <option>
+		$NOTES_CONTAINER.style.display = "";  //Show notes container...
+		Get_Ancestor(HELP_INDEX[$TOPIC_select[1].value], 'tr').style.display = ""; //...show topic container.
 	} else {
-		$TOPIC_select.value = 0;
+		$TOPIC_select[1].value = 0;
 		$NOTES_CONTAINER.style.display = $SHOW_HIDE_NOTES.value;
 	}
+	$TOPIC_select[2].value = $TOPIC_select[1].value;
+	$NOTES.selected_from = $TOPIC_select[1]; //Default target for on click or enter of a help topic in Notes.
 
 	if (E_($THEME_select.value)) { $THEME_current.innerHTML = E_($THEME_select.value).innerHTML; }
 	else { $THEME_select.selectedIndex = 0; } //default theme loaded by default, even if above fails.
 
 	Wheel_or_Display_Settings();
-}//end Init_Show_Hide_Theme()
+}//end Init_Show_Hide_Etc()
 
 
 
@@ -4782,7 +4786,7 @@ function Set_Modal_Mode(enable, $modal_window) {
 	//Disable/enable keyboard/tabbing
 	var tags_to_disable = ['A', 'INPUT', 'SELECT', 'BUTTON'];
 	for (var t=0; t < tags_to_disable.length; t++) {
-		var elements = document.getElementsByTagName(tags_to_disable[t]);
+		var elements = D.getElementsByTagName(tags_to_disable[t]);
 		for (var i = 0; i < elements.length; i++) { elements[i].tabIndex = tabindex; }
 	}
 
@@ -4981,32 +4985,50 @@ function Check_if_Disclaimer_Accepted($target) {
 	if ($ACCEPT_MSG.value == "true") { if ($target){$target.focus()} }
 	else {
 		Set_Modal_Mode(true);
-		var responsi_out = document.getElementsByClassName(_NS_ + "responsibility");
-		responsi_out[0].innerHTML
+		var responsibility_out = D.getElementsByClassName(_NS_ + "responsibility");
+		responsibility_out[0].innerHTML
 		
-		Show_Message('', MSGS['notice'] + responsi_out[0].innerHTML, 'init');
+		Show_Message('', MSGS['notice'] + responsibility_out[0].innerHTML, 'init');
 	}
 }//end Check_if_Disclaimer_Accepted()
 
 
 
 
-function Topic_Select_Focus(event) {
+function Topic_Select_Focus(event, $target) {
 	Normalize_Event(event);
-	if ((event.type == "click") || (event.key_code == 13) || (event.key_code == 32)) { $TOPIC_select.focus(); }
+	if ((event.type == "click") || (event.key_code == 13) || (event.key_code == 32)) { $target.focus(); }
 }//end Topic_Select_Focus()
 
 
 
 
-function Topic_Select_Change() {
+function Topic_Select($topic_select, event) {
+	Normalize_Event(event);
+	if (event.key_code == 13) {
+		var $target = HELP_INDEX[$topic_select.value];
+		//So target returns to this $TOPIC_select[] on click or enter.
+		$NOTES.selected_from = $topic_select; 
+		$target.focus();
+		Scroll_Into_View($target);
+	}
+}//end Topic_Select()
+
+
+
+
+function Topic_Select_Change(list) {
 	if ($SHOW_HIDE_NOTES.value == "none") { Show_Hide_all_Topics(false); } //Only really need to hide the last viewed topic, but this is easier.
-	if ($TOPIC_select.selectedIndex < 1) {Save_Settings("display"); return; } //The first <option> is just a "placeholer" <option>.
+	
+	if (list == 1) { $TOPIC_select[2].value = $TOPIC_select[list].value; }
+	else           { $TOPIC_select[1].value = $TOPIC_select[list].value; }
+	
+	if ($TOPIC_select[list].selectedIndex < 1) {Save_Settings("display"); return; } //The first <option> is just a "placeholer" <option>.
 	$NOTES_CONTAINER.style.display = "";
-	var $topic_title = HELP_TOPICS[$TOPIC_select.value];
-	Get_Ancestor(HELP_TOPICS[$TOPIC_select.value], 'tr').style.display = ""; //...show topic container.
-	Scroll_Into_View($topic_title, 50,80);
-	if ($SHOW_HIDE_NOTES.value != "none") { $topic_title.focus(); }
+	var $topic = HELP_INDEX[$TOPIC_select[list].value]; //<a>Topic</a>
+	Get_Ancestor($topic, 'tr').style.display = ""; //...show topic container.
+	Scroll_Into_View($topic, 50, 200); //##### 200?
+	if ($SHOW_HIDE_NOTES.value != "none") { $topic.focus(); }
 }//end Topic_Select_Change()
 
 
@@ -5036,7 +5058,7 @@ function Assign_Most_Keydown_Focus_Blur_Events() {
 	var $inputs_etc = [
 		/* textarea       */ $IMPORT_INPUT,
 		/* input range    */ $ROTATE_slider, $SCALE_slider,
-		/* select         */ $AUTO_ROT, $CURRENT_WHEEL, $ELBOWS[1], $ELBOWS[2], $HUB_AUTO_ANGLES, $LACE_OPT, $NR, $RIM_AUTO_ANGLES, $SX[1], $SX[2], $TOPIC_select, $WHEEL_TYPE,
+		/* select         */ $AUTO_ROT, $CURRENT_WHEEL, $ELBOWS[1], $ELBOWS[2], $HUB_AUTO_ANGLES, $LACE_OPT, $NR, $RIM_AUTO_ANGLES, $SX[1], $SX[2], $TOPIC_select[1], $WHEEL_TYPE,
 		/* input checkbox */ $AUTO_COPY, $AXES_SHOW, $F1_SHOW, $F2_SHOW, $HOLES_F1_SHOW, $HOLES_F2_SHOW, $HOLES_RIM_SHOW, $HOLES_SHOW_ALL, $OSB_linked, $PRIMA_LACING, $RIM_SHOW, $RF_SHOW_ALL, $SHOW_SIDE[1], $SHOW_SIDE[2], $SPOKE_SHOW[1], $SPOKE_SHOW[2], $SPOKE_SHOW[3], $SPOKE_SHOW[4],
 		/* button         */ $CENTER_WHEEL, $CLEAR_SETTINGS, $DELETE_ALL_DATA, $EXPORT, $IMPORT, $LOAD_SAMPLE, $RENAME_WHEEL, $RESET_OPTIONS_RIM_ETC, $RESET_OPTIONS_SPOKES, $RESET_SCALE_ROTATE, $ROTATE_down, $ROTATE_up, $SCALE_down, $SCALE_up, $SCALE_mode, $SEE_NOTES, $SHOW_ESO_OPTS, $SHOW_FL_to_LN, $SHOW_HIDE_ADVANCED, $SHOW_HIDE_DIE_opts, $SHOW_HIDE_NOTES, $SHOW_HIDE_OTHER, $SHOW_HIDE_SCALE, $SHOW_PHH_OPTS, $SHOW_PHR_OPTS, $SHOW_WHEEL_OPTS, $UNDO_SAMPLE_CLEAR, $WHEEL_OR_DISPLAY,
 		/* input text     */ $AXES_COLOR, $AXES_LINE_SIZE, $BRACE_ANGLE[1], $BRACE_ANGLE[2], $ERD, $F1_COLOR, $F2_COLOR, $F1_LINE_SIZE, $F2_LINE_SIZE, $FTC[1], $FTC[2], $FTL[1], $FTL[2], $FW, $HOLES_F1_COLOR, $HOLES_F1_SIZE, $HOLES_F2_COLOR, $HOLES_F2_SIZE, $HOLES_RIM_COLOR, $HOLES_RIM_SIZE, $IMPORT_INDEX, $MAX_WHEELS, $NF[1], $NF[2], $OLD, $OSB[1], $OSB[2], $PCD[1], $PCD[2], $PHHA[1], $PHHA[2], $PHHD[1], $PHHD[2], $PHRA, $PHRD, $RIM_COLOR, $RIM_HOLES_RECESSED, $RIM_LINE_SIZE, $ROTATE_step, $ROTATE_text, $ROTF, $ROTR, $SCALE_step, $SCALE_text, $SCALE_user, $SDB, $SHD, $SPOKE_COLOR[1], $SPOKE_COLOR[2], $SPOKE_COLOR[3], $SPOKE_COLOR[4], $SPOKE_LINE_SIZE[1], $SPOKE_LINE_SIZE[2], $SPOKE_LINE_SIZE[3], $SPOKE_LINE_SIZE[4], $TENSION[2], $WHEEL_NAME];
@@ -5057,11 +5079,33 @@ function Assign_Most_Keydown_Focus_Blur_Events() {
 
 
 function Assign_Events() {
-	//Most, except for those assigned during Build_Choose_Topic_List(), Assign_Most_Keydown_Focus_Blur_Events(), Add_Contact_Info().
+	//Most, except for those assigned during Assign_Most_Keydown_Focus_Blur_Events(), Add_Contact_Info().
 
 	D.addEventListener("keydown", function(event) { Scroll_Blur(event) } );
 
 	var save = true; //Just for clarity below, as some functions have an option to save settings.
+
+
+	//Add some event handlers to Notes topics.
+	for (var topic in HELP_INDEX) {
+
+		(function(topic) {
+			HELP_INDEX[topic].addEventListener("keypress", function(event){
+				Topic_Select_Focus(event, $NOTES.selected_from);
+			});
+			
+			HELP_INDEX[topic].addEventListener("click",    function(event){
+				Topic_Select_Focus(event, $NOTES.selected_from);
+			});
+
+			//On focus of Topic Title in help Notes, set select lists to same...
+			HELP_INDEX[topic].addEventListener("focus", function(event){ 
+				$TOPIC_select[1].value = topic;
+				$TOPIC_select[2].value = topic;
+				Save_Settings("display");
+			});
+		})(topic);
+	}//
 
 
 	$WHEEL_CONTAINER.addEventListener("scroll", function(event) {
@@ -5093,7 +5137,7 @@ function Assign_Events() {
 
 
 	//Assign events for help links.
-	var help_links = document.getElementsByClassName(_NS_ + "help_link");
+	var help_links = D.getElementsByClassName(_NS_ + "help_link");
 	for (var x = 0; x < help_links.length; x++) {
 		help_links[x].addEventListener("click", function(event) { Show_Message('', '', '', event); });
 	}//
@@ -5445,7 +5489,8 @@ function Assign_Events() {
 		Show_Hide_Options(this, $NOTES_CONTAINER, "");
 		Show_Hide_all_Topics(this.value == "");
 		Set_Show_Button_Text(this, "Show all Notes", "Close Notes");
-		$TOPIC_select.selectedIndex = 0;
+		$TOPIC_select[1].selectedIndex = 0;
+		$TOPIC_select[2].selectedIndex = 0;
 		Save_Settings("display");
 	});
 
@@ -5455,13 +5500,14 @@ function Assign_Events() {
 	});
 
 	$SEE_NOTES.addEventListener("click", function() {
-		//First, if $NOTES are hidden, show 'em, then scroll to Advanced Build Info notes...
+		//First, if $NOTES are hidden, show 'em, then...
 		$SHOW_HIDE_NOTES.value = "";
 		Show_Hide_all_Topics(true);
 		Set_Show_Button_Text($SHOW_HIDE_NOTES, "Show all Notes", "Close Notes");
-		$TOPIC_select.value = 'adv_build_info';
-		Topic_Select_Change();
-		HELP_TOPICS[$TOPIC_select.value].focus()
+		$TOPIC_select[1].value = 'adv_build_info';
+		Topic_Select_Change(1); //... bring Advanced Build Info section section into view.
+		$NOTES.selected_from = $TOPIC_select[1]; //Return target if click or enter a help topic in Notes.
+		HELP_INDEX[$TOPIC_select[1].value].focus();
 		Save_Settings("display");
 	});
 
@@ -5708,12 +5754,10 @@ function Assign_Events() {
 	$RESET_OPTIONS_RIM_ETC.addEventListener("click", function() { Reset_OPTIONS_RIM_ETC(true); });
 
 
-	$TOPIC_select.addEventListener('keypress', function(event){
-		Normalize_Event(event);
-		if (event.key_code == 13) { HELP_TOPICS[$TOPIC_select.value].focus(); }
-	});
-
-	$TOPIC_select.addEventListener('change', function(){ Topic_Select_Change(); });
+	$TOPIC_select[1].addEventListener('keypress', function(event){ Topic_Select(this, event); });
+	$TOPIC_select[2].addEventListener('keypress', function(event){ Topic_Select(this, event); });
+	$TOPIC_select[1].addEventListener('change', function(){ Topic_Select_Change(1); });
+	$TOPIC_select[2].addEventListener('change', function(){ Topic_Select_Change(2); });
 
 
 	$THEME_select.addEventListener('change', function(){ $THEME_current.innerHTML = E_($THEME_select.value).innerHTML; Save_Settings("display"); });
@@ -5765,12 +5809,12 @@ function Assign_Events() {
 		Reset_OPTIONS_RIM_ETC();
 		$IMPORT_INPUT.value = "";
 		
-		Init_Show_Hide_Theme(true);
+		Init_Show_Hide_Etc(true);
 		
 		Wheel_or_Display_Settings(); 
 		
 		var domain = window.location.hostname;
-		document.cookie = $ACCEPT_MSG.id + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=.' + domain;
+		D.cookie = $ACCEPT_MSG.id + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT; domain=.' + domain;
 		$ACCEPT_MSG.value = false;
 		
 		$CURRENT_WHEEL.value = 1;
@@ -5808,7 +5852,7 @@ function Assign_Events() {
 
 	$COPY_TO_CLIPBOARD.addEventListener("click", function() {
 		window.getSelection().selectAllChildren( $EXPORT_OUTPUT );
-		document.execCommand("copy");
+		D.execCommand("copy");
 	});
 
 
@@ -5922,7 +5966,7 @@ function Init_Display_NR_SX(display_options, imported) {
 
 	if (imported) { Save_Settings("display"); }
 
-	Init_Show_Hide_Theme();
+	Init_Show_Hide_Etc();
 
 	//Temp <select> lists until any saved settings loaded. NR & SX will then be rebuilt in Setup_Type_and_Build().
 	Init_NR_SX();
@@ -5942,7 +5986,7 @@ function Init_Display_NR_SX(display_options, imported) {
 
 function Add_Contact_Info() {
 	//A probably futile attempt to protect contact info from bots.  Uses html, css, & js obfuscation.
-	var admin_links = document.getElementsByClassName(_NS_ + "admin_link");
+	var admin_links = D.getElementsByClassName(_NS_ + "admin_link");
 	var contact = 'mai' + 'lto' + ':d' + 'spokecalculat' + 'or.ne' + 't';
 	contact = contact.replace(":d", ":d@");
 	admin_links[0].innerHTML = "d&#064;" + "spokecalculat" + "or&#046;ne" + "<span style='display:none;'>x</span>" + "t";
@@ -5954,21 +5998,17 @@ function Add_Contact_Info() {
 
 
 function Init() {
-
-	Assign_Events(); //Most, except for some assigned during Build_Choose_Topic_List(), and some others.
-	Assign_Most_Keydown_Focus_Blur_Events();
-
 	//This option is not saved.
 	$LIST_CONTAINER.style.display = "none";
 
 	//Populate $THEME_select.
-	var themes = document.getElementsByClassName(_NS_ + "theme");
+	var themes = D.getElementsByClassName(_NS_ + "theme");
 	var nsl = _NS_.length;
 	var theme_options = "";
 	for (var t = 0; t < themes.length; t++) {
 		var name = themes[t].id.substr(nsl);	
 		var desc = themes[t].getAttribute('data-SC2_theme_desc');
-		theme_options += "<option value=" + name + ">Theme: " + desc + "</option>\n";
+		theme_options += "<option value=" + name + ">" + desc + "</option>\n";
 	}
 	$THEME_select.innerHTML = theme_options;
 
@@ -5979,11 +6019,16 @@ function Init() {
 	$FW .value = DEFAULT_VALUES.FW;
 	$SDB.value = DEFAULT_VALUES.SDB;
 
-	Build_Load_Sample_List();
-	Build_Choose_Topic_List();              //1) Must come BEFORE Init_Show_Hide_Theme() (called from Init_Display_NR_SX()).
-	Init_Display_NR_SX(LS_DISPLAY_OPTIONS); //2) Must come AFTER  Build_Choose_Topic_List();
-	Build_Select_Wheel_List();              //3) Must come AFTER  Init_Display_NR_SX().  Needs $MAX_WHEELS.
+	Index_Help_Topics();                    //1) Must come BEFORE Build_Topic_Select() & Assign_Events(). Populates HELP_INDEX{}.
+	Build_Topic_Select(1);                  //2) Must come BEFORE Init_Show_Hide_Etc() (called from Init_Display_NR_SX()).
+	Build_Topic_Select(2);                  //2)     "           "             "              "               "
+	Init_Display_NR_SX(LS_DISPLAY_OPTIONS); //3) Must come AFTER  Build_Topic_Select();
+	Build_Select_Wheel_List();              //4) Must come AFTER  Init_Display_NR_SX().  Needs $MAX_WHEELS.
+	Assign_Events(); 						//5) MUST COME AFTER Index_Help_Topics().  Assigns most, but not all events...
+
+	Assign_Most_Keydown_Focus_Blur_Events();
 	Enable_Disable_Undo_Clear();
+	Build_Load_Sample_List();
 
 	var saved_settings_found = Load_Settings(LS_VALUES_PREFIX + $CURRENT_WHEEL.value);
 
@@ -5996,10 +6041,10 @@ function Init() {
 
 	Add_Contact_Info();
 
-	var copy_license_out = document.getElementsByClassName(_NS_ + "COPY_LICENSE");
+	var copy_license_out = D.getElementsByClassName(_NS_ + "COPY_LICENSE");
 	copy_license_out[0].innerHTML = $LICENSE.innerHTML;
 
-	var version_out = document.getElementsByClassName(_NS_ + "VERSION");
+	var version_out = D.getElementsByClassName(_NS_ + "VERSION");
 	version_out[0].innerHTML = "<p>" + VERSION;
 
 
